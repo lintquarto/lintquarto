@@ -11,7 +11,7 @@
 
 Package for running linters on quarto `.qmd` files.
 
-Currently supported: [pylint](https://github.com/pylint-dev/pylint)
+Currently supported: [pylint](https://github.com/pylint-dev/pylint), [flake8](https://github.com/pycqa/flake8) and [mypy](https://github.com/python/mypy).
 
 <p align="center">
   <img src="images/linting.png" alt="Linting illustration" width="400"/>
@@ -21,13 +21,61 @@ Currently supported: [pylint](https://github.com/pylint-dev/pylint)
 
 ## Installation
 
-TBC.
+You can install `lintquarto` from [PyPI](https://pypi.org/project/lintquarto/):
+
+```
+pip install lintquarto
+```
+
+To also install all supported linters:
+
+```
+pip install lintquarto[all]
+```
 
 <br>
 
 ## Getting started using `lintquarto`
 
-TBC.
+### Usage
+
+```{.bash}
+lintquarto [linter] [files or folders] [-k | --keep-temp]
+```
+
+* **[linter]** - Choose one of the supported linters: `pylint`, `flake8` or `mypy`.
+* **[files or folders]** - One or more `.qmd` files or directories to lint.
+* **-k, --keep-temp** - Keep the temporary `.py` files created during linting (for debugging).
+
+Only one linter can be specified per command. Passing extra arguments directly to linters is not supported. Only `.qmd` files are processed.
+
+### Examples
+
+The linter used is interchangeable in these examples.
+
+Lint all `.qmd` files in the current directory (using `pylint`):
+
+```{.bash}
+lintquarto pylint .
+```
+
+Lint a specific file (using `flake8`):
+
+```{.bash}
+lintquarto flake8 file.qmd
+```
+
+Lint all `.qmd` files in a folder (using `mypy`):
+
+```{.bash}
+lintquarto mypy folder
+```
+
+Keep temporary `.py` files after linting (with `pylint`)
+
+```{.bash}
+lintquarto pylint . -k
+```
 
 <br>
 
@@ -39,7 +87,15 @@ Curious about contributing? Check out the [contributing guidelines](CONTRIBUTING
 
 ## How to cite `lintquarto`
 
-TBC.
+Please cite the repository on GitHub, PyPI and/or Zenodo:
+
+> Heather, A. (2025). lintquarto (v0.1.0).  https://github.com/lintquarto/lintquarto.
+>
+> Heather, A. (2025). lintquarto (v0.1.0). https://pypi.org/project/lintquarto/
+>
+> Heather, A. (2025). lintquarto (v0.1.0). TODO.
+
+Citation instructions are also provided in `CITATION.cff`.
 
 <br>
 

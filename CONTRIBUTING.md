@@ -6,7 +6,7 @@ Thank you for your interest in contributing!
 
 ## Workflow for bug reports, feature requests and documentation improvements
 
-Before opening an issue, please search [existing issues](https://github.com/amyheather/pylintqmd/issues/) to avoid duplicates. If there is not an existing issue, please open open and provide as much detail as possible.
+Before opening an issue, please search [existing issues](https://github.com/lintquarto/lintquarto/issues/) to avoid duplicates. If there is not an existing issue, please open open and provide as much detail as possible.
 
 * **For feature requests or documentation improvements**, please describe your suggestion clearly.
 * **For bugs**, include:
@@ -43,19 +43,17 @@ git push origin my-feature
 
 ### Dependencies
 
-If you want to contribute to `pylintqmd` or run its tests, you'll need some additional tools:
+If you want to contribute to `lintquarto` or run its tests, you'll need some additional tools:
 
 * **flit** (for packaging and publishing)
 * **pytest** (for running tests)
 * **twine** (for uploading to PyPI)
-* `-e .` (for an editable install of the package)
+* `-e .[all]` (an editable install of the package and all supported linters)
 
-These are listed in `requirements.txt` for convenience.
-
-To set up your development environment, run:
+These are listed in `requirements-dev.txt` for convenience. To set up your development environment, run:
 
 ```
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 ```
 
 ### Tests
