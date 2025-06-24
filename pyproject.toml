@@ -9,12 +9,14 @@ readme = "README.md"
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: MIT License"]
 dynamic = ["version", "description"]
-dependencies = ["pylint"]
+# No required dependencies - users install linters they want
+dependencies = []
 
 [project.scripts]
 lintquarto = "lintquarto.__main__:main"
 
 [project.optional-dependencies]
+all = ["pylint", "flake8", "mypy"]
 test = ["pytest"]
 
 [project.urls]
