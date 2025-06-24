@@ -1,5 +1,5 @@
 """
-pylintqmd: Lint Python code embedded in Quarto (.qmd) files.
+lintquarto: Lint Python code embedded in Quarto (.qmd) files.
 
 Acknowledgements
 ----------------
@@ -12,16 +12,21 @@ from pathlib import Path
 
 from .args import CustomArgumentParser
 from .converter import convert_qmd_to_py
+from .linters import Linters
 
 
-def process_qmd(qmd_file, keep_temp_files=False, verbose=False):
+def process_qmd(
+    qmd_file, linter, keep_temp_files=False, verbose=False
+):
     """
-    Convert a .qmd file to .py, lint it with pylint, and clean up.
+    Convert a .qmd file to .py, lint it, and clean up.
 
     Parameters
     ----------
     qmd_file : str or Path
         Path to the input .qmd file.
+    linter : str
+        Name of the linter to use (pylint, flake8, mypy).
     keep_temp_files : bool, optional
         If True, retain the temporary .py file after linting.
     verbose : bool, optional
@@ -44,6 +49,20 @@ def process_qmd(qmd_file, keep_temp_files=False, verbose=False):
         print(f"Error: {qmd_file} is not a valid .qmd file.", file=sys.stderr)
         return 1
 
+    # Check if linter is supported by lintquarto and available on user's system
+    # Uses return codes 0 & 1 for CLI/shell compatability, as will be run
+    # from the command line
+    linters = Linters()
+    try:
+        linters.check_supported(linter)
+        linters.check_available(linter)
+    except ValueError as e:
+        print(f"Error: {e}", file=sys.stderr)
+        sys.exit(1)
+    except FileNotFoundError as e:
+        print(f"Error: {e}", file=sys.stderr)
+        sys.exit(1)
+
     # Determine base name and temporary .py file path (as will need when lint)
     base = qmd_path.with_suffix("")
     py_file = base.with_suffix(".py")
@@ -51,8 +70,9 @@ def process_qmd(qmd_file, keep_temp_files=False, verbose=False):
     # Convert the .qmd file to a .py file
     try:
         convert_qmd_to_py(qmd_path=str(qmd_path), verbose=verbose)
-    except Exception as e:  # pylint: disable=broad-except
-        # Intentional broad catch for unknown conversion errors
+    # Intentional broad catch for unknown conversion errors
+    # pylint: disable=broad-except
+    except Exception as e:
         print(f"Error: Failed to convert {qmd_file} to .py: {e}",
               file=sys.stderr)
         return 1
@@ -62,33 +82,28 @@ def process_qmd(qmd_file, keep_temp_files=False, verbose=False):
     if nodot_base.startswith("./"):
         nodot_base = nodot_base[2:]
 
-    try:
-        # Run pylint on the temporary .py file and capture output
-        result = subprocess.run(
-            ["pylint", str(py_file)],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            check=False
-        )
-        # Replace references to the .py file in pylint output with the original
-        # .qmd file
-        output = result.stdout.replace(f"{nodot_base}.py", qmd_file)
-        print(output, end="")
-        if result.stderr:
-            print(result.stderr, file=sys.stderr)
-    # Handle case where pylint is not installed
-    except FileNotFoundError:
-        print("Error: pylint not found. Please install pylint.",
-              file=sys.stderr)
-        return 1
+    # Run linter on the temporary .py file and capture output
+    result = subprocess.run(
+        [linter, str(py_file)],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        check=False
+    )
 
-    # Remove temporary .py file unless KEEP_TEMP_FILES is set
+    # Replace references to the .py file with the .qmd file
+    output = result.stdout.replace(f"{nodot_base}.py", qmd_file)
+    print(output, end="")
+    if result.stderr:
+        print(result.stderr, file=sys.stderr)
+
+    # Remove temporary .py file unless keep_temp_files is set
     if not keep_temp_files:
         try:
             py_file.unlink()
-        except Exception as e:  # pylint: disable=broad-except
-            # Broad catch ensures cleanup warnings don't crash process
+        # Broad catch ensures cleanup warnings don't crash process
+        # pylint: disable=broad-except
+        except Exception as e:
             print(f"Warning: Could not remove temporary file {py_file}: {e}",
                   file=sys.stderr)
     return 0
@@ -126,7 +141,7 @@ def gather_qmd_files(paths):
 
 def main():
     """
-    Entry point for the pylintqmd CLI.
+    Entry point for the lintquarto CLI.
 
     Parses arguments, processes .qmd files, and exits with appropriate status
     code.
@@ -137,7 +152,11 @@ def main():
     """
     # Set up custom argumentparser with help statements
     parser = CustomArgumentParser(
-        description="Lint Python code in Quarto (.qmd) files using pylint."
+        description="Lint Python code in Quarto (.qmd) files."
+    )
+    parser.add_argument(
+        "linter", choices=list(Linters().supported.keys()),
+        help="Linter to use."
     )
     parser.add_argument(
         "paths", nargs="+",
@@ -163,6 +182,7 @@ def main():
     # Process each .qmd file found
     for qmd_file in qmd_files:
         ret = process_qmd(qmd_file=qmd_file,
+                          linter=args.linter,
                           keep_temp_files=args.keep_temp,
                           verbose=args.verbose)
         if ret != 0:
