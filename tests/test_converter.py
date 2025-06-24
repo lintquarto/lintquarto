@@ -5,7 +5,7 @@ Tests for convert_qmd_to_py().
 from pathlib import Path
 import pytest
 
-from pylintqmd.converter import convert_qmd_to_py
+from lintquarto.converter import convert_qmd_to_py
 
 
 # Test cases
