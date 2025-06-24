@@ -4,13 +4,40 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "lintquarto"
-authors = [{name = "Amy Heather"}]
+authors = [{name = "Amy Heather", email = "a.heather2@exeter.ac.uk"}]
+maintainers = [{name = "Amy Heather", email = "a.heather2@exeter.ac.uk"}]
 readme = "README.md"
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: MIT License"]
 dynamic = ["version", "description"]
+keywords = ["lint", "quarto", "qmd", "pylint", "flake8", "mypy"]
+
 # No required dependencies - users install linters they want
 dependencies = []
+
+# Supports Python 3.7+. Uses subprocess.run() introduced in Python 3.5,
+# and f-strings introduced in Python 3.6, and also uses text=True (instead of
+# universal_newlines=True) in subprocess.run() as from Python 3.7+
+requires-python = ">=3.7"
+
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: End Users/Desktop",
+  "Topic :: Software Development :: Quality Assurance",
+  "Topic :: Text Processing :: Markup",
+  "Topic :: Scientific/Engineering",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3 :: Only",
+]
 
 [project.scripts]
 lintquarto = "lintquarto.__main__:main"
@@ -21,3 +48,5 @@ test = ["pytest"]
 
 [project.urls]
 Home = "https://github.com/lintquarto/lintquarto"
+Bug Reports = "https://github.com/lintquarto/lintquarto/issues"
+Source = "https://github.com/lintquarto/lintquarto"
