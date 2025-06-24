@@ -1,5 +1,4 @@
 flit
-pylint
 pytest
 twine
--e .
+-e .[all]

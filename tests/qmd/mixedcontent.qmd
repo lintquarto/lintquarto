@@ -51,7 +51,7 @@ Some more text content.
 
 ```{python}
 # Another Python block with potential linting issues
-def badfunction(list):  # Using 'list' as parameter name (should trigger pylint)
+def badfunction(list):  # Using "list" as parameter name (should trigger pylint)
     return list
 
 # Line with long comment that might exceed character limits for linting purposes and should be caught by pylint tools

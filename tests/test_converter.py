@@ -5,7 +5,7 @@ Tests for convert_qmd_to_py().
 from pathlib import Path
 import pytest
 
-from pylintqmd.converter import convert_qmd_to_py
+from lintquarto.converter import convert_qmd_to_py
 
 
 # Test cases
@@ -73,7 +73,7 @@ def test_basic_conversion(case, tmp_path):
     assert output_py.exists(), f"Output file {output_py} was not created."
 
     # Load the input .qmd and output .py file
-    with open(qmd_file, 'r', encoding='utf-8') as f:
+    with open(qmd_file, "r", encoding="utf-8") as f:
         qmd_content = f.readlines()
     py_content = output_py.read_text(encoding="utf-8")
 
