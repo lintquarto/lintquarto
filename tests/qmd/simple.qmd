@@ -1,0 +1,17 @@
+---
+title: Test
+---
+
+This is regular text.
+
+```{python}
+import math
+x = 5
+```
+
+More text.
+
+```{python}
+def test_func():
+    return True
+```
