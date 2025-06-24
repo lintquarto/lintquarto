@@ -8,7 +8,6 @@ authors = [{name = "Amy Heather", email = "a.heather2@exeter.ac.uk"}]
 maintainers = [{name = "Amy Heather", email = "a.heather2@exeter.ac.uk"}]
 readme = "README.md"
 license = {file = "LICENSE"}
-classifiers = ["License :: OSI Approved :: MIT License"]
 dynamic = ["version", "description"]
 keywords = ["lint", "quarto", "qmd", "pylint", "flake8", "mypy"]
 
@@ -35,8 +34,7 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: 3.13",
-  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.13"
 ]
 
 [project.scripts]
@@ -48,5 +46,5 @@ test = ["pytest"]
 
 [project.urls]
 Home = "https://github.com/lintquarto/lintquarto"
-Bug Reports = "https://github.com/lintquarto/lintquarto/issues"
+"Bug Reports" = "https://github.com/lintquarto/lintquarto/issues"
 Source = "https://github.com/lintquarto/lintquarto"
