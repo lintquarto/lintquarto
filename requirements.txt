@@ -1,0 +1,5 @@
+flit
+pylint
+pytest
+twine
+-e .

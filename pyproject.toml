@@ -1,0 +1,21 @@
+[build-system]
+requires = ["flit"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "pylintqmd"
+authors = [{name = "Amy Heather"}]
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = ["License :: OSI Approved :: MIT License"]
+dynamic = ["version", "description"]
+dependencies = ["pylint"]
+
+[project.scripts]
+pylintqmd = "pylintqmd.__main__:main"
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[project.urls]
+Home = "https://github.com/lintquarto/lintquarto"
