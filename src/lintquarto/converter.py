@@ -40,16 +40,16 @@ def _qmd_lines_to_py_lines(qmd_lines):
     # Iterate over each line in the QMD file
     for line in qmd_lines:
         # Remove the trailing new line
-        original_line = line.rstrip('\n')
+        original_line = line.rstrip("\n")
 
         # Check if the current line is the start of a python code chunk
-        if re.match(r'^```\{python\}', original_line):
+        if re.match(r"^```\{python\}", original_line):
             state = "PYTHON_BLOCK"
             py_lines.append("# %% [python]")
             continue
 
         # If line is "```" then mark as outside (as may be end of python)
-        if original_line.strip() == '```':
+        if original_line.strip() == "```":
             state = "OUTSIDE_BLOCK"
             py_lines.append("# -")
             continue
@@ -92,7 +92,7 @@ def convert_qmd_to_py(qmd_path, output_path=None, verbose=False):
     # Determine output path. If provided, convert to a Path object. If not,
     # the file extension of the input file to `.py`
     if output_path is None:
-        output_path = qmd_path.with_suffix('.py')
+        output_path = qmd_path.with_suffix(".py")
     else:
         output_path = Path(output_path)
 
@@ -101,7 +101,7 @@ def convert_qmd_to_py(qmd_path, output_path=None, verbose=False):
 
     try:
         # Open and read the QMD file, storing all lines in qmd_lines
-        with open(qmd_path, 'r', encoding='utf-8') as f:
+        with open(qmd_path, "r", encoding="utf-8") as f:
             qmd_lines = f.readlines()
 
         # Iterate over lines, keeping python code, and setting rest to "# -"

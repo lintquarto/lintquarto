@@ -1,5 +1,5 @@
 """
-pylintqmd: Lint Python code embedded in Quarto (.qmd) files using pylint.
+pylintqmd: Lint Python code embedded in Quarto (.qmd) files.
 
 Acknowledgements
 ----------------
@@ -57,15 +57,15 @@ def process_qmd(qmd_file, keep_temp_files=False, verbose=False):
               file=sys.stderr)
         return 1
 
-    # Remove leading './' from base name
+    # Remove leading "./" from base name
     nodot_base = str(base)
-    if nodot_base.startswith('./'):
+    if nodot_base.startswith("./"):
         nodot_base = nodot_base[2:]
 
     try:
         # Run pylint on the temporary .py file and capture output
         result = subprocess.run(
-            ['pylint', str(py_file)],
+            ["pylint", str(py_file)],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
@@ -74,7 +74,7 @@ def process_qmd(qmd_file, keep_temp_files=False, verbose=False):
         # Replace references to the .py file in pylint output with the original
         # .qmd file
         output = result.stdout.replace(f"{nodot_base}.py", qmd_file)
-        print(output, end='')
+        print(output, end="")
         if result.stderr:
             print(result.stderr, file=sys.stderr)
     # Handle case where pylint is not installed
@@ -116,11 +116,11 @@ def gather_qmd_files(paths):
     for path in paths:
         p = Path(path)
         # If path is a single .qmd file, add it
-        if p.is_file() and p.suffix == '.qmd':
+        if p.is_file() and p.suffix == ".qmd":
             files.append(str(p))
         # If path is a directory, recursively add all .qmd files found within
         elif p.is_dir():
-            files.extend(str(f) for f in p.rglob('*.qmd'))
+            files.extend(str(f) for f in p.rglob("*.qmd"))
     return files
 
 
@@ -140,7 +140,7 @@ def main():
         description="Lint Python code in Quarto (.qmd) files using pylint."
     )
     parser.add_argument(
-        "paths", nargs='+',
+        "paths", nargs="+",
         help="One or more .qmd files or directories to lint."
     )
     parser.add_argument(
