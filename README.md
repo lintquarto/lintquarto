@@ -65,6 +65,12 @@ Lint a specific file (using `flake8`):
 lintquarto flake8 file.qmd
 ```
 
+Lint several specific files (using `pylint`):
+
+```{.bash}
+lintquarto pylint file1.qmd file2.qmd
+```
+
 Lint all `.qmd` files in a folder (using `mypy`):
 
 ```{.bash}

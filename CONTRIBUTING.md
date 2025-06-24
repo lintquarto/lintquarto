@@ -100,4 +100,4 @@ twine upload --repository testpypi dist/*
 
 ## Code of conduct
 
-Please be respectful and considerate. See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for details.
+Please be respectful and considerate. See the [code of conduct](CODE_OF_CONDUCT.md) for details.
