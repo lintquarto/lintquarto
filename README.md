@@ -18,14 +18,14 @@ Currently supported linters: [pylint](https://github.com/pylint-dev/pylint), [fl
 It also supports some static type checkers: [mypy](https://github.com/python/mypy), [pyright](https://github.com/microsoft/pyright), [pyrefly](https://github.com/facebook/pyrefly), and [pytype](https://github.com/google/pytype).
 
 <p align="center">
-  <img src="images/linting.png" alt="Linting illustration" width="400"/>
+  <img src="https://github.com/lintquarto/lintquarto/raw/main/images/linting.png" alt="Linting illustration" width="400"/>
 </p>
 
 <br>
 
 ## Installation
 
-You can install `lintquarto` from [PyPI](https://github.com/lintquarto/lintquarto/raw/main/images/linting.png):
+You can install `lintquarto` from [PyPI](https://pypi.org/project/lintquarto/):
 
 ```
 pip install lintquarto
