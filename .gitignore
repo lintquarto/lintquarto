@@ -195,5 +195,5 @@ cython_debug/
 
 # Quarto and quartodocs
 _site/
-reference/
+api/
 objects.json

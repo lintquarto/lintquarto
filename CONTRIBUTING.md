@@ -69,28 +69,10 @@ pytest
 
 ### Documentation
 
-Change to the docs folder:
+To build and preview the documentation:
 
 ```
-cd docs
-```
-
-To create the API reference documentation:
-
-```
-python -m quartodoc build --verbose
-```
-
-To build the documentation locally:
-
-```
-quarto render
-```
-
-To view the site:
-
-```
-quarto preview
+make -C docs
 ```
 
 ### Updating the package
