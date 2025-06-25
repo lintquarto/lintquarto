@@ -56,18 +56,12 @@ def process_qmd(
     try:
         linters.check_supported(linter)
         linters.check_available(linter)
-    except ValueError as e:
+    except (ValueError, FileNotFoundError) as e:
         print(f"Error: {e}", file=sys.stderr)
-        sys.exit(1)
-    except FileNotFoundError as e:
-        print(f"Error: {e}", file=sys.stderr)
-        sys.exit(1)
-
-    # Determine base name and temporary .py file path (as will need when lint)
-    base = qmd_path.with_suffix("")
-    py_file = base.with_suffix(".py")
+        return 1
 
     # Convert the .qmd file to a .py file
+    py_file = qmd_path.with_suffix(".py")
     try:
         convert_qmd_to_py(qmd_path=str(qmd_path), verbose=verbose)
     # Intentional broad catch for unknown conversion errors
@@ -77,8 +71,8 @@ def process_qmd(
               file=sys.stderr)
         return 1
 
-    # Remove leading "./" from base name
-    nodot_base = str(base)
+    # Determine base name and remove leading "./"
+    nodot_base = str(qmd_path.with_suffix(""))
     if nodot_base.startswith("./"):
         nodot_base = nodot_base[2:]
 
@@ -92,7 +86,7 @@ def process_qmd(
         check=False
     )
 
-    # Replace references to the .py file with the .qmd file
+    # Replace references to the .py file with the .qmd file and print output
     output = result.stdout.replace(f"{nodot_base}.py", qmd_file)
     print(output, end="")
     if result.stderr:
