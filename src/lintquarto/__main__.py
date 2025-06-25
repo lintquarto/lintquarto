@@ -56,18 +56,12 @@ def process_qmd(
     try:
         linters.check_supported(linter)
         linters.check_available(linter)
-    except ValueError as e:
+    except (ValueError, FileNotFoundError) as e:
         print(f"Error: {e}", file=sys.stderr)
-        sys.exit(1)
-    except FileNotFoundError as e:
-        print(f"Error: {e}", file=sys.stderr)
-        sys.exit(1)
-
-    # Determine base name and temporary .py file path (as will need when lint)
-    base = qmd_path.with_suffix("")
-    py_file = base.with_suffix(".py")
+        return 1
 
     # Convert the .qmd file to a .py file
+    py_file = qmd_path.with_suffix(".py")
     try:
         convert_qmd_to_py(qmd_path=str(qmd_path), verbose=verbose)
     # Intentional broad catch for unknown conversion errors
@@ -77,21 +71,22 @@ def process_qmd(
               file=sys.stderr)
         return 1
 
-    # Remove leading "./" from base name
-    nodot_base = str(base)
+    # Determine base name and remove leading "./"
+    nodot_base = str(qmd_path.with_suffix(""))
     if nodot_base.startswith("./"):
         nodot_base = nodot_base[2:]
 
     # Run linter on the temporary .py file and capture output
+    command = linters.supported[linter] + [str(py_file)]
     result = subprocess.run(
-        [linter, str(py_file)],
+        command,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
         check=False
     )
 
-    # Replace references to the .py file with the .qmd file
+    # Replace references to the .py file with the .qmd file and print output
     output = result.stdout.replace(f"{nodot_base}.py", qmd_file)
     print(output, end="")
     if result.stderr:
@@ -155,7 +150,7 @@ def main():
         description="Lint Python code in Quarto (.qmd) files."
     )
     parser.add_argument(
-        "linter", choices=list(Linters().supported),
+        "linter", choices=list(Linters().supported.keys()),
         help="Linter to use."
     )
     parser.add_argument(
@@ -175,7 +170,7 @@ def main():
     # Gather all .qmd files from the provided arguments
     qmd_files = gather_qmd_files(args.paths)
     if not qmd_files:
-        print("Error: No .qmd files found.", file=sys.stderr)
+        print(f"No .qmd files found in {args.paths}.", file=sys.stderr)
         sys.exit(1)
 
     exit_code = 0

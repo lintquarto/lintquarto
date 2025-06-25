@@ -4,14 +4,18 @@
 
 ![Code licence](https://img.shields.io/badge/🛡️_Code_licence-MIT-8a00c2?style=for-the-badge&labelColor=gray)
 [![ORCID](https://img.shields.io/badge/ORCID_Amy_Heather-0000--0002--6596--3479-A6CE39?style=for-the-badge&logo=orcid&logoColor=white)](https://orcid.org/0000-0002-6596-3479)
+[![PyPI](https://img.shields.io/pypi/v/lintquarto?style=for-the-badge&labelColor=gray)](https://pypi.org/project/lintquarto/)
+[![DOI](https://img.shields.io/badge/DOI-10.5281/zenodo.15731161-486CAC?style=for-the-badge&logoColor=white)](https://doi.org/10.5281/zenodo.15731161)
 
 </div>
 
 <br>
 
-Package for running linters on quarto `.qmd` files.
+Package for running linters and static type checkers on quarto `.qmd` files.
 
-Currently supported: [pylint](https://github.com/pylint-dev/pylint), [flake8](https://github.com/pycqa/flake8) and [mypy](https://github.com/python/mypy).
+Currently supported linters: [pylint](https://github.com/pylint-dev/pylint), [flake8](https://github.com/pycqa/flake8), [pyflakes](https://github.com/PyCQA/pyflakes), [ruff](https://github.com/astral-sh/ruff), [pylama](https://github.com/klen/pylama), [vulture](https://github.com/jendrikseipp/vulture), [radon](https://github.com/rubik/radon), and [pycodestyle](https://github.com/PyCQA/pycodestyle).
+
+It also supports some static type checkers: [mypy](https://github.com/python/mypy), [pyright](https://github.com/microsoft/pyright), [pyrefly](https://github.com/facebook/pyrefly), and [pytype](https://github.com/google/pytype).
 
 <p align="center">
   <img src="images/linting.png" alt="Linting illustration" width="400"/>
@@ -21,7 +25,7 @@ Currently supported: [pylint](https://github.com/pylint-dev/pylint), [flake8](ht
 
 ## Installation
 
-You can install `lintquarto` from [PyPI](https://pypi.org/project/lintquarto/):
+You can install `lintquarto` from [PyPI](https://github.com/lintquarto/lintquarto/raw/main/images/linting.png):
 
 ```
 pip install lintquarto
@@ -43,7 +47,8 @@ pip install lintquarto[all]
 lintquarto [linter] [files or folders] [-k | --keep-temp]
 ```
 
-* **[linter]** - Choose one of the supported linters: `pylint`, `flake8` or `mypy`.
+* **[linter]** - Choose one of the supported linters: `pylint`, `flake8`, `pyflakes`, `ruff`, `pylama`, `vulture`, `radon`, `pycodestyle`, `mypy`, `pyright`, `pyrefly`, or `pytype`
+
 * **[files or folders]** - One or more `.qmd` files or directories to lint.
 * **-k, --keep-temp** - Keep the temporary `.py` files created during linting (for debugging).
 
