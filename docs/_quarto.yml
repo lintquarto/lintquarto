@@ -1,0 +1,71 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "lintquarto"
+  description: "Documentation for the lintquarto python package"
+  page-navigation: true
+  navbar:
+    pinned: true
+    left:
+      - get_started.qmd
+      - reference/index.qmd
+    right:
+      - icon: github
+        href: https://github.com/lintquarto/lintquarto
+        aria-label: lintquarto GitHub
+  sidebar:
+    style: "floating"
+    collapse-level: 1
+    contents:
+      - section: ""
+        contents:
+          - reference/CustomArgumentParser.qmd
+      - section: ""
+        contents:
+          - reference/_qmd_lines_to_py_lines.qmd
+          - reference/convert_qmd_to_py.qmd
+      - section: ""
+        contents:
+          - reference/process_qmd.qmd
+          - reference/gather_qmd_files.qmd
+          - reference/main.qmd
+      - section: ""
+        contents:
+          - reference/Linters.qmd
+
+metadata-files:
+  - reference/_sidebar.yml
+
+quartodoc:
+  title: Reference
+  package: lintquarto
+  sections:
+    - title: Args
+      desc: "Class to help with..."
+      package: lintquarto.args
+      contents:
+        - CustomArgumentParser
+    - title: Converter
+      desc: "Functions to..."
+      package: lintquarto.converter
+      contents:
+        - _qmd_lines_to_py_lines
+        - convert_qmd_to_py
+    - title: Main
+      desc: "Functions to..."
+      package: lintquarto.__main__
+      contents:
+        - process_qmd
+        - gather_qmd_files
+        - main
+    - title: Linters
+      desc: "Class to..."
+      package: lintquarto.linters
+      contents:
+        - Linters
+
+format:
+  html:
+    sidebar: false

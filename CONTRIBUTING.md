@@ -48,6 +48,7 @@ If you want to contribute to `lintquarto` or run its tests, you'll need some add
 * **flit** (for packaging and publishing)
 * **pytest** (for running tests)
 * **twine** (for uploading to PyPI)
+* **quartodoc** (for generate API reference documentation)
 * `-e .[all]` (an editable install of the package and all supported linters)
 
 These are listed in `requirements-dev.txt` for convenience. To set up your development environment, run:
@@ -56,12 +57,40 @@ These are listed in `requirements-dev.txt` for convenience. To set up your devel
 pip install -r requirements-dev.txt
 ```
 
+Quarto is using for building the documentation. It is a standalone tool and must be installed separately from Python packages. You will need to download and install quarto from https://quarto.org/docs/get-started/.
+
 ### Tests
 
 To run tests:
 
 ```
 pytest
+```
+
+### Documentation
+
+Change to the docs folder:
+
+```
+cd docs
+```
+
+To create the API reference documentation:
+
+```
+python -m quartodoc build --verbose
+```
+
+To build the documentation locally:
+
+```
+quarto render
+```
+
+To view the site:
+
+```
+quarto preview
 ```
 
 ### Updating the package

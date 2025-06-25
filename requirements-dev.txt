@@ -1,4 +1,5 @@
 flit
 pytest
+quartodoc
 twine
 -e .[all]
