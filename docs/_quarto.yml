@@ -2,70 +2,55 @@ project:
   type: website
   output-dir: _site
 
+format:
+  html:
+    theme: minty
+
 website:
   title: "lintquarto"
   description: "Documentation for the lintquarto python package"
+  repo-url: https://github.com/lintquarto/lintquarto
   page-navigation: true
   navbar:
     pinned: true
+    search: true
     left:
       - get_started.qmd
-      - reference/index.qmd
+      - api/index.qmd
     right:
       - icon: github
         href: https://github.com/lintquarto/lintquarto
         aria-label: lintquarto GitHub
-  sidebar:
-    style: "floating"
-    collapse-level: 1
-    contents:
-      - section: ""
-        contents:
-          - reference/CustomArgumentParser.qmd
-      - section: ""
-        contents:
-          - reference/_qmd_lines_to_py_lines.qmd
-          - reference/convert_qmd_to_py.qmd
-      - section: ""
-        contents:
-          - reference/process_qmd.qmd
-          - reference/gather_qmd_files.qmd
-          - reference/main.qmd
-      - section: ""
-        contents:
-          - reference/Linters.qmd
 
 metadata-files:
-  - reference/_sidebar.yml
+  - api/_sidebar.yml
 
 quartodoc:
   title: Reference
+  dir: api
+  out_index: index.qmd
   package: lintquarto
   sections:
-    - title: Args
-      desc: "Class to help with..."
-      package: lintquarto.args
-      contents:
-        - CustomArgumentParser
-    - title: Converter
-      desc: "Functions to..."
-      package: lintquarto.converter
-      contents:
-        - _qmd_lines_to_py_lines
-        - convert_qmd_to_py
-    - title: Main
-      desc: "Functions to..."
+    - title: Main module
+      desc: "The main CLI logic for linting Python code in Quarto (`.qmd`) files, including argument parsing, file conversion, linter invocation, and temporary file management."
       package: lintquarto.__main__
       contents:
         - process_qmd
         - gather_qmd_files
         - main
-    - title: Linters
-      desc: "Class to..."
+    - title: Converter module
+      desc: "Functions to convert Quarto (`.qmd`) files to Python (`.py`) files, preserving line alignment and extracting Python code, with both a command-line interface and callable functions."
+      package: lintquarto.converter
+      contents:
+        - _qmd_lines_to_py_lines
+        - convert_qmd_to_py
+    - title: Linters module
+      desc: "Class to check for supported and available Python linters or static type checkers on the user's system."
       package: lintquarto.linters
       contents:
         - Linters
-
-format:
-  html:
-    sidebar: false
+    - title: Args module
+      desc: "Class which extends `argparse.ArgumentParser` to provide user-friendly error messages and help text when incorrect command-line arguments are supplied."
+      package: lintquarto.args
+      contents:
+        - CustomArgumentParser
