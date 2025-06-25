@@ -4,11 +4,12 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "lintquarto"
+description = "Package for running linters and static type checkers on quarto .qmd files."
 authors = [{name = "Amy Heather", email = "a.heather2@exeter.ac.uk"}]
 maintainers = [{name = "Amy Heather", email = "a.heather2@exeter.ac.uk"}]
 readme = "README.md"
 license = {file = "LICENSE"}
-dynamic = ["version", "description"]
+dynamic = ["version"]
 keywords = ["lint", "quarto", "qmd", "pylint", "flake8", "mypy"]
 
 # No required dependencies - users install linters they want
@@ -41,7 +42,20 @@ classifiers = [
 lintquarto = "lintquarto.__main__:main"
 
 [project.optional-dependencies]
-all = ["pylint", "flake8", "mypy"]
+all = [
+  "pylint",
+  "flake8",
+  "pyflakes",
+  "ruff",
+  "pylama",
+  "vulture",
+  "radon",
+  "pycodestyle",
+  "mypy",
+  "pyright",
+  "pyrefly",
+  "pytype"
+]
 test = ["pytest"]
 
 [project.urls]

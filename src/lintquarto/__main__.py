@@ -83,8 +83,9 @@ def process_qmd(
         nodot_base = nodot_base[2:]
 
     # Run linter on the temporary .py file and capture output
+    command = linters.supported[linter] + [str(py_file)]
     result = subprocess.run(
-        [linter, str(py_file)],
+        command,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
@@ -155,7 +156,7 @@ def main():
         description="Lint Python code in Quarto (.qmd) files."
     )
     parser.add_argument(
-        "linter", choices=list(Linters().supported),
+        "linter", choices=list(Linters().supported.keys()),
         help="Linter to use."
     )
     parser.add_argument(
@@ -175,7 +176,7 @@ def main():
     # Gather all .qmd files from the provided arguments
     qmd_files = gather_qmd_files(args.paths)
     if not qmd_files:
-        print("Error: No .qmd files found.", file=sys.stderr)
+        print(f"No .qmd files found in {args.paths}.", file=sys.stderr)
         sys.exit(1)
 
     exit_code = 0
