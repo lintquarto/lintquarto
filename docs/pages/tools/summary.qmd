@@ -1,0 +1,37 @@
+The `lintquarto` package enables you to run a range of linters and static type checkers on python code in Quarto `.qmd` files.
+
+This page provides an overview of the available tools.
+
+Use the sidebar to explore ready-to-run examples and detailed usage for each tool.
+
+<br>
+
+## General linters
+
+| Tool | Description |
+| - | - |
+| [**Flake8**](flake8.qmd) | Lightweight tool focused on PEP-8 style, basic errors, and code complexity. |
+| [**Pycodestyle**](pycodestyle.qmd) | Checks against PEP-8 style guidelines. |
+| [**Pyflakes**](pyflakes.qmd) | Checks for logical errors like undefined names and unused imports. |
+| [**Pylama**](pylama.qmd) | Aggregates results from multiple linters. By default, it runs pyflakes, pycodestyle, mccabe, and combines their output. |
+| [**Pylint**](pylint.qmd) | Detailed linter that detects errors, bugs, variable naming issues, and other code problems. |
+| [**Ruff**](ruff.qmd) | Modern, ultra-fast linter that implements checks from Flake8 and some other popular plugins. |
+: {tbl-colwidths="[15,85]"}
+
+## Specialty linters
+
+| Tool | Speciality | Description |
+| --- | - | - |
+| [**Radon**](radon.qmd) | Complexity | Computes code metrics - `lintquarto` supports calculating complexity metrics. |
+| [**Vulture**](vulture.qmd) | Dead Code | Finds unused code. |
+: {tbl-colwidths="[10,15,75]"}
+
+## Static type checkers
+
+| Tool | Description |
+| - | - |
+| [**mypy**](mypy.qmd) | Python's popular static type checker. |
+| [**pyrefly**](pyrefly.qmd) | Meta's Rust-based static type checker (successor to Pyre). |
+| [**pyright**](pyright.qmd) | Microsoft's static type checker. |
+| [**pytype**](pytype.qmd) | Google's static type checker. |
+: {tbl-colwidths="[15,85]"}

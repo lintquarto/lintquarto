@@ -1,0 +1,17 @@
+# Getting started
+
+## Installation
+
+lintquarto has no dependencies.
+
+it runs on python 3.7+
+
+can install from pip
+
+pip install lintquarto
+
+can check it is installed
+
+lintquarto --version
+
+## 

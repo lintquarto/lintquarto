@@ -6,7 +6,7 @@ authors:
     orcid: 0000-0002-6596-3479
 format: 
   html:
-    css: styles.css
+    css: styles/index.css
 ---
 
 ![](images/linting.png){width=50% fig-align="center"}
@@ -17,7 +17,7 @@ format:
 
 ## Easy to use
 
-Install and run checks in minutes. See [**getting started**](get_started.qmd) for installation and basic commands.
+Install and run checks in minutes. See [**getting started**](pages/get_started.qmd) for installation and basic commands.
 :::
 ::: {.column width='10%'}
 :::
@@ -26,7 +26,7 @@ Install and run checks in minutes. See [**getting started**](get_started.qmd) fo
 
 ## Variety of tools
 
-Try out a range of linters and type checkers, each with ready-to-run examples. Discover what's available in the [**user guide**](api/index.qmd).
+Try out a range of linters and type checkers, each with ready-to-run examples. Discover what's available in the [**user guide**](pages/api/index.qmd).
 :::
 ::::
 

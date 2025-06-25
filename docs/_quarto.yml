@@ -5,6 +5,7 @@ project:
 format:
   html:
     theme: minty
+    css: styles/sidebar.css
 
 website:
   title: "lintquarto"
@@ -15,24 +16,51 @@ website:
     pinned: true
     search: true
     left:
-      - get_started.qmd
-      - user_guide.qmd
-      - api/index.qmd
+      - pages/get_started.qmd
+      - text: User guide
+        href: pages/tools/summary.qmd
+      - pages/behind_the_scenes.qmd
+      - pages/api/index.qmd
       - text: Contributing
-        href: contributing.qmd
+        href: pages/contributing.qmd
       - text: Changelog
-        href: changelog.qmd
+        href: pages/changelog.qmd
     right:
       - icon: github
         href: https://github.com/lintquarto/lintquarto
         aria-label: lintquarto GitHub
+  sidebar:
+    - id: tools
+      style: "docked"
+      title: "User guide"
+      contents:
+        - text: "**Summary**"
+          href: pages/tools/summary.qmd
+        - section: "**General linters**"
+          contents:
+            - pages/tools/flake8.qmd
+            - pages/tools/pycodestyle.qmd
+            - pages/tools/pyflakes.qmd
+            - pages/tools/pylama.qmd
+            - pages/tools/pylint.qmd
+            - pages/tools/ruff.qmd
+        - section: "**Speciality linters**"
+          contents:
+            - pages/tools/radon.qmd
+            - pages/tools/vulture.qmd
+        - section: "**Static type checkers**"
+          contents:
+            - pages/tools/mypy.qmd
+            - pages/tools/pyrefly.qmd
+            - pages/tools/pyright.qmd
+            - pages/tools/pytype.qmd
 
 metadata-files:
-  - api/_sidebar.yml
+  - pages/api/_sidebar.yml
 
 quartodoc:
   title: Reference
-  dir: api
+  dir: pages/api
   out_index: index.qmd
   package: lintquarto
   sections:
