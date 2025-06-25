@@ -46,6 +46,7 @@ git push origin my-feature
 If you want to contribute to `lintquarto` or run its tests, you'll need some additional tools:
 
 * **flit** (for packaging and publishing)
+* **jupyter** (for running python code in documentation)
 * **pytest** (for running tests)
 * **twine** (for uploading to PyPI)
 * **quartodoc** (for generate API reference documentation)

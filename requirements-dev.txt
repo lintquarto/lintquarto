@@ -1,4 +1,5 @@
 flit
+jupyter
 pytest
 quartodoc
 twine
