@@ -16,7 +16,12 @@ website:
     search: true
     left:
       - get_started.qmd
+      - user_guide.qmd
       - api/index.qmd
+      - text: Contributing
+        href: contributing.qmd
+      - text: Changelog
+        href: changelog.qmd
     right:
       - icon: github
         href: https://github.com/lintquarto/lintquarto
