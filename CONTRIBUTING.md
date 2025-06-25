@@ -72,7 +72,9 @@ If you are a maintainer and need to publish a new release:
 
 2. Update the version number in `__init__.py`, `CITATION.cff` and `README.md` citation.
 
-3. Build and publish using flit or twine.
+3. Create a release on GitHub, which will automatically archive to Zenodo.
+
+4. Build and publish using flit or twine.
 
 To upload to PyPI using `flit`:
 
