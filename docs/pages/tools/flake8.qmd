@@ -1,1 +1,46 @@
+<hr style="height:0pt; visibility:hidden;" />
+
 # flake8
+
+Lightweight tool focused on PEP-8 style, basic errors, and code complexity.
+
+```{python}
+#| echo: false
+#| output: asis
+
+from buttons import generate_html
+
+html = generate_html(
+    pypi_url="https://pypi.org/project/flake8/",
+    github_url="https://github.com/pycqa/flake8",
+    conda_url="https://anaconda.org/conda-forge/flake8",
+    include_conda=True
+)
+print(html)
+```
+
+<br>
+
+Example Quarto `.qmd` file with errors to be identified by flake8:
+
+```{.qmd}
+---
+title: "Flake8 example"
+---
+
+This is ignored
+
+```{.python}
+very_long_line = "This long string exceeds the maximum allowed characters per line."
+```
+
+x=1+2
+```
+
+<br>
+
+Run flake8 using `lintquarto`:
+
+```{.bash}
+lintquarto flake8 file.qmd
+```
