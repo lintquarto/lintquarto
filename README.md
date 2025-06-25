@@ -25,7 +25,7 @@ It also supports some static type checkers: [mypy](https://github.com/python/myp
 
 ## Installation
 
-You can install `lintquarto` from [PyPI](https://pypi.org/project/lintquarto/):
+You can install `lintquarto` from [PyPI](https://github.com/lintquarto/lintquarto/raw/main/images/linting.png):
 
 ```
 pip install lintquarto
