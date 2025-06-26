@@ -23,26 +23,32 @@ generate_html(
 
 ## Example quarto `.qmd` file:
 
-{{< downloadthis examples/flake8_example.qmd label="Download the example" type="light" >}}
+{{< downloadthis examples/general_example.qmd dname="general_example" label="Download the example" type="light" >}}
 
 :::{.pale-grey}
 ```{python}
 #| echo: false
-print_quarto("examples/flake8_example.qmd")
+print_quarto("examples/general_example.qmd")
 ```
 :::
 
 ## Run flake8 using `lintquarto`
 
 ```{.bash}
-lintquarto flake8 file.qmd
+lintquarto flake8 general_example.qmd
 ```
 
 :::{.pale-green}
+<style>
+.cell-output-stdout code {
+  word-break: break-word !important;
+  white-space: pre-wrap !important;
+}
+</style>
 ```{python}
 #| echo: false
 result = subprocess.run(
-    ["lintquarto", "flake8", "examples/flake8_example.qmd"],
+    ["lintquarto", "flake8", "examples/general_example.qmd"],
     capture_output=True, text=True
 )
 print(result.stdout)
