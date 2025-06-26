@@ -68,16 +68,16 @@ def generate_html(pypi_url, github_url, conda_url=None):
     print(html)
 
 
-def print_quarto(file):
+def print_quarto(file_path):
     """
     Print quarto file as text with line numbers, without executing any code.
 
     Parameters
     ----------
-    file : str
+    file_path : str
         Path to the quarto .qmd file to print.
     """
-    with open(file, "r", encoding="utf-8") as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         for line_number, line_content in enumerate(file, start=1):
             if line_number < 10:
                 print(f"{line_number}:     {line_content}", end="")

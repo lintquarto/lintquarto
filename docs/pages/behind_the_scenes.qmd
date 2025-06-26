@@ -10,6 +10,7 @@ This page explains how the `lintquarto` package works.
 
 ```{python}
 #| echo: false
+# pylint: disable=missing-module-docstring
 # Import required packages
 import subprocess
 from helpers import print_quarto
@@ -91,7 +92,7 @@ Next, `lintquarto` runs a Python linter on the temporary .py file.
 # Run pylint on the temporary file, to demonstrate output before cleaning
 result = subprocess.run(
     ["pylint", "behind_the_scenes/file.py"],
-    capture_output=True, text=True
+    capture_output=True, text=True, check=False
 )
 print(result.stdout)
 ```

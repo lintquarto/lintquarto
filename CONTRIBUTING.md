@@ -84,6 +84,20 @@ To run tests:
 pytest
 ```
 
+### Linting
+
+To lint package:
+
+```{.bash}
+bash lint_package.sh
+```
+
+To lint documentation:
+
+```{.bash}
+bash lint_docs.sh
+```
+
 ### Documentation
 
 To build and preview the documentation:
