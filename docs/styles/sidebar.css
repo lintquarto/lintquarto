@@ -1,0 +1,40 @@
+.sidebar, .quarto-sidebar {
+  background-color: #e6f7e6 !important;
+}
+
+.div.sidebar-menu-container {
+  padding-top: 200px;
+}
+
+/* Section titles */
+.sidebar .sidebar-section-title,
+.quarto-sidebar .sidebar-section-title {
+  font-weight: bold;
+  font-size: 1em;
+}
+
+/* Page names */
+.sidebar .sidebar-item a,
+.quarto-sidebar .sidebar-item a {
+  font-size: 1.1em;
+  color: #222;
+}
+
+/* Space between items in sidebar */
+.sidebar .sidebar-item,
+.quarto-sidebar .sidebar-item,
+.sidebar .sidebar-section,
+.quarto-sidebar .sidebar-section {
+  margin-bottom: 1em;
+}
+
+/* Extra space after section headers */
+.sidebar .sidebar-section .sidebar-item:first-of-type,
+.quarto-sidebar .sidebar-section .sidebar-item:first-of-type {
+  margin-top: 1em;
+}
+
+/* Extra space after summary */
+.sidebar-menu-container > ul.list-unstyled.mt-1 > li.sidebar-item:first-of-type {
+  margin-bottom: 2em !important;
+}

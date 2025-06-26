@@ -23,7 +23,7 @@ Before opening an issue, please search [existing issues](https://github.com/lint
 
 2. Create a new branch for your feature or fix:
 
-```
+```{.bash}
 git checkout -b my-feature
 ```
 
@@ -31,7 +31,7 @@ git checkout -b my-feature
 
 4. Push your branch to your fork:
 
-```
+```{.bash}
 git push origin my-feature
 ```
 
@@ -46,22 +46,34 @@ git push origin my-feature
 If you want to contribute to `lintquarto` or run its tests, you'll need some additional tools:
 
 * **flit** (for packaging and publishing)
+* **jupyter** (for running python code in documentation)
 * **pytest** (for running tests)
 * **twine** (for uploading to PyPI)
+* **quartodoc** (for generate API reference documentation)
 * `-e .[all]` (an editable install of the package and all supported linters)
 
 These are listed in `requirements-dev.txt` for convenience. To set up your development environment, run:
 
-```
+```{.bash}
 pip install -r requirements-dev.txt
 ```
+
+Quarto is using for building the documentation. It is a standalone tool and must be installed separately from Python packages. You will need to download and install quarto from https://quarto.org/docs/get-started/.
 
 ### Tests
 
 To run tests:
 
-```
+```{.bash}
 pytest
+```
+
+### Documentation
+
+To build and preview the documentation:
+
+```{.bash}
+make -C docs
 ```
 
 ### Updating the package
@@ -78,13 +90,13 @@ If you are a maintainer and need to publish a new release:
 
 To upload to PyPI using `flit`:
 
-```
+```{.bash}
 flit publish
 ```
 
 To upload to PyPI using `twine`: remove any existing builds, then build the package locally and push with twine, entering the API token when prompted:
 
-```
+```{.bash}
 rm -rf dist/
 flit build
 twine upload --repository pypi dist/*
@@ -92,7 +104,7 @@ twine upload --repository pypi dist/*
 
 For test runs, you can use the same method with test PyPI:
 
-```
+```{.bash}
 rm -rf dist/
 flit build
 twine upload --repository testpypi dist/*
@@ -102,4 +114,4 @@ twine upload --repository testpypi dist/*
 
 ## Code of conduct
 
-Please be respectful and considerate. See the [code of conduct](CODE_OF_CONDUCT.md) for details.
+Please be respectful and considerate. See the [code of conduct](https://github.com/lintquarto/lintquarto/blob/main/CODE_OF_CONDUCT.md) for details.

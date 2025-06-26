@@ -1,0 +1,19 @@
+.pale-grey {
+  background-color: #fffcfc;
+  color: black;
+  border-radius: 8px;
+  padding: 1.2em 1em 0.5em 1em;
+  margin: 1.5em 0;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.15);
+}
+
+.pale-green {
+  background-color: #e6f7e6;
+  color: black;
+  border-radius: 8px;
+  padding: 1.2em 1em 0.5em 1em;
+  margin: 1.5em 0;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.15);
+}
