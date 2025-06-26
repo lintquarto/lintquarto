@@ -4,24 +4,25 @@ name: lintquarto-stable
 channels:
   - conda-forge
 dependencies:
-  - python
+  - flake8=7.2.0
   - flit=3.11.0
   - jupyter=1.1.1
-  - pytest=8.4.1
-  - quartodoc=0.11.1
-  - twine=6.1.0
-  - pylint=3.3.7
-  - flake8=7.2.0
-  - pyflakes=3.3.0
-  - ruff=0.12.0
-  - pylama=7.7.1
-  - vulture=2.14
-  - radon=6.0.1
-  - pycodestyle=2.13.0
   - mypy=1.16.1
-  - pyright=1.1.402
+  - pip=25.1.1
+  - pre_commit=4.2.0
+  - pycodestyle=2.13.0
+  - pyflakes=3.3.0
+  - pylama=7.7.1
+  - pylint=3.3.7
   - pyrefly=0.21.0
+  - pyright=1.1.402
+  - pytest=8.4.1
+  - python=3.11.13
   - pytype=2024.02.09
-  - pip
+  - quartodoc=0.11.1
+  - radon=6.0.1
+  - ruff=0.12.0
+  - twine=6.1.0
+  - vulture=2.14
   - pip:
       - -e .

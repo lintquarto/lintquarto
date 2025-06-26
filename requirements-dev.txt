@@ -1,5 +1,6 @@
 flit
 jupyter
+pre-commit
 pytest
 quartodoc
 twine
