@@ -57,6 +57,7 @@ all = [
   "pytype"
 ]
 test = ["pytest"]
+docs = ["jupyter", "quartodoc"]
 
 [project.urls]
 Home = "https://github.com/lintquarto/lintquarto"
