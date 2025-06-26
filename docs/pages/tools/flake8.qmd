@@ -8,7 +8,13 @@ Lightweight tool focused on PEP-8 style, basic errors, and code complexity.
 #| echo: false
 # Import required packages
 import subprocess
-from tools_helpers import generate_html, print_quarto
+import sys
+
+# Add parent directory to sys.path
+sys.path.insert(0, "..")
+
+# Import the helper functions
+from helpers import generate_html, print_quarto
 ```
 
 ```{python}
@@ -21,7 +27,7 @@ generate_html(
 )
 ```
 
-## Example quarto `.qmd` file:
+## Example Quarto `.qmd` file:
 
 {{< downloadthis examples/general_example.qmd dname="general_example" label="Download the example" type="light" >}}
 

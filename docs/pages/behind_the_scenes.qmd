@@ -1,3 +1,119 @@
-# Behind the scenes
+---
+title: Behind the scenes
+---
 
-TBC.
+This page explains how the `lintquarto` package works.
+
+<br>
+
+![Illustration of the `lintquarto` process](behind_the_scenes/illustration.png)
+
+```{python}
+#| echo: false
+# Import required packages
+import subprocess
+from helpers import print_quarto
+```
+
+<br>
+
+## 1. Discover files
+
+You can give `lintquarto` either a single file or a whole directory to check.
+
+If you provide a directory, the package will search through that folder and all its subfolders to find every Quarto `.qmd` file.
+
+<br>
+
+## 2. Convert
+
+For each `.qmd` file found, `lintquarto` opens the file and reads its contents. A quarto file is made of three main parts:
+
+* The YAML header (at the top).
+* Markdown text.
+* Code chunks (possibly in different languages).
+
+`lintquarto` goes through the file and generates a temporary Python `.py` version of the file where:
+
+* All python code chunks (marked with ` ```{python} ``` `) are kept as real python code.
+* Every other line (YAML, markdown, non-Python code) is replaced with a Python comment `# -`.
+
+This approach means the line numbers in the `.py` file match the original `.qmd` file, so any lint messages will point to the correct place in the Quarto document.
+
+It also means non-Python lines won't be checked by the linter and generate false positives.
+
+**Example conversion:**
+
+```{.bash}
+lintquarto behind_the_scenes/file.qmd --keep-temp
+```
+
+::::: {.columns}
+:::: {.column width="49%"}
+Quarto `.qmd` file:
+
+:::{.pale-grey}
+```{python}
+#| echo: false
+print_quarto("behind_the_scenes/file.qmd")
+```
+:::
+::::
+:::: {.column width="2%"}
+::::
+:::: {.column width="49%"}
+Python `.py` file:
+
+:::{.pale-grey}
+```{python}
+#| echo: false
+print_quarto("behind_the_scenes/file.py")
+```
+
+:::
+::::
+:::::
+
+<br>
+
+## 3. Lint and process
+
+Next, `lintquarto` runs a Python linter on the temporary .py file.
+
+<style>
+.cell-output-stdout code {
+  word-break: break-word !important;
+  white-space: pre-wrap !important;
+}
+</style>
+```{python}
+#| echo: false
+# Run pylint on the temporary file, to demonstrate output before cleaning
+result = subprocess.run(
+    ["pylint", "behind_the_scenes/file.py"],
+    capture_output=True, text=True
+)
+print(result.stdout)
+```
+
+It stores the output of the linter. Then it replaces any instance of the temporary file.py name in the output, with the original file.qmd name.
+
+The lint results are then print to the terminal.
+
+<!--```{python}
+#| echo: false
+result = subprocess.run(
+    ["lintquarto", "pylint", "behind_the_scenes/file.qmd"],
+    capture_output=True, text=True
+)
+print(result.stdout)
+```-->
+
+```{.bash}
+************* Module file
+docs/pages/behind_the_scenes/file.qmd:1:0: C0114: Missing module docstring (missing-module-docstring)
+docs/pages/behind_the_scenes/file.qmd:10:0: C0116: Missing function or method docstring (missing-function-docstring)
+
+------------------------------------------------------------------
+Your code has been rated at 3.33/10 (previous run: 3.33/10, +0.00)
+```
