@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>contributing – lintquarto</title>
+<title>Contributing – lintquarto</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -190,7 +190,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Relevant files (e.g.&nbsp;problematic <code>.qmd</code> files).</li>
 </ul></li>
 </ul>
+<section id="handling-bug-reports-for-maintainers" class="level3">
+<h3 class="anchored" data-anchor-id="handling-bug-reports-for-maintainers">Handling bug reports (for maintainers):</h3>
+<ul>
+<li>Confirm reproducibility by following the reported steps.</li>
+<li>Label the issue appropriately (e.g.&nbsp;<code>bug</code>).</li>
+<li>Request additional information if necessary.</li>
+<li>Link related issues or pull requests.</li>
+<li>One resolved, close the issue with a brief summary of the fix.</li>
+</ul>
 <p><br></p>
+</section>
 </section>
 <section id="workflow-for-code-contributions-bug-fixes-enhancements" class="level2">
 <h2 class="anchored" data-anchor-id="workflow-for-code-contributions-bug-fixes-enhancements">Workflow for code contributions (bug fixes, enhancements)</h2>
@@ -225,6 +235,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>These are listed in <code>requirements-dev.txt</code> for convenience. To set up your development environment, run:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements-dev.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Quarto is using for building the documentation. It is a standalone tool and must be installed separately from Python packages. You will need to download and install quarto from https://quarto.org/docs/get-started/.</p>
+<section id="versions" class="level4">
+<h4 class="anchored" data-anchor-id="versions">Versions</h4>
+<p>By default, contributors are encouraged to install and use the latest versions of development tools when working on the project. This approach helps keep the project compatible with current tooling and surfaces issues early.</p>
+<p>For contributors who need a fully reproducible and stable setup, a Conda environment file is provided: <code>requirements-stable.yml</code>. This file pins all development tool versions, including Python, so you can expect consistent behaviour across systems.</p>
+<p>To update the versions in this stable environment, run <code>conda update --all</code> and test thoroughly (running tests, building documentation), and updating the <code>.yml</code> file.</p>
+</section>
 </section>
 <section id="tests" class="level3">
 <h3 class="anchored" data-anchor-id="tests">Tests</h3>

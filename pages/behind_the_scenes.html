@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>behind_the_scenes – lintquarto</title>
+<title>Behind the scenes – lintquarto</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -133,14 +168,181 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Behind the scenes</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<section id="behind-the-scenes" class="level1">
-<h1>Behind the scenes</h1>
-<p>TBC.</p>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This page explains how the <code>lintquarto</code> package works.</p>
+<p><br></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="behind_the_scenes/illustration.png" class="img-fluid figure-img"></p>
+<figcaption>Illustration of the <code>lintquarto</code> process</figcaption>
+</figure>
+</div>
+<p><br></p>
+<section id="discover-files" class="level2">
+<h2 class="anchored" data-anchor-id="discover-files">1. Discover files</h2>
+<p>You can give <code>lintquarto</code> either a single file or a whole directory to check.</p>
+<p>If you provide a directory, the package will search through that folder and all its subfolders to find every Quarto <code>.qmd</code> file.</p>
+<p><br></p>
+</section>
+<section id="convert" class="level2">
+<h2 class="anchored" data-anchor-id="convert">2. Convert</h2>
+<p>For each <code>.qmd</code> file found, <code>lintquarto</code> opens the file and reads its contents. A quarto file is made of three main parts:</p>
+<ul>
+<li>The YAML header (at the top).</li>
+<li>Markdown text.</li>
+<li>Code chunks (possibly in different languages).</li>
+</ul>
+<p><code>lintquarto</code> goes through the file and generates a temporary Python <code>.py</code> version of the file where:</p>
+<ul>
+<li>All python code chunks (marked with <code>```{python} ```</code>) are kept as real python code.</li>
+<li>Every other line (YAML, markdown, non-Python code) is replaced with a Python comment <code># -</code>.</li>
+</ul>
+<p>This approach means the line numbers in the <code>.py</code> file match the original <code>.qmd</code> file, so any lint messages will point to the correct place in the Quarto document.</p>
+<p>It also means non-Python lines won’t be checked by the linter and generate false positives.</p>
+<p><strong>Example conversion:</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> behind_the_scenes/file.qmd <span class="at">--keep-temp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="columns">
+<div class="column" style="width:49%;">
+<p>Quarto <code>.qmd</code> file:</p>
+<div class="pale-grey">
+<div id="fab3fa03" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-stdout">
+<pre><code>1:     ---
+2:     Title: Example Quarto file
+3:     ---
+4:     
+5:     This is an example file.
+6:     
+7:     Here is some Python code:
+8:     
+9:     ```{python}
+10:    def add_numbers(a, b):
+11:        return a + b
+12:    
+13:    add_numbers(3, 5)
+14:    ```
+15:    
+16:    Here is some R code:
+17:    
+18:    ```{r}
+19:    # Print Hello, World! in R
+20:    print("Hello, World!")
+21:    ```
+22:    
+23:    Here is some inactive Python code:
+24:    
+25:    ```{.python}
+26:    # This code is not executed
+27:    x = 5
+28:    y = 10
+29:    z = x + y
+30:    print(f"The sum is {z}")
+31:    ```</code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:2%;">
+
+</div><div class="column" style="width:49%;">
+<p>Python <code>.py</code> file:</p>
+<div class="pale-grey">
+<div id="791fa6a5" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-stdout">
+<pre><code>1:     # -
+2:     # -
+3:     # -
+4:     # -
+5:     # -
+6:     # -
+7:     # -
+8:     # -
+9:     # %% [python]
+10:    def add_numbers(a, b):
+11:        return a + b
+12:    
+13:    add_numbers(3, 5)
+14:    # -
+15:    # -
+16:    # -
+17:    # -
+18:    # -
+19:    # -
+20:    # -
+21:    # -
+22:    # -
+23:    # -
+24:    # -
+25:    # -
+26:    # -
+27:    # -
+28:    # -
+29:    # -
+30:    # -
+31:    # -</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="lint-and-process" class="level2">
+<h2 class="anchored" data-anchor-id="lint-and-process">3. Lint and process</h2>
+<p>Next, <code>lintquarto</code> runs a Python linter on the temporary .py file.</p>
+<style>
+.cell-output-stdout code {
+  word-break: break-word !important;
+  white-space: pre-wrap !important;
+}
+</style>
+<div id="a3e30ed8" class="cell" data-execution_count="4">
+<div class="cell-output cell-output-stdout">
+<pre><code>************* Module file
+behind_the_scenes/file.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+behind_the_scenes/file.py:10:0: C0116: Missing function or method docstring (missing-function-docstring)
+
+-----------------------------------
+Your code has been rated at 3.33/10
+
+</code></pre>
+</div>
+</div>
+<p>It stores the output of the linter. Then it replaces any instance of the temporary file.py name in the output, with the original file.qmd name.</p>
+<p>The lint results are then print to the terminal.</p>
+<!--```{python}
+#| echo: false
+result = subprocess.run(
+    ["lintquarto", "pylint", "behind_the_scenes/file.qmd"],
+    capture_output=True, text=True
+)
+print(result.stdout)
+```-->
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">*************</span> Module file</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docs/pages/behind_the_scenes/file.qmd:1:0:</span> C0114: Missing module docstring <span class="er">(</span><span class="ex">missing-module-docstring</span><span class="kw">)</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">docs/pages/behind_the_scenes/file.qmd:10:0:</span> C0116: Missing function or method docstring <span class="er">(</span><span class="ex">missing-function-docstring</span><span class="kw">)</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">------------------------------------------------------------------</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Your</span> code has been rated at 3.33/10 <span class="er">(</span><span class="ex">previous</span> run: 3.33/10, +0.00<span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>

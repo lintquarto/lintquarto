@@ -320,8 +320,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     invert(1);"> View on Conda </span> </a></p>
 </div>
 <section id="example-quarto-.qmd-file" class="level2">
-<h2 class="anchored" data-anchor-id="example-quarto-.qmd-file">Example quarto <code>.qmd</code> file:</h2>
-<p><a href="#dnldts62347" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgKHN0YXRpYyB0eXBlIGNoZWNrZXIpIHRvIGlkZW50aWZ5LgoKYGBge3B5dGhvbn0KZGVmIGFkZF9udW1iZXJzKGE6IGludCwgYjogaW50KSAtPiBpbnQ6CiAgICByZXR1cm4gYSArIGIKCmFkZF9udW1iZXJzKDMsICI1IikKYGBgCgpUaGVyZSdzIHNvbWUgbW9yZSBpc3N1ZXMgYmVsb3cuLi4KCmBgYHtweXRob259CmFkZF9udW1iZXJzKDEsIDQpCgphZGRfbnVtYmVycygiYXBwbGVzIiwgOCkKYGBg').then(res => res.blob()).then(blob => {
+<h2 class="anchored" data-anchor-id="example-quarto-.qmd-file">Example Quarto <code>.qmd</code> file:</h2>
+<p><a href="#dnldts37556" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgKHN0YXRpYyB0eXBlIGNoZWNrZXIpIHRvIGlkZW50aWZ5LgoKYGBge3B5dGhvbn0KZGVmIGFkZF9udW1iZXJzKGE6IGludCwgYjogaW50KSAtPiBpbnQ6CiAgICByZXR1cm4gYSArIGIKCmFkZF9udW1iZXJzKDMsICI1IikKYGBgCgpUaGVyZSdzIHNvbWUgbW9yZSBpc3N1ZXMgYmVsb3cuLi4KCmBgYHtweXRob259CmFkZF9udW1iZXJzKDEsIDQpCgphZGRfbnVtYmVycygiYXBwbGVzIiwgOCkKYGBg').then(res => res.blob()).then(blob => {
       const downloadURL = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       document.body.appendChild(a);
@@ -329,9 +329,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       a.download = 'typecheck_example.qmd'; a.click();
       window.URL.revokeObjectURL(downloadURL);
       document.body.removeChild(a);
-        });"><button class="btn btn-light downloadthis  " id="dnldts62347"><i class="bi bi-download"></i> Download the example </button></a></p>
+        });"><button class="btn btn-light downloadthis  " id="dnldts37556"><i class="bi bi-download"></i> Download the example </button></a></p>
 <div class="pale-grey">
-<div id="3fdfb444" class="cell" data-execution_count="3">
+<div id="f25d1232" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
 <pre><code>1:     ---
 2:     title: "Example"
@@ -367,7 +367,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   white-space: pre-wrap !important;
 }
 </style>
-<div id="6df7d425" class="cell" data-execution_count="4">
+<div id="529f248e" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre>ninja: Entering directory `.pytype'
@@ -376,43 +376,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <span class="ansi-red-fg">FAILED: </span>/home/runner/work/lintquarto/lintquarto/docs/pages/tools/.pytype/pyi/typecheck_example.pyi 
 
-/opt/hostedtoolcache/Python/3.10.18/x64/bin/python -m pytype.main --imports_info /home/runner/work/lintquarto/lintquarto/docs/pages/tools/.pytype/imports/typecheck_example.imports --module-name typecheck_example --platform linux -V 3.10 -o /home/runner/work/lintquarto/lintquarto/docs/pages/tools/.pytype/pyi/typecheck_example.pyi --analyze-annotated --nofail --quick /home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/typecheck_example.qmd
+/opt/hostedtoolcache/Python/3.13.5/x64/bin/python -m pytype.main --imports_info /home/runner/work/lintquarto/lintquarto/docs/pages/tools/.pytype/imports/typecheck_example.imports --module-name typecheck_example --platform linux -V 3.13 -o /home/runner/work/lintquarto/lintquarto/docs/pages/tools/.pytype/pyi/typecheck_example.pyi --analyze-annotated --nofail --quick /home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/typecheck_example.qmd
 
-/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/typecheck_example.qmd:11:1: <span class="ansi-red-fg ansi-bold">error</span>: in &lt;module&gt;: Function add_numbers was called with the wrong arguments [wrong-arg-types]
-
-         Expected: (a, b: int)
-
-  Actually passed: (a, b: str)
-
-
-
-add_numbers(3, "5")<span class="ansi-red-fg ansi-bold">~~~~~~~~~~~~~~~~~~</span>
-
-add_numbers(3, "5")
-
-
-
-
-
-/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/typecheck_example.qmd:19:1: <span class="ansi-red-fg ansi-bold">error</span>: in &lt;module&gt;: Function add_numbers was called with the wrong arguments [wrong-arg-types]
-
-         Expected: (a: int, ...)
-
-  Actually passed: (a: str, ...)
-
-
-
-add_numbers("apples", 8)<span class="ansi-red-fg ansi-bold">~~~~~~~~~~~~~~~~~~~~~~~</span>
-
-add_numbers("apples", 8)
-
-
-
-
-
-
-
-For more details, see https://google.github.io/pytype/errors.html#wrong-arg-types
+Python versions &gt; 3.12 are not yet supported.
 
 ninja: build stopped: subcommand failed.
 
