@@ -1,0 +1,18 @@
+---
+title: "Example"
+---
+
+This file contains some issues for the linter to identify.
+
+```{python}
+import random
+
+def unused_function():
+    print("This function is never called.")
+```
+
+There's some more issues below...
+
+```{python}
+spare_part = 123
+```

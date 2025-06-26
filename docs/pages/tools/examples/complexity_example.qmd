@@ -1,0 +1,44 @@
+---
+title: "Example"
+---
+
+This file contains some issues for the linter to identify.
+
+```{python}
+# Function with low complexity
+def simple_addition(a, b):
+    return a + b
+```
+
+There's another function to check below:
+
+```{python}
+# Function with moderate complexity
+def check_number(num, flag, extra):
+    if num > 100:
+        if flag:
+            if extra:
+                return "Huge and flagged and extra"
+            else:
+                return "Huge and flagged"
+        else:
+            if extra:
+                return "Huge and extra"
+            else:
+                return "Huge"
+    elif num > 50:
+        if flag:
+            return "Medium and flagged"
+        else:
+            return "Medium"
+    elif num > 10:
+        if extra:
+            return "Small and extra"
+        else:
+            return "Small"
+    else:
+        if flag or extra:
+            return "Tiny but special"
+        else:
+            return "Tiny"
+```
