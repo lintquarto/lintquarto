@@ -47,7 +47,7 @@ class Linters:
         ValueError
             If linter is not supported.
         """
-        if linter_name not in self.supported.keys():
+        if linter_name not in self.supported:
             raise ValueError(
                 f"Unsupported linter '{linter_name}'. Supported: " +
                 f"{', '.join(self.supported.keys())}"
