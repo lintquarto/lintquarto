@@ -4,7 +4,7 @@ project:
   render:
   - "*.qmd"
   - "!pages/tools/examples"
-  - "!pages/bts_examples"
+  - "!pages/behind_the_scenes"
 
 format:
   html:
