@@ -15,6 +15,14 @@ Before opening an issue, please search [existing issues](https://github.com/lint
     * Environment details (operating system, python version, dependencies).
     * Relevant files (e.g. problematic `.qmd` files).
 
+### Handling bug reports (for maintainers):
+
+* Confirm reproducibility by following the reported steps.
+* Label the issue appropriately (e.g. `bug`).
+* Request additional information if necessary.
+* Link related issues or pull requests.
+* One resolved, close the issue with a brief summary of the fix.
+
 <br>
 
 ## Workflow for code contributions (bug fixes, enhancements)
@@ -59,6 +67,14 @@ pip install -r requirements-dev.txt
 ```
 
 Quarto is using for building the documentation. It is a standalone tool and must be installed separately from Python packages. You will need to download and install quarto from https://quarto.org/docs/get-started/.
+
+#### Versions
+
+By default, contributors are encouraged to install and use the latest versions of development tools when working on the project. This approach helps keep the project compatible with current tooling and surfaces issues early.
+
+For contributors who need a fully reproducible and stable setup, a Conda environment file is provided: `requirements-stable.yml`. This file pins all development tool versions, including Python, so you can expect consistent behaviour across systems.
+
+To update the versions in this stable environment, run `conda update --all` and test thoroughly (running tests, building documentation), and updating the `.yml` file.
 
 ### Tests
 
