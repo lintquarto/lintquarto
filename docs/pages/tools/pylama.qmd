@@ -8,7 +8,13 @@ Aggregates results from multiple linters. By default, it runs pyflakes, pycodest
 #| echo: false
 # Import required packages
 import subprocess
-from tools_helpers import generate_html, print_quarto
+import sys
+
+# Add parent directory to sys.path
+sys.path.insert(0, "..")
+
+# Import the helper functions
+from helpers import generate_html, print_quarto
 ```
 
 ```{python}
