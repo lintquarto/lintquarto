@@ -1,5 +1,6 @@
 ---
 title: <br>Run linters and static type checkers on quarto `.qmd` files
+pagetitle: lintquarto
 authors:
   - name: Amy Heather
     url: https://github.com/amyheather

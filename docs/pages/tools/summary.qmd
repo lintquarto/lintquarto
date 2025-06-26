@@ -1,3 +1,7 @@
+---
+pagetitle: Summary
+---
+
 The `lintquarto` package enables you to run a range of linters and static type checkers on python code in Quarto `.qmd` files.
 
 This page provides an overview of the available tools.

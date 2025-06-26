@@ -21,7 +21,7 @@ generate_html(
 )
 ```
 
-## Example quarto `.qmd` file:
+## Example Quarto `.qmd` file:
 
 {{< downloadthis examples/complexity_example.qmd dname="complexity_example" label="Download the example" type="light" >}}
 
