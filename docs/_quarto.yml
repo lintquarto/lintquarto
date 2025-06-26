@@ -1,11 +1,16 @@
 project:
   type: website
   output-dir: _site
+  render:
+  - "*.qmd"
+  - "!pages/tools/examples"
 
 format:
   html:
     theme: minty
-    css: styles/sidebar.css
+    css:
+      - styles/sidebar.css
+      - styles/callouts.css
 
 website:
   title: "lintquarto"

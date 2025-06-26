@@ -1,0 +1,18 @@
+---
+title: "Flake8 example"
+---
+
+Markdown text.
+
+```{python}
+very_long_line = "This long string exceeds the maximum allowed characters per line."
+```
+
+Markdown text.
+
+```{python}
+# This is ignored
+r_variable = 3
+```
+
+Markdown text.
