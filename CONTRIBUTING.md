@@ -86,16 +86,29 @@ pytest
 
 ### Linting
 
+Bash scripts are provided for linting. To make them executable:
+
+```{.bash}
+chmod +x lint_package.sh
+chmod +x lint_docs.sh
+```
+
 To lint package:
 
 ```{.bash}
-bash lint_package.sh
+lint_package.sh
 ```
 
 To lint documentation:
 
 ```{.bash}
-bash lint_docs.sh
+lint_docs.sh
+```
+
+There is a pre-commit hook provided which will lint the package and documentation with every commit. To make it executable, run:
+
+```{.bash}
+pre-commit install
 ```
 
 ### Documentation
