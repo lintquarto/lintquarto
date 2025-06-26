@@ -17,7 +17,7 @@ Currently supported linters: [pylint](https://github.com/pylint-dev/pylint), [fl
 
 It also supports some static type checkers: [mypy](https://github.com/python/mypy), [pyright](https://github.com/microsoft/pyright), [pyrefly](https://github.com/facebook/pyrefly), and [pytype](https://github.com/google/pytype).
 
-[<kbd> <br> 🖱️ **View package documentation** <br> </kbd>](https://lintquarto.github.io/lintquarto/)
+[![Code licence](https://img.shields.io/badge/🖱️_Click_to_view_package_documentation-37a779?style=for-the-badge)](https://lintquarto.github.io/lintquarto/)
 
 <p align="center">
   <img src="https://github.com/lintquarto/lintquarto/raw/main/docs/images/linting.png" alt="Linting illustration" width="400"/>
