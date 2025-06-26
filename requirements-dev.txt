@@ -1,6 +1,0 @@
-flit
-jupyter
-pytest
-quartodoc
-twine
--e .[all]
