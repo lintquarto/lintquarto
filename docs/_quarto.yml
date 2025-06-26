@@ -4,6 +4,7 @@ project:
   render:
   - "*.qmd"
   - "!pages/tools/examples"
+  - "!pages/bts_examples"
 
 format:
   html:
