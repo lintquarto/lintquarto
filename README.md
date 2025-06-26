@@ -17,6 +17,8 @@ Currently supported linters: [pylint](https://github.com/pylint-dev/pylint), [fl
 
 It also supports some static type checkers: [mypy](https://github.com/python/mypy), [pyright](https://github.com/microsoft/pyright), [pyrefly](https://github.com/facebook/pyrefly), and [pytype](https://github.com/google/pytype).
 
+[<kbd> <br> View package documentation <br> </kbd>][https://lintquarto.github.io/lintquarto/]
+
 <p align="center">
   <img src="https://github.com/lintquarto/lintquarto/raw/main/docs/images/linting.png" alt="Linting illustration" width="400"/>
 </p>
@@ -104,7 +106,7 @@ Please cite the repository on GitHub, PyPI and/or Zenodo:
 >
 > Heather, A. (2025). lintquarto (v0.1.0). https://pypi.org/project/lintquarto/
 >
-> Heather, A. (2025). lintquarto (v0.1.0). TODO.
+> Heather, A. (2025). lintquarto (v0.1.0). https://doi.org/10.5281/zenodo.15731161.
 
 Citation instructions are also provided in `CITATION.cff`.
 
