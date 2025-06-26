@@ -17,6 +17,7 @@ dependencies:
   - pyrefly=0.21.0
   - pyright=1.1.402
   - pytest=8.4.1
+  - pytest-cov==6.2.1
   - python=3.11.13
   - pytype=2024.02.09
   - quartodoc=0.11.1
@@ -26,3 +27,4 @@ dependencies:
   - vulture=2.14
   - pip:
       - -e .
+      - genbadge==1.1.2

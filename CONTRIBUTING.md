@@ -54,8 +54,11 @@ git push origin my-feature
 If you want to contribute to `lintquarto` or run its tests, you'll need some additional tools:
 
 * **flit** (for packaging and publishing)
+* **genbadge** (to create a coverage badge for the README)
 * **jupyter** (for running python code in documentation)
+* **pre-commit** (to make pre-commit hook that lints files)
 * **pytest** (for running tests)
+* **pytest-cov** (to calculate coverage)
 * **twine** (for uploading to PyPI)
 * **quartodoc** (for generate API reference documentation)
 * `-e .[all]` (an editable install of the package and all supported linters)
@@ -78,10 +81,11 @@ To update the versions in this stable environment, run `conda update --all` and 
 
 ### Tests
 
-To run tests:
+To run tests (with coverage calculation and update of the README badge):
 
 ```{.bash}
-pytest
+pytest --cov --cov-report=xml
+genbadge coverage -i coverage.xml -o images/coverage-badge.svg
 ```
 
 ### Linting

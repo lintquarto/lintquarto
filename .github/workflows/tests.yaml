@@ -57,8 +57,17 @@ jobs:
         if: runner.os != 'Windows'
         run: pip install -r requirements-dev.txt
 
-      - name: Run tests
-        run: pytest
+      - name: Run tests with coverage
+        run: pytest --cov --cov-report=xml
 
-      - name: List the environment variables
-        run: env
+      # Only generate badge on ubuntu-latest to avoid conflicts
+      - name: Generate coverage badge (for-the-badge style)
+        if: matrix.os == 'ubuntu-latest'
+        run: genbadge coverage -i coverage.xml -o images/coverage-badge.svg
+
+      - name: Upload coverage badge
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-badge
+          path: images/coverage-badge.svg
