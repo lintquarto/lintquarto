@@ -6,7 +6,7 @@
 
 echo "Linting quarto files..."
 
-LINTERS=("ruff check" "pylint" "vulture" "radon cc")
+LINTERS=("ruff check" "flake8" "pylint" "vulture" "radon cc")
 
 FILES=$(find docs \
     -type f \
@@ -28,6 +28,9 @@ PYFILES=$(find docs -type d -name ".*" -prune -false -o -type f -name "*.py" -pr
 
 echo "Running ruff check..."
 ruff check $PYFILES
+
+# echo "Running flake8..."
+# flake8 $PYFILES
 
 echo "Running pylint..."
 pylint $PYFILES

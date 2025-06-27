@@ -3,6 +3,9 @@
 echo "Running ruff check..."
 ruff check src tests
 
+echo "Running flake8..."
+flake8 src tests
+
 echo "Running pylint..."
 pylint src tests
 
