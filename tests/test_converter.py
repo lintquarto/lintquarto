@@ -5,13 +5,14 @@ Tests for convert_qmd_to_py().
 from pathlib import Path
 import pytest
 
-from lintquarto.converter import convert_qmd_to_py
+from lintquarto.converter import convert_qmd_to_py, QmdToPyConverter
 
 
 # Test cases
 TEST_CASES = [
     {
         "qmd_filename": "simple.qmd",
+        "py_filename": "simple.py",
         "must_contain": [
             "import math",
             "x = 5",
@@ -26,6 +27,7 @@ TEST_CASES = [
     },
     {
         "qmd_filename": "mixedcontent.qmd",
+        "py_filename": "mixedcontent.py",
         "must_contain": [
             "import math",
             "Test function with docstring.",
@@ -60,7 +62,7 @@ def test_basic_conversion(case, tmp_path):
     # Get the directory of the current test file
     test_dir = Path(__file__).parent
     # Build the paths to the input and output files
-    qmd_file = test_dir / f"qmd/{case['qmd_filename']}"
+    qmd_file = test_dir / f"examples/{case['qmd_filename']}"
     output_py = tmp_path / "output.py"
 
     # Check that the test file exists
@@ -90,3 +92,71 @@ def test_basic_conversion(case, tmp_path):
     original_lines = len(qmd_content)
     converted_lines = len(py_content.split("\n")) - 1
     assert original_lines == converted_lines
+
+    # Path to the reference Python file
+    reference_py = Path(__file__).parent / f"examples/{case['py_filename']}"
+
+    # Check that the reference file exists
+    msg = f"Reference file {reference_py} does not exist."
+    assert reference_py.exists(), msg
+
+    # Read both files
+    generated_content = output_py.read_text(encoding="utf-8")
+    reference_content = reference_py.read_text(encoding="utf-8")
+
+    # Compare their contents
+    assert generated_content == reference_content, (
+        f"Generated file does not match reference for {case['py_filename']}"
+    )
+
+
+def test_empty():
+    """
+    Test that empty input returns empty output.
+    """
+    converter = QmdToPyConverter()
+    assert not converter.convert([])
+
+
+def test_markdown():
+    """
+    Test that markdown lines are converted to "# -".
+    """
+    converter = QmdToPyConverter()
+    assert converter.convert(["Some text", "More text"]) == ["# -", "# -"]
+
+
+CHUNK_START_CASES = [
+    {
+        "lines": ["```{python}",  "1+1", "```"],
+        "expected": ["# %% [python]", "1+1  # noqa: E305", "# -"]
+    },
+    {
+        "lines": ["```{python}", "def foo():"],
+        "expected": ["# %% [python]", "def foo():  # noqa: E302,E305"]
+    },
+    {
+        "lines": ["```{python}", "class foo:"],
+        "expected": ["# %% [python]", "class foo:  # noqa: E302,E305"]
+    }
+]
+
+
+@pytest.mark.parametrize("case", CHUNK_START_CASES)
+def test_python_chunk_start(case):
+    """
+    Test that Python chunk start if converted correctly.
+    """
+    converter = QmdToPyConverter()
+    assert converter.convert(case["lines"]) == case["expected"]
+
+
+def test_chunk_options():
+    """
+    Test that cells with chunk options at start are amended correctly.
+    """
+    converter = QmdToPyConverter()
+    lines = ["```{python}", " ", "#| echo: false", "#| output: asis", "1+1"]
+    expected = ["# %% [python]", " ", "# |echo: false", "# |output: asis",
+                "1+1  # noqa: E305"]
+    assert converter.convert(lines) == expected

@@ -39,6 +39,9 @@ class QmdToPyConverter:
         """
         Set-up the class.
         """
+        self.py_lines = []
+        self.in_python = False
+        self.in_chunk_options = False
         self.reset()
 
     def reset(self):
