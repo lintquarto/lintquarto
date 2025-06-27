@@ -24,11 +24,12 @@ class QmdToPyConverter:
     Attributes
     ----------
     py_lines : list
-        TODO
+        Stores the lines to be written to the output Python file.
     in_python : boolean
-        TODO
+        True if currently processing lines inside a Python code chunk.
     in_chunk_options : boolean
-        TODO
+        True if currently at the start of a code chunk, parsing Quarto chunk
+        options or leading blank lines.
 
     Notes
     -----
@@ -101,12 +102,23 @@ class QmdToPyConverter:
 
     def _handle_python_chunk(self, line):
         """
-        Handle code within a Python code chunk.
+        Process a line within a Python code chunk.
+
+        - Handles Quarto chunk options (lines starting with '#| '), converting
+        them to '# |'.
+        - Skips blank lines at the start of the chunk.
+        - For the first actual code line after options/blanks:
+            - Appends '# noqa: E305' to suppress false positives for missing
+            blank lines after previous cell's function/class.
+            - If the line starts with 'def' or 'class', also appends
+            '# noqa: E302' to suppress false positives for missing blank lines
+            before a function/class.
+        - All subsequent lines are appended unchanged.
 
         Parameters
         ----------
         line : str
-            Line to process.
+            The line to process.
         """
         if self.in_chunk_options:
             # If line is blank, just append it and keep looking for options
@@ -115,17 +127,24 @@ class QmdToPyConverter:
             else:
                 # Strip any blank spaces from start of line
                 stripped = line.lstrip()
-                # Check for "#|" and amend to "# |", preserving indentation
+                # Convert Quarto chunk option to '# |', preserving indentation
                 if stripped.startswith("#| "):
                     indent = line[:len(line) - len(stripped)]
                     modified_line = indent + "# |" + stripped[3:]
                     self.py_lines.append(modified_line)
-                # First line that's not an option or blank...
                 else:
+                    # First code line after options/blanks:
+                    # Always append '# noqa: E305' (never a real E305 here)
+                    # If it's a function/class definition, also append
+                    # '# noqa: E302'
+                    if re.match(r"^(def|class)\b", stripped):
+                        line = f"{line}  # noqa: E302,E305"
+                    else:
+                        line = f"{line}  # noqa: E305"
                     self.py_lines.append(line)
                     self.in_chunk_options = False
-        # For all other lines in the chunk after options, append as is
         else:
+            # After the first code line, append all lines unchanged
             self.py_lines.append(line)
 
 
