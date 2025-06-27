@@ -118,3 +118,9 @@ docs/pages/behind_the_scenes/file.qmd:10:0: C0116: Missing function or method do
 ------------------------------------------------------------------
 Your code has been rated at 3.33/10 (previous run: 3.33/10, +0.00)
 ```
+
+<br>
+
+## Find out more
+
+See the [API reference](api/index.qmd) for details on the functions and classes in this package.
