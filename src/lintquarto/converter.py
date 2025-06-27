@@ -151,6 +151,49 @@ class QmdToPyConverter:
             self.py_lines.append(line)
 
 
+def get_unique_filename(path):
+    """
+    Generate a unique file path by appending " (n)" before the file extension
+    if needed.
+
+    If the given path already exists, this function appends an incrementing
+    number in parentheses before the file extension (e.g., "file (1).py") until
+    an unused filename is found.
+
+    Parameters
+    ----------
+    path : str or Path
+        The initial file path to check.
+
+    Returns
+    -------
+    Path
+        A unique file path that does not currently exist.
+
+    Examples
+    --------
+    >>> get_unique_filename("script.py")
+    PosixPath('script.py')  # if 'script.py' does not exist
+    >>> get_unique_filename("script.py")
+    PosixPath('script (1).py')  # if 'script.py' exists
+    """
+    path = Path(path)
+    if not path.exists():
+        return path
+
+    stem = path.stem
+    suffix = path.suffix
+    parent = path.parent
+
+    n = 1
+    while True:
+        new_name = f"{stem} ({n}){suffix}"
+        new_path = parent / new_name
+        if not new_path.exists():
+            return new_path
+        n += 1
+
+
 def convert_qmd_to_py(qmd_path, output_path=None, verbose=False):
     """
     Convert a Quarto (.qmd) file to Python (.py) file, preserving line
@@ -164,6 +207,10 @@ def convert_qmd_to_py(qmd_path, output_path=None, verbose=False):
         Path for the output .py file. If None, uses qmd_path with .py suffix.
     verbose : bool, optional
         If True, print detailed progress information.
+
+    Returns
+    -------
+    None
 
     Examples
     --------
@@ -187,6 +234,9 @@ def convert_qmd_to_py(qmd_path, output_path=None, verbose=False):
         output_path = qmd_path.with_suffix(".py")
     else:
         output_path = Path(output_path)
+
+    # Automatically generate a unique filename if needed
+    output_path = get_unique_filename(output_path)
 
     if verbose:
         print(f"Converting {qmd_path} to {output_path}")
