@@ -142,11 +142,45 @@ ul.task-list li input[type="checkbox"] {
 <h1>Changelog</h1>
 <p>All notable changes to this project are documented.</p>
 <p>The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>, and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>. Dates formatted as YYYY-MM-DD as per <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO standard</a>.</p>
+<section id="v0.2.0---2025-06-27" class="level2">
+<h2 class="anchored" data-anchor-id="v0.2.0---2025-06-27">v0.2.0 - 2025-06-27</h2>
+<p>Major updates include expanded linter support, new Quarto documentation, and new CI/CD workflows.</p>
+<section id="added" class="level3">
+<h3 class="anchored" data-anchor-id="added">Added</h3>
+<ul>
+<li><strong>Linter support:</strong> Added support for new Python linters: <code>pyflakes</code>, <code>ruff</code>, <code>pylama</code>, <code>vulture</code>, <code>pycodestyle</code>, <code>pyright</code>, <code>pyrefly</code> and <code>pytype</code>.</li>
+<li><strong>Documentation:</strong>
+<ul>
+<li>Introduced Quarto documentation site with getting started, API reference, user guide and detailed linter pages.</li>
+<li>Add the <code>downloadthis</code> extension to allow download buttons in <code>.qmd</code> files.</li>
+<li>Add a Makefile for building and previewing the documentation.</li>
+</ul></li>
+<li><strong>CI/CD:</strong> Added GitHub actions to build documentation and run tests.</li>
+<li><strong>Linting the package:</strong> Added scripts and a pre-commit hook to lint the package code and documentation.</li>
+<li><strong>Environment:</strong> Created a stable version of the environment with pinned versions using Conda.</li>
+</ul>
+</section>
+<section id="changed" class="level3">
+<h3 class="anchored" data-anchor-id="changed">Changed</h3>
+<ul>
+<li><strong>Refactoring:</strong> Refactored and simplified main code and converter logic, and linted the package.</li>
+<li><strong>README:</strong> Updated with new buttons and shield badges.</li>
+<li><strong>CONTRIBUTING:</strong> Add instructions on releases, bug reports, dependency versions, testing, and linting.</li>
+<li><strong>Environment:</strong> Add <code>jupyter</code>, <code>genbadge</code>, <code>pre-commit</code>, <code>pytest-cov</code> and <code>quartodoc</code> to the environment.</li>
+</ul>
+</section>
+<section id="fixed" class="level3">
+<h3 class="anchored" data-anchor-id="fixed">Fixed</h3>
+<ul>
+<li><strong>README:</strong> Corrected links (PyPI, Zenodo, external images).</li>
+</ul>
+</section>
+</section>
 <section id="v0.1.0---2025-06-24" class="level2">
 <h2 class="anchored" data-anchor-id="v0.1.0---2025-06-24">v0.1.0 - 2025-06-24</h2>
 <p>🌱 First release.</p>
-<section id="added" class="level3">
-<h3 class="anchored" data-anchor-id="added">Added</h3>
+<section id="added-1" class="level3">
+<h3 class="anchored" data-anchor-id="added-1">Added</h3>
 <ul>
 <li>Lint Quarto markdown (<code>.qmd</code>) files using <code>pylint</code>, <code>flake8</code>, or <code>mypy</code>.</li>
 </ul>
