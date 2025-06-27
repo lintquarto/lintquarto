@@ -54,8 +54,11 @@ git push origin my-feature
 If you want to contribute to `lintquarto` or run its tests, you'll need some additional tools:
 
 * **flit** (for packaging and publishing)
+* **genbadge** (to create a coverage badge for the README)
 * **jupyter** (for running python code in documentation)
+* **pre-commit** (to make pre-commit hook that lints files)
 * **pytest** (for running tests)
+* **pytest-cov** (to calculate coverage)
 * **twine** (for uploading to PyPI)
 * **quartodoc** (for generate API reference documentation)
 * `-e .[all]` (an editable install of the package and all supported linters)
@@ -78,10 +81,38 @@ To update the versions in this stable environment, run `conda update --all` and 
 
 ### Tests
 
-To run tests:
+To run tests (with coverage calculation and update of the README badge):
 
 ```{.bash}
-pytest
+pytest --cov --cov-report=xml
+genbadge coverage -i coverage.xml -o images/coverage-badge.svg
+```
+
+### Linting
+
+Bash scripts are provided for linting. To make them executable:
+
+```{.bash}
+chmod +x lint_package.sh
+chmod +x lint_docs.sh
+```
+
+To lint package:
+
+```{.bash}
+lint_package.sh
+```
+
+To lint documentation:
+
+```{.bash}
+lint_docs.sh
+```
+
+There is a pre-commit hook provided which will lint the package and documentation with every commit. To make it executable, run:
+
+```{.bash}
+pre-commit install
 ```
 
 ### Documentation

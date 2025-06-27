@@ -27,7 +27,7 @@ Install and run checks in minutes. See [**getting started**](pages/get_started.q
 
 ## Variety of tools
 
-Try out a range of linters and type checkers, each with ready-to-run examples. Discover what's available in the [**user guide**](pages/api/index.qmd).
+Try out a range of linters and type checkers, each with ready-to-run examples. Discover what's available in the [**user guide**](pages/tools/summary.qmd).
 :::
 ::::
 

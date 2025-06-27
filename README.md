@@ -2,11 +2,11 @@
 
 # lintquarto
 
-![Code licence](https://img.shields.io/badge/🛡️_Code_licence-MIT-8a00c2?style=for-the-badge&labelColor=gray)
-[![ORCID](https://img.shields.io/badge/ORCID_Amy_Heather-0000--0002--6596--3479-A6CE39?style=for-the-badge&logo=orcid&logoColor=white)](https://orcid.org/0000-0002-6596-3479)
-[![PyPI](https://img.shields.io/pypi/v/lintquarto?style=for-the-badge&labelColor=gray)](https://pypi.org/project/lintquarto/)
-[![DOI](https://img.shields.io/badge/DOI-10.5281/zenodo.15731161-486CAC?style=for-the-badge&logoColor=white)](https://doi.org/10.5281/zenodo.15731161)
-
+![Code licence](https://img.shields.io/badge/🛡️_Code_licence-MIT-8a00c2?&labelColor=gray)
+[![ORCID](https://img.shields.io/badge/ORCID_Amy_Heather-0000--0002--6596--3479-A6CE39?&logo=orcid&logoColor=white)](https://orcid.org/0000-0002-6596-3479)
+[![PyPI](https://img.shields.io/pypi/v/lintquarto?&labelColor=gray)](https://pypi.org/project/lintquarto/)
+[![DOI](https://img.shields.io/badge/DOI-10.5281/zenodo.15731161-486CAC?&logoColor=white)](https://doi.org/10.5281/zenodo.15731161)
+[![Coverage](coverage-badge.svg)](https://github.com/lintquarto/lintquarto/actions/workflows/tests.yaml)
 </div>
 
 <br>

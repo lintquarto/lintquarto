@@ -1,6 +1,9 @@
 flit
 jupyter
+genbadge
+pre-commit
 pytest
+pytest-cov
 quartodoc
 twine
 -e .[all]

@@ -1,14 +1,42 @@
 #!/bin/bash
 
-# Unique set of linters to run (each checking different things)
-LINTERS=("ruff check" "pylint" "vulture" "radon cc")
+# ----------------------------------------------------------------------------
+# Run lintquarto on .qmd files in docs/
+# ----------------------------------------------------------------------------
 
-# List of directories to check
-DIRS=("src" "tests")
+echo "Linting quarto files..."
+
+LINTERS=("ruff check" "flake8" "pylint" "vulture" "radon cc")
+
+FILES=$(find docs \
+    -type f \
+    ! -path "docs/pages/api/*" \
+    ! -path "docs/pages/tools/examples/*" \
+    ! -path "docs/pages/behind_the_scenes/*")
 
 for linter in "${LINTERS[@]}"; do
     echo "Running $linter..."
-    for dir in "${DIRS[@]}"; do
-        lintquarto $linter "$dir"
-    done
+    lintquarto $linter $FILES
 done
+
+# ----------------------------------------------------------------------------
+# Run linters on .py files in docs/
+# ----------------------------------------------------------------------------
+
+# Find all .py files in docs/, ignoring directories starting with .
+PYFILES=$(find docs -type d -name ".*" -prune -false -o -type f -name "*.py" -print)
+
+echo "Running ruff check..."
+ruff check $PYFILES
+
+# echo "Running flake8..."
+# flake8 $PYFILES
+
+echo "Running pylint..."
+pylint $PYFILES
+
+echo "Running radon cc..."
+radon cc $PYFILES
+
+echo "Running vulture..."
+vulture $PYFILES vulture/whitelist.py

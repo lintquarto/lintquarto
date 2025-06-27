@@ -6,6 +6,7 @@ Finds unused code.
 
 ```{python}
 #| echo: false
+# pylint: disable=missing-module-docstring
 # Import required packages
 import subprocess
 import sys
@@ -14,6 +15,8 @@ import sys
 sys.path.insert(0, "..")
 
 # Import the helper functions
+# pylint: disable = import-error, wrong-import-position
+# noqa: E402
 from helpers import generate_html, print_quarto
 ```
 
@@ -55,7 +58,7 @@ lintquarto vulture unusedcode_example.qmd
 #| echo: false
 result = subprocess.run(
     ["lintquarto", "vulture", "examples/unusedcode_example.qmd"],
-    capture_output=True, text=True
+    capture_output=True, text=True, check=False
 )
 print(result.stdout)
 ```
