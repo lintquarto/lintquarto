@@ -129,7 +129,7 @@ If you are a maintainer and need to publish a new release:
 
 1. Update the `CHANGELOG.md`.
 
-2. Update the version number in `__init__.py`, `CITATION.cff` and `README.md` citation.
+2. Update the version number in `__init__.py`, `CITATION.cff` and `README.md` citation, and update the date in `CITATION.cff`.
 
 3. Create a release on GitHub, which will automatically archive to Zenodo.
 

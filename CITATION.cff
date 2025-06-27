@@ -14,14 +14,16 @@ authors:
     affiliation: University of Exeter
     orcid: 'https://orcid.org/0000-0002-6596-3479'
 repository-code: 'https://github.com/lintquarto/lintquarto'
-abstract: Package for running linters on quarto .qmd files.
+abstract: Package for running linters and static type checkers on quarto .qmd files.
 keywords:
   - lint
+  - linting
+  - linter
+  - linters
   - quarto
   - qmd
-  - pylint
-  - flake8
-  - mypy
+  - static-type-checking
+  - quartodoc
 license: MIT
-version: 0.1.0
-date-released: '2025-06-24'
+version: 0.2.0
+date-released: '2025-06-27'
