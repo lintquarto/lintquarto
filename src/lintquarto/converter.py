@@ -17,6 +17,10 @@ def _qmd_lines_to_py_lines(qmd_lines):
     """
     Convert lines from a .qmd file to .py lines, preserving alignment.
 
+    Amends all consecutive Quarto code chunk option lines ("#| ...") after a
+    Python code chunk marker, adding a space to "# |" to avoid linting errors.
+    Handles leading indentation and blank lines.
+
     Arguments
     ---------
     qmd_lines : list
@@ -34,22 +38,49 @@ def _qmd_lines_to_py_lines(qmd_lines):
     """
     py_lines = []
     in_python = False
+    in_chunk_options = False
+
     for line in qmd_lines:
         # Remove the trailing new line
         original_line = line.rstrip("\n")
+
         # Check if the current line is the start of a python code chunk
         if re.match(r"^```\{python\}", original_line):
             in_python = True
+            in_chunk_options = True
             py_lines.append("# %% [python]")
             continue
-        # If line is "```" then mark as outside (as may be end of python)
+
+        # Detect the end of any code chunk (e.g., ```)
         if original_line.strip() == "```":
             in_python = False
+            in_chunk_options = False
             py_lines.append("# -")
             continue
-        # Store original or blank line depending on state
+
+        # If inside a Python code chunk...
         if in_python:
-            py_lines.append(original_line)
+            if in_chunk_options:
+                # If line is blank, just append it and keep looking for options
+                if original_line.strip() == "":
+                    py_lines.append(original_line)
+                else:
+                    # Strip any blank spaces from start of line
+                    stripped = original_line.lstrip()
+                    # Check for "#|" and amend to "# |", preserving indentation
+                    if stripped.startswith("#| "):
+                        indent = original_line[
+                            :len(original_line) - len(stripped)]
+                        modified_line = indent + "# |" + stripped[3:]
+                        py_lines.append(modified_line)
+                    # First line that's not an option or blank, append as-is
+                    else:
+                        py_lines.append(original_line)
+                        in_chunk_options = False
+            # For all other lines in the chunk, append as-is
+            else:
+                py_lines.append(original_line)
+        # Outside Python code chunk, mark with "# -"
         else:
             py_lines.append("# -")
     return py_lines
