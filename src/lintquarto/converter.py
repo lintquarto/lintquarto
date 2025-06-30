@@ -210,7 +210,8 @@ def convert_qmd_to_py(qmd_path, output_path=None, verbose=False):
 
     Returns
     -------
-    None
+    output_path : Path
+        Path for the output .py file.
 
     Examples
     --------
@@ -276,6 +277,8 @@ def convert_qmd_to_py(qmd_path, output_path=None, verbose=False):
     # pylint: disable=broad-except
     except Exception as e:
         print(f"Error during conversion: {e}")
+        return None
+    return output_path
 
 
 # To ensure it executes if run from terminal:

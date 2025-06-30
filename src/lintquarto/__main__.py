@@ -61,9 +61,12 @@ def process_qmd(
         return 1
 
     # Convert the .qmd file to a .py file
-    py_file = qmd_path.with_suffix(".py")
     try:
-        convert_qmd_to_py(qmd_path=str(qmd_path), verbose=verbose)
+        py_file = convert_qmd_to_py(qmd_path=str(qmd_path), verbose=verbose)
+        if py_file is None:
+            print(f"Error: Failed to convert {qmd_file} to .py",
+                  file=sys.stderr)
+            return 1
     # Intentional broad catch for unknown conversion errors
     # pylint: disable=broad-except
     except Exception as e:
