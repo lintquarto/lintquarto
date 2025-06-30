@@ -35,12 +35,13 @@ lintquarto --version
 ## Basic usage
 
 ```{.bash}
-lintquarto [linter] [files or folders] [-k | --keep-temp]
+lintquarto [linter] [files or folders] [-e paths | --exclude paths] [-k | --keep-temp]
 ```
 
 * **[linter]** - Choose one of the supported linters: `pylint`, `flake8`, `pyflakes`, `ruff`, `pylama`, `vulture`, `radon`, `pycodestyle`, `mypy`, `pyright`, `pyrefly`, or `pytype`
 
 * **[files or folders]** - One or more `.qmd` files or directories to lint.
+* **-e paths, --exclude paths** - Comma-separated list of files and/or directories to exclude from linting.
 * **-k, --keep-temp** - Keep the temporary `.py` files created during linting (for debugging).
 
 Only one linter can be specified per command. Passing extra arguments directly to linters is not supported. Only `.qmd` files are processed.
@@ -79,4 +80,17 @@ Keep temporary `.py` files after linting (with `pylint`)
 
 ```{.bash}
 lintquarto pylint . -k
+```
+
+Lint all files in current directory (using `ruff`):
+
+* Excluding folders `examples/` and `ignore/`, or-
+* Excluding a specific file `analysis/test.qmd`.
+
+```{.bash}
+lintquarto ruff . -e examples,ignore
+```
+
+```{.bash}
+lintquarto ruff . -e analysis/test.qmd
 ```
