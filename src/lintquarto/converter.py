@@ -158,9 +158,9 @@ class QmdToPyConverter:
                     # '# noqa: E302'
                     # Also suppress line length warning if under limit before
                     # the noqa comment is added
-                    len_detect = LineLengthDetector(linter=self.linter)
-                    max_line = len_detect.get_line_length()
                     if self.linter in ["flake8", "ruff", "pycodestyle"]:
+                        len_detect = LineLengthDetector(linter=self.linter)
+                        max_line = len_detect.get_line_length()
                         if re.match(r"^(def|class)\b", stripped):
                             if len(line) <= max_line:
                                 line = f"{line}  # noqa: E302,E305,E501"
