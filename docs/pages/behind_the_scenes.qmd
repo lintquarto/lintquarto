@@ -105,7 +105,7 @@ The lint results are then print to the terminal.
 #| echo: false
 result = subprocess.run(
     ["lintquarto", "pylint", "behind_the_scenes/file.qmd"],
-    capture_output=True, text=True
+    capture_output=True, text=True, check=False
 )
 print(result.stdout)
 ```
