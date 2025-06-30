@@ -62,7 +62,8 @@ def process_qmd(
 
     # Convert the .qmd file to a .py file
     try:
-        py_file = convert_qmd_to_py(qmd_path=str(qmd_path), verbose=verbose)
+        py_file = convert_qmd_to_py(
+            qmd_path=str(qmd_path), linter=linter, verbose=verbose)
         if py_file is None:
             print(f"Error: Failed to convert {qmd_file} to .py",
                   file=sys.stderr)
