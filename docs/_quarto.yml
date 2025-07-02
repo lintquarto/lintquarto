@@ -89,6 +89,11 @@ quartodoc:
       package: lintquarto.linters
       contents:
         - Linters
+    - title: Line length module
+      desc: "Class to detect configured line length."
+      package: lintquarto.linelength
+      contents:
+        - LineLengthDetector
     - title: Args module
       desc: "Class which extends `argparse.ArgumentParser` to provide user-friendly error messages and help text when incorrect command-line arguments are supplied."
       package: lintquarto.args
