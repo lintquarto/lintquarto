@@ -6,7 +6,7 @@
 [![ORCID](https://img.shields.io/badge/ORCID_Amy_Heather-0000--0002--6596--3479-A6CE39?&logo=orcid&logoColor=white)](https://orcid.org/0000-0002-6596-3479)
 [![PyPI](https://img.shields.io/pypi/v/lintquarto?&labelColor=gray)](https://pypi.org/project/lintquarto/)
 [![DOI](https://img.shields.io/badge/DOI-10.5281/zenodo.15731161-486CAC?&logoColor=white)](https://doi.org/10.5281/zenodo.15731161)
-[![Coverage](coverage-badge.svg)](https://github.com/lintquarto/lintquarto/actions/workflows/tests.yaml)
+[![Coverage](https://github.com/lintquarto/lintquarto/raw/main/coverage-badge.svg)](https://github.com/lintquarto/lintquarto/actions/workflows/tests.yaml)
 </div>
 
 <br>
@@ -46,12 +46,13 @@ pip install lintquarto[all]
 ### Usage
 
 ```{.bash}
-lintquarto [linter] [files or folders] [-k | --keep-temp]
+lintquarto [linter] [files or folders] [-e paths | --exclude paths] [-k | --keep-temp]
 ```
 
 * **[linter]** - Choose one of the supported linters: `pylint`, `flake8`, `pyflakes`, `ruff`, `pylama`, `vulture`, `radon`, `pycodestyle`, `mypy`, `pyright`, `pyrefly`, or `pytype`
 
 * **[files or folders]** - One or more `.qmd` files or directories to lint.
+* **-e paths, --exclude paths** - Comma-separated list of files and/or directories to exclude from linting.
 * **-k, --keep-temp** - Keep the temporary `.py` files created during linting (for debugging).
 
 Only one linter can be specified per command. Passing extra arguments directly to linters is not supported. Only `.qmd` files are processed.
@@ -88,6 +89,19 @@ Keep temporary `.py` files after linting (with `pylint`)
 
 ```{.bash}
 lintquarto pylint . -k
+```
+
+Lint all files in current directory (using `ruff`):
+
+* Excluding folders `examples/` and `ignore/`, or-
+* Excluding a specific file `analysis/test.qmd`.
+
+```{.bash}
+lintquarto ruff . -e examples,ignore
+```
+
+```{.bash}
+lintquarto ruff . -e analysis/test.qmd
 ```
 
 <br>

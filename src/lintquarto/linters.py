@@ -19,7 +19,9 @@ class Linters:
         Initialise Linters instance.
         """
         self.supported = {
-            "pylint": ["pylint"],
+            # For pylint, disable missing-module-docstring (C0114) as this will
+            # never be relevant for a quarto file.
+            "pylint": ["pylint", "--disable=C0114"],
             "flake8": ["flake8"],
             "pyflakes": ["pyflakes"],
             "ruff": ["ruff", "check"],  # To specify linter (not formatter)

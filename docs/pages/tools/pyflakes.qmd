@@ -16,8 +16,7 @@ sys.path.insert(0, "..")
 
 # Import the helper functions
 # pylint: disable = import-error, wrong-import-position
-# noqa: E402
-from helpers import generate_html, print_quarto
+from helpers import generate_html, print_quarto  # noqa: E402
 ```
 
 ```{python}

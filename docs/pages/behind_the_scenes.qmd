@@ -101,22 +101,13 @@ It stores the output of the linter. Then it replaces any instance of the tempora
 
 The lint results are then print to the terminal.
 
-<!--```{python}
+```{python}
 #| echo: false
 result = subprocess.run(
     ["lintquarto", "pylint", "behind_the_scenes/file.qmd"],
-    capture_output=True, text=True
+    capture_output=True, text=True, check=False
 )
 print(result.stdout)
-```-->
-
-```{.bash}
-************* Module file
-docs/pages/behind_the_scenes/file.qmd:1:0: C0114: Missing module docstring (missing-module-docstring)
-docs/pages/behind_the_scenes/file.qmd:10:0: C0116: Missing function or method docstring (missing-function-docstring)
-
-------------------------------------------------------------------
-Your code has been rated at 3.33/10 (previous run: 3.33/10, +0.00)
 ```
 
 <br>

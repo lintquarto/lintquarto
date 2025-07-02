@@ -4,6 +4,8 @@
 
 Modern, ultra-fast linter that implements checks from Flake8 and some other popular plugins.
 
+Ruff runs as a code formatter, but it's linter will not report every issue that can be fixed by its formatter. Several stylistic issues are handled silently by the formatter and are not surfaced as lint errors. This means Ruff's linter is [intentionally more restricted](https://github.com/astral-sh/ruff/issues/8232) in scope than it's formatter.
+
 ```{python}
 #| echo: false
 # pylint: disable=missing-module-docstring
@@ -16,8 +18,7 @@ sys.path.insert(0, "..")
 
 # Import the helper functions
 # pylint: disable = import-error, wrong-import-position
-# noqa: E402
-from helpers import generate_html, print_quarto
+from helpers import generate_html, print_quarto  # noqa: E402
 ```
 
 ```{python}

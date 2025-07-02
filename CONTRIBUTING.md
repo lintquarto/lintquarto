@@ -81,11 +81,10 @@ To update the versions in this stable environment, run `conda update --all` and 
 
 ### Tests
 
-To run tests (with coverage calculation and update of the README badge):
+To run tests (with coverage calculation):
 
 ```{.bash}
-pytest --cov --cov-report=xml
-genbadge coverage -i coverage.xml -o images/coverage-badge.svg
+pytest --cov
 ```
 
 ### Linting
