@@ -304,9 +304,11 @@ def convert_qmd_to_py(qmd_path, linter, output_path=None, verbose=False):
     # Error messages if issues finding/accessing files, or otherwise.
     except FileNotFoundError:
         print(f"Error: Input file '{qmd_path}' not found")
+        return None
     except PermissionError:
         print(f"Error: Permission denied accessing '{qmd_path}' " +
               f"or '{output_path}'")
+        return None
     # Intentional broad catch for unexpected conversion errors
     # pylint: disable=broad-except
     except Exception as e:
