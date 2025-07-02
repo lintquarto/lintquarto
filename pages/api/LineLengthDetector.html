@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>flake8 – lintquarto</title>
+<title>linelengthdetector – lintquarto</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../pages/tools/pycodestyle.html" rel="next">
-<link href="../../pages/tools/summary.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -76,7 +74,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-bef4a5fac71b4dd062ff400ccab0e856.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/quarto-contrib/downloadthis-1.9.1/downloadthis.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -110,7 +107,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../../styles/callouts.css">
 </head>
 
-<body class="nav-sidebar docked nav-fixed fullcontent quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -132,7 +129,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Getting started</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../pages/tools/summary.html" aria-current="page"> 
+    <a class="nav-link" href="../../pages/tools/summary.html"> 
 <span class="menu-text">User guide</span></a>
   </li>  
   <li class="nav-item">
@@ -164,222 +161,103 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/tools/flake8.html"><strong>General linters</strong></a></li><li class="breadcrumb-item"><a href="../../pages/tools/flake8.html">flake8</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-    </div>
-  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../pages/tools/summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><strong>Summary</strong></span></a>
-  </div>
-</li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text"><strong>General linters</strong></span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../pages/tools/flake8.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">flake8</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../pages/tools/pycodestyle.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">pycodestyle</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../pages/tools/pyflakes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">pyflakes</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../pages/tools/pylama.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">pylama</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../pages/tools/pylint.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">pylint</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../pages/tools/ruff.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">ruff</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text"><strong>Speciality linters</strong></span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../pages/tools/radon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">radon</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../pages/tools/vulture.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">vulture</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text"><strong>Static type checkers</strong></span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../pages/tools/mypy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">mypy</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../pages/tools/pyrefly.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">pyrefly</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../pages/tools/pyright.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">pyright</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../pages/tools/pytype.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">pytype</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/tools/flake8.html"><strong>General linters</strong></a></li><li class="breadcrumb-item"><a href="../../pages/tools/flake8.html">flake8</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
 
-<hr style="height:0pt; visibility:hidden;">
-<section id="flake8" class="level1">
-<h1>flake8</h1>
-<p>Lightweight tool focused on PEP-8 style, basic errors, and code complexity.</p>
-<div style="display: flex; gap: 1em; margin-bottom: 1em;">
-<p><a href="https://pypi.org/project/flake8/" target="_blank" style="text-decoration: none;"> <span style="display: inline-flex; align-items: center; background:
-    #3775A9; color: #fff; border-radius: 20px; padding: 0.4em 1em;
-    # font-weight: 600; gap: 0.5em;"> <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/pypi.svg" alt="PyPI" width="20" height="20" style="filter: brightness(0)
-      invert(1);"> View on PyPI </span> </a> <a href="https://github.com/pycqa/flake8" target="_blank" style="text-decoration: none;"> <span style="display: inline-flex; align-items: center; background: #000;
-    color: #fff; border-radius: 20px; padding: 0.4em 1em; font-weight: 600;
-    gap: 0.5em;"> <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg" alt="GitHub" width="20" height="20" style="filter: brightness(0)
-      invert(1);"> View on GitHub </span> </a> <a href="https://anaconda.org/conda-forge/flake8" target="_blank" style="text-decoration: none;"> <span style="display: inline-flex; align-items: center;
-  background: #3EB049; color: #fff; border-radius: 20px; padding: 0.4em 1em;
-  font-weight: 600; gap: 0.5em;"> <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/anaconda.svg" alt="Conda" width="20" height="20" style="filter: brightness(0)
-    invert(1);"> View on Conda </span> </a></p>
-</div>
-<section id="example-quarto-.qmd-file" class="level2">
-<h2 class="anchored" data-anchor-id="example-quarto-.qmd-file">Example Quarto <code>.qmd</code> file:</h2>
-<p><a href="#dnldts12132" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgdG8gaWRlbnRpZnkuCgpgYGB7cHl0aG9ufQp2ZXJ5X2xvbmdfbGluZSA9ICJUaGlzIGxvbmcgc3RyaW5nIGV4Y2VlZHMgdGhlIG1heGltdW0gYWxsb3dlZCBjaGFyYWN0ZXJzIHBlciBsaW5lLiIKYGBgCgpUaGVyZSdzIHNvbWUgbW9yZSBpc3N1ZXMgYmVsb3cuLi4KCmBgYHtweXRob259CmRlZiBhZGRfbnVtYmVycyhhLCBiKToKICAgIHJldHVybiBhICsgYgoKYWRkX251bWJlcnMoMywgNSkKCmltcG9ydCBzeXMKYGBg').then(res => res.blob()).then(blob => {
-      const downloadURL = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      document.body.appendChild(a);
-      a.href = downloadURL;
-      a.download = 'general_example.qmd'; a.click();
-      window.URL.revokeObjectURL(downloadURL);
-      document.body.removeChild(a);
-        });"><button class="btn btn-light downloadthis  " id="dnldts12132"><i class="bi bi-download"></i> Download the example </button></a></p>
-<div class="pale-grey">
-<div id="589d9266" class="cell" data-execution_count="3">
-<div class="cell-output cell-output-stdout">
-<pre><code>1:     ---
-2:     title: "Example"
-3:     ---
-4:     
-5:     This file contains some issues for the linter to identify.
-6:     
-7:     ```{python}
-8:     very_long_line = "This long string exceeds the maximum allowed characters per line."
-9:     ```
-10:    
-11:    There's some more issues below...
-12:    
-13:    ```{python}
-14:    def add_numbers(a, b):
-15:        return a + b
-16:    
-17:    add_numbers(3, 5)
-18:    
-19:    import sys
-20:    ```</code></pre>
-</div>
-</div>
-</div>
+<section id="lintquarto.linelength.LineLengthDetector" class="level1">
+<h1>LineLengthDetector</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>linelength.LineLengthDetector(linter, start_dir<span class="op">=</span><span class="st">'.'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Detect the configured line length for a given Python linter.</p>
+<p>This class searches for relevant configuration files in the directory tree, extracts the maximum line length setting for the specified linter, and returns the default value if no configuration is found.</p>
+<section id="attributes" class="level2 doc-section doc-section-attributes">
+<h2 class="doc-section doc-section-attributes anchored" data-anchor-id="attributes">Attributes</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 8%">
+<col style="width: 78%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>linter</td>
+<td>str</td>
+<td>The name of the linter to check (“flake8”, “pycodestyle”, “ruff”)</td>
+</tr>
+<tr class="even">
+<td>defaults</td>
+<td>dict</td>
+<td>The default maximum line length for each linter.</td>
+</tr>
+<tr class="odd">
+<td>start_dir</td>
+<td>str</td>
+<td>The directory from which to start searching for configuration files.</td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="run-flake8-using-lintquarto" class="level2">
-<h2 class="anchored" data-anchor-id="run-flake8-using-lintquarto">Run flake8 using <code>lintquarto</code></h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> flake8 general_example.qmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="pale-green">
-<style>
-.cell-output-stdout code {
-  word-break: break-word !important;
-  white-space: pre-wrap !important;
-}
-</style>
-<div id="7754dbd1" class="cell" data-execution_count="4">
-<div class="cell-output cell-output-stdout">
-<pre><code>examples/general_example.qmd:8:80: E501 line too long (98 &gt; 79 characters)
-examples/general_example.qmd:17:1: E305 expected 2 blank lines after class or function definition, found 1
-examples/general_example.qmd:19:1: F401 'sys' imported but unused
-examples/general_example.qmd:19:1: E402 module level import not at top of file
-</code></pre>
-</div>
-</div>
-</div>
+<section id="notes" class="level2 doc-section doc-section-notes">
+<h2 class="doc-section doc-section-notes anchored" data-anchor-id="notes">Notes</h2>
+<p>Adapted from code generated by Perplexity.</p>
+</section>
+<section id="methods" class="level2">
+<h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="#lintquarto.linelength.LineLengthDetector.get_line_length">get_line_length</a></td>
+<td>Get the configured maximum line length for the specified linter.</td>
+</tr>
+</tbody>
+</table>
+<section id="lintquarto.linelength.LineLengthDetector.get_line_length" class="level3">
+<h3 class="anchored" data-anchor-id="lintquarto.linelength.LineLengthDetector.get_line_length">get_line_length</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>linelength.LineLengthDetector.get_line_length()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Get the configured maximum line length for the specified linter.</p>
+<section id="returns" class="level4 doc-section doc-section-returns">
+<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns">Returns</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td>int</td>
+<td>The maximum line length.</td>
+</tr>
+</tbody>
+</table>
 
 
+</section>
+</section>
 </section>
 </section>
 
@@ -783,18 +661,6 @@ examples/general_example.qmd:19:1: E402 module level import not at top of file
     }
   });
   </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="../../pages/tools/summary.html" class="pagination-link" aria-label="**Summary**">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><strong>Summary</strong></span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="../../pages/tools/pycodestyle.html" class="pagination-link" aria-label="pycodestyle">
-        <span class="nav-page-text">pycodestyle</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 
 

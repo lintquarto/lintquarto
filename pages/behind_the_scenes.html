@@ -225,7 +225,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="column" style="width:49%;">
 <p>Quarto <code>.qmd</code> file:</p>
 <div class="pale-grey">
-<div id="527e77a3" class="cell" data-execution_count="2">
+<div id="38e185e5" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-stdout">
 <pre><code>1:     ---
 2:     Title: Example Quarto file
@@ -266,7 +266,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div><div class="column" style="width:49%;">
 <p>Python <code>.py</code> file:</p>
 <div class="pale-grey">
-<div id="a20158ea" class="cell" data-execution_count="3">
+<div id="d37e62ca" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
 <pre><code>1:     # -
 2:     # -
@@ -315,7 +315,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   white-space: pre-wrap !important;
 }
 </style>
-<div id="4a9c5d82" class="cell" data-execution_count="4">
+<div id="ef529c43" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <pre><code>************* Module file
 behind_the_scenes/file.py:1:0: C0114: Missing module docstring (missing-module-docstring)
@@ -329,20 +329,18 @@ Your code has been rated at 3.33/10
 </div>
 <p>It stores the output of the linter. Then it replaces any instance of the temporary file.py name in the output, with the original file.qmd name.</p>
 <p>The lint results are then print to the terminal.</p>
-<!--```{python}
-#| echo: false
-result = subprocess.run(
-    ["lintquarto", "pylint", "behind_the_scenes/file.qmd"],
-    capture_output=True, text=True
-)
-print(result.stdout)
-```-->
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">*************</span> Module file</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docs/pages/behind_the_scenes/file.qmd:1:0:</span> C0114: Missing module docstring <span class="er">(</span><span class="ex">missing-module-docstring</span><span class="kw">)</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">docs/pages/behind_the_scenes/file.qmd:10:0:</span> C0116: Missing function or method docstring <span class="er">(</span><span class="ex">missing-function-docstring</span><span class="kw">)</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">------------------------------------------------------------------</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Your</span> code has been rated at 3.33/10 <span class="er">(</span><span class="ex">previous</span> run: 3.33/10, +0.00<span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e9509554" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-stdout">
+<pre><code>************* Module file (1)
+behind_the_scenes/file (1).py:1:0: C0103: Module name "file (1)" doesn't conform to snake_case naming style (invalid-name)
+behind_the_scenes/file (1).py:10:0: C0116: Missing function or method docstring (missing-function-docstring)
+
+-----------------------------------
+Your code has been rated at 3.33/10
+
+</code></pre>
+</div>
+</div>
 <p><br></p>
 </section>
 <section id="find-out-more" class="level2">

@@ -204,10 +204,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="basic-usage" class="level2">
 <h2 class="anchored" data-anchor-id="basic-usage">Basic usage</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="pp">[</span><span class="ss">linter</span><span class="pp">]</span> [files or folders] [-k <span class="kw">|</span> <span class="ex">--keep-temp]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="pp">[</span><span class="ss">linter</span><span class="pp">]</span> [files or folders] [-e paths <span class="kw">|</span> <span class="ex">--exclude</span> paths] [-k <span class="kw">|</span> <span class="ex">--keep-temp]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li><p><strong>[linter]</strong> - Choose one of the supported linters: <code>pylint</code>, <code>flake8</code>, <code>pyflakes</code>, <code>ruff</code>, <code>pylama</code>, <code>vulture</code>, <code>radon</code>, <code>pycodestyle</code>, <code>mypy</code>, <code>pyright</code>, <code>pyrefly</code>, or <code>pytype</code></p></li>
 <li><p><strong>[files or folders]</strong> - One or more <code>.qmd</code> files or directories to lint.</p></li>
+<li><p><strong>-e paths, –exclude paths</strong> - Comma-separated list of files and/or directories to exclude from linting.</p></li>
 <li><p><strong>-k, –keep-temp</strong> - Keep the temporary <code>.py</code> files created during linting (for debugging).</p></li>
 </ul>
 <p>Only one linter can be specified per command. Passing extra arguments directly to linters is not supported. Only <code>.qmd</code> files are processed.</p>
@@ -226,6 +227,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> mypy folder</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Keep temporary <code>.py</code> files after linting (with <code>pylint</code>)</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> pylint . <span class="at">-k</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Lint all files in current directory (using <code>ruff</code>):</p>
+<ul>
+<li>Excluding folders <code>examples/</code> and <code>ignore/</code>, or-</li>
+<li>Excluding a specific file <code>analysis/test.qmd</code>.</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> ruff . <span class="at">-e</span> examples,ignore</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> ruff . <span class="at">-e</span> analysis/test.qmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>

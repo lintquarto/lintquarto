@@ -175,7 +175,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="lintquarto.converter.convert_qmd_to_py" class="level1">
 <h1>convert_qmd_to_py</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>converter.convert_qmd_to_py(qmd_path, output_path<span class="op">=</span><span class="va">None</span>, verbose<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>converter.convert_qmd_to_py(qmd_path, linter, output_path<span class="op">=</span><span class="va">None</span>, verbose<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Convert a Quarto (.qmd) file to Python (.py) file, preserving line alignment.</p>
 <section id="parameters" class="level2 doc-section doc-section-parameters">
 <h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
@@ -202,16 +202,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td><em>required</em></td>
 </tr>
 <tr class="even">
+<td>linter</td>
+<td>str</td>
+<td>Name of the linter that will be used.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="odd">
 <td>output_path</td>
 <td>str or Path</td>
 <td>Path for the output .py file. If None, uses qmd_path with .py suffix.</td>
 <td><code>None</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>verbose</td>
 <td>bool</td>
 <td>If True, print detailed progress information.</td>
 <td><code>False</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="returns" class="level2 doc-section doc-section-returns">
+<h2 class="doc-section doc-section-returns anchored" data-anchor-id="returns">Returns</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>output_path</td>
+<td>Path</td>
+<td>Path for the output .py file.</td>
 </tr>
 </tbody>
 </table>

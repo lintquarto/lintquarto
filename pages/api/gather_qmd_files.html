@@ -175,16 +175,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="lintquarto.__main__.gather_qmd_files" class="level1">
 <h1>gather_qmd_files</h1>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>__main__.gather_qmd_files(paths)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Gather all .qmd files from a list of files and directories.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>__main__.gather_qmd_files(paths, exclude<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Gather all .qmd files from a list of files and directories, excluding specified paths.</p>
 <section id="parameters" class="level2 doc-section doc-section-parameters">
 <h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 10%">
-<col style="width: 28%">
-<col style="width: 45%">
-<col style="width: 16%">
+<col style="width: 25%">
+<col style="width: 50%">
+<col style="width: 14%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -201,12 +201,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>List of file or directory paths.</td>
 <td><em>required</em></td>
 </tr>
+<tr class="even">
+<td>exclude</td>
+<td>list of str or Path</td>
+<td>List of files or directories to exclude.</td>
+<td><code>None</code></td>
+</tr>
 </tbody>
 </table>
 </section>
 <section id="returns" class="level2 doc-section doc-section-returns">
 <h2 class="doc-section doc-section-returns anchored" data-anchor-id="returns">Returns</h2>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 15%">
+<col style="width: 74%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Name</th>
@@ -218,7 +229,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td></td>
 <td>list of str</td>
-<td>List of .qmd file paths found.</td>
+<td>List of .qmd file paths found, excluding those in <code>exclude</code>.</td>
 </tr>
 </tbody>
 </table>

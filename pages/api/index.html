@@ -151,7 +151,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td><a href="../../pages/api/gather_qmd_files.html#lintquarto.__main__.gather_qmd_files">gather_qmd_files</a></td>
-<td>Gather all .qmd files from a list of files and directories.</td>
+<td>Gather all .qmd files from a list of files and directories, excluding</td>
 </tr>
 <tr class="odd">
 <td><a href="../../pages/api/process_qmd.html#lintquarto.__main__.process_qmd">process_qmd</a></td>
@@ -166,10 +166,14 @@ ul.task-list li input[type="checkbox"] {
 <table class="caption-top table">
 <tbody>
 <tr class="odd">
-<td><a href="_qmd_lines_to_py_lines.qmd#lintquarto.converter._qmd_lines_to_py_lines">_qmd_lines_to_py_lines</a></td>
-<td>Convert lines from a .qmd file to .py lines, preserving alignment.</td>
+<td><a href="../../pages/api/QmdToPyConverter.html#lintquarto.converter.QmdToPyConverter">QmdToPyConverter</a></td>
+<td>Convert lines from a .qmd file to .py file.</td>
 </tr>
 <tr class="even">
+<td><a href="../../pages/api/get_unique_filename.html#lintquarto.converter.get_unique_filename">get_unique_filename</a></td>
+<td>Generate a unique file path by appending ” (n)” before the file extension</td>
+</tr>
+<tr class="odd">
 <td><a href="../../pages/api/convert_qmd_to_py.html#lintquarto.converter.convert_qmd_to_py">convert_qmd_to_py</a></td>
 <td>Convert a Quarto (.qmd) file to Python (.py) file, preserving line</td>
 </tr>
@@ -184,6 +188,18 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td><a href="../../pages/api/Linters.html#lintquarto.linters.Linters">Linters</a></td>
 <td>Checks if requested linter (or static type checker) is available.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="line-length-module" class="level2">
+<h2 class="anchored" data-anchor-id="line-length-module">Line length module</h2>
+<p>Class to detect configured line length.</p>
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td><a href="../../pages/api/LineLengthDetector.html#lintquarto.linelength.LineLengthDetector">LineLengthDetector</a></td>
+<td>Detect the configured line length for a given Python linter.</td>
 </tr>
 </tbody>
 </table>
