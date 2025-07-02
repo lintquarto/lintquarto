@@ -139,43 +139,48 @@ class QmdToPyConverter:
         line : str
             The line to process.
         """
-        if self.in_chunk_options:
-            # If line is blank, just append it and keep looking for options
-            if line.strip() == "":
-                self.py_lines.append(line)
-            else:
-                # Strip any blank spaces from start of line
-                stripped = line.lstrip()
-                # Convert Quarto chunk option to '# |', preserving indentation
-                if stripped.startswith("#| "):
-                    indent = line[:len(line) - len(stripped)]
-                    modified_line = indent + "# |" + stripped[3:]
-                    self.py_lines.append(modified_line)
-                else:
-                    # First code line after options/blanks:
-                    # Always append '# noqa: E305' (never a real E305 here)
-                    # If it's a function/class definition, also append
-                    # '# noqa: E302'
-                    # Also suppress line length warning if under limit before
-                    # the noqa comment is added
-                    if self.linter in ["flake8", "ruff", "pycodestyle"]:
-                        len_detect = LineLengthDetector(linter=self.linter)
-                        max_line = len_detect.get_line_length()
-                        if re.match(r"^(def|class)\b", stripped):
-                            if len(line) <= max_line:
-                                line = f"{line}  # noqa: E302,E305,E501"
-                            else:
-                                line = f"{line}  # noqa: E302,E305"
-                        else:
-                            if len(line) <= max_line:
-                                line = f"{line}  # noqa: E305,E501"
-                            else:
-                                line = f"{line}  # noqa: E305"
-                    self.py_lines.append(line)
-                    self.in_chunk_options = False
-        else:
+        if not self.in_chunk_options:
             # After the first code line, append all lines unchanged
             self.py_lines.append(line)
+            return
+
+        # If line is blank, just append it and keep looking for options
+        if line.strip() == "":
+            self.py_lines.append(line)
+            return
+
+        # Handle Quarto chunk options
+        stripped = line.lstrip()
+        if stripped.startswith("#| "):
+            indent = line[:len(line) - len(stripped)]
+            modified_line = indent + "# |" + stripped[3:]
+            self.py_lines.append(modified_line)
+            return
+
+        # First code line after options/blanks:
+        # - Always suppress E305
+        # - If it is a function or class, suppress E302
+        # - If it was under line limit, suppress E501
+        if self.linter in ["flake8", "ruff", "pycodestyle"]:
+            len_detect = LineLengthDetector(linter=self.linter)
+            max_line = len_detect.get_line_length()
+            is_def_or_class = re.match(r"^(def|class)\b", stripped)
+            line_was_short = len(line) <= max_line
+
+            # If it is a function or class, suppress E302
+            if is_def_or_class:
+                if line_was_short:
+                    line = f"{line}  # noqa: E302,E305,E501"
+                else:
+                    line = f"{line}  # noqa: E302,E305"
+            else:
+                if line_was_short:
+                    line = f"{line}  # noqa: E305,E501"
+                else:
+                    line = f"{line}  # noqa: E305"
+
+        self.py_lines.append(line)
+        self.in_chunk_options = False
 
 
 def get_unique_filename(path):

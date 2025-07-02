@@ -11,6 +11,7 @@ import configparser
 import toml
 
 
+# pylint: disable=too-few-public-methods
 class LineLengthDetector:
     """
     Detect the configured line length for a given Python linter.
@@ -72,10 +73,9 @@ class LineLengthDetector:
         """
         if self.linter in ["flake8", "pycodestyle"]:
             return self._get_flake8_line_length()
-        elif self.linter == "ruff":
+        if self.linter == "ruff":
             return self._get_ruff_line_length()
-        else:
-            return self.defaults[self.linter]
+        return self.defaults[self.linter]
 
     def _get_flake8_line_length(self):
         """
@@ -93,26 +93,59 @@ class LineLengthDetector:
         config_files = [".flake8", "setup.cfg", "tox.ini"]
         current = self.start_dir
         while True:
+            # Iterate over possible config files in the current directory
             for config_file in config_files:
                 path = os.path.join(current, config_file)
-                if os.path.isfile(path):
-                    config = configparser.ConfigParser()
-                    config.read(path)
-                    # Check both [flake8] and [pycodestyle] sections
-                    for section in ["flake8", "pycodestyle"]:
-                        if config.has_section(section) and config.has_option(
-                            section, "max-line-length"
-                        ):
-                            try:
-                                return int(config.get(
-                                    section, "max-line-length"))
-                            except Exception:
-                                pass
+                if not os.path.isfile(path):
+                    continue  # Skip if file does not exist
+                config = configparser.ConfigParser()
+                config.read(path)
+                # Try to extract line length from the config
+                length = self._extract_line_length_from_config(config)
+                if length is not None:
+                    return length  # Return as soon as a value is found
+            # Move up to the parent directory
             parent = os.path.dirname(current)
             if parent == current:
-                break
+                break  # Stop if we've reached the filesystem root
             current = parent
+        # Return default if no config value is found
         return self.defaults[self.linter]
+
+    def _extract_line_length_from_config(self, config):
+        """
+        Extract the maximum line length from a configparser.ConfigParser
+        object.
+
+        This helper checks both the `[flake8]` and `[pycodestyle]` sections for
+        a `max-line-length` option. If found, it attempts to convert the value
+        to an integer and return it. If the value is missing or invalid,
+        returns None.
+
+        Parameters
+        ----------
+        config : configparser.ConfigParser
+            The parsed configuration object.
+
+        Returns
+        -------
+        int or None
+            The extracted line length, or None if not found or invalid.
+        """
+        for section in ["flake8", "pycodestyle"]:
+            # Check if section and option exist
+            if (
+                config.has_section(section) and
+                config.has_option(section, "max-line-length")
+            ):
+                try:
+                    # Attempt to parse and return the integer value
+                    return int(config.get(section, "max-line-length"))
+                except (ValueError, configparser.Error):
+                    # Ignore invalid values or config errors and keep searching
+                    pass
+        # Return None if no valid value is found
+        return None
 
     def _get_ruff_line_length(self):
         """
@@ -135,7 +168,8 @@ class LineLengthDetector:
                     ruff_config = config.get("tool", {}).get("ruff", {})
                     if "line-length" in ruff_config:
                         return int(ruff_config["line-length"])
-                except Exception:
+                except (toml.TomlDecodeError, OSError, ValueError):
+                    # Ignore parse errors, file errors, or invalid values
                     pass
             parent = os.path.dirname(current)
             if parent == current:
