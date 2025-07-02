@@ -69,7 +69,9 @@ def test_basic_conversion(case, tmp_path):
     assert qmd_file.exists(), f"Test file {qmd_file} does not exist."
 
     # Convert the file
-    convert_qmd_to_py(qmd_path=qmd_file, output_path=output_py)
+    convert_qmd_to_py(
+        qmd_path=qmd_file, output_path=output_py, linter="flake8"
+    )
 
     # Check that the output file was created
     assert output_py.exists(), f"Output file {output_py} was not created."
@@ -114,7 +116,7 @@ def test_empty():
     """
     Test that empty input returns empty output.
     """
-    converter = QmdToPyConverter()
+    converter = QmdToPyConverter(linter="flake8")
     assert not converter.convert([])
 
 
@@ -122,22 +124,22 @@ def test_markdown():
     """
     Test that markdown lines are converted to "# -".
     """
-    converter = QmdToPyConverter()
+    converter = QmdToPyConverter(linter="flake8")
     assert converter.convert(["Some text", "More text"]) == ["# -", "# -"]
 
 
 CHUNK_START_CASES = [
     {
         "lines": ["```{python}",  "1+1", "```"],
-        "expected": ["# %% [python]", "1+1  # noqa: E305", "# -"]
+        "expected": ["# %% [python]", "1+1  # noqa: E305,E501", "# -"]
     },
     {
         "lines": ["```{python}", "def foo():"],
-        "expected": ["# %% [python]", "def foo():  # noqa: E302,E305"]
+        "expected": ["# %% [python]", "def foo():  # noqa: E302,E305,E501"]
     },
     {
         "lines": ["```{python}", "class foo:"],
-        "expected": ["# %% [python]", "class foo:  # noqa: E302,E305"]
+        "expected": ["# %% [python]", "class foo:  # noqa: E302,E305,E501"]
     }
 ]
 
@@ -147,7 +149,7 @@ def test_python_chunk_start(case):
     """
     Test that Python chunk start if converted correctly.
     """
-    converter = QmdToPyConverter()
+    converter = QmdToPyConverter(linter="flake8")
     assert converter.convert(case["lines"]) == case["expected"]
 
 
@@ -155,8 +157,8 @@ def test_chunk_options():
     """
     Test that cells with chunk options at start are amended correctly.
     """
-    converter = QmdToPyConverter()
+    converter = QmdToPyConverter(linter="flake8")
     lines = ["```{python}", " ", "#| echo: false", "#| output: asis", "1+1"]
     expected = ["# %% [python]", " ", "# |echo: false", "# |output: asis",
-                "1+1  # noqa: E305"]
+                "1+1  # noqa: E305,E501"]
     assert converter.convert(lines) == expected

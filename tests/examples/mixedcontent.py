@@ -10,7 +10,7 @@
 # -
 # -
 # %% [python]
-# Active Python code block  # noqa: E305
+# Active Python code block  # noqa: E305,E501
 import math
 import os
 
@@ -50,7 +50,7 @@ print(f"Result: {result}")
 # -
 # -
 # %% [python]
-# Another Python block with potential linting issues  # noqa: E305
+# Another Python block with potential linting issues  # noqa: E305,E501
 def badfunction(list):  # Using "list" as parameter name (should trigger pylint)
     return list
 
