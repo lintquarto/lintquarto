@@ -44,12 +44,12 @@ jobs:
 
   # Run tests using matrix strategy
   tests:
-    needs: setup-matrix
+    needs: set-matrix
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: ${{ fromJSON(needs.setup-matrix.outputs.matrix) }}
+        os: ${{ fromJSON(needs.set-matrix.outputs.os_matrix) }}
         python-version: ${{ fromJson(needs.set-matrix.outputs.python_matrix) }}
         # Unsupported python versions for certain runners...
         exclude:
