@@ -1,164 +1,281 @@
-"""
-Tests for convert_qmd_to_py().
-"""
+"""Unit tests for the converter module."""
 
-from pathlib import Path
 import pytest
+from unittest import mock
 
-from lintquarto.converter import convert_qmd_to_py, QmdToPyConverter
-
-
-# Test cases
-TEST_CASES = [
-    {
-        "qmd_filename": "simple.qmd",
-        "py_filename": "simple.py",
-        "must_contain": [
-            "import math",
-            "x = 5",
-            "def test_func():",
-            "return True",
-        ],
-        "must_not_contain": [
-            "title: Test",
-            "# This is regular text.",
-            "# More text.",
-        ],
-    },
-    {
-        "qmd_filename": "mixedcontent.qmd",
-        "py_filename": "mixedcontent.py",
-        "must_contain": [
-            "import math",
-            "Test function with docstring.",
-            "return x * 2",
-            "# Another Python block with potential linting issues",
-            "def badfunction(list):"
-        ],
-        "must_not_contain": [
-            "Active R code block",
-            "library(base)",
-            "# Inactive Python code",
-            "This should be commented out",
-            "# Inactive R code",
-            "This should also be commented out",
-            ".callout-note",
-            "This is a callout block.",
-            ".python-content",
-            "This is a custom Python content block.",
-            "Some more text content",
-            "```{python}",
-            "Final text content"
-        ],
-    }
-]
+from lintquarto.converter import (
+    convert_qmd_to_py, get_unique_filename, QmdToPyConverter
+)
 
 
-@pytest.mark.parametrize("case", TEST_CASES)
-def test_basic_conversion(case, tmp_path):
-    """
-    Test conversion of various .qmd files with specified string checks.
-    """
-    # Get the directory of the current test file
-    test_dir = Path(__file__).parent
-    # Build the paths to the input and output files
-    qmd_file = test_dir / f"examples/{case['qmd_filename']}"
-    output_py = tmp_path / "output.py"
-
-    # Check that the test file exists
-    assert qmd_file.exists(), f"Test file {qmd_file} does not exist."
-
-    # Convert the file
-    convert_qmd_to_py(
-        qmd_path=qmd_file, output_path=output_py, linter="flake8"
-    )
-
-    # Check that the output file was created
-    assert output_py.exists(), f"Output file {output_py} was not created."
-
-    # Load the input .qmd and output .py file
-    with open(qmd_file, "r", encoding="utf-8") as f:
-        qmd_content = f.readlines()
-    py_content = output_py.read_text(encoding="utf-8")
-
-    # Check that Python blocks are preserved
-    for s in case["must_contain"]:
-        assert s in py_content, f"Expected '{s}' in output for {qmd_file.name}"
-
-    # Check that non-Python content is commented out
-    for s in case["must_not_contain"]:
-        assert s not in py_content, (
-            f"Did not expect '{s}' in output for {qmd_file.name}")
-
-    # Check line count is preserved (minus one for blank line at end)
-    original_lines = len(qmd_content)
-    converted_lines = len(py_content.split("\n")) - 1
-    assert original_lines == converted_lines
-
-    # Path to the reference Python file
-    reference_py = Path(__file__).parent / f"examples/{case['py_filename']}"
-
-    # Check that the reference file exists
-    msg = f"Reference file {reference_py} does not exist."
-    assert reference_py.exists(), msg
-
-    # Read both files
-    generated_content = output_py.read_text(encoding="utf-8")
-    reference_content = reference_py.read_text(encoding="utf-8")
-
-    # Compare their contents
-    assert generated_content == reference_content, (
-        f"Generated file does not match reference for {case['py_filename']}"
-    )
+ALL_LINTERS = ["pylint", "flake8", "pyflakes", "ruff", "pylama", "vulture",
+               "radon", "pycodestyle", "mypy", "pyright", "pyrefly", "pytype"]
+LINTERS_SUPPORTING_NOQA = ["flake8", "pycodestyle", "ruff"]
 
 
-def test_empty():
-    """
-    Test that empty input returns empty output.
-    """
-    converter = QmdToPyConverter(linter="flake8")
+# =============================================================================
+# 1. Conversion of files with no active python chunks
+# =============================================================================
+
+@pytest.mark.parametrize("linter", ALL_LINTERS)
+def test_empty(linter):
+    """Empty input produces empty output."""
+    converter = QmdToPyConverter(linter=linter)
     assert not converter.convert([])
 
 
-def test_markdown():
-    """
-    Test that markdown lines are converted to "# -".
-    """
-    converter = QmdToPyConverter(linter="flake8")
+@pytest.mark.parametrize("linter", ALL_LINTERS)
+def test_blank_lines(linter):
+    """Blank lines are converted as expected."""
+    converter = QmdToPyConverter(linter=linter)
+    lines = ["", "", ""]
+    expected = ["# -", "# -", "# -"]
+    assert converter.convert(lines) == expected
+
+
+@pytest.mark.parametrize("linter", ALL_LINTERS)
+def test_markdown(linter):
+    """Markdown lines are commented out."""
+    converter = QmdToPyConverter(linter=linter)
     assert converter.convert(["Some text", "More text"]) == ["# -", "# -"]
 
 
-CHUNK_START_CASES = [
+@pytest.mark.parametrize("linter", ALL_LINTERS)
+def test_non_python_chunk_is_commented(linter):
+    """Non-Python and inactive chunks are commented out."""
+    converter = QmdToPyConverter(linter=linter)
+    lines = ["```{r}", "1+1", "```", "```{.python}", "1+1", "```"]
+    expected = ["# -", "# -", "# -", "# -", "# -", "# -"]
+    assert converter.convert(lines) == expected
+
+
+# =============================================================================
+# 2. Conversion of active python chunks
+# =============================================================================
+
+def remove_noqa(lines):
+    """
+    Helper to remove # noqa comments from expected output
+
+    Parameters
+    ----------
+    lines : list of str
+        Lines of text (expected output)
+    """
+    return [
+        line.split("  # noqa")[0] if "  # noqa" in line
+        else line for line in lines
+    ]
+
+
+PYTHON_CHUNKS = [
+    # Simple code chunk
     {
         "lines": ["```{python}",  "1+1", "```"],
         "expected": ["# %% [python]", "1+1  # noqa: E305,E501", "# -"]
     },
+    # Function definition
     {
         "lines": ["```{python}", "def foo():"],
         "expected": ["# %% [python]", "def foo():  # noqa: E302,E305,E501"]
     },
+    # Class definition
     {
         "lines": ["```{python}", "class foo:"],
         "expected": ["# %% [python]", "class foo:  # noqa: E302,E305,E501"]
+    },
+    # Chunk with options and code
+    {
+        "lines": [
+            "```{python}", " ", "#| echo: false", "#| output: asis", "1+1"
+        ],
+        "expected": [
+            "# %% [python]", " ", "# |echo: false", "# |output: asis",
+            "1+1  # noqa: E305,E501"
+        ]
+    },
+    # Indented chunk options
+    {
+        "lines": ["```{python}", "    #| echo: false", "    x = 1"],
+        "expected": [
+            "# %% [python]", "    # |echo: false",
+            "    x = 1  # noqa: E305,E501"
+        ]
+    },
+    # Malformed chunk options
+    {
+        "lines": ["```{python}",
+                  "#|echo: true",  # no space after '#|'
+                  " #|   echo: false",  # extra spaces
+                  "# | echo: valid",  # already correct
+                  "x = 1",
+                  "```"],
+        "expected": ["# %% [python]",
+                     "#|echo: true  # noqa: E305,E501",
+                     " #|   echo: false",
+                     "# | echo: valid",
+                     "x = 1",
+                     "# -"]
+    },
+    # Multiple consecutive code chunks
+    {
+        "lines": ["```{python}", "a = 1", "```",
+                  "```{python}", "b = 2", "```"],
+        "expected": ["# %% [python]", "a = 1  # noqa: E305,E501", "# -",
+                     "# %% [python]", "b = 2  # noqa: E305,E501", "# -"]
+    },
+    # Long line (should omit E501 for long string)
+    {
+        "lines": ["```{python}", "x = '" + "a" * 100 + "'"],
+        "expected": ["# %% [python]", "x = '" + "a" * 100 + "'  # noqa: E305"]
     }
 ]
 
 
-@pytest.mark.parametrize("case", CHUNK_START_CASES)
-def test_python_chunk_start(case):
-    """
-    Test that Python chunk start if converted correctly.
-    """
-    converter = QmdToPyConverter(linter="flake8")
-    assert converter.convert(case["lines"]) == case["expected"]
+@pytest.mark.parametrize("case", PYTHON_CHUNKS)
+@pytest.mark.parametrize("linter", ALL_LINTERS)
+def test_python_chunk_start(case, linter):
+    """Python chunk conversion produces expected results for all linters."""
+    converter = QmdToPyConverter(linter=linter)
+    result = converter.convert(case["lines"])
+    if linter in LINTERS_SUPPORTING_NOQA:
+        assert result == case["expected"]
+    else:
+        assert result == remove_noqa(case["expected"])
+    assert len(result) == len(case["expected"])
 
 
-def test_chunk_options():
-    """
-    Test that cells with chunk options at start are amended correctly.
-    """
-    converter = QmdToPyConverter(linter="flake8")
-    lines = ["```{python}", " ", "#| echo: false", "#| output: asis", "1+1"]
-    expected = ["# %% [python]", " ", "# |echo: false", "# |output: asis",
-                "1+1  # noqa: E305,E501"]
-    assert converter.convert(lines) == expected
+def test_line_alignment(tmp_path):
+    """Output file has same number of lines as input."""
+    input_lines = [
+        "Some markdown",
+        "```{python}",
+        "#| echo: true",
+        "",
+        "def foo():",
+        "    pass",
+        "```",
+        "More markdown",
+        "```{python}",
+        "x = 1",
+        "```"
+    ]
+    qmd_file = tmp_path / "input.qmd"
+    qmd_file.write_text("\n".join(input_lines))
+    result_path = convert_qmd_to_py(qmd_file, "flake8")
+    output_lines = result_path.read_text().splitlines()
+    assert len(output_lines) == len(input_lines)
+
+
+# =============================================================================
+# 3. File handling and output management
+# =============================================================================
+
+def test_get_unique_filename(tmp_path):
+    """Generates a unique filename if the file exists."""
+    # Create a file named 'test.py'
+    file = tmp_path / "test.py"
+    file.write_text("content")
+
+    # Call the function to get a unique filename
+    unique = get_unique_filename(file)
+
+    # The unique filename should not be the same as the original
+    assert unique != file
+
+    # The unique filename should start with 'test (' and end with '.py'
+    assert unique.name.startswith("test (")
+    assert unique.suffix == ".py"
+
+
+@pytest.mark.parametrize("linter", ALL_LINTERS)
+def test_output_file_overwrite(tmp_path, linter):
+    """Uses a unique filename if output file exists."""
+    # Create a dummy QMD input file
+    qmd_file = tmp_path / "input.qmd"
+    qmd_file.write_text("```{python}```")
+
+    # Create an output file that already exists
+    out_file = tmp_path / "input.py"
+    out_file.write_text("existing content")
+
+    # Convert QMD to Python, specifying the output path that already exists
+    result_path = convert_qmd_to_py(qmd_file, linter, output_path=out_file)
+
+    # The result should be a new, unique file (not the existing one)
+    assert result_path != out_file
+    assert result_path.name.startswith("input (")
+    assert result_path.suffix == ".py"
+
+    # The new file should contain the expected Python chunk marker
+    content = result_path.read_text()
+    assert "# %% [python]" in content
+
+
+@pytest.mark.parametrize("linter", ALL_LINTERS)
+def test_verbose_mode_output(tmp_path, capsys, linter):
+    """Verbose mode prints progress messages."""
+    # Create a minimal QMD input file
+    qmd_file = tmp_path / "input.qmd"
+    qmd_file.write_text("Some text")
+
+    # Run conversion in verbose mode
+    _ = convert_qmd_to_py(qmd_file, linter, verbose=True)
+
+    # Capture printed output
+    captured = capsys.readouterr()
+
+    # Check for expected progress messages
+    assert "Converting" in captured.out
+    assert "Successfully converted" in captured.out
+    assert "Line count:" in captured.out
+
+
+# =============================================================================
+# 4. Error handling
+# =============================================================================
+
+def test_missing_input_file(tmp_path, capsys):
+    """Missing input file prints an error and returns None."""
+    result = convert_qmd_to_py(
+        "nonexistent.qmd", "flake8", output_path=tmp_path / "out.py"
+    )
+    captured = capsys.readouterr()
+    assert result is None
+    assert "Error: Input file 'nonexistent.qmd' not found" in captured.out
+
+
+def test_permission_error(tmp_path, capsys):
+    """PermissionError prints an error and returns None."""
+    qmd_file = tmp_path / "input.qmd"
+    qmd_file.write_text("``````")
+    with (
+        mock.patch("builtins.open",
+                   side_effect=PermissionError("Mocked permission denied"))
+    ):
+        result = convert_qmd_to_py(
+            qmd_file, "flake8", output_path=tmp_path / "out.py"
+        )
+        captured = capsys.readouterr()
+        assert result is None
+        assert "Error: Permission denied" in captured.out
+
+
+def test_general_exception(tmp_path, capsys):
+    """Unexpected exception prints error and returns None."""
+    with (
+        mock.patch("builtins.open",
+                   side_effect=RuntimeError("Simulated crash"))
+    ):
+        result = convert_qmd_to_py(
+            "input.qmd", "flake8", output_path=tmp_path / "out.py"
+        )
+        captured = capsys.readouterr()
+        assert result is None
+        assert "Error during conversion: Simulated crash" in captured.out
+
+
+def test_unsupported_linter():
+    """Unsupported linter name raises an error."""
+    with pytest.raises(ValueError):
+        QmdToPyConverter(linter="notalinter")
