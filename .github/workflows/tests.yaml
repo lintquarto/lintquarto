@@ -38,6 +38,7 @@ jobs:
     strategy:
       matrix:
         os: ${{ fromJSON(needs.setup-matrix.outputs.matrix) }}
+        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
     
     steps:
       - name: Check out repository
@@ -46,7 +47,7 @@ jobs:
       - name: Install python and dependencies
         uses: actions/setup-python@v4
         with:
-          python-version: '3.13'
+          python-version: ${{ matrix.python-version }}
           cache: 'pip'
       
       - name: Install requirements (Windows)
@@ -60,13 +61,13 @@ jobs:
       - name: Run tests with coverage
         run: pytest --cov --cov-report=xml
 
-      # Only generate badge on ubuntu-latest to avoid conflicts
+      # Only generate badge on ubuntu-latest and latest Python to avoid conflicts
       - name: Generate coverage badge (for-the-badge style)
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
         run: genbadge coverage -i coverage.xml -o images/coverage-badge.svg
 
       - name: Upload coverage badge
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
         uses: actions/upload-artifact@v4
         with:
           name: coverage-badge
