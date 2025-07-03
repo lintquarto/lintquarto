@@ -170,14 +170,14 @@ class QmdToPyConverter:
             # If it is a function or class, suppress E302
             if is_def_or_class:
                 if line_was_short:
-                    line = f"{line}  # noqa: E302,E305,E501"
+                    line = f"{line.rstrip()}  # noqa: E302,E305,E501"
                 else:
-                    line = f"{line}  # noqa: E302,E305"
+                    line = f"{line.rstrip()}  # noqa: E302,E305"
             else:
                 if line_was_short:
-                    line = f"{line}  # noqa: E305,E501"
+                    line = f"{line.rstrip()}  # noqa: E305,E501"
                 else:
-                    line = f"{line}  # noqa: E305"
+                    line = f"{line.rstrip()}  # noqa: E305"
 
         self.py_lines.append(line)
         self.in_chunk_options = False
