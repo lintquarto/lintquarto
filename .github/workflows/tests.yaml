@@ -12,33 +12,49 @@ on:
         options:
           - all
           - ubuntu-latest
+          - ubuntu-22.04
           - windows-latest
           - macos-latest
+      python_versions:
+        description: 'Comma-separated Python versions (e.g. 3.7,3.8,3.9)'
+        required: false
+        default: '3.7,3.8,3.9,3.10,3.11,3.12,3.13'
 
 jobs:
-  # Generate matrix based on input
-  setup-matrix:
+  set-matrix:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      os_matrix: ${{ steps.set-matrix.outputs.os_matrix }}
+      python_matrix: ${{ steps.set-matrix.outputs.python_matrix }}
     steps:
-      - name: Set matrix
-        id: set-matrix
+      - id: set-matrix
         run: |
-          if [[ "${{ inputs.operating_systems }}" == "all" || "${{ github.event_name }}" == "push" ]]; then
-            echo 'matrix=["ubuntu-latest", "windows-latest", "macos-latest"]' >> $GITHUB_OUTPUT
-          else
-            echo 'matrix=["${{ inputs.operating_systems }}"]' >> $GITHUB_OUTPUT
+          oses="${{ github.event.inputs.operating_systems }}"
+          if [[ -z "$oses" ]]; then
+            oses="ubuntu-latest,ubuntu-22.04,windows-latest,macos-latest,macos-13"
           fi
+          pythons="${{ github.event.inputs.python_versions }}"
+          if [[ -z "$pythons" ]]; then
+            pythons="3.7,3.8,3.9,3.10,3.11,3.12,3.13"
+          fi
+          json_oses=$(echo "[\"${oses//,/\",\"}\"]")
+          json_pythons=$(echo "[\"${pythons//,/\",\"}\"]")
+          echo "os_matrix=$json_oses" >> $GITHUB_OUTPUT
+          echo "python_matrix=$json_pythons" >> $GITHUB_OUTPUT
 
   # Run tests using matrix strategy
   tests:
     needs: setup-matrix
     runs-on: ${{ matrix.os }}
+    fail-fast: false
     strategy:
       matrix:
         os: ${{ fromJSON(needs.setup-matrix.outputs.matrix) }}
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
+        python-version: ${{ fromJson(needs.set-matrix.outputs.python_matrix) }}
+        # Unsupported python versions for certain runners...
+        exclude:
+          - os: ubuntu-latest
+            python-version: '3.7'
     
     steps:
       - name: Check out repository
