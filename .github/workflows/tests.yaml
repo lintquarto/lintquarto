@@ -46,8 +46,8 @@ jobs:
   tests:
     needs: setup-matrix
     runs-on: ${{ matrix.os }}
-    fail-fast: false
     strategy:
+      fail-fast: false
       matrix:
         os: ${{ fromJSON(needs.setup-matrix.outputs.matrix) }}
         python-version: ${{ fromJson(needs.set-matrix.outputs.python_matrix) }}
