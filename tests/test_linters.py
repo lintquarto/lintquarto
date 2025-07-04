@@ -1,4 +1,4 @@
-"""Unit tests for the Linters class."""
+"""Unit tests for the linters module."""
 
 from unittest.mock import patch
 

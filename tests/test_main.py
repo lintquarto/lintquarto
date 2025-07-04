@@ -3,7 +3,7 @@
 import subprocess
 import sys
 
-from lintquarto.__main__ import process_qmd, gather_qmd_files
+from lintquarto.__main__ import gather_qmd_files, process_qmd
 
 
 # =============================================================================
