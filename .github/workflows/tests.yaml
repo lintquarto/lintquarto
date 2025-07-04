@@ -4,59 +4,37 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-    inputs:
-      operating_systems:
-        description: 'Operating systems to test on'
-        type: choice
-        default: 'all'
-        options:
-          - all
-          - ubuntu-latest
-          - ubuntu-22.04
-          - windows-latest
-          - macos-latest
-      python_versions:
-        description: 'Comma-separated Python versions (e.g. 3.7,3.8,3.9)'
-        required: false
-        default: '3.7,3.8,3.9,3.10,3.11,3.12,3.13'
 
 jobs:
-  set-matrix:
-    runs-on: ubuntu-latest
-    outputs:
-      os_matrix: ${{ steps.set-matrix.outputs.os_matrix }}
-      python_matrix: ${{ steps.set-matrix.outputs.python_matrix }}
-    steps:
-      - id: set-matrix
-        run: |
-          oses="${{ github.event.inputs.operating_systems }}"
-          if [[ -z "$oses" ]]; then
-            oses="ubuntu-latest,ubuntu-22.04,windows-latest,macos-latest,macos-13"
-          fi
-          pythons="${{ github.event.inputs.python_versions }}"
-          if [[ -z "$pythons" ]]; then
-            pythons="3.7,3.8,3.9,3.10,3.11,3.12,3.13"
-          fi
-          json_oses=$(echo "[\"${oses//,/\",\"}\"]")
-          json_pythons=$(echo "[\"${pythons//,/\",\"}\"]")
-          echo "os_matrix=$json_oses" >> $GITHUB_OUTPUT
-          echo "python_matrix=$json_pythons" >> $GITHUB_OUTPUT
-
-  # Run tests using matrix strategy
   tests:
-    needs: set-matrix
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
-      max-parallel: 5
       matrix:
-        os: ${{ fromJSON(needs.set-matrix.outputs.os_matrix) }}
-        python-version: ${{ fromJson(needs.set-matrix.outputs.python_matrix) }}
-        # Unsupported python versions for certain runners...
-        exclude:
-          - os: ubuntu-latest
+        include:
+          - os: ubuntu-22.04
             python-version: '3.7'
-    
+          - os: ubuntu-latest
+            python-version: '3.8'
+          - os: ubuntu-latest
+            python-version: '3.9'
+          - os: ubuntu-latest
+            python-version: '3.10'
+          - os: ubuntu-latest
+            python-version: '3.11'
+          - os: ubuntu-latest
+            python-version: '3.12'
+          - os: ubuntu-latest
+            python-version: '3.13'
+          - os: windows-latest
+            python-version: '3.12'
+          - os: windows-latest
+            python-version: '3.13'
+          - os: macos-latest
+            python-version: '3.12'
+          - os: macos-latest
+            python-version: '3.13'
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -78,7 +56,6 @@ jobs:
       - name: Run tests with coverage
         run: pytest --cov --cov-report=xml
 
-      # Only generate badge on ubuntu-latest and latest Python to avoid conflicts
       - name: Generate coverage badge (for-the-badge style)
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
         run: genbadge coverage -i coverage.xml -o images/coverage-badge.svg
