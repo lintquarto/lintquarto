@@ -1,7 +1,8 @@
 """Unit tests for the converter module."""
 
-import pytest
 from unittest import mock
+
+import pytest
 
 from lintquarto.converter import (
     convert_qmd_to_py, get_unique_filename, QmdToPyConverter
@@ -163,7 +164,7 @@ def test_line_alignment(tmp_path):
     qmd_file = tmp_path / "input.qmd"
     qmd_file.write_text("\n".join(input_lines))
     result_path = convert_qmd_to_py(qmd_file, "flake8")
-    output_lines = result_path.read_text().splitlines()
+    output_lines = result_path.read_text(encoding="utf-8").splitlines()
     assert len(output_lines) == len(input_lines)
 
 
@@ -208,7 +209,7 @@ def test_output_file_overwrite(tmp_path, linter):
     assert result_path.suffix == ".py"
 
     # The new file should contain the expected Python chunk marker
-    content = result_path.read_text()
+    content = result_path.read_text(encoding="utf-8")
     assert "# %% [python]" in content
 
 
@@ -249,10 +250,8 @@ def test_permission_error(tmp_path, capsys):
     """PermissionError prints an error and returns None."""
     qmd_file = tmp_path / "input.qmd"
     qmd_file.write_text("``````")
-    with (
-        mock.patch("builtins.open",
-                   side_effect=PermissionError("Mocked permission denied"))
-    ):
+    with mock.patch("builtins.open",
+                    side_effect=PermissionError("Mocked permission denied")):
         result = convert_qmd_to_py(
             qmd_file, "flake8", output_path=tmp_path / "out.py"
         )
@@ -263,10 +262,8 @@ def test_permission_error(tmp_path, capsys):
 
 def test_general_exception(tmp_path, capsys):
     """Unexpected exception prints error and returns None."""
-    with (
-        mock.patch("builtins.open",
-                   side_effect=RuntimeError("Simulated crash"))
-    ):
+    with mock.patch("builtins.open",
+                    side_effect=RuntimeError("Simulated crash")):
         result = convert_qmd_to_py(
             "input.qmd", "flake8", output_path=tmp_path / "out.py"
         )
