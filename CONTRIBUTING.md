@@ -56,7 +56,6 @@ If you want to contribute to `lintquarto` or run its tests, you'll need some add
 * **flit** (for packaging and publishing)
 * **genbadge** (to create a coverage badge for the README)
 * **jupyter** (for running python code in documentation)
-* **pre-commit** (to make pre-commit hook that lints files)
 * **pytest** (for running tests)
 * **pytest-cov** (to calculate coverage)
 * **twine** (for uploading to PyPI)
@@ -112,12 +111,6 @@ To lint documentation:
 
 ```{.bash}
 lint_docs.sh
-```
-
-There is a pre-commit hook provided which will lint the package and documentation with every commit. To make it executable, run:
-
-```{.bash}
-pre-commit install
 ```
 
 ### Documentation
