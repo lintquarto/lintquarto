@@ -69,6 +69,12 @@ These are listed in `requirements-dev.txt` for convenience. To set up your devel
 pip install -r requirements-dev.txt
 ```
 
+There is also a testing-only environment required, as used by the testing GitHub action:
+
+```{.bash}
+pip install -r requirements-test.txt
+```
+
 Quarto is using for building the documentation. It is a standalone tool and must be installed separately from Python packages. You will need to download and install quarto from https://quarto.org/docs/get-started/.
 
 #### Versions

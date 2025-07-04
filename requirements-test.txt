@@ -1,0 +1,4 @@
+genbadge[coverage]
+pytest
+pytest-cov
+-e .[all]
