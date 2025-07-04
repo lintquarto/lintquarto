@@ -66,3 +66,14 @@ jobs:
         with:
           name: coverage-badge
           path: images/coverage-badge.svg
+
+      - name: Commit coverage badge
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add images/coverage-badge.svg
+          git commit -m "ci(tests): update coverage badge" || echo "No changes to commit"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
