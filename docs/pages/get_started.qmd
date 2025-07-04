@@ -38,7 +38,7 @@ lintquarto --version
 lintquarto [linter] [files or folders] [-e paths | --exclude paths] [-k | --keep-temp]
 ```
 
-* **[linter]** - Choose one of the supported linters: `pylint`, `flake8`, `pyflakes`, `ruff`, `pylama`, `vulture`, `radon`, `pycodestyle`, `mypy`, `pyright`, `pyrefly`, or `pytype`
+* **[linter]** - Choose one of the supported linters: `pylint`, `flake8`, `pyflakes`, `ruff`, `vulture`, `radon`, `pycodestyle`, `mypy`, `pyright`, `pyrefly`, or `pytype`
 
 * **[files or folders]** - One or more `.qmd` files or directories to lint.
 * **-e paths, --exclude paths** - Comma-separated list of files and/or directories to exclude from linting.

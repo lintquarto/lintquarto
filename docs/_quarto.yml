@@ -47,7 +47,6 @@ website:
             - pages/tools/flake8.qmd
             - pages/tools/pycodestyle.qmd
             - pages/tools/pyflakes.qmd
-            - pages/tools/pylama.qmd
             - pages/tools/pylint.qmd
             - pages/tools/ruff.qmd
         - section: "**Speciality linters**"

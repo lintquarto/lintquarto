@@ -9,7 +9,7 @@ from lintquarto.converter import (
 )
 
 
-ALL_LINTERS = ["pylint", "flake8", "pyflakes", "ruff", "pylama", "vulture",
+ALL_LINTERS = ["pylint", "flake8", "pyflakes", "ruff", "vulture",
                "radon", "pycodestyle", "mypy", "pyright", "pyrefly", "pytype"]
 LINTERS_SUPPORTING_NOQA = ["flake8", "pycodestyle", "ruff"]
 

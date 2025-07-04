@@ -13,7 +13,7 @@
 
 **Package for running linters and static type checkers on quarto `.qmd` files.**
 
-Currently supported linters: [pylint](https://github.com/pylint-dev/pylint), [flake8](https://github.com/pycqa/flake8), [pyflakes](https://github.com/PyCQA/pyflakes), [ruff](https://github.com/astral-sh/ruff), [pylama](https://github.com/klen/pylama), [vulture](https://github.com/jendrikseipp/vulture), [radon](https://github.com/rubik/radon), and [pycodestyle](https://github.com/PyCQA/pycodestyle).
+Currently supported linters: [pylint](https://github.com/pylint-dev/pylint), [flake8](https://github.com/pycqa/flake8), [pyflakes](https://github.com/PyCQA/pyflakes), [ruff](https://github.com/astral-sh/ruff), [vulture](https://github.com/jendrikseipp/vulture), [radon](https://github.com/rubik/radon), and [pycodestyle](https://github.com/PyCQA/pycodestyle).
 
 It also supports some static type checkers: [mypy](https://github.com/python/mypy), [pyright](https://github.com/microsoft/pyright), [pyrefly](https://github.com/facebook/pyrefly), and [pytype](https://github.com/google/pytype).
 
@@ -49,7 +49,7 @@ pip install lintquarto[all]
 lintquarto [linter] [files or folders] [-e paths | --exclude paths] [-k | --keep-temp]
 ```
 
-* **[linter]** - Choose one of the supported linters: `pylint`, `flake8`, `pyflakes`, `ruff`, `pylama`, `vulture`, `radon`, `pycodestyle`, `mypy`, `pyright`, `pyrefly`, or `pytype`
+* **[linter]** - Choose one of the supported linters: `pylint`, `flake8`, `pyflakes`, `ruff`, `vulture`, `radon`, `pycodestyle`, `mypy`, `pyright`, `pyrefly`, or `pytype`
 
 * **[files or folders]** - One or more `.qmd` files or directories to lint.
 * **-e paths, --exclude paths** - Comma-separated list of files and/or directories to exclude from linting.
