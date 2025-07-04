@@ -43,7 +43,7 @@ print_quarto("examples/general_example.qmd")
 ## Run pyflakes using `lintquarto`
 
 ```{.bash}
-lintquarto pyflakes general_example.qmd
+lintquarto -l pyflakes -p general_example.qmd
 ```
 
 :::{.pale-green}
@@ -56,7 +56,7 @@ lintquarto pyflakes general_example.qmd
 ```{python}
 #| echo: false
 result = subprocess.run(
-    ["lintquarto", "pyflakes", "examples/general_example.qmd"],
+    ["lintquarto", "-l", "pyflakes", "-p", "examples/general_example.qmd"],
     capture_output=True, text=True, check=False
 )
 print(result.stdout)

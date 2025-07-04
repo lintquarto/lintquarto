@@ -45,7 +45,7 @@ print_quarto("examples/general_example.qmd")
 ## Run ruff using `lintquarto`
 
 ```{.bash}
-lintquarto ruff general_example.qmd
+lintquarto -l ruff -p general_example.qmd
 ```
 
 :::{.pale-green}
@@ -58,7 +58,7 @@ lintquarto ruff general_example.qmd
 ```{python}
 #| echo: false
 result = subprocess.run(
-    ["lintquarto", "ruff", "examples/general_example.qmd"],
+    ["lintquarto", "-l", "ruff", "-p", "examples/general_example.qmd"],
     capture_output=True, text=True, check=False
 )
 print(result.stdout)

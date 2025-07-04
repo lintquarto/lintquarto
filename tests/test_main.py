@@ -69,7 +69,8 @@ def test_main_runs_functional(tmp_path):
     # Run the CLI tool as a subprocess, mimicking user command-line usage and
     # assert that the process exits with a valid code
     result = subprocess.run(
-        [sys.executable, "-m", "lintquarto", "flake8", str(qmd_file)],
+        [sys.executable, "-m", "lintquarto",
+         "-l", "flake8", "-p", str(qmd_file)],
         capture_output=True,
         text=True,
         check=False
@@ -85,8 +86,8 @@ def test_main_no_qmd_files_functional(tmp_path):
     """
     # Attempt to lint a non-existent .qmd file
     result = subprocess.run(
-        [sys.executable, "-m", "lintquarto", "flake8",
-         str(tmp_path / "nofiles")],
+        [sys.executable, "-m", "lintquarto",
+         "-l", "flake8", "-p", str(tmp_path / "nofiles")],
         capture_output=True,
         text=True,
         check=False

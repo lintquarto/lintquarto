@@ -4,18 +4,22 @@
 # Run lintquarto on .qmd files in docs/
 # ----------------------------------------------------------------------------
 
+echo "--------------------------------------------------------------------"
 echo "Linting quarto files..."
+echo "--------------------------------------------------------------------"
 
-LINTERS=("ruff check" "flake8" "pylint" "vulture" "radon cc")
-EXCLUDE="docs/pages/api,docs/pages/tools/examples,docs/pages/behind_the_scenes"
-for linter in "${LINTERS[@]}"; do
-    echo "Running $linter..."
-    lintquarto $linter docs --exclude $EXCLUDE
-done
+LINTERS="ruff flake8 pylint vulture radon"
+EXCLUDE="docs/pages/api docs/pages/tools/examples docs/pages/behind_the_scenes"
+
+lintquarto -l $LINTERS -p docs --exclude $EXCLUDE
 
 # ----------------------------------------------------------------------------
 # Run linters on .py files in docs/
 # ----------------------------------------------------------------------------
+
+echo "--------------------------------------------------------------------"
+echo "Linting python files..."
+echo "--------------------------------------------------------------------"
 
 # Find all .py files in docs/, ignoring directories starting with .
 PYFILES=$(find docs -type d -name ".*" -prune -false -o -type f -name "*.py" ! -path "*/behind_the_scenes/file.py" -print)
