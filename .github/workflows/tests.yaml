@@ -48,6 +48,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
+      max-parallel: 5
       matrix:
         os: ${{ fromJSON(needs.set-matrix.outputs.os_matrix) }}
         python-version: ${{ fromJson(needs.set-matrix.outputs.python_matrix) }}
