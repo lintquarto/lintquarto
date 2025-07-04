@@ -1,7 +1,6 @@
 flit
 jupyter
 genbadge
-pre-commit
 pytest
 pytest-cov
 quartodoc
