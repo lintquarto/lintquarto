@@ -9,7 +9,7 @@ echo "Linting quarto files..."
 echo "--------------------------------------------------------------------"
 
 LINTERS="ruff flake8 pylint vulture radon"
-EXCLUDE="docs/pages/api docs/pages/tools/examples docs/pages/behind_the_scenes"
+EXCLUDE="docs/pages/api docs/pages/tools/examples"
 
 lintquarto -l $LINTERS -p docs --exclude $EXCLUDE
 
@@ -22,7 +22,7 @@ echo "Linting python files..."
 echo "--------------------------------------------------------------------"
 
 # Find all .py files in docs/, ignoring directories starting with .
-PYFILES=$(find docs -type d -name ".*" -prune -false -o -type f -name "*.py" ! -path "*/behind_the_scenes/file.py" -print)
+PYFILES=$(find docs -type d -name ".*" -prune -false -o -type f -name "*.py" -print)
 
 echo "Running ruff check..."
 ruff check $PYFILES

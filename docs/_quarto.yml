@@ -4,7 +4,6 @@ project:
   render:
   - "*.qmd"
   - "!pages/tools/examples"
-  - "!pages/behind_the_scenes"
 
 format:
   html:
@@ -25,7 +24,6 @@ website:
       - pages/get_started.qmd
       - text: User guide
         href: pages/tools/summary.qmd
-      - pages/behind_the_scenes.qmd
       - pages/api/index.qmd
       - text: Contributing
         href: pages/contributing.qmd
