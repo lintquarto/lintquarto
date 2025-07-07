@@ -16,7 +16,7 @@
     "href": "pages/tools/vulture.html#run-vulture-using-lintquarto",
     "title": "vulture",
     "section": "Run vulture using lintquarto",
-    "text": "Run vulture using lintquarto\nlintquarto -l vulture -p unusedcode_example.qmd\n\n\n\n\n=============================================================\nRunning vulture...\n=============================================================\nexamples/unusedcode_example.qmd:8: unused import 'random' (90% confidence)\nexamples/unusedcode_example.qmd:10: unused function 'unused_function' (60% confidence)\nexamples/unusedcode_example.qmd:17: unused variable 'spare_part' (60% confidence)",
+    "text": "Run vulture using lintquarto\nlintquarto -l vulture -p unusedcode_example.qmd\n\n\n\n\n=============================================================\nRunning vulture...\n=============================================================\nexamples/unusedcode_example.py:8: unused import 'random' (90% confidence)\nexamples/unusedcode_example.py:10: unused function 'unused_function' (60% confidence)\nexamples/unusedcode_example.py:17: unused variable 'spare_part' (60% confidence)",
     "crumbs": [
       "User guide",
       "**Speciality linters**",
@@ -40,7 +40,7 @@
     "href": "pages/tools/ruff.html#run-ruff-using-lintquarto",
     "title": "ruff",
     "section": "Run ruff using lintquarto",
-    "text": "Run ruff using lintquarto\nlintquarto -l ruff -p general_example.qmd\n\n\n\n\n\n=============================================================\n\nRunning ruff...\n\n=============================================================\n\nexamples/general_example.qmd:19:1: E402 Module level import not at top of file\n\n   |\n\n17 | add_numbers(3, 5)\n\n18 |\n\n19 | import sys\n\n   | ^^^^^^^^^^ E402\n\n20 | # -\n\n   |\n\n\n\nexamples/general_example.qmd:19:8: F401 [*] `sys` imported but unused\n\n   |\n\n17 | add_numbers(3, 5)\n\n18 |\n\n19 | import sys\n\n   |        ^^^ F401\n\n20 | # -\n\n   |\n\n   = help: Remove unused import: `sys`\n\n\n\nFound 2 errors.\n\n[*] 1 fixable with the `--fix` option.",
+    "text": "Run ruff using lintquarto\nlintquarto -l ruff -p general_example.qmd\n\n\n\n\n\n=============================================================\n\nRunning ruff...\n\n=============================================================\n\nexamples/general_example.py:19:1: E402 Module level import not at top of file\n\n   |\n\n17 | add_numbers(3, 5)\n\n18 |\n\n19 | import sys\n\n   | ^^^^^^^^^^ E402\n\n20 | # -\n\n   |\n\n\n\nexamples/general_example.py:19:8: F401 [*] `sys` imported but unused\n\n   |\n\n17 | add_numbers(3, 5)\n\n18 |\n\n19 | import sys\n\n   |        ^^^ F401\n\n20 | # -\n\n   |\n\n   = help: Remove unused import: `sys`\n\n\n\nFound 2 errors.\n\n[*] 1 fixable with the `--fix` option.",
     "crumbs": [
       "User guide",
       "**General linters**",
@@ -112,7 +112,7 @@
     "href": "pages/tools/pyflakes.html#run-pyflakes-using-lintquarto",
     "title": "pyflakes",
     "section": "Run pyflakes using lintquarto",
-    "text": "Run pyflakes using lintquarto\nlintquarto -l pyflakes -p general_example.qmd\n\n\n\n\n=============================================================\nRunning pyflakes...\n=============================================================\nexamples/general_example.qmd:19:1: 'sys' imported but unused",
+    "text": "Run pyflakes using lintquarto\nlintquarto -l pyflakes -p general_example.qmd\n\n\n\n\n=============================================================\nRunning pyflakes...\n=============================================================\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:19:1: 'sys' imported but unused",
     "crumbs": [
       "User guide",
       "**General linters**",
@@ -136,7 +136,7 @@
     "href": "pages/tools/mypy.html#run-mypy-using-lintquarto",
     "title": "mypy",
     "section": "Run mypy using lintquarto",
-    "text": "Run mypy using lintquarto\nlintquarto -l mypy -p typecheck_example.qmd\n\n\n\n\n\n=============================================================\n\nRunning mypy...\n\n=============================================================\n\nexamples/typecheck_example.qmd:11: error: Argument 2 to \"add_numbers\" has incompatible type \"str\"; expected \"int\"  [arg-type]\n\nexamples/typecheck_example.qmd:19: error: Argument 1 to \"add_numbers\" has incompatible type \"str\"; expected \"int\"  [arg-type]\n\nFound 2 errors in 1 file (checked 1 source file)",
+    "text": "Run mypy using lintquarto\nlintquarto -l mypy -p typecheck_example.qmd\n\n\n\n\n\n=============================================================\n\nRunning mypy...\n\n=============================================================\n\nexamples/typecheck_example.py:11: error: Argument 2 to \"add_numbers\" has incompatible type \"str\"; expected \"int\"  [arg-type]\n\nexamples/typecheck_example.py:19: error: Argument 1 to \"add_numbers\" has incompatible type \"str\"; expected \"int\"  [arg-type]\n\nFound 2 errors in 1 file (checked 1 source file)",
     "crumbs": [
       "User guide",
       "**Static type checkers**",
@@ -538,7 +538,7 @@
     "href": "pages/tools/flake8.html#run-flake8-using-lintquarto",
     "title": "flake8",
     "section": "Run flake8 using lintquarto",
-    "text": "Run flake8 using lintquarto\nlintquarto -l flake8 -p general_example.qmd\n\n\n\n\n=============================================================\nRunning flake8...\n=============================================================\nexamples/general_example.qmd:8:80: E501 line too long (98 &gt; 79 characters)\nexamples/general_example.qmd:17:1: E305 expected 2 blank lines after class or function definition, found 1\nexamples/general_example.qmd:19:1: F401 'sys' imported but unused\nexamples/general_example.qmd:19:1: E402 module level import not at top of file",
+    "text": "Run flake8 using lintquarto\nlintquarto -l flake8 -p general_example.qmd\n\n\n\n\n=============================================================\nRunning flake8...\n=============================================================\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:8:80: E501 line too long (98 &gt; 79 characters)\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:17:1: E305 expected 2 blank lines after class or function definition, found 1\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:19:1: F401 'sys' imported but unused\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:19:1: E402 module level import not at top of file",
     "crumbs": [
       "User guide",
       "**General linters**",
@@ -562,7 +562,7 @@
     "href": "pages/tools/pycodestyle.html#run-pycodestyle-using-lintquarto",
     "title": "pycodestyle",
     "section": "Run pycodestyle using lintquarto",
-    "text": "Run pycodestyle using lintquarto\nlintquarto -l pycodestyle -p general_example.qmd\n\n\n\n\n=============================================================\nRunning pycodestyle...\n=============================================================\nexamples/general_example.qmd:14:1: E302 expected 2 blank lines, found 0\nexamples/general_example.qmd:17:1: E305 expected 2 blank lines after class or function definition, found 1\nexamples/general_example.qmd:19:1: E402 module level import not at top of file",
+    "text": "Run pycodestyle using lintquarto\nlintquarto -l pycodestyle -p general_example.qmd\n\n\n\n\n=============================================================\nRunning pycodestyle...\n=============================================================\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:14:1: E302 expected 2 blank lines, found 0\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:17:1: E305 expected 2 blank lines after class or function definition, found 1\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:19:1: E402 module level import not at top of file",
     "crumbs": [
       "User guide",
       "**General linters**",
@@ -586,7 +586,7 @@
     "href": "pages/tools/pylint.html#run-pylint-using-lintquarto",
     "title": "pylint",
     "section": "Run pylint using lintquarto",
-    "text": "Run pylint using lintquarto\nlintquarto -l pylint -p general_example.qmd\n\n\n\n\n=============================================================\nRunning pylint...\n=============================================================\n************* Module general_example\nexamples/general_example.qmd:8:0: C0103: Constant name \"very_long_line\" doesn't conform to UPPER_CASE naming style (invalid-name)\nexamples/general_example.qmd:14:0: C0116: Missing function or method docstring (missing-function-docstring)\nexamples/general_example.qmd:19:0: C0413: Import \"import sys\" should be placed at the top of the module (wrong-import-position)\nexamples/general_example.qmd:19:0: W0611: Unused import sys (unused-import)\n\n-----------------------------------\nYour code has been rated at 2.00/10",
+    "text": "Run pylint using lintquarto\nlintquarto -l pylint -p general_example.qmd\n\n\n\n\n=============================================================\nRunning pylint...\n=============================================================\n************* Module general_example\nexamples/general_example.py:8:0: C0103: Constant name \"very_long_line\" doesn't conform to UPPER_CASE naming style (invalid-name)\nexamples/general_example.py:14:0: C0116: Missing function or method docstring (missing-function-docstring)\nexamples/general_example.py:19:0: C0413: Import \"import sys\" should be placed at the top of the module (wrong-import-position)\nexamples/general_example.py:19:0: W0611: Unused import sys (unused-import)\n\n-----------------------------------\nYour code has been rated at 2.00/10",
     "crumbs": [
       "User guide",
       "**General linters**",
@@ -634,7 +634,7 @@
     "href": "pages/tools/radon.html#run-radon-using-lintquarto",
     "title": "radon",
     "section": "Run radon using lintquarto",
-    "text": "Run radon using lintquarto\nlintquarto -l radon -p complexity_example.qmd\n\n\n\n\n=============================================================\nRunning radon...\n=============================================================\nexamples/complexity_example.qmd\n    F 17:0 check_number - C\n    F 9:0 simple_addition - A",
+    "text": "Run radon using lintquarto\nlintquarto -l radon -p complexity_example.qmd\n\n\n\n\n=============================================================\nRunning radon...\n=============================================================\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/complexity_example.qmd\n    F 17:0 check_number - C\n    F 9:0 simple_addition - A",
     "crumbs": [
       "User guide",
       "**Speciality linters**",
