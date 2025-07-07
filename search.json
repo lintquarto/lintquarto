@@ -16,7 +16,7 @@
     "href": "pages/tools/vulture.html#run-vulture-using-lintquarto",
     "title": "vulture",
     "section": "Run vulture using lintquarto",
-    "text": "Run vulture using lintquarto\nlintquarto vulture unusedcode_example.qmd\n\n\n\n\nexamples/unusedcode_example.qmd:8: unused import 'random' (90% confidence)\nexamples/unusedcode_example.qmd:10: unused function 'unused_function' (60% confidence)\nexamples/unusedcode_example.qmd:17: unused variable 'spare_part' (60% confidence)",
+    "text": "Run vulture using lintquarto\nlintquarto -l vulture -p unusedcode_example.qmd\n\n\n\n\n=============================================================\nRunning vulture...\n=============================================================\nexamples/unusedcode_example.qmd:8: unused import 'random' (90% confidence)\nexamples/unusedcode_example.qmd:10: unused function 'unused_function' (60% confidence)\nexamples/unusedcode_example.qmd:17: unused variable 'spare_part' (60% confidence)",
     "crumbs": [
       "User guide",
       "**Speciality linters**",
@@ -40,7 +40,7 @@
     "href": "pages/tools/ruff.html#run-ruff-using-lintquarto",
     "title": "ruff",
     "section": "Run ruff using lintquarto",
-    "text": "Run ruff using lintquarto\nlintquarto ruff general_example.qmd\n\n\n\n\n\nexamples/general_example.qmd:19:1: E402 Module level import not at top of file\n\n   |\n\n17 | add_numbers(3, 5)\n\n18 |\n\n19 | import sys\n\n   | ^^^^^^^^^^ E402\n\n20 | # -\n\n   |\n\n\n\nexamples/general_example.qmd:19:8: F401 [*] `sys` imported but unused\n\n   |\n\n17 | add_numbers(3, 5)\n\n18 |\n\n19 | import sys\n\n   |        ^^^ F401\n\n20 | # -\n\n   |\n\n   = help: Remove unused import: `sys`\n\n\n\nFound 2 errors.\n\n[*] 1 fixable with the `--fix` option.",
+    "text": "Run ruff using lintquarto\nlintquarto -l ruff -p general_example.qmd\n\n\n\n\n\n=============================================================\n\nRunning ruff...\n\n=============================================================\n\nexamples/general_example.qmd:19:1: E402 Module level import not at top of file\n\n   |\n\n17 | add_numbers(3, 5)\n\n18 |\n\n19 | import sys\n\n   | ^^^^^^^^^^ E402\n\n20 | # -\n\n   |\n\n\n\nexamples/general_example.qmd:19:8: F401 [*] `sys` imported but unused\n\n   |\n\n17 | add_numbers(3, 5)\n\n18 |\n\n19 | import sys\n\n   |        ^^^ F401\n\n20 | # -\n\n   |\n\n   = help: Remove unused import: `sys`\n\n\n\nFound 2 errors.\n\n[*] 1 fixable with the `--fix` option.",
     "crumbs": [
       "User guide",
       "**General linters**",
@@ -64,7 +64,7 @@
     "href": "pages/tools/pytype.html#run-pytype-using-lintquarto",
     "title": "pytype",
     "section": "Run pytype using lintquarto",
-    "text": "Run pytype using lintquarto\nlintquarto pytype typecheck_example.qmd\n\n\n\n\n\nninja: Entering directory `.pytype'\n\n[1/1] check typecheck_example\n\nFAILED: /home/runner/work/lintquarto/lintquarto/docs/pages/tools/.pytype/pyi/typecheck_example.pyi \n\n/opt/hostedtoolcache/Python/3.13.5/x64/bin/python -m pytype.main --imports_info /home/runner/work/lintquarto/lintquarto/docs/pages/tools/.pytype/imports/typecheck_example.imports --module-name typecheck_example --platform linux -V 3.13 -o /home/runner/work/lintquarto/lintquarto/docs/pages/tools/.pytype/pyi/typecheck_example.pyi --analyze-annotated --nofail --quick /home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/typecheck_example.qmd\n\nPython versions &gt; 3.12 are not yet supported.\n\nninja: build stopped: subcommand failed.\n\nComputing dependencies\n\nAnalyzing 1 sources with 0 local dependencies\n\nLeaving directory '.pytype'",
+    "text": "Run pytype using lintquarto\nlintquarto -l pytype -p typecheck_example.qmd\n\n\n\n\n\n=============================================================\n\nRunning pytype...\n\n=============================================================\n\nninja: Entering directory `.pytype'\n\n[1/1] check typecheck_example\n\nFAILED: /home/runner/work/lintquarto/lintquarto/docs/pages/tools/.pytype/pyi/typecheck_example.pyi \n\n/opt/hostedtoolcache/Python/3.13.5/x64/bin/python -m pytype.main --imports_info /home/runner/work/lintquarto/lintquarto/docs/pages/tools/.pytype/imports/typecheck_example.imports --module-name typecheck_example --platform linux -V 3.13 -o /home/runner/work/lintquarto/lintquarto/docs/pages/tools/.pytype/pyi/typecheck_example.pyi --analyze-annotated --nofail --quick /home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/typecheck_example.qmd\n\nPython versions &gt; 3.12 are not yet supported.\n\nninja: build stopped: subcommand failed.\n\nComputing dependencies\n\nAnalyzing 1 sources with 0 local dependencies\n\nLeaving directory '.pytype'",
     "crumbs": [
       "User guide",
       "**Static type checkers**",
@@ -88,7 +88,7 @@
     "href": "pages/tools/pyrefly.html#run-pyrefly-using-lintquarto",
     "title": "pyrefly",
     "section": "Run pyrefly using lintquarto",
-    "text": "Run pyrefly using lintquarto\nlintquarto pyrefly typecheck_example.qmd\n\n\n\n\n\nERROR Argument `Literal['5']` is not assignable to parameter `b` with type `int` in function `add_numbers` [bad-argument-type]\n\n  --&gt; /home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/typecheck_example.qmd:11:16\n\n   |\n\n11 | add_numbers(3, \"5\")\n\n   |                ^^^\n\n   |\n\nERROR Argument `Literal['apples']` is not assignable to parameter `a` with type `int` in function `add_numbers` [bad-argument-type]\n\n  --&gt; /home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/typecheck_example.qmd:19:13\n\n   |\n\n19 | add_numbers(\"apples\", 8)\n\n   |             ^^^^^^^^\n\n   |",
+    "text": "Run pyrefly using lintquarto\nlintquarto -l pyrefly -p typecheck_example.qmd\n\n\n\n\n\n=============================================================\n\nRunning pyrefly...\n\n=============================================================\n\nERROR Argument `Literal['5']` is not assignable to parameter `b` with type `int` in function `add_numbers` [bad-argument-type]\n\n  --&gt; /home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/typecheck_example.qmd:11:16\n\n   |\n\n11 | add_numbers(3, \"5\")\n\n   |                ^^^\n\n   |\n\nERROR Argument `Literal['apples']` is not assignable to parameter `a` with type `int` in function `add_numbers` [bad-argument-type]\n\n  --&gt; /home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/typecheck_example.qmd:19:13\n\n   |\n\n19 | add_numbers(\"apples\", 8)\n\n   |             ^^^^^^^^\n\n   |",
     "crumbs": [
       "User guide",
       "**Static type checkers**",
@@ -96,146 +96,108 @@
     ]
   },
   {
-    "objectID": "pages/tools/pylama.html#example-quarto-.qmd-file",
-    "href": "pages/tools/pylama.html#example-quarto-.qmd-file",
-    "title": "pylama",
+    "objectID": "pages/tools/pyflakes.html#example-quarto-.qmd-file",
+    "href": "pages/tools/pyflakes.html#example-quarto-.qmd-file",
+    "title": "pyflakes",
     "section": "Example Quarto .qmd file:",
     "text": "Example Quarto .qmd file:\n Download the example \n\n\n\n1:     ---\n2:     title: \"Example\"\n3:     ---\n4:     \n5:     This file contains some issues for the linter to identify.\n6:     \n7:     ```{python}\n8:     very_long_line = \"This long string exceeds the maximum allowed characters per line.\"\n9:     ```\n10:    \n11:    There's some more issues below...\n12:    \n13:    ```{python}\n14:    def add_numbers(a, b):\n15:        return a + b\n16:    \n17:    add_numbers(3, 5)\n18:    \n19:    import sys\n20:    ```",
     "crumbs": [
       "User guide",
       "**General linters**",
-      "pylama"
+      "pyflakes"
     ]
   },
   {
-    "objectID": "pages/tools/pylama.html#run-pylama-using-lintquarto",
-    "href": "pages/tools/pylama.html#run-pylama-using-lintquarto",
-    "title": "pylama",
-    "section": "Run pylama using lintquarto",
-    "text": "Run pylama using lintquarto\nlintquarto pylama general_example.qmd\n\n\n\n\nexamples/general_example.qmd:14:1 E302 expected 2 blank lines, found 0 [pycodestyle]\nexamples/general_example.qmd:17:1 E305 expected 2 blank lines after class or function definition, found 1 [pycodestyle]\nexamples/general_example.qmd:19:1 E402 module level import not at top of file [pycodestyle]\nexamples/general_example.qmd:19:1 W0611 'sys' imported but unused [pyflakes]",
+    "objectID": "pages/tools/pyflakes.html#run-pyflakes-using-lintquarto",
+    "href": "pages/tools/pyflakes.html#run-pyflakes-using-lintquarto",
+    "title": "pyflakes",
+    "section": "Run pyflakes using lintquarto",
+    "text": "Run pyflakes using lintquarto\nlintquarto -l pyflakes -p general_example.qmd\n\n\n\n\n=============================================================\nRunning pyflakes...\n=============================================================\nexamples/general_example.qmd:19:1: 'sys' imported but unused",
     "crumbs": [
       "User guide",
       "**General linters**",
-      "pylama"
+      "pyflakes"
     ]
   },
   {
-    "objectID": "pages/tools/pycodestyle.html#example-quarto-.qmd-file",
-    "href": "pages/tools/pycodestyle.html#example-quarto-.qmd-file",
-    "title": "pycodestyle",
+    "objectID": "pages/tools/mypy.html#example-quarto-.qmd-file",
+    "href": "pages/tools/mypy.html#example-quarto-.qmd-file",
+    "title": "mypy",
     "section": "Example Quarto .qmd file:",
-    "text": "Example Quarto .qmd file:\n Download the example \n\n\n\n1:     ---\n2:     title: \"Example\"\n3:     ---\n4:     \n5:     This file contains some issues for the linter to identify.\n6:     \n7:     ```{python}\n8:     very_long_line = \"This long string exceeds the maximum allowed characters per line.\"\n9:     ```\n10:    \n11:    There's some more issues below...\n12:    \n13:    ```{python}\n14:    def add_numbers(a, b):\n15:        return a + b\n16:    \n17:    add_numbers(3, 5)\n18:    \n19:    import sys\n20:    ```",
+    "text": "Example Quarto .qmd file:\n Download the example \n\n\n\n1:     ---\n2:     title: \"Example\"\n3:     ---\n4:     \n5:     This file contains some issues for the linter (static type checker) to identify.\n6:     \n7:     ```{python}\n8:     def add_numbers(a: int, b: int) -&gt; int:\n9:         return a + b\n10:    \n11:    add_numbers(3, \"5\")\n12:    ```\n13:    \n14:    There's some more issues below...\n15:    \n16:    ```{python}\n17:    add_numbers(1, 4)\n18:    \n19:    add_numbers(\"apples\", 8)\n20:    ```",
     "crumbs": [
       "User guide",
-      "**General linters**",
-      "pycodestyle"
+      "**Static type checkers**",
+      "mypy"
     ]
   },
   {
-    "objectID": "pages/tools/pycodestyle.html#run-pycodestyle-using-lintquarto",
-    "href": "pages/tools/pycodestyle.html#run-pycodestyle-using-lintquarto",
-    "title": "pycodestyle",
-    "section": "Run pycodestyle using lintquarto",
-    "text": "Run pycodestyle using lintquarto\nlintquarto pycodestyle general_example.qmd\n\n\n\n\nexamples/general_example.qmd:14:1: E302 expected 2 blank lines, found 0\nexamples/general_example.qmd:17:1: E305 expected 2 blank lines after class or function definition, found 1\nexamples/general_example.qmd:19:1: E402 module level import not at top of file",
+    "objectID": "pages/tools/mypy.html#run-mypy-using-lintquarto",
+    "href": "pages/tools/mypy.html#run-mypy-using-lintquarto",
+    "title": "mypy",
+    "section": "Run mypy using lintquarto",
+    "text": "Run mypy using lintquarto\nlintquarto -l mypy -p typecheck_example.qmd\n\n\n\n\n\n=============================================================\n\nRunning mypy...\n\n=============================================================\n\nexamples/typecheck_example.qmd:11: error: Argument 2 to \"add_numbers\" has incompatible type \"str\"; expected \"int\"  [arg-type]\n\nexamples/typecheck_example.qmd:19: error: Argument 1 to \"add_numbers\" has incompatible type \"str\"; expected \"int\"  [arg-type]\n\nFound 2 errors in 1 file (checked 1 source file)",
     "crumbs": [
       "User guide",
-      "**General linters**",
-      "pycodestyle"
+      "**Static type checkers**",
+      "mypy"
     ]
   },
   {
-    "objectID": "pages/tools/flake8.html#example-quarto-.qmd-file",
-    "href": "pages/tools/flake8.html#example-quarto-.qmd-file",
-    "title": "flake8",
-    "section": "Example Quarto .qmd file:",
-    "text": "Example Quarto .qmd file:\n Download the example \n\n\n\n1:     ---\n2:     title: \"Example\"\n3:     ---\n4:     \n5:     This file contains some issues for the linter to identify.\n6:     \n7:     ```{python}\n8:     very_long_line = \"This long string exceeds the maximum allowed characters per line.\"\n9:     ```\n10:    \n11:    There's some more issues below...\n12:    \n13:    ```{python}\n14:    def add_numbers(a, b):\n15:        return a + b\n16:    \n17:    add_numbers(3, 5)\n18:    \n19:    import sys\n20:    ```",
-    "crumbs": [
-      "User guide",
-      "**General linters**",
-      "flake8"
-    ]
-  },
-  {
-    "objectID": "pages/tools/flake8.html#run-flake8-using-lintquarto",
-    "href": "pages/tools/flake8.html#run-flake8-using-lintquarto",
-    "title": "flake8",
-    "section": "Run flake8 using lintquarto",
-    "text": "Run flake8 using lintquarto\nlintquarto flake8 general_example.qmd\n\n\n\n\nexamples/general_example.qmd:8:80: E501 line too long (98 &gt; 79 characters)\nexamples/general_example.qmd:17:1: E305 expected 2 blank lines after class or function definition, found 1\nexamples/general_example.qmd:19:1: F401 'sys' imported but unused\nexamples/general_example.qmd:19:1: E402 module level import not at top of file",
-    "crumbs": [
-      "User guide",
-      "**General linters**",
-      "flake8"
-    ]
-  },
-  {
-    "objectID": "pages/contributing.html",
-    "href": "pages/contributing.html",
-    "title": "Contributing",
+    "objectID": "pages/get_started.html",
+    "href": "pages/get_started.html",
+    "title": "Getting started",
     "section": "",
-    "text": "Thank you for your interest in contributing!\n\n\n\nBefore opening an issue, please search existing issues to avoid duplicates. If there is not an existing issue, please open open and provide as much detail as possible.\n\nFor feature requests or documentation improvements, please describe your suggestion clearly.\nFor bugs, include:\n\nSteps to reproduce.\nExpected and actual behaviour.\nEnvironment details (operating system, python version, dependencies).\nRelevant files (e.g. problematic .qmd files).\n\n\n\n\n\nConfirm reproducibility by following the reported steps.\nLabel the issue appropriately (e.g. bug).\nRequest additional information if necessary.\nLink related issues or pull requests.\nOne resolved, close the issue with a brief summary of the fix.\n\n\n\n\n\n\n\nFork the repository and clone your fork.\nCreate a new branch for your feature or fix:\n\ngit checkout -b my-feature\n\nMake your changes and commit them with clear, descriptive messages using the conventional commits standard.\nPush your branch to your fork:\n\ngit push origin my-feature\n\nOpen a pull request against the main branch. Describe your changes and reference any related issues.\n\n\n\n\n\n\n\nIf you want to contribute to lintquarto or run its tests, you’ll need some additional tools:\n\nflit (for packaging and publishing)\ngenbadge (to create a coverage badge for the README)\njupyter (for running python code in documentation)\npytest (for running tests)\npytest-cov (to calculate coverage)\ntwine (for uploading to PyPI)\nquartodoc (for generate API reference documentation)\n-e .[all] (an editable install of the package and all supported linters)\n\nThese are listed in requirements-dev.txt for convenience. To set up your development environment, run:\npip install -r requirements-dev.txt\nThere is also a testing-only environment required, as used by the testing GitHub action:\npip install -r requirements-test.txt\nQuarto is using for building the documentation. It is a standalone tool and must be installed separately from Python packages. You will need to download and install quarto from https://quarto.org/docs/get-started/.\n\n\nBy default, contributors are encouraged to install and use the latest versions of development tools when working on the project. This approach helps keep the project compatible with current tooling and surfaces issues early.\nFor contributors who need a fully reproducible and stable setup, a Conda environment file is provided: requirements-stable.yml. This file pins all development tool versions, including Python, so you can expect consistent behaviour across systems.\nTo update the versions in this stable environment, run conda update --all and test thoroughly (running tests, building documentation), and updating the .yml file.\n\n\n\n\nTo run tests (with coverage calculation):\npytest --cov\n\n\n\nBash scripts are provided for linting. To make them executable:\nchmod +x lint_package.sh\nchmod +x lint_docs.sh\nTo lint package:\nlint_package.sh\nTo lint documentation:\nlint_docs.sh\n\n\n\nTo build and preview the documentation:\nmake -C docs\n\n\n\nIf you are a maintainer and need to publish a new release:\n\nUpdate the CHANGELOG.md.\nUpdate the version number in __init__.py, CITATION.cff and README.md citation, and update the date in CITATION.cff.\nCreate a release on GitHub, which will automatically archive to Zenodo.\nBuild and publish using flit or twine.\n\nTo upload to PyPI using flit:\nflit publish\nTo upload to PyPI using twine: remove any existing builds, then build the package locally and push with twine, entering the API token when prompted:\nrm -rf dist/\nflit build\ntwine upload --repository pypi dist/*\nFor test runs, you can use the same method with test PyPI:\nrm -rf dist/\nflit build\ntwine upload --repository testpypi dist/*\n\n\n\n\n\nPlease be respectful and considerate. See the code of conduct for details."
+    "text": "Python 3.7 or higher is required. lintquarto itself has no dependencies.\nInstall lintquarto with:\npip install lintquarto\nLinters are installed separately. For example, to use pylint and flake8, run:\npip install pylint flake8\nIf you want to install lintquarto along with all supported linters, use:\npip install lintquarto[all]\nYou can verify your installation with:\nlintquarto --version"
   },
   {
-    "objectID": "pages/contributing.html#workflow-for-bug-reports-feature-requests-and-documentation-improvements",
-    "href": "pages/contributing.html#workflow-for-bug-reports-feature-requests-and-documentation-improvements",
-    "title": "Contributing",
+    "objectID": "pages/get_started.html#installation",
+    "href": "pages/get_started.html#installation",
+    "title": "Getting started",
     "section": "",
-    "text": "Before opening an issue, please search existing issues to avoid duplicates. If there is not an existing issue, please open open and provide as much detail as possible.\n\nFor feature requests or documentation improvements, please describe your suggestion clearly.\nFor bugs, include:\n\nSteps to reproduce.\nExpected and actual behaviour.\nEnvironment details (operating system, python version, dependencies).\nRelevant files (e.g. problematic .qmd files).\n\n\n\n\n\nConfirm reproducibility by following the reported steps.\nLabel the issue appropriately (e.g. bug).\nRequest additional information if necessary.\nLink related issues or pull requests.\nOne resolved, close the issue with a brief summary of the fix."
+    "text": "Python 3.7 or higher is required. lintquarto itself has no dependencies.\nInstall lintquarto with:\npip install lintquarto\nLinters are installed separately. For example, to use pylint and flake8, run:\npip install pylint flake8\nIf you want to install lintquarto along with all supported linters, use:\npip install lintquarto[all]\nYou can verify your installation with:\nlintquarto --version"
   },
   {
-    "objectID": "pages/contributing.html#workflow-for-code-contributions-bug-fixes-enhancements",
-    "href": "pages/contributing.html#workflow-for-code-contributions-bug-fixes-enhancements",
-    "title": "Contributing",
+    "objectID": "pages/get_started.html#basic-usage",
+    "href": "pages/get_started.html#basic-usage",
+    "title": "Getting started",
+    "section": "Basic usage",
+    "text": "Basic usage\nlintquarto -l LINTER [LINTER …] -p PATH [PATH …] [-e EXCLUDE [EXCLUDE …]] [-k]\n\n-l –linters LINTER [LINTER …] - Linters to run. Valid options: pylint, flake8, pyflakes, ruff, vulture, radon, pycodestyle, mypy, pyright, pyrefly, or pytype.\n-p –paths PATH [PATH …]- Quarto files and/or directories to lint.\n-e –exclude EXCLUDE [EXCLUDE …] - Files and/or directories to exclude from linting.\n-k, –keep-temp - Keep the temporary .py files created during linting (for debugging).\n\nOnly one linter can be specified per command. Passing extra arguments directly to linters is not supported. Only .qmd files are processed."
+  },
+  {
+    "objectID": "pages/get_started.html#examples",
+    "href": "pages/get_started.html#examples",
+    "title": "Getting started",
+    "section": "Examples",
+    "text": "Examples\nThe linter used is interchangeable in these examples.\nLint all .qmd files in the current directory (using pylint):\nlintquarto -l pylint -p .\nLint several specific files (using pylint and flake8):\nlintquarto -l pylint flake8 -p file1.qmd file2.qmd\nKeep temporary .py files after linting (with pylint)\nlintquarto -l pylint -p . -k\nLint all files in current directory (using ruff):\n\nExcluding folders examples/ and ignore/, or-\nExcluding a specific file analysis/test.qmd.\n\nlintquarto -l ruff -p . -e examples,ignore\nlintquarto -l ruff -p . -e analysis/test.qmd"
+  },
+  {
+    "objectID": "pages/changelog.html",
+    "href": "pages/changelog.html",
+    "title": "Changelog",
     "section": "",
-    "text": "Fork the repository and clone your fork.\nCreate a new branch for your feature or fix:\n\ngit checkout -b my-feature\n\nMake your changes and commit them with clear, descriptive messages using the conventional commits standard.\nPush your branch to your fork:\n\ngit push origin my-feature\n\nOpen a pull request against the main branch. Describe your changes and reference any related issues."
+    "text": "All notable changes to this project are documented.\nThe format is based on Keep a Changelog, and this project adheres to Semantic Versioning. Dates formatted as YYYY-MM-DD as per ISO standard.\n\n\nMajor updates include support for multiple linters and file/directory exclusion, expanded testing, several fixes (e.g. false positive linter warnings, deletion of .py files, coverage badge), and the removal of pylama.\n\n\n\nExclude: Add an -e / --exclude flag to exclude files/directories, with examples in documentation.\nMultiple linters: Add option to run multiple linters using -l / --linters.\nTests: Expanded to provide a comprehensive set of unit tests for the args, converter, linelength and linters modules, as well as integration and functional tests for the __main__ module.\nTest CI: GitHub actions workflow now runs tests on multiple Python versions (3.7-3.13).\n\n\n\n\n\nConverter: Changed conversion of quarto to python file from a function (_qmd_lines_to_py_lines) to a class (QmdToPyConverter).\nCommand to run lintquarto: To run multiple linters, now required to use -l / --linters for linters and -p / --paths for files and directories.\n\n\n\n\n\nPre-commit: Removed, as it was not functioning as intended and a manual workflow is now preferred.\nPylama: Removed, since its supported linters are now integrated directly, and the others were either redundant or deprecated (#25).\nBehind the scenes: removed as now more complex and decided better to just look at the code rahter than page in docs, more standard, and up to date, etc.\n\n\n\n\n\nREADME: Display of coverage badge.\nChunk options: Amends Quarto code chunk options from #| ... to # | ... to avoid linting errors.\nE305: Linters like flake8 will warn “Expected 2 blank lines after end of function or class (E305)” at the start of a quarto code cell, but this will never be true, so for those linters, noqa: E305 is always appended.\nE302: For functions/classes defined at the start of a quarto code cell, linters like flake8 will also warn “Expected 2 blank lines, found 0 (E302)”. This will also not be true, so in those cases, noqa: E302 is appended.\nE501: When appending noqa: E302,E305 the line length can then become too long - “Line too long (82 &gt; 79 characters) (E501)”. Hence, this warning is disabled in these cases (where the line length was fine before, but not after adding the noqa comment).\nDeletion of .py file: When creating the temporary python file, the converter would replace any of the same name in the directory. If not keeping, it would then delete it. This issue has been fixed, by appending the duplicate temporary filename (e.g. file (1).py).\nC0114: pylint will warn “missing-module-docstring / C0114” but this will never be relevant for a quarto file so has been disabled.\nErrors in convert_qmd_to_py: For FileNotFoundError and PermissionError, corrected to also return None (as already done for Exception).\nCoverage badge: Coverage badge is now pushed to the repository when generated in the tests GitHub action.\n\n\n\n\n\nMajor updates include expanded linter support, new Quarto documentation, and new CI/CD workflows.\n\n\n\nLinter support: Added support for new Python linters: pyflakes, ruff, pylama, vulture, pycodestyle, pyright, pyrefly and pytype.\nDocumentation:\n\nIntroduced Quarto documentation site with getting started, API reference, user guide and detailed linter pages.\nAdd the downloadthis extension to allow download buttons in .qmd files.\nAdd a Makefile for building and previewing the documentation.\n\nCI/CD: Added GitHub actions to build documentation and run tests.\nLinting the package: Added scripts and a pre-commit hook to lint the package code and documentation.\nEnvironment: Created a stable version of the environment with pinned versions using Conda.\n\n\n\n\n\nRefactoring: Refactored and simplified main code and converter logic, and linted the package.\nREADME: Updated with new buttons and shield badges.\nCONTRIBUTING: Add instructions on releases, bug reports, dependency versions, testing, and linting.\nEnvironment: Add jupyter, genbadge, pre-commit, pytest-cov and quartodoc to the environment.\n\n\n\n\n\nREADME: Corrected links (PyPI, Zenodo, external images).\n\n\n\n\n\n🌱 First release.\n\n\n\nLint Quarto markdown (.qmd) files using pylint, flake8, or mypy."
   },
   {
-    "objectID": "pages/contributing.html#development-and-testing",
-    "href": "pages/contributing.html#development-and-testing",
-    "title": "Contributing",
+    "objectID": "pages/changelog.html#v1.0.0---2025-07-10",
+    "href": "pages/changelog.html#v1.0.0---2025-07-10",
+    "title": "Changelog",
     "section": "",
-    "text": "If you want to contribute to lintquarto or run its tests, you’ll need some additional tools:\n\nflit (for packaging and publishing)\ngenbadge (to create a coverage badge for the README)\njupyter (for running python code in documentation)\npytest (for running tests)\npytest-cov (to calculate coverage)\ntwine (for uploading to PyPI)\nquartodoc (for generate API reference documentation)\n-e .[all] (an editable install of the package and all supported linters)\n\nThese are listed in requirements-dev.txt for convenience. To set up your development environment, run:\npip install -r requirements-dev.txt\nThere is also a testing-only environment required, as used by the testing GitHub action:\npip install -r requirements-test.txt\nQuarto is using for building the documentation. It is a standalone tool and must be installed separately from Python packages. You will need to download and install quarto from https://quarto.org/docs/get-started/.\n\n\nBy default, contributors are encouraged to install and use the latest versions of development tools when working on the project. This approach helps keep the project compatible with current tooling and surfaces issues early.\nFor contributors who need a fully reproducible and stable setup, a Conda environment file is provided: requirements-stable.yml. This file pins all development tool versions, including Python, so you can expect consistent behaviour across systems.\nTo update the versions in this stable environment, run conda update --all and test thoroughly (running tests, building documentation), and updating the .yml file.\n\n\n\n\nTo run tests (with coverage calculation):\npytest --cov\n\n\n\nBash scripts are provided for linting. To make them executable:\nchmod +x lint_package.sh\nchmod +x lint_docs.sh\nTo lint package:\nlint_package.sh\nTo lint documentation:\nlint_docs.sh\n\n\n\nTo build and preview the documentation:\nmake -C docs\n\n\n\nIf you are a maintainer and need to publish a new release:\n\nUpdate the CHANGELOG.md.\nUpdate the version number in __init__.py, CITATION.cff and README.md citation, and update the date in CITATION.cff.\nCreate a release on GitHub, which will automatically archive to Zenodo.\nBuild and publish using flit or twine.\n\nTo upload to PyPI using flit:\nflit publish\nTo upload to PyPI using twine: remove any existing builds, then build the package locally and push with twine, entering the API token when prompted:\nrm -rf dist/\nflit build\ntwine upload --repository pypi dist/*\nFor test runs, you can use the same method with test PyPI:\nrm -rf dist/\nflit build\ntwine upload --repository testpypi dist/*"
+    "text": "Major updates include support for multiple linters and file/directory exclusion, expanded testing, several fixes (e.g. false positive linter warnings, deletion of .py files, coverage badge), and the removal of pylama.\n\n\n\nExclude: Add an -e / --exclude flag to exclude files/directories, with examples in documentation.\nMultiple linters: Add option to run multiple linters using -l / --linters.\nTests: Expanded to provide a comprehensive set of unit tests for the args, converter, linelength and linters modules, as well as integration and functional tests for the __main__ module.\nTest CI: GitHub actions workflow now runs tests on multiple Python versions (3.7-3.13).\n\n\n\n\n\nConverter: Changed conversion of quarto to python file from a function (_qmd_lines_to_py_lines) to a class (QmdToPyConverter).\nCommand to run lintquarto: To run multiple linters, now required to use -l / --linters for linters and -p / --paths for files and directories.\n\n\n\n\n\nPre-commit: Removed, as it was not functioning as intended and a manual workflow is now preferred.\nPylama: Removed, since its supported linters are now integrated directly, and the others were either redundant or deprecated (#25).\nBehind the scenes: removed as now more complex and decided better to just look at the code rahter than page in docs, more standard, and up to date, etc.\n\n\n\n\n\nREADME: Display of coverage badge.\nChunk options: Amends Quarto code chunk options from #| ... to # | ... to avoid linting errors.\nE305: Linters like flake8 will warn “Expected 2 blank lines after end of function or class (E305)” at the start of a quarto code cell, but this will never be true, so for those linters, noqa: E305 is always appended.\nE302: For functions/classes defined at the start of a quarto code cell, linters like flake8 will also warn “Expected 2 blank lines, found 0 (E302)”. This will also not be true, so in those cases, noqa: E302 is appended.\nE501: When appending noqa: E302,E305 the line length can then become too long - “Line too long (82 &gt; 79 characters) (E501)”. Hence, this warning is disabled in these cases (where the line length was fine before, but not after adding the noqa comment).\nDeletion of .py file: When creating the temporary python file, the converter would replace any of the same name in the directory. If not keeping, it would then delete it. This issue has been fixed, by appending the duplicate temporary filename (e.g. file (1).py).\nC0114: pylint will warn “missing-module-docstring / C0114” but this will never be relevant for a quarto file so has been disabled.\nErrors in convert_qmd_to_py: For FileNotFoundError and PermissionError, corrected to also return None (as already done for Exception).\nCoverage badge: Coverage badge is now pushed to the repository when generated in the tests GitHub action."
   },
   {
-    "objectID": "pages/contributing.html#code-of-conduct",
-    "href": "pages/contributing.html#code-of-conduct",
-    "title": "Contributing",
+    "objectID": "pages/changelog.html#v0.2.0---2025-06-27",
+    "href": "pages/changelog.html#v0.2.0---2025-06-27",
+    "title": "Changelog",
     "section": "",
-    "text": "Please be respectful and considerate. See the code of conduct for details."
+    "text": "Major updates include expanded linter support, new Quarto documentation, and new CI/CD workflows.\n\n\n\nLinter support: Added support for new Python linters: pyflakes, ruff, pylama, vulture, pycodestyle, pyright, pyrefly and pytype.\nDocumentation:\n\nIntroduced Quarto documentation site with getting started, API reference, user guide and detailed linter pages.\nAdd the downloadthis extension to allow download buttons in .qmd files.\nAdd a Makefile for building and previewing the documentation.\n\nCI/CD: Added GitHub actions to build documentation and run tests.\nLinting the package: Added scripts and a pre-commit hook to lint the package code and documentation.\nEnvironment: Created a stable version of the environment with pinned versions using Conda.\n\n\n\n\n\nRefactoring: Refactored and simplified main code and converter logic, and linted the package.\nREADME: Updated with new buttons and shield badges.\nCONTRIBUTING: Add instructions on releases, bug reports, dependency versions, testing, and linting.\nEnvironment: Add jupyter, genbadge, pre-commit, pytest-cov and quartodoc to the environment.\n\n\n\n\n\nREADME: Corrected links (PyPI, Zenodo, external images)."
   },
   {
-    "objectID": "pages/behind_the_scenes.html",
-    "href": "pages/behind_the_scenes.html",
-    "title": "Behind the scenes",
+    "objectID": "pages/changelog.html#v0.1.0---2025-06-24",
+    "href": "pages/changelog.html#v0.1.0---2025-06-24",
+    "title": "Changelog",
     "section": "",
-    "text": "This page explains how the lintquarto package works."
-  },
-  {
-    "objectID": "pages/behind_the_scenes.html#discover-files",
-    "href": "pages/behind_the_scenes.html#discover-files",
-    "title": "Behind the scenes",
-    "section": "1. Discover files",
-    "text": "1. Discover files\nYou can give lintquarto either a single file or a whole directory to check.\nIf you provide a directory, the package will search through that folder and all its subfolders to find every Quarto .qmd file."
-  },
-  {
-    "objectID": "pages/behind_the_scenes.html#convert",
-    "href": "pages/behind_the_scenes.html#convert",
-    "title": "Behind the scenes",
-    "section": "2. Convert",
-    "text": "2. Convert\nFor each .qmd file found, lintquarto opens the file and reads its contents. A quarto file is made of three main parts:\n\nThe YAML header (at the top).\nMarkdown text.\nCode chunks (possibly in different languages).\n\nlintquarto goes through the file and generates a temporary Python .py version of the file where:\n\nAll python code chunks (marked with ```{python} ```) are kept as real python code.\nEvery other line (YAML, markdown, non-Python code) is replaced with a Python comment # -.\n\nThis approach means the line numbers in the .py file match the original .qmd file, so any lint messages will point to the correct place in the Quarto document.\nIt also means non-Python lines won’t be checked by the linter and generate false positives.\nExample conversion:\nlintquarto behind_the_scenes/file.qmd --keep-temp\n\n\nQuarto .qmd file:\n\n\n\n1:     ---\n2:     Title: Example Quarto file\n3:     ---\n4:     \n5:     This is an example file.\n6:     \n7:     Here is some Python code:\n8:     \n9:     ```{python}\n10:    def add_numbers(a, b):\n11:        return a + b\n12:    \n13:    add_numbers(3, 5)\n14:    ```\n15:    \n16:    Here is some R code:\n17:    \n18:    ```{r}\n19:    # Print Hello, World! in R\n20:    print(\"Hello, World!\")\n21:    ```\n22:    \n23:    Here is some inactive Python code:\n24:    \n25:    ```{.python}\n26:    # This code is not executed\n27:    x = 5\n28:    y = 10\n29:    z = x + y\n30:    print(f\"The sum is {z}\")\n31:    ```\n\n\n\n\n\n\nPython .py file:\n\n\n\n1:     # -\n2:     # -\n3:     # -\n4:     # -\n5:     # -\n6:     # -\n7:     # -\n8:     # -\n9:     # %% [python]\n10:    def add_numbers(a, b):\n11:        return a + b\n12:    \n13:    add_numbers(3, 5)\n14:    # -\n15:    # -\n16:    # -\n17:    # -\n18:    # -\n19:    # -\n20:    # -\n21:    # -\n22:    # -\n23:    # -\n24:    # -\n25:    # -\n26:    # -\n27:    # -\n28:    # -\n29:    # -\n30:    # -\n31:    # -"
-  },
-  {
-    "objectID": "pages/behind_the_scenes.html#lint-and-process",
-    "href": "pages/behind_the_scenes.html#lint-and-process",
-    "title": "Behind the scenes",
-    "section": "3. Lint and process",
-    "text": "3. Lint and process\nNext, lintquarto runs a Python linter on the temporary .py file.\n\n\n\n************* Module file\nbehind_the_scenes/file.py:1:0: C0114: Missing module docstring (missing-module-docstring)\nbehind_the_scenes/file.py:10:0: C0116: Missing function or method docstring (missing-function-docstring)\n\n-----------------------------------\nYour code has been rated at 3.33/10\n\n\n\n\nIt stores the output of the linter. Then it replaces any instance of the temporary file.py name in the output, with the original file.qmd name.\nThe lint results are then print to the terminal.\n\n\n************* Module file (1)\nbehind_the_scenes/file (1).py:1:0: C0103: Module name \"file (1)\" doesn't conform to snake_case naming style (invalid-name)\nbehind_the_scenes/file (1).py:10:0: C0116: Missing function or method docstring (missing-function-docstring)\n\n-----------------------------------\nYour code has been rated at 3.33/10"
-  },
-  {
-    "objectID": "pages/behind_the_scenes.html#find-out-more",
-    "href": "pages/behind_the_scenes.html#find-out-more",
-    "title": "Behind the scenes",
-    "section": "Find out more",
-    "text": "Find out more\nSee the API reference for details on the functions and classes in this package."
+    "text": "🌱 First release.\n\n\n\nLint Quarto markdown (.qmd) files using pylint, flake8, or mypy."
   },
   {
     "objectID": "pages/api/main.html",
@@ -525,100 +487,86 @@
     "text": "Adapted from code generated by Perplexity."
   },
   {
-    "objectID": "pages/changelog.html",
-    "href": "pages/changelog.html",
-    "title": "Changelog",
+    "objectID": "pages/contributing.html",
+    "href": "pages/contributing.html",
+    "title": "Contributing",
     "section": "",
-    "text": "All notable changes to this project are documented.\nThe format is based on Keep a Changelog, and this project adheres to Semantic Versioning. Dates formatted as YYYY-MM-DD as per ISO standard.\n\n\nMajor updates include expanded linter support, new Quarto documentation, and new CI/CD workflows.\n\n\n\nLinter support: Added support for new Python linters: pyflakes, ruff, pylama, vulture, pycodestyle, pyright, pyrefly and pytype.\nDocumentation:\n\nIntroduced Quarto documentation site with getting started, API reference, user guide and detailed linter pages.\nAdd the downloadthis extension to allow download buttons in .qmd files.\nAdd a Makefile for building and previewing the documentation.\n\nCI/CD: Added GitHub actions to build documentation and run tests.\nLinting the package: Added scripts and a pre-commit hook to lint the package code and documentation.\nEnvironment: Created a stable version of the environment with pinned versions using Conda.\n\n\n\n\n\nRefactoring: Refactored and simplified main code and converter logic, and linted the package.\nREADME: Updated with new buttons and shield badges.\nCONTRIBUTING: Add instructions on releases, bug reports, dependency versions, testing, and linting.\nEnvironment: Add jupyter, genbadge, pre-commit, pytest-cov and quartodoc to the environment.\n\n\n\n\n\nREADME: Corrected links (PyPI, Zenodo, external images).\n\n\n\n\n\n🌱 First release.\n\n\n\nLint Quarto markdown (.qmd) files using pylint, flake8, or mypy."
+    "text": "Thank you for your interest in contributing!\n\n\n\nBefore opening an issue, please search existing issues to avoid duplicates. If there is not an existing issue, please open open and provide as much detail as possible.\n\nFor feature requests or documentation improvements, please describe your suggestion clearly.\nFor bugs, include:\n\nSteps to reproduce.\nExpected and actual behaviour.\nEnvironment details (operating system, python version, dependencies).\nRelevant files (e.g. problematic .qmd files).\n\n\n\n\n\nConfirm reproducibility by following the reported steps.\nLabel the issue appropriately (e.g. bug).\nRequest additional information if necessary.\nLink related issues or pull requests.\nOne resolved, close the issue with a brief summary of the fix.\n\n\n\n\n\n\n\nFork the repository and clone your fork.\nCreate a new branch for your feature or fix:\n\ngit checkout -b my-feature\n\nMake your changes and commit them with clear, descriptive messages using the conventional commits standard.\nPush your branch to your fork:\n\ngit push origin my-feature\n\nOpen a pull request against the main branch. Describe your changes and reference any related issues.\n\n\n\n\n\n\n\nIf you want to contribute to lintquarto or run its tests, you’ll need some additional tools:\n\nflit (for packaging and publishing)\ngenbadge (to create a coverage badge for the README)\njupyter (for running python code in documentation)\npytest (for running tests)\npytest-cov (to calculate coverage)\ntwine (for uploading to PyPI)\nquartodoc (for generate API reference documentation)\n-e .[all] (an editable install of the package and all supported linters)\n\nThese are listed in requirements-dev.txt for convenience. To set up your development environment, run:\npip install -r requirements-dev.txt\nThere is also a testing-only environment required, as used by the testing GitHub action:\npip install -r requirements-test.txt\nQuarto is using for building the documentation. It is a standalone tool and must be installed separately from Python packages. You will need to download and install quarto from https://quarto.org/docs/get-started/.\n\n\nBy default, contributors are encouraged to install and use the latest versions of development tools when working on the project. This approach helps keep the project compatible with current tooling and surfaces issues early.\nFor contributors who need a fully reproducible and stable setup, a Conda environment file is provided: requirements-stable.yml. This file pins all development tool versions, including Python, so you can expect consistent behaviour across systems.\nTo update the versions in this stable environment, run conda update --all and test thoroughly (running tests, building documentation), and updating the .yml file.\n\n\n\n\nTo run tests (with coverage calculation):\npytest --cov\n\n\n\nBash scripts are provided for linting. To make them executable:\nchmod +x lint_package.sh\nchmod +x lint_docs.sh\nTo lint package:\nlint_package.sh\nTo lint documentation:\nlint_docs.sh\n\n\n\nTo build and preview the documentation:\nmake -C docs\n\n\n\nIf you are a maintainer and need to publish a new release:\n\nUpdate the CHANGELOG.md.\nUpdate the version number in __init__.py, CITATION.cff and README.md citation, and update the date in CITATION.cff.\nCreate a release on GitHub, which will automatically archive to Zenodo.\nBuild and publish using flit or twine.\n\nTo upload to PyPI using flit:\nflit publish\nTo upload to PyPI using twine: remove any existing builds, then build the package locally and push with twine, entering the API token when prompted:\nrm -rf dist/\nflit build\ntwine upload --repository pypi dist/*\nFor test runs, you can use the same method with test PyPI:\nrm -rf dist/\nflit build\ntwine upload --repository testpypi dist/*\n\n\n\n\n\nPlease be respectful and considerate. See the code of conduct for details."
   },
   {
-    "objectID": "pages/changelog.html#v0.2.0---2025-06-27",
-    "href": "pages/changelog.html#v0.2.0---2025-06-27",
-    "title": "Changelog",
+    "objectID": "pages/contributing.html#workflow-for-bug-reports-feature-requests-and-documentation-improvements",
+    "href": "pages/contributing.html#workflow-for-bug-reports-feature-requests-and-documentation-improvements",
+    "title": "Contributing",
     "section": "",
-    "text": "Major updates include expanded linter support, new Quarto documentation, and new CI/CD workflows.\n\n\n\nLinter support: Added support for new Python linters: pyflakes, ruff, pylama, vulture, pycodestyle, pyright, pyrefly and pytype.\nDocumentation:\n\nIntroduced Quarto documentation site with getting started, API reference, user guide and detailed linter pages.\nAdd the downloadthis extension to allow download buttons in .qmd files.\nAdd a Makefile for building and previewing the documentation.\n\nCI/CD: Added GitHub actions to build documentation and run tests.\nLinting the package: Added scripts and a pre-commit hook to lint the package code and documentation.\nEnvironment: Created a stable version of the environment with pinned versions using Conda.\n\n\n\n\n\nRefactoring: Refactored and simplified main code and converter logic, and linted the package.\nREADME: Updated with new buttons and shield badges.\nCONTRIBUTING: Add instructions on releases, bug reports, dependency versions, testing, and linting.\nEnvironment: Add jupyter, genbadge, pre-commit, pytest-cov and quartodoc to the environment.\n\n\n\n\n\nREADME: Corrected links (PyPI, Zenodo, external images)."
+    "text": "Before opening an issue, please search existing issues to avoid duplicates. If there is not an existing issue, please open open and provide as much detail as possible.\n\nFor feature requests or documentation improvements, please describe your suggestion clearly.\nFor bugs, include:\n\nSteps to reproduce.\nExpected and actual behaviour.\nEnvironment details (operating system, python version, dependencies).\nRelevant files (e.g. problematic .qmd files).\n\n\n\n\n\nConfirm reproducibility by following the reported steps.\nLabel the issue appropriately (e.g. bug).\nRequest additional information if necessary.\nLink related issues or pull requests.\nOne resolved, close the issue with a brief summary of the fix."
   },
   {
-    "objectID": "pages/changelog.html#v0.1.0---2025-06-24",
-    "href": "pages/changelog.html#v0.1.0---2025-06-24",
-    "title": "Changelog",
+    "objectID": "pages/contributing.html#workflow-for-code-contributions-bug-fixes-enhancements",
+    "href": "pages/contributing.html#workflow-for-code-contributions-bug-fixes-enhancements",
+    "title": "Contributing",
     "section": "",
-    "text": "🌱 First release.\n\n\n\nLint Quarto markdown (.qmd) files using pylint, flake8, or mypy."
+    "text": "Fork the repository and clone your fork.\nCreate a new branch for your feature or fix:\n\ngit checkout -b my-feature\n\nMake your changes and commit them with clear, descriptive messages using the conventional commits standard.\nPush your branch to your fork:\n\ngit push origin my-feature\n\nOpen a pull request against the main branch. Describe your changes and reference any related issues."
   },
   {
-    "objectID": "pages/get_started.html",
-    "href": "pages/get_started.html",
-    "title": "Getting started",
+    "objectID": "pages/contributing.html#development-and-testing",
+    "href": "pages/contributing.html#development-and-testing",
+    "title": "Contributing",
     "section": "",
-    "text": "Python 3.7 or higher is required. lintquarto itself has no dependencies.\nInstall lintquarto with:\npip install lintquarto\nLinters are installed separately. For example, to use pylint and flake8, run:\npip install pylint flake8\nIf you want to install lintquarto along with all supported linters, use:\npip install lintquarto[all]\nYou can verify your installation with:\nlintquarto --version"
+    "text": "If you want to contribute to lintquarto or run its tests, you’ll need some additional tools:\n\nflit (for packaging and publishing)\ngenbadge (to create a coverage badge for the README)\njupyter (for running python code in documentation)\npytest (for running tests)\npytest-cov (to calculate coverage)\ntwine (for uploading to PyPI)\nquartodoc (for generate API reference documentation)\n-e .[all] (an editable install of the package and all supported linters)\n\nThese are listed in requirements-dev.txt for convenience. To set up your development environment, run:\npip install -r requirements-dev.txt\nThere is also a testing-only environment required, as used by the testing GitHub action:\npip install -r requirements-test.txt\nQuarto is using for building the documentation. It is a standalone tool and must be installed separately from Python packages. You will need to download and install quarto from https://quarto.org/docs/get-started/.\n\n\nBy default, contributors are encouraged to install and use the latest versions of development tools when working on the project. This approach helps keep the project compatible with current tooling and surfaces issues early.\nFor contributors who need a fully reproducible and stable setup, a Conda environment file is provided: requirements-stable.yml. This file pins all development tool versions, including Python, so you can expect consistent behaviour across systems.\nTo update the versions in this stable environment, run conda update --all and test thoroughly (running tests, building documentation), and updating the .yml file.\n\n\n\n\nTo run tests (with coverage calculation):\npytest --cov\n\n\n\nBash scripts are provided for linting. To make them executable:\nchmod +x lint_package.sh\nchmod +x lint_docs.sh\nTo lint package:\nlint_package.sh\nTo lint documentation:\nlint_docs.sh\n\n\n\nTo build and preview the documentation:\nmake -C docs\n\n\n\nIf you are a maintainer and need to publish a new release:\n\nUpdate the CHANGELOG.md.\nUpdate the version number in __init__.py, CITATION.cff and README.md citation, and update the date in CITATION.cff.\nCreate a release on GitHub, which will automatically archive to Zenodo.\nBuild and publish using flit or twine.\n\nTo upload to PyPI using flit:\nflit publish\nTo upload to PyPI using twine: remove any existing builds, then build the package locally and push with twine, entering the API token when prompted:\nrm -rf dist/\nflit build\ntwine upload --repository pypi dist/*\nFor test runs, you can use the same method with test PyPI:\nrm -rf dist/\nflit build\ntwine upload --repository testpypi dist/*"
   },
   {
-    "objectID": "pages/get_started.html#installation",
-    "href": "pages/get_started.html#installation",
-    "title": "Getting started",
+    "objectID": "pages/contributing.html#code-of-conduct",
+    "href": "pages/contributing.html#code-of-conduct",
+    "title": "Contributing",
     "section": "",
-    "text": "Python 3.7 or higher is required. lintquarto itself has no dependencies.\nInstall lintquarto with:\npip install lintquarto\nLinters are installed separately. For example, to use pylint and flake8, run:\npip install pylint flake8\nIf you want to install lintquarto along with all supported linters, use:\npip install lintquarto[all]\nYou can verify your installation with:\nlintquarto --version"
+    "text": "Please be respectful and considerate. See the code of conduct for details."
   },
   {
-    "objectID": "pages/get_started.html#basic-usage",
-    "href": "pages/get_started.html#basic-usage",
-    "title": "Getting started",
-    "section": "Basic usage",
-    "text": "Basic usage\nlintquarto [linter] [files or folders] [-e paths | --exclude paths] [-k | --keep-temp]\n\n[linter] - Choose one of the supported linters: pylint, flake8, pyflakes, ruff, pylama, vulture, radon, pycodestyle, mypy, pyright, pyrefly, or pytype\n[files or folders] - One or more .qmd files or directories to lint.\n-e paths, –exclude paths - Comma-separated list of files and/or directories to exclude from linting.\n-k, –keep-temp - Keep the temporary .py files created during linting (for debugging).\n\nOnly one linter can be specified per command. Passing extra arguments directly to linters is not supported. Only .qmd files are processed."
-  },
-  {
-    "objectID": "pages/get_started.html#examples",
-    "href": "pages/get_started.html#examples",
-    "title": "Getting started",
-    "section": "Examples",
-    "text": "Examples\nThe linter used is interchangeable in these examples.\nLint all .qmd files in the current directory (using pylint):\nlintquarto pylint .\nLint a specific file (using flake8):\nlintquarto flake8 file.qmd\nLint several specific files (using pylint):\nlintquarto pylint file1.qmd file2.qmd\nLint all .qmd files in a folder (using mypy):\nlintquarto mypy folder\nKeep temporary .py files after linting (with pylint)\nlintquarto pylint . -k\nLint all files in current directory (using ruff):\n\nExcluding folders examples/ and ignore/, or-\nExcluding a specific file analysis/test.qmd.\n\nlintquarto ruff . -e examples,ignore\nlintquarto ruff . -e analysis/test.qmd"
-  },
-  {
-    "objectID": "pages/tools/mypy.html#example-quarto-.qmd-file",
-    "href": "pages/tools/mypy.html#example-quarto-.qmd-file",
-    "title": "mypy",
-    "section": "Example Quarto .qmd file:",
-    "text": "Example Quarto .qmd file:\n Download the example \n\n\n\n1:     ---\n2:     title: \"Example\"\n3:     ---\n4:     \n5:     This file contains some issues for the linter (static type checker) to identify.\n6:     \n7:     ```{python}\n8:     def add_numbers(a: int, b: int) -&gt; int:\n9:         return a + b\n10:    \n11:    add_numbers(3, \"5\")\n12:    ```\n13:    \n14:    There's some more issues below...\n15:    \n16:    ```{python}\n17:    add_numbers(1, 4)\n18:    \n19:    add_numbers(\"apples\", 8)\n20:    ```",
-    "crumbs": [
-      "User guide",
-      "**Static type checkers**",
-      "mypy"
-    ]
-  },
-  {
-    "objectID": "pages/tools/mypy.html#run-mypy-using-lintquarto",
-    "href": "pages/tools/mypy.html#run-mypy-using-lintquarto",
-    "title": "mypy",
-    "section": "Run mypy using lintquarto",
-    "text": "Run mypy using lintquarto\nlintquarto mypy typecheck_example.qmd\n\n\n\n\n\nexamples/typecheck_example.qmd:11: error: Argument 2 to \"add_numbers\" has incompatible type \"str\"; expected \"int\"  [arg-type]\n\nexamples/typecheck_example.qmd:19: error: Argument 1 to \"add_numbers\" has incompatible type \"str\"; expected \"int\"  [arg-type]\n\nFound 2 errors in 1 file (checked 1 source file)",
-    "crumbs": [
-      "User guide",
-      "**Static type checkers**",
-      "mypy"
-    ]
-  },
-  {
-    "objectID": "pages/tools/pyflakes.html#example-quarto-.qmd-file",
-    "href": "pages/tools/pyflakes.html#example-quarto-.qmd-file",
-    "title": "pyflakes",
+    "objectID": "pages/tools/flake8.html#example-quarto-.qmd-file",
+    "href": "pages/tools/flake8.html#example-quarto-.qmd-file",
+    "title": "flake8",
     "section": "Example Quarto .qmd file:",
     "text": "Example Quarto .qmd file:\n Download the example \n\n\n\n1:     ---\n2:     title: \"Example\"\n3:     ---\n4:     \n5:     This file contains some issues for the linter to identify.\n6:     \n7:     ```{python}\n8:     very_long_line = \"This long string exceeds the maximum allowed characters per line.\"\n9:     ```\n10:    \n11:    There's some more issues below...\n12:    \n13:    ```{python}\n14:    def add_numbers(a, b):\n15:        return a + b\n16:    \n17:    add_numbers(3, 5)\n18:    \n19:    import sys\n20:    ```",
     "crumbs": [
       "User guide",
       "**General linters**",
-      "pyflakes"
+      "flake8"
     ]
   },
   {
-    "objectID": "pages/tools/pyflakes.html#run-pyflakes-using-lintquarto",
-    "href": "pages/tools/pyflakes.html#run-pyflakes-using-lintquarto",
-    "title": "pyflakes",
-    "section": "Run pyflakes using lintquarto",
-    "text": "Run pyflakes using lintquarto\nlintquarto pyflakes general_example.qmd\n\n\n\n\nexamples/general_example.qmd:19:1: 'sys' imported but unused",
+    "objectID": "pages/tools/flake8.html#run-flake8-using-lintquarto",
+    "href": "pages/tools/flake8.html#run-flake8-using-lintquarto",
+    "title": "flake8",
+    "section": "Run flake8 using lintquarto",
+    "text": "Run flake8 using lintquarto\nlintquarto -l flake8 -p general_example.qmd\n\n\n\n\n=============================================================\nRunning flake8...\n=============================================================\nexamples/general_example.qmd:8:80: E501 line too long (98 &gt; 79 characters)\nexamples/general_example.qmd:17:1: E305 expected 2 blank lines after class or function definition, found 1\nexamples/general_example.qmd:19:1: F401 'sys' imported but unused\nexamples/general_example.qmd:19:1: E402 module level import not at top of file",
     "crumbs": [
       "User guide",
       "**General linters**",
-      "pyflakes"
+      "flake8"
+    ]
+  },
+  {
+    "objectID": "pages/tools/pycodestyle.html#example-quarto-.qmd-file",
+    "href": "pages/tools/pycodestyle.html#example-quarto-.qmd-file",
+    "title": "pycodestyle",
+    "section": "Example Quarto .qmd file:",
+    "text": "Example Quarto .qmd file:\n Download the example \n\n\n\n1:     ---\n2:     title: \"Example\"\n3:     ---\n4:     \n5:     This file contains some issues for the linter to identify.\n6:     \n7:     ```{python}\n8:     very_long_line = \"This long string exceeds the maximum allowed characters per line.\"\n9:     ```\n10:    \n11:    There's some more issues below...\n12:    \n13:    ```{python}\n14:    def add_numbers(a, b):\n15:        return a + b\n16:    \n17:    add_numbers(3, 5)\n18:    \n19:    import sys\n20:    ```",
+    "crumbs": [
+      "User guide",
+      "**General linters**",
+      "pycodestyle"
+    ]
+  },
+  {
+    "objectID": "pages/tools/pycodestyle.html#run-pycodestyle-using-lintquarto",
+    "href": "pages/tools/pycodestyle.html#run-pycodestyle-using-lintquarto",
+    "title": "pycodestyle",
+    "section": "Run pycodestyle using lintquarto",
+    "text": "Run pycodestyle using lintquarto\nlintquarto -l pycodestyle -p general_example.qmd\n\n\n\n\n=============================================================\nRunning pycodestyle...\n=============================================================\nexamples/general_example.qmd:14:1: E302 expected 2 blank lines, found 0\nexamples/general_example.qmd:17:1: E305 expected 2 blank lines after class or function definition, found 1\nexamples/general_example.qmd:19:1: E402 module level import not at top of file",
+    "crumbs": [
+      "User guide",
+      "**General linters**",
+      "pycodestyle"
     ]
   },
   {
@@ -638,7 +586,7 @@
     "href": "pages/tools/pylint.html#run-pylint-using-lintquarto",
     "title": "pylint",
     "section": "Run pylint using lintquarto",
-    "text": "Run pylint using lintquarto\nlintquarto pylint general_example.qmd\n\n\n\n\n************* Module general_example\nexamples/general_example.qmd:8:0: C0103: Constant name \"very_long_line\" doesn't conform to UPPER_CASE naming style (invalid-name)\nexamples/general_example.qmd:14:0: C0116: Missing function or method docstring (missing-function-docstring)\nexamples/general_example.qmd:19:0: C0413: Import \"import sys\" should be placed at the top of the module (wrong-import-position)\nexamples/general_example.qmd:19:0: W0611: Unused import sys (unused-import)\n\n-----------------------------------\nYour code has been rated at 2.00/10",
+    "text": "Run pylint using lintquarto\nlintquarto -l pylint -p general_example.qmd\n\n\n\n\n=============================================================\nRunning pylint...\n=============================================================\n************* Module general_example\nexamples/general_example.qmd:8:0: C0103: Constant name \"very_long_line\" doesn't conform to UPPER_CASE naming style (invalid-name)\nexamples/general_example.qmd:14:0: C0116: Missing function or method docstring (missing-function-docstring)\nexamples/general_example.qmd:19:0: C0413: Import \"import sys\" should be placed at the top of the module (wrong-import-position)\nexamples/general_example.qmd:19:0: W0611: Unused import sys (unused-import)\n\n-----------------------------------\nYour code has been rated at 2.00/10",
     "crumbs": [
       "User guide",
       "**General linters**",
@@ -662,7 +610,7 @@
     "href": "pages/tools/pyright.html#run-pyright-using-lintquarto",
     "title": "pyright",
     "section": "Run pyright using lintquarto",
-    "text": "Run pyright using lintquarto\nlintquarto pyright typecheck_example.qmd\n\n\n\n\n\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/typecheck_example.qmd\n\n  /home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/typecheck_example.qmd:11:16 - error: Argument of type \"Literal['5']\" cannot be assigned to parameter \"b\" of type \"int\" in function \"add_numbers\"\n\n    \"Literal['5']\" is not assignable to \"int\" (reportArgumentType)\n\n  /home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/typecheck_example.qmd:19:13 - error: Argument of type \"Literal['apples']\" cannot be assigned to parameter \"a\" of type \"int\" in function \"add_numbers\"\n\n    \"Literal['apples']\" is not assignable to \"int\" (reportArgumentType)\n\n2 errors, 0 warnings, 0 informations",
+    "text": "Run pyright using lintquarto\nlintquarto -l pyright -p typecheck_example.qmd\n\n\n\n\n\n=============================================================\n\nRunning pyright...\n\n=============================================================\n\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/typecheck_example.qmd\n\n  /home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/typecheck_example.qmd:11:16 - error: Argument of type \"Literal['5']\" cannot be assigned to parameter \"b\" of type \"int\" in function \"add_numbers\"\n\n    \"Literal['5']\" is not assignable to \"int\" (reportArgumentType)\n\n  /home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/typecheck_example.qmd:19:13 - error: Argument of type \"Literal['apples']\" cannot be assigned to parameter \"a\" of type \"int\" in function \"add_numbers\"\n\n    \"Literal['apples']\" is not assignable to \"int\" (reportArgumentType)\n\n2 errors, 0 warnings, 0 informations",
     "crumbs": [
       "User guide",
       "**Static type checkers**",
@@ -686,7 +634,7 @@
     "href": "pages/tools/radon.html#run-radon-using-lintquarto",
     "title": "radon",
     "section": "Run radon using lintquarto",
-    "text": "Run radon using lintquarto\nlintquarto radon complexity_example.qmd\n\n\n\n\nexamples/complexity_example.qmd\n    F 17:0 check_number - C\n    F 9:0 simple_addition - A",
+    "text": "Run radon using lintquarto\nlintquarto -l radon -p complexity_example.qmd\n\n\n\n\n=============================================================\nRunning radon...\n=============================================================\nexamples/complexity_example.qmd\n    F 17:0 check_number - C\n    F 9:0 simple_addition - A",
     "crumbs": [
       "User guide",
       "**Speciality linters**",
@@ -709,7 +657,7 @@
     "href": "pages/tools/summary.html#general-linters",
     "title": "lintquarto",
     "section": "General linters",
-    "text": "General linters\n\n\n\n\n\n\n\nTool\nDescription\n\n\n\n\nflake8\nLightweight tool focused on PEP-8 style, basic errors, and code complexity.\n\n\npycodestyle\nChecks against PEP-8 style guidelines.\n\n\npyflakes\nChecks for logical errors like undefined names and unused imports.\n\n\npylama\nAggregates results from multiple linters. By default, it runs pyflakes, pycodestyle, mccabe, and combines their output.\n\n\npylint\nDetailed linter that detects errors, bugs, variable naming issues, and other code problems.\n\n\nruff\nModern, ultra-fast linter that implements checks from Flake8 and some other popular plugins.",
+    "text": "General linters\n\n\n\n\n\n\n\nTool\nDescription\n\n\n\n\nflake8\nLightweight tool focused on PEP-8 style, basic errors, and code complexity.\n\n\npycodestyle\nChecks against PEP-8 style guidelines.\n\n\npyflakes\nChecks for logical errors like undefined names and unused imports.\n\n\npylint\nDetailed linter that detects errors, bugs, variable naming issues, and other code problems.\n\n\nruff\nModern, ultra-fast linter that implements checks from Flake8 and some other popular plugins.",
     "crumbs": [
       "User guide",
       "**Summary**"
