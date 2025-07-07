@@ -55,8 +55,14 @@ jobs:
         if: runner.os != 'Windows'
         run: pip install -r requirements-test.txt
 
-      - name: Run tests with coverage
-        run: pytest --cov --cov-report=xml
+      - name: Run tests (with coverage for Ubuntu 3.13)
+        run: |
+          if [ "${{ matrix.os }}" = "ubuntu-latest" ] && [ "${{ matrix.python-version }}" = "3.13" ]; then
+            pytest --cov --cov-report=xml
+          else
+            pytest
+          fi
+        shell: bash
 
       - name: Generate coverage badge (for-the-badge style)
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
