@@ -135,18 +135,18 @@ def gather_qmd_files(paths, exclude=None):
         p = Path(path)
         # If path is a single .qmd file, add it
         if p.is_file() and p.suffix == ".qmd":
-            abs_file = str(p.resolve())
+            abs_file = p.resolve()
             # Exclude if file or its parent dir is in exclude
-            if not any(abs_file == e or abs_file.startswith(e + "/")
+            if not any(abs_file == e or abs_file.is_relative_to(e)
                        for e in exclude):
-                files.append(str(p))
+                files.append(str(abs_file))
         # If path is a directory, recursively add all .qmd files found within
         elif p.is_dir():
             for f in p.rglob("*.qmd"):
-                abs_file = str(f.resolve())
-                if not any(abs_file == e or abs_file.startswith(e + "/")
+                abs_file = f.resolve()
+                if not any(abs_file == e or abs_file.is_relative_to(e)
                            for e in exclude):
-                    files.append(str(f))
+                    files.append(str(abs_file))
     return files
 
 
