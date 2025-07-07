@@ -5,7 +5,7 @@ All notable changes to this project are documented.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Dates formatted as YYYY-MM-DD as per [ISO standard](https://www.iso.org/iso-8601-date-and-time-format.html).
 
-## v1.0.0 - 2025-07-10
+## v0.3.0 - 2025-07-07
 
 Major updates include support for multiple linters and file/directory exclusion, expanded testing, several fixes (e.g. false positive linter warnings, deletion of `.py` files, coverage badge), and the removal of `pylama`.
 
