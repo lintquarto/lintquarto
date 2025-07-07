@@ -13,7 +13,7 @@
 
 **Package for running linters and static type checkers on quarto `.qmd` files.**
 
-Currently supported linters: [pylint](https://github.com/pylint-dev/pylint), [flake8](https://github.com/pycqa/flake8), [pyflakes](https://github.com/PyCQA/pyflakes), [ruff](https://github.com/astral-sh/ruff), [pylama](https://github.com/klen/pylama), [vulture](https://github.com/jendrikseipp/vulture), [radon](https://github.com/rubik/radon), and [pycodestyle](https://github.com/PyCQA/pycodestyle).
+Currently supported linters: [pylint](https://github.com/pylint-dev/pylint), [flake8](https://github.com/pycqa/flake8), [pyflakes](https://github.com/PyCQA/pyflakes), [ruff](https://github.com/astral-sh/ruff), [vulture](https://github.com/jendrikseipp/vulture), [radon](https://github.com/rubik/radon), and [pycodestyle](https://github.com/PyCQA/pycodestyle).
 
 It also supports some static type checkers: [mypy](https://github.com/python/mypy), [pyright](https://github.com/microsoft/pyright), [pyrefly](https://github.com/facebook/pyrefly), and [pytype](https://github.com/google/pytype).
 
@@ -45,14 +45,11 @@ pip install lintquarto[all]
 
 ### Usage
 
-```{.bash}
-lintquarto [linter] [files or folders] [-e paths | --exclude paths] [-k | --keep-temp]
-```
+**lintquarto -l LINTER [LINTER ...] -p PATH [PATH ...] [-e EXCLUDE [EXCLUDE ...]] [-k]**
 
-* **[linter]** - Choose one of the supported linters: `pylint`, `flake8`, `pyflakes`, `ruff`, `pylama`, `vulture`, `radon`, `pycodestyle`, `mypy`, `pyright`, `pyrefly`, or `pytype`
-
-* **[files or folders]** - One or more `.qmd` files or directories to lint.
-* **-e paths, --exclude paths** - Comma-separated list of files and/or directories to exclude from linting.
+* **-l --linters** LINTER [LINTER ...] - Linters to run. Valid options: `pylint`, `flake8`, `pyflakes`, `ruff`, `vulture`, `radon`, `pycodestyle`, `mypy`, `pyright`, `pyrefly`, or `pytype`.
+* **-p --paths** PATH [PATH ...]- Quarto files and/or directories to lint.
+* **-e --exclude** EXCLUDE [EXCLUDE ...] - Files and/or directories to exclude from linting.
 * **-k, --keep-temp** - Keep the temporary `.py` files created during linting (for debugging).
 
 Only one linter can be specified per command. Passing extra arguments directly to linters is not supported. Only `.qmd` files are processed.
@@ -64,31 +61,19 @@ The linter used is interchangeable in these examples.
 Lint all `.qmd` files in the current directory (using `pylint`):
 
 ```{.bash}
-lintquarto pylint .
+lintquarto -l pylint -p .
 ```
 
-Lint a specific file (using `flake8`):
+Lint several specific files (using `pylint` and `flake8`):
 
 ```{.bash}
-lintquarto flake8 file.qmd
-```
-
-Lint several specific files (using `pylint`):
-
-```{.bash}
-lintquarto pylint file1.qmd file2.qmd
-```
-
-Lint all `.qmd` files in a folder (using `mypy`):
-
-```{.bash}
-lintquarto mypy folder
+lintquarto -l pylint flake8 -p file1.qmd file2.qmd
 ```
 
 Keep temporary `.py` files after linting (with `pylint`)
 
 ```{.bash}
-lintquarto pylint . -k
+lintquarto -l pylint -p . -k
 ```
 
 Lint all files in current directory (using `ruff`):
@@ -97,11 +82,11 @@ Lint all files in current directory (using `ruff`):
 * Excluding a specific file `analysis/test.qmd`.
 
 ```{.bash}
-lintquarto ruff . -e examples,ignore
+lintquarto -l ruff -p . -e examples,ignore
 ```
 
 ```{.bash}
-lintquarto ruff . -e analysis/test.qmd
+lintquarto -l ruff -p . -e analysis/test.qmd
 ```
 
 <br>
@@ -116,11 +101,11 @@ Curious about contributing? Check out the [contributing guidelines](CONTRIBUTING
 
 Please cite the repository on GitHub, PyPI and/or Zenodo:
 
-> Heather, A. (2025). lintquarto (v0.2.0).  https://github.com/lintquarto/lintquarto.
+> Heather, A. (2025). lintquarto (v1.0.0).  https://github.com/lintquarto/lintquarto.
 >
-> Heather, A. (2025). lintquarto (v0.2.0). https://pypi.org/project/lintquarto/
+> Heather, A. (2025). lintquarto (v1.0.0). https://pypi.org/project/lintquarto/
 >
-> Heather, A. (2025). lintquarto (v0.2.0). https://doi.org/10.5281/zenodo.15731161.
+> Heather, A. (2025). lintquarto (v1.0.0). https://doi.org/10.5281/zenodo.15731161.
 
 Citation instructions are also provided in `CITATION.cff`.
 

@@ -25,7 +25,6 @@ class Linters:
             "flake8": ["flake8"],
             "pyflakes": ["pyflakes"],
             "ruff": ["ruff", "check"],  # To specify linter (not formatter)
-            "pylama": ["pylama"],
             "vulture": ["vulture"],
             "radon": ["radon", "cc"],  # To compute cyclomatic complexity
             "pycodestyle": ["pycodestyle"],

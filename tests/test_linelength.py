@@ -1,11 +1,11 @@
 """Unit tests for the linelength module."""
 
+import configparser
 import os
 import tempfile
-import configparser
-import toml
 
 import pytest
+import toml
 
 from lintquarto.linelength import LineLengthDetector
 

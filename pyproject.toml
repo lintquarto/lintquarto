@@ -47,7 +47,6 @@ all = [
   "flake8",
   "pyflakes",
   "ruff",
-  "pylama",
   "vulture",
   "radon",
   "pycodestyle",

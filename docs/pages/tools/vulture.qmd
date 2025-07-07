@@ -43,7 +43,7 @@ print_quarto("examples/unusedcode_example.qmd")
 ## Run vulture using `lintquarto`
 
 ```{.bash}
-lintquarto vulture unusedcode_example.qmd
+lintquarto -l vulture -p unusedcode_example.qmd
 ```
 
 :::{.pale-green}
@@ -56,7 +56,7 @@ lintquarto vulture unusedcode_example.qmd
 ```{python}
 #| echo: false
 result = subprocess.run(
-    ["lintquarto", "vulture", "examples/unusedcode_example.qmd"],
+    ["lintquarto", "-l", "vulture", "-p", "examples/unusedcode_example.qmd"],
     capture_output=True, text=True, check=False
 )
 print(result.stdout)

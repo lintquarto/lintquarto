@@ -1,5 +1,5 @@
 """
-Tests for CustomArgumentParser().
+Unit tests for the args module.
 """
 
 import pytest
