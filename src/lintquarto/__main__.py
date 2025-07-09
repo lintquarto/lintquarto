@@ -75,10 +75,13 @@ def process_qmd(
               file=sys.stderr)
         return 1
 
-    # Determine base name and remove leading "./"
-    nodot_base = str(qmd_path.with_suffix(""))
-    if nodot_base.startswith("./"):
-        nodot_base = nodot_base[2:]
+    # Prepare filename variants for replacement
+    py_file_path = str(py_file)
+    py_file_name = py_file.name
+    try:
+        py_file_abs = str(py_file.resolve())
+    except Exception:
+        py_file_abs = py_file_path
 
     # Run linter on the temporary .py file and capture output
     command = linters.supported[linter] + [str(py_file)]
@@ -90,9 +93,12 @@ def process_qmd(
         check=False
     )
 
-    # Replace references to the .py file with the .qmd file and print output
-    output = result.stdout.replace(f"{nodot_base}.py", qmd_file)
+    # Replace all references to the .py file with the .qmd file
+    output = result.stdout
+    for variant in [py_file_path, py_file_name, py_file_abs]:
+        output = output.replace(variant, qmd_file)
     print(output, end="")
+
     if result.stderr:
         print(result.stderr, file=sys.stderr)
 
