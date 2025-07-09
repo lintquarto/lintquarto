@@ -88,9 +88,9 @@ TEST_CASES = [
         "linter": "pyrefly",
         "qmd": "typecheck_example.qmd",
         "contains": [
-            "ERROR Argument `Literal['5']` is not assignable to parameter `b" +
-            "` with type `int` in function `add_numbers` [bad-argument-type]",
-            "ERROR Argument `Literal['apples']` is not assignable to " +
+            "Argument `Literal['5']` is not assignable to parameter `b`" +
+            " with type `int` in function `add_numbers` [bad-argument-type]",
+            "Argument `Literal['apples']` is not assignable to " +
             "parameter `a` with type `int` in function `add_numbers` " +
             "[bad-argument-type]"
         ]
@@ -111,10 +111,11 @@ TEST_CASES = [
         "linter": "pytype",
         "qmd": "typecheck_example.qmd",
         "contains": [
-            "11:1: error: in <module>: Function add_numbers was called with " +
-            "the wrong arguments [wrong-arg-types]",
-            "19:1: error: in <module>: Function add_numbers was called with " +
-            "the wrong arguments [wrong-arg-types]"
+            # Doesn't include line numbers as different output on python 3.7
+            "Function add_numbers was called with the wrong arguments " +
+            "[wrong-arg-types]",
+            "Function add_numbers was called with the wrong arguments " +
+            "[wrong-arg-types]"
         ]
     }
 ]
@@ -134,7 +135,7 @@ def test_back_contains(case):
          "-l", case["linter"], "-p", qmd_path],
         capture_output=True, text=True, check=False
     )
-    output = result.stdout
+    output = result.stdout + result.stderr
 
     for expected in case["contains"]:
         assert expected in output, (
