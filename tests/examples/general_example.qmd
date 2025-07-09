@@ -1,0 +1,20 @@
+---
+title: "Example"
+---
+
+This file contains some issues for the linter to identify.
+
+```{python}
+very_long_line = "This long string exceeds the maximum allowed characters per line."
+```
+
+There's some more issues below...
+
+```{python}
+def add_numbers(a, b):
+    return a + b
+
+add_numbers(3, 5)
+
+import sys
+```

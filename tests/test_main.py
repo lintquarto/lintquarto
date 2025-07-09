@@ -9,14 +9,10 @@ the full workflow (e.g. simulating user commands).
 import subprocess
 import sys
 
-import pytest
-
 from lintquarto.__main__ import gather_qmd_files, process_qmd
 
 
 CORE_LINTER = "flake8"
-ALL_LINTERS = ["pylint", "flake8", "pyflakes", "ruff", "vulture",
-               "radon", "pycodestyle", "mypy", "pyright", "pyrefly", "pytype"]
 
 
 # =============================================================================
@@ -104,9 +100,8 @@ def test_gather_qmd_files_exclude(tmp_path):
 # 3. __main__()
 # =============================================================================
 
-@pytest.mark.parametrize("linter_name", ALL_LINTERS)
-def test_main_runs(tmp_path, linter_name):
-    """Smoke Test: main() runs without error for all linters on a .qmd file."""
+def test_main_runs_functional(tmp_path):
+    """Functional Test: main() runs as a CLI entry point on real .qmd file."""
 
     # Create a minimal .qmd file for linting
     qmd_file = tmp_path / "test.qmd"
@@ -116,7 +111,7 @@ def test_main_runs(tmp_path, linter_name):
     # assert that the process exits with a valid code
     result = subprocess.run(
         [sys.executable, "-m", "lintquarto",
-         "-l", linter_name, "-p", str(qmd_file)],
+         "-l", CORE_LINTER, "-p", str(qmd_file)],
         capture_output=True,
         text=True,
         check=False
