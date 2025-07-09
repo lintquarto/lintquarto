@@ -4,7 +4,7 @@ title: Getting started
 
 ## Installation
 
-Python 3.7 or higher is required. `lintquarto` itself has no dependencies.
+Python 3.7 or higher is required. `lintquarto` itself has only one required package: `toml`.
 
 Install `lintquarto` with:
 
