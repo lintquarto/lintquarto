@@ -55,6 +55,7 @@ If you want to contribute to `lintquarto` or run its tests, you'll need some add
 
 | Tool | Purpose |
 | - | - |
+| **check-dependencies** | Test for undeclared dependencies |
 | **flit** | Packaging and publishing |
 | **genbadge** | Create coverage badge (README) |
 | **jupyter** | Run python code in docs |

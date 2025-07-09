@@ -25,4 +25,5 @@ dependencies:
   - vulture=2.14
   - pip:
       - -e .
+      - check-dependencies==0.12.6
       - genbadge==1.1.2

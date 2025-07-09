@@ -1,3 +1,4 @@
+check-dependencies
 genbadge[coverage]
 pytest
 pytest-cov
