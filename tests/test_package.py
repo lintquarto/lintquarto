@@ -1,8 +1,13 @@
 """Tests related to package build."""
 
 import subprocess
+import sys
+
+import pytest
 
 
+@pytest.mark.skipif(sys.version_info < (3, 8),
+                    reason="check-dependencies requires Python 3.8+")
 def test_check_dependencies():
     """Test for missing or undeclared dependencies."""
     result = subprocess.run(
