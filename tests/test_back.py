@@ -120,6 +120,7 @@ TEST_CASES = [
     }
 ]
 
+
 @pytest.mark.skipif(
     sys.version_info >= (3, 13),
     reason="pytype does not support Python >3.12"
@@ -163,7 +164,7 @@ def test_back_file_type(case):
          "-l", case["linter"], "-p", qmd_path],
         capture_output=True, text=True, check=False
     )
-    output = result.stdout
+    output = result.stdout + result.stderr
 
     assert py_file not in output, (
         f"The filename {py_file} was in output - expected {case['qmd']}.\n"
