@@ -73,7 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-bef4a5fac71b4dd062ff400ccab0e856.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-ad1b498389437159db4d81852bbc7ac3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -187,7 +187,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="installation" class="level2">
 <h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<p>Python 3.7 or higher is required. <code>lintquarto</code> itself has no dependencies.</p>
+<p>Python 3.7 or higher is required. <code>lintquarto</code> itself has only one required package: <code>toml</code>.</p>
 <p>Install <code>lintquarto</code> with:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install lintquarto</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Linters are installed separately. For example, to use <code>pylint</code> and <code>flake8</code>, run:</p>
@@ -207,7 +207,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>-e –exclude</strong> EXCLUDE [EXCLUDE …] - Files and/or directories to exclude from linting.</li>
 <li><strong>-k, –keep-temp</strong> - Keep the temporary <code>.py</code> files created during linting (for debugging).</li>
 </ul>
-<p>Only one linter can be specified per command. Passing extra arguments directly to linters is not supported. Only <code>.qmd</code> files are processed.</p>
+<p>Passing extra arguments directly to linters is not supported. Only <code>.qmd</code> files are processed.</p>
 <p><br></p>
 </section>
 <section id="examples" class="level2">

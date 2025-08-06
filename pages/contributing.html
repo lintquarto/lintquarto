@@ -73,7 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-bef4a5fac71b4dd062ff400ccab0e856.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-ad1b498389437159db4d81852bbc7ac3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -171,10 +171,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="contributing" class="level1">
 <h1>Contributing</h1>
-<p>Thank you for your interest in contributing!</p>
+<p>Thank you for your interest in contributing! 🤗</p>
 <p><br></p>
 <section id="workflow-for-bug-reports-feature-requests-and-documentation-improvements" class="level2">
-<h2 class="anchored" data-anchor-id="workflow-for-bug-reports-feature-requests-and-documentation-improvements">Workflow for bug reports, feature requests and documentation improvements</h2>
+<h2 class="anchored" data-anchor-id="workflow-for-bug-reports-feature-requests-and-documentation-improvements">🐞 Workflow for bug reports, feature requests and documentation improvements</h2>
 <p>Before opening an issue, please search <a href="https://github.com/lintquarto/lintquarto/issues/">existing issues</a> to avoid duplicates. If there is not an existing issue, please open open and provide as much detail as possible.</p>
 <ul>
 <li><strong>For feature requests or documentation improvements</strong>, please describe your suggestion clearly.</li>
@@ -199,7 +199,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 <section id="workflow-for-code-contributions-bug-fixes-enhancements" class="level2">
-<h2 class="anchored" data-anchor-id="workflow-for-code-contributions-bug-fixes-enhancements">Workflow for code contributions (bug fixes, enhancements)</h2>
+<h2 class="anchored" data-anchor-id="workflow-for-code-contributions-bug-fixes-enhancements">🚀 Workflow for code contributions (bug fixes, enhancements)</h2>
 <ol type="1">
 <li><p>Fork the repository and clone your fork.</p></li>
 <li><p>Create a new branch for your feature or fix:</p></li>
@@ -216,54 +216,97 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><br></p>
 </section>
 <section id="development-and-testing" class="level2">
-<h2 class="anchored" data-anchor-id="development-and-testing">Development and testing</h2>
+<h2 class="anchored" data-anchor-id="development-and-testing">🛠️ Development and testing</h2>
 <section id="dependencies" class="level3">
 <h3 class="anchored" data-anchor-id="dependencies">Dependencies</h3>
 <p>If you want to contribute to <code>lintquarto</code> or run its tests, you’ll need some additional tools:</p>
-<ul>
-<li><strong>flit</strong> (for packaging and publishing)</li>
-<li><strong>genbadge</strong> (to create a coverage badge for the README)</li>
-<li><strong>jupyter</strong> (for running python code in documentation)</li>
-<li><strong>pytest</strong> (for running tests)</li>
-<li><strong>pytest-cov</strong> (to calculate coverage)</li>
-<li><strong>twine</strong> (for uploading to PyPI)</li>
-<li><strong>quartodoc</strong> (for generate API reference documentation)</li>
-<li><code>-e .[all]</code> (an editable install of the package and all supported linters)</li>
-</ul>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Tool</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>check-dependencies</strong></td>
+<td>Test for undeclared dependencies</td>
+</tr>
+<tr class="even">
+<td><strong>flit</strong></td>
+<td>Packaging and publishing</td>
+</tr>
+<tr class="odd">
+<td><strong>genbadge</strong></td>
+<td>Create coverage badge (README)</td>
+</tr>
+<tr class="even">
+<td><strong>jupyter</strong></td>
+<td>Run python code in docs</td>
+</tr>
+<tr class="odd">
+<td><strong>pytest</strong></td>
+<td>Run tests</td>
+</tr>
+<tr class="even">
+<td><strong>pytest-cov</strong></td>
+<td>Calculate coverage</td>
+</tr>
+<tr class="odd">
+<td><strong>twine</strong></td>
+<td>Upload to PyPI</td>
+</tr>
+<tr class="even">
+<td><strong>quartodoc</strong></td>
+<td>Generate API docs</td>
+</tr>
+<tr class="odd">
+<td><code>-e .[all]</code></td>
+<td>Editable install + all linters</td>
+</tr>
+</tbody>
+</table>
 <p>These are listed in <code>requirements-dev.txt</code> for convenience. To set up your development environment, run:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements-dev.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>There is also a testing-only environment required, as used by the testing GitHub action:</p>
+<p>For testing only (used by GitHub actions):</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements-test.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Quarto is using for building the documentation. It is a standalone tool and must be installed separately from Python packages. You will need to download and install quarto from https://quarto.org/docs/get-started/.</p>
-<section id="versions" class="level4">
-<h4 class="anchored" data-anchor-id="versions">Versions</h4>
-<p>By default, contributors are encouraged to install and use the latest versions of development tools when working on the project. This approach helps keep the project compatible with current tooling and surfaces issues early.</p>
-<p>For contributors who need a fully reproducible and stable setup, a Conda environment file is provided: <code>requirements-stable.yml</code>. This file pins all development tool versions, including Python, so you can expect consistent behaviour across systems.</p>
-<p>To update the versions in this stable environment, run <code>conda update --all</code> and test thoroughly (running tests, building documentation), and updating the <code>.yml</code> file.</p>
+<p>Quarto (used for the docs) is a standalone tool - install it from https://quarto.org/docs/get-started/.</p>
+<p><br></p>
 </section>
+<section id="dependency-versions" class="level3">
+<h3 class="anchored" data-anchor-id="dependency-versions">Dependency versions</h3>
+<p>Contributors are encouraged to install and use the <strong>latest versions</strong> of development tools. This helps keep the project compatible with current tooling and catches issues early.</p>
+<p>If you need a fully reproducible and stable setup, use the provided Conda environment file. This file pins all development tool versions, including Python:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-f</span> requirements-stable.yml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To update the stable environment, run <code>conda update --all</code> and test thoroughly (running tests, building documentation), and then update <code>requirements-stable.yml</code> with any changes.</p>
+<p><br></p>
 </section>
 <section id="tests" class="level3">
 <h3 class="anchored" data-anchor-id="tests">Tests</h3>
-<p>To run tests (with coverage calculation):</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pytest</span> <span class="at">--cov</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Run all tests (with coverage):</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pytest</span> <span class="at">--cov</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
 </section>
 <section id="linting" class="level3">
 <h3 class="anchored" data-anchor-id="linting">Linting</h3>
-<p>Bash scripts are provided for linting. To make them executable:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x lint_package.sh</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x lint_docs.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>To lint package:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lint_package.sh</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>To lint documentation:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lint_docs.sh</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Make scripts executable (first time only):</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x lint_package.sh</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x lint_docs.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Lint the package:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lint_package.sh</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Lint the documentation:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lint_docs.sh</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
 </section>
 <section id="documentation" class="level3">
 <h3 class="anchored" data-anchor-id="documentation">Documentation</h3>
-<p>To build and preview the documentation:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> <span class="at">-C</span> docs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Build and preview the documentation locally:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> <span class="at">-C</span> docs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br></p>
 </section>
-<section id="updating-the-package" class="level3">
-<h3 class="anchored" data-anchor-id="updating-the-package">Updating the package</h3>
+</section>
+<section id="updating-the-package" class="level2">
+<h2 class="anchored" data-anchor-id="updating-the-package">📦 Updating the package</h2>
 <p>If you are a maintainer and need to publish a new release:</p>
 <ol type="1">
 <li><p>Update the <code>CHANGELOG.md</code>.</p></li>
@@ -272,20 +315,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Build and publish using flit or twine.</p></li>
 </ol>
 <p>To upload to PyPI using <code>flit</code>:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">flit</span> publish</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">flit</span> publish</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>To upload to PyPI using <code>twine</code>: remove any existing builds, then build the package locally and push with twine, entering the API token when prompted:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> dist/</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ex">flit</span> build</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="ex">twine</span> upload <span class="at">--repository</span> pypi dist/<span class="pp">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>For test runs, you can use the same method with test PyPI:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> dist/</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">flit</span> build</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="ex">twine</span> upload <span class="at">--repository</span> testpypi dist/<span class="pp">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="ex">twine</span> upload <span class="at">--repository</span> pypi dist/<span class="pp">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For test runs, you can use the same method with test PyPI:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> dist/</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">flit</span> build</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="ex">twine</span> upload <span class="at">--repository</span> testpypi dist/<span class="pp">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br></p>
 </section>
-</section>
 <section id="code-of-conduct" class="level2">
-<h2 class="anchored" data-anchor-id="code-of-conduct">Code of conduct</h2>
+<h2 class="anchored" data-anchor-id="code-of-conduct">🤝 Code of conduct</h2>
 <p>Please be respectful and considerate. See the <a href="https://github.com/lintquarto/lintquarto/blob/main/CODE_OF_CONDUCT.md">code of conduct</a> for details.</p>
 
 
