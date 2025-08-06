@@ -120,9 +120,12 @@ TEST_CASES = [
     }
 ]
 
-
+@pytest.mark.skipif(
+    sys.version_info >= (3, 13),
+    reason="pytype does not support Python >3.12"
+)
 @pytest.mark.parametrize(
-        "case", TEST_CASES, ids=[case["linter"] for case in TEST_CASES]
+    "case", TEST_CASES, ids=[case["linter"] for case in TEST_CASES]
 )
 def test_back_contains(case):
     """Back test checking linter has all messages."""
@@ -145,7 +148,7 @@ def test_back_contains(case):
 
 
 @pytest.mark.parametrize(
-        "case", TEST_CASES, ids=[case["linter"] for case in TEST_CASES]
+    "case", TEST_CASES, ids=[case["linter"] for case in TEST_CASES]
 )
 def test_back_file_type(case):
     """Back test checking correct file type in output."""
