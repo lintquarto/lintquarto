@@ -7,8 +7,6 @@ on:
 
 jobs:
   tests:
-    env:
-      PYTHONIOENCODING: "utf-8"
     permissions:
       contents: write
     runs-on: ${{ matrix.os }}
