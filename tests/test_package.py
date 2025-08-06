@@ -11,7 +11,7 @@ import pytest
     reason="check-dependencies requires Python 3.8+"
 )
 @pytest.mark.skipif(
-    sys.platform.system() == "Windows",
+    sys.platform.startswith("win"),
     reason="check-dependencies has known encoding bugs on Windows"
 )
 def test_check_dependencies():
