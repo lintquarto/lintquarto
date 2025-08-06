@@ -1,10 +1,10 @@
 # Contributing
 
-Thank you for your interest in contributing!
+Thank you for your interest in contributing! 🤗
 
 <br>
 
-## Workflow for bug reports, feature requests and documentation improvements
+## 🐞 Workflow for bug reports, feature requests and documentation improvements
 
 Before opening an issue, please search [existing issues](https://github.com/lintquarto/lintquarto/issues/) to avoid duplicates. If there is not an existing issue, please open open and provide as much detail as possible.
 
@@ -25,7 +25,7 @@ Before opening an issue, please search [existing issues](https://github.com/lint
 
 <br>
 
-## Workflow for code contributions (bug fixes, enhancements)
+## 🚀 Workflow for code contributions (bug fixes, enhancements)
 
 1. Fork the repository and clone your fork.
 
@@ -47,20 +47,23 @@ git push origin my-feature
 
 <br>
 
-## Development and testing
+## 🛠️ Development and testing
 
 ### Dependencies
 
 If you want to contribute to `lintquarto` or run its tests, you'll need some additional tools:
 
-* **flit** (for packaging and publishing)
-* **genbadge** (to create a coverage badge for the README)
-* **jupyter** (for running python code in documentation)
-* **pytest** (for running tests)
-* **pytest-cov** (to calculate coverage)
-* **twine** (for uploading to PyPI)
-* **quartodoc** (for generate API reference documentation)
-* `-e .[all]` (an editable install of the package and all supported linters)
+| Tool | Purpose |
+| - | - |
+| **check-dependencies** | Test for undeclared dependencies |
+| **flit** | Packaging and publishing |
+| **genbadge** | Create coverage badge (README) |
+| **jupyter** | Run python code in docs |
+| **pytest** | Run tests |
+| **pytest-cov** | Calculate coverage |
+| **twine** | Upload to PyPI
+| **quartodoc** | Generate API docs |
+| `-e .[all]` | Editable install + all linters |
 
 These are listed in `requirements-dev.txt` for convenience. To set up your development environment, run:
 
@@ -68,60 +71,74 @@ These are listed in `requirements-dev.txt` for convenience. To set up your devel
 pip install -r requirements-dev.txt
 ```
 
-There is also a testing-only environment required, as used by the testing GitHub action:
+For testing only (used by GitHub actions):
 
 ```{.bash}
 pip install -r requirements-test.txt
 ```
 
-Quarto is using for building the documentation. It is a standalone tool and must be installed separately from Python packages. You will need to download and install quarto from https://quarto.org/docs/get-started/.
+Quarto (used for the docs) is a standalone tool - install it from https://quarto.org/docs/get-started/.
 
-#### Versions
+<br>
 
-By default, contributors are encouraged to install and use the latest versions of development tools when working on the project. This approach helps keep the project compatible with current tooling and surfaces issues early.
+### Dependency versions
 
-For contributors who need a fully reproducible and stable setup, a Conda environment file is provided: `requirements-stable.yml`. This file pins all development tool versions, including Python, so you can expect consistent behaviour across systems.
+Contributors are encouraged to install and use the **latest versions** of development tools. This helps keep the project compatible with current tooling and catches issues early.
 
-To update the versions in this stable environment, run `conda update --all` and test thoroughly (running tests, building documentation), and updating the `.yml` file.
+If you need a fully reproducible and stable setup, use the provided Conda environment file. This file pins all development tool versions, including Python:
+
+```{.bash}
+conda env create -f requirements-stable.yml
+```
+
+To update the stable environment, run `conda update --all` and test thoroughly (running tests, building documentation), and then update `requirements-stable.yml` with any changes.
+
+<br>
 
 ### Tests
 
-To run tests (with coverage calculation):
+Run all tests (with coverage):
 
 ```{.bash}
 pytest --cov
 ```
 
+<br>
+
 ### Linting
 
-Bash scripts are provided for linting. To make them executable:
+Make scripts executable (first time only):
 
 ```{.bash}
 chmod +x lint_package.sh
 chmod +x lint_docs.sh
 ```
 
-To lint package:
+Lint the package:
 
 ```{.bash}
 lint_package.sh
 ```
 
-To lint documentation:
+Lint the documentation:
 
 ```{.bash}
 lint_docs.sh
 ```
 
+<br>
+
 ### Documentation
 
-To build and preview the documentation:
+Build and preview the documentation locally:
 
 ```{.bash}
 make -C docs
 ```
 
-### Updating the package
+<br>
+
+## 📦 Updating the package
 
 If you are a maintainer and need to publish a new release:
 
@@ -157,6 +174,6 @@ twine upload --repository testpypi dist/*
 
 <br>
 
-## Code of conduct
+## 🤝 Code of conduct
 
 Please be respectful and considerate. See the [code of conduct](https://github.com/lintquarto/lintquarto/blob/main/CODE_OF_CONDUCT.md) for details.

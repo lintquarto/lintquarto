@@ -12,6 +12,9 @@ import sys
 from lintquarto.__main__ import gather_qmd_files, process_qmd
 
 
+CORE_LINTER = "flake8"
+
+
 # =============================================================================
 # 1. process_qmd()
 # =============================================================================
@@ -24,7 +27,7 @@ def test_process_qmd_with_real_file(tmp_path):
     qmd_file.write_text("# Test Quarto file\n``````")
 
     # Call process_qmd and attempt to lint it - should return a valid exit code
-    result = process_qmd(str(qmd_file), "flake8")
+    result = process_qmd(str(qmd_file), CORE_LINTER)
     assert result in (0, 1)
 
 
@@ -32,13 +35,13 @@ def test_process_qmd_invalid_file(tmp_path):
     """Integration Test: process_qmd returns error for invalid file"""
 
     # Run on a file that doesn't exist
-    result = process_qmd(str(tmp_path / "notfound.qmd"), "flake8")
+    result = process_qmd(str(tmp_path / "notfound.qmd"), CORE_LINTER)
     assert result == 1
 
     # Create a text file and attempt to run process_qmd()
     txt_file = tmp_path / "file.txt"
     txt_file.write_text("print('hello')")
-    result = process_qmd(str(txt_file), "flake8")
+    result = process_qmd(str(txt_file), CORE_LINTER)
     assert result == 1
 
 
@@ -50,7 +53,7 @@ def test_process_qmd_keep_temp(tmp_path):
     qmd_file.write_text("# Test Quarto file\n``````")
 
     # Call process_qmd and attempt to lint it
-    _ = process_qmd(str(qmd_file), "flake8", keep_temp_files=True)
+    _ = process_qmd(str(qmd_file), CORE_LINTER, keep_temp_files=True)
 
     # Assert that the .py file still exists after process_qmd returns
     py_file = tmp_path / "test.py"
@@ -100,7 +103,7 @@ def test_gather_qmd_files_exclude(tmp_path):
 def test_main_runs_functional(tmp_path):
     """Functional Test: main() runs as a CLI entry point on real .qmd file."""
 
-    # Create a .qmd file for linting
+    # Create a minimal .qmd file for linting
     qmd_file = tmp_path / "test.qmd"
     qmd_file.write_text("# Test\n``````")
 
@@ -108,7 +111,7 @@ def test_main_runs_functional(tmp_path):
     # assert that the process exits with a valid code
     result = subprocess.run(
         [sys.executable, "-m", "lintquarto",
-         "-l", "flake8", "-p", str(qmd_file)],
+         "-l", CORE_LINTER, "-p", str(qmd_file)],
         capture_output=True,
         text=True,
         check=False
@@ -121,7 +124,7 @@ def test_main_no_qmd_files_functional(tmp_path):
     # Attempt to lint a non-existent .qmd file
     result = subprocess.run(
         [sys.executable, "-m", "lintquarto",
-         "-l", "flake8", "-p", str(tmp_path / "nofiles")],
+         "-l", CORE_LINTER, "-p", str(tmp_path / "nofiles")],
         capture_output=True,
         text=True,
         check=False

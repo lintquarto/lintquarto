@@ -52,7 +52,7 @@ pip install lintquarto[all]
 * **-e --exclude** EXCLUDE [EXCLUDE ...] - Files and/or directories to exclude from linting.
 * **-k, --keep-temp** - Keep the temporary `.py` files created during linting (for debugging).
 
-Only one linter can be specified per command. Passing extra arguments directly to linters is not supported. Only `.qmd` files are processed.
+Passing extra arguments directly to linters is not supported. Only `.qmd` files are processed.
 
 ### Examples
 

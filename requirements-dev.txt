@@ -1,3 +1,4 @@
+check-dependencies
 flit
 jupyter
 genbadge
