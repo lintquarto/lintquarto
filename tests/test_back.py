@@ -121,8 +121,12 @@ TEST_CASES = [
 ]
 
 
+@pytest.mark.skipif(
+    sys.version_info >= (3, 13),
+    reason="pytype does not support Python >3.12"
+)
 @pytest.mark.parametrize(
-        "case", TEST_CASES, ids=[case["linter"] for case in TEST_CASES]
+    "case", TEST_CASES, ids=[case["linter"] for case in TEST_CASES]
 )
 def test_back_contains(case):
     """Back test checking linter has all messages."""
@@ -145,7 +149,7 @@ def test_back_contains(case):
 
 
 @pytest.mark.parametrize(
-        "case", TEST_CASES, ids=[case["linter"] for case in TEST_CASES]
+    "case", TEST_CASES, ids=[case["linter"] for case in TEST_CASES]
 )
 def test_back_file_type(case):
     """Back test checking correct file type in output."""
@@ -160,7 +164,7 @@ def test_back_file_type(case):
          "-l", case["linter"], "-p", qmd_path],
         capture_output=True, text=True, check=False
     )
-    output = result.stdout
+    output = result.stdout + result.stderr
 
     assert py_file not in output, (
         f"The filename {py_file} was in output - expected {case['qmd']}.\n"
