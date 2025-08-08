@@ -26,7 +26,8 @@ class Linters:
             "pyflakes": ["pyflakes"],
             "ruff": ["ruff", "check"],  # To specify linter (not formatter)
             "vulture": ["vulture"],
-            "radon": ["radon", "cc"],  # To compute cyclomatic complexity
+            "radon-cc": ["radon", "cc"],  # To compute cyclomatic complexity
+            "radon-mi": ["radon", "mi"],  # To compute maintainability index
             "pycodestyle": ["pycodestyle"],
             "mypy": ["mypy"],
             "pyright": ["pyright"],
@@ -70,7 +71,8 @@ class Linters:
         """
         # Check if the command (same as linter name) is available on the
         # user's system
-        if shutil.which(linter_name) is None:
+        if shutil.which(self.supported[linter_name][0]) is None:
             raise FileNotFoundError(
-                f"{linter_name} not found. Please install it."
+                f"{self.supported[linter_name][0]} not found. ",
+                "Please install it."
             )
