@@ -73,6 +73,22 @@ TEST_CASES = [
         ]
     },
     {
+        "linter": "radon-raw",
+        "qmd": "lines_example.qmd",
+        "contains": [
+            "LOC: 10",
+            "LLOC: 6",
+            "SLOC: 6",
+            "Comments: 1",
+            "Single comments: 1",
+            "Multi: 0",
+            "Blank: 3",
+            "(C % L): 10%",
+            "(C % S): 17%",
+            "(C + M % L): 10%"
+        ]
+    },
+    {
         "linter": "vulture",
         "qmd": "unusedcode_example.qmd",
         "contains": [

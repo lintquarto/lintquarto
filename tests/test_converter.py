@@ -8,10 +8,10 @@ from lintquarto.converter import (
     convert_qmd_to_py, get_unique_filename, QmdToPyConverter
 )
 
-
-ALL_LINTERS = ["pylint", "flake8", "pyflakes", "ruff", "vulture",
-               "radon-cc", "radon-mi", "pycodestyle", "mypy", "pyright",
-               "pyrefly", "pytype"]
+# All linters that preserve the line count
+PRESERVE_LINTERS = ["pylint", "flake8", "pyflakes", "ruff", "vulture",
+                    "radon-cc", "radon-mi", "pycodestyle", "mypy", "pyright",
+                    "pyrefly", "pytype"]
 LINTERS_SUPPORTING_NOQA = ["flake8", "pycodestyle", "ruff"]
 
 
@@ -19,14 +19,14 @@ LINTERS_SUPPORTING_NOQA = ["flake8", "pycodestyle", "ruff"]
 # 1. Conversion of files with no active python chunks
 # =============================================================================
 
-@pytest.mark.parametrize("linter", ALL_LINTERS)
+@pytest.mark.parametrize("linter", PRESERVE_LINTERS)
 def test_empty(linter):
     """Empty input produces empty output."""
     converter = QmdToPyConverter(linter=linter)
     assert not converter.convert([])
 
 
-@pytest.mark.parametrize("linter", ALL_LINTERS)
+@pytest.mark.parametrize("linter", PRESERVE_LINTERS)
 def test_blank_lines(linter):
     """Blank lines are converted as expected."""
     converter = QmdToPyConverter(linter=linter)
@@ -35,14 +35,14 @@ def test_blank_lines(linter):
     assert converter.convert(lines) == expected
 
 
-@pytest.mark.parametrize("linter", ALL_LINTERS)
+@pytest.mark.parametrize("linter", PRESERVE_LINTERS)
 def test_markdown(linter):
     """Markdown lines are commented out."""
     converter = QmdToPyConverter(linter=linter)
     assert converter.convert(["Some text", "More text"]) == ["# -", "# -"]
 
 
-@pytest.mark.parametrize("linter", ALL_LINTERS)
+@pytest.mark.parametrize("linter", PRESERVE_LINTERS)
 def test_non_python_chunk_is_commented(linter):
     """Non-Python and inactive chunks are commented out."""
     converter = QmdToPyConverter(linter=linter)
@@ -135,7 +135,7 @@ PYTHON_CHUNKS = [
 
 
 @pytest.mark.parametrize("case", PYTHON_CHUNKS)
-@pytest.mark.parametrize("linter", ALL_LINTERS)
+@pytest.mark.parametrize("linter", PRESERVE_LINTERS)
 def test_python_chunk_start(case, linter):
     """Python chunk conversion produces expected results for all linters."""
     converter = QmdToPyConverter(linter=linter)
@@ -170,7 +170,51 @@ def test_line_alignment(tmp_path):
 
 
 # =============================================================================
-# 3. File handling and output management
+# 3. Conversion when preserve_line_count = False
+# =============================================================================
+
+def test_preserve_line_count_false_removes_non_code():
+    """When preserve_line_count is False, non-code lines are skipped."""
+    # Simulated .qmd input: markdown, code blocks, and extra blank lines
+    qmd_lines = [
+        "# This is markdown\n",
+        "\n",
+        "```{python}",
+        "x = 1\n",
+        "y = 2\n",
+        "```",
+        "\n",
+        "Some more text\n",
+        "```{python}",
+        "# comment inside chunk\n",
+        "z = x + y\n",
+        "```\n"
+    ]
+
+    # Create converter with radon-raw (which sets preservation to False - but
+    # we do manually anyway for good measure!)
+    conv = QmdToPyConverter(linter="radon-raw")
+    conv.preserve_line_count = False
+    py_lines = conv.convert(qmd_lines)
+
+    # Check there are no filler lines, and only code lines
+    expected_lines = [
+        "x = 1",
+        "y = 2",
+        "# comment inside chunk",
+        "z = x + y"
+    ]
+    not_allowed_lines = [
+        "# -",
+        "# %% [python]"
+    ]
+    assert py_lines == expected_lines
+    assert not any(line.strip() == not_allowed_lines for line in py_lines)
+    assert len(py_lines) == 4
+
+
+# =============================================================================
+# 4. File handling and output management
 # =============================================================================
 
 def test_get_unique_filename(tmp_path):
@@ -190,7 +234,7 @@ def test_get_unique_filename(tmp_path):
     assert unique.suffix == ".py"
 
 
-@pytest.mark.parametrize("linter", ALL_LINTERS)
+@pytest.mark.parametrize("linter", PRESERVE_LINTERS)
 def test_output_file_overwrite(tmp_path, linter):
     """Uses a unique filename if output file exists."""
     # Create a dummy QMD input file
@@ -214,7 +258,7 @@ def test_output_file_overwrite(tmp_path, linter):
     assert "# %% [python]" in content
 
 
-@pytest.mark.parametrize("linter", ALL_LINTERS)
+@pytest.mark.parametrize("linter", PRESERVE_LINTERS)
 def test_verbose_mode_output(tmp_path, capsys, linter):
     """Verbose mode prints progress messages."""
     # Create a minimal QMD input file
@@ -234,7 +278,7 @@ def test_verbose_mode_output(tmp_path, capsys, linter):
 
 
 # =============================================================================
-# 4. Error handling
+# 5. Error handling
 # =============================================================================
 
 def test_missing_input_file(tmp_path, capsys):

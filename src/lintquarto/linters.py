@@ -28,6 +28,7 @@ class Linters:
             "vulture": ["vulture"],
             "radon-cc": ["radon", "cc"],  # To compute cyclomatic complexity
             "radon-mi": ["radon", "mi"],  # To compute maintainability index
+            "radon-raw": ["radon", "raw"],  # To compute raw metrics
             "pycodestyle": ["pycodestyle"],
             "mypy": ["mypy"],
             "pyright": ["pyright"],
