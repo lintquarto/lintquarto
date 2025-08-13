@@ -75,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-ad1b498389437159db4d81852bbc7ac3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-b86f7682cb833efb10edcb74d46a0890.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/quarto-contrib/downloadthis-1.9.1/downloadthis.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
@@ -297,10 +297,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr style="height:0pt; visibility:hidden;">
 <section id="radon" class="level1">
 <h1>radon</h1>
-<p>Computes code metrics - <code>lintquarto</code> supports calculating complexity metrics.</p>
+<p>Computes four different code metrics:</p>
+<ul>
+<li><code>radon-cc</code>: cyclomatic complexity (measures the number of independent paths through code).</li>
+<li><code>radon-mi</code>: maintainability index (estimates ease of maintenance).</li>
+<li><code>radon-raw</code>: raw metrics (counts lines, comments, blanks, etc.).</li>
+<li><code>radon-hal</code>: halstead metrics (quantifies code complexity based on operators (symbols) and operands (variables)).</li>
+</ul>
+<p>See the <a href="https://radon.readthedocs.io/en/latest/intro.html">radon documentation</a> for more details.</p>
 <div style="display: flex; gap: 1em; margin-bottom: 1em;">
 <p><a href="https://pypi.org/project/radon/" target="_blank" style="text-decoration: none;"> <span style="display: inline-flex; align-items: center; background:
-    #3775A9; color: #fff; border-radius: 20px; padding: 0.4em 1em; 
+    #3775A9; color: #fff; border-radius: 20px; padding: 0.4em 1em;
     font-weight: 600; gap: 0.5em;"> <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/pypi.svg" alt="PyPI" width="20" height="20" style="filter: brightness(0)
       invert(1);"> View on PyPI </span> </a> <a href="https://github.com/rubik/radon" target="_blank" style="text-decoration: none;"> <span style="display: inline-flex; align-items: center; background: #000;
     color: #fff; border-radius: 20px; padding: 0.4em 1em; font-weight: 600;
@@ -312,7 +319,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="example-quarto-.qmd-file" class="level2">
 <h2 class="anchored" data-anchor-id="example-quarto-.qmd-file">Example Quarto <code>.qmd</code> file:</h2>
-<p><a href="#dnldts63431" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgdG8gaWRlbnRpZnkuCgpgYGB7cHl0aG9ufQojIEZ1bmN0aW9uIHdpdGggbG93IGNvbXBsZXhpdHkKZGVmIHNpbXBsZV9hZGRpdGlvbihhLCBiKToKICAgIHJldHVybiBhICsgYgpgYGAKClRoZXJlJ3MgYW5vdGhlciBmdW5jdGlvbiB0byBjaGVjayBiZWxvdzoKCmBgYHtweXRob259CiMgRnVuY3Rpb24gd2l0aCBtb2RlcmF0ZSBjb21wbGV4aXR5CmRlZiBjaGVja19udW1iZXIobnVtLCBmbGFnLCBleHRyYSk6CiAgICBpZiBudW0gPiAxMDA6CiAgICAgICAgaWYgZmxhZzoKICAgICAgICAgICAgaWYgZXh0cmE6CiAgICAgICAgICAgICAgICByZXR1cm4gIkh1Z2UgYW5kIGZsYWdnZWQgYW5kIGV4dHJhIgogICAgICAgICAgICBlbHNlOgogICAgICAgICAgICAgICAgcmV0dXJuICJIdWdlIGFuZCBmbGFnZ2VkIgogICAgICAgIGVsc2U6CiAgICAgICAgICAgIGlmIGV4dHJhOgogICAgICAgICAgICAgICAgcmV0dXJuICJIdWdlIGFuZCBleHRyYSIKICAgICAgICAgICAgZWxzZToKICAgICAgICAgICAgICAgIHJldHVybiAiSHVnZSIKICAgIGVsaWYgbnVtID4gNTA6CiAgICAgICAgaWYgZmxhZzoKICAgICAgICAgICAgcmV0dXJuICJNZWRpdW0gYW5kIGZsYWdnZWQiCiAgICAgICAgZWxzZToKICAgICAgICAgICAgcmV0dXJuICJNZWRpdW0iCiAgICBlbGlmIG51bSA+IDEwOgogICAgICAgIGlmIGV4dHJhOgogICAgICAgICAgICByZXR1cm4gIlNtYWxsIGFuZCBleHRyYSIKICAgICAgICBlbHNlOgogICAgICAgICAgICByZXR1cm4gIlNtYWxsIgogICAgZWxzZToKICAgICAgICBpZiBmbGFnIG9yIGV4dHJhOgogICAgICAgICAgICByZXR1cm4gIlRpbnkgYnV0IHNwZWNpYWwiCiAgICAgICAgZWxzZToKICAgICAgICAgICAgcmV0dXJuICJUaW55IgpgYGA=').then(res => res.blob()).then(blob => {
+<p><a href="#dnldts13232" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgdG8gaWRlbnRpZnkuCgpgYGB7cHl0aG9ufQojIEZ1bmN0aW9uIHdpdGggbG93IGNvbXBsZXhpdHkKZGVmIHNpbXBsZV9hZGRpdGlvbihhLCBiKToKICAgIHJldHVybiBhICsgYgpgYGAKClRoZXJlJ3MgYW5vdGhlciBmdW5jdGlvbiB0byBjaGVjayBiZWxvdzoKCmBgYHtweXRob259CiMgRnVuY3Rpb24gd2l0aCBtb2RlcmF0ZSBjb21wbGV4aXR5CmRlZiBjaGVja19udW1iZXIobnVtLCBmbGFnLCBleHRyYSk6CiAgICBpZiBudW0gPiAxMDA6CiAgICAgICAgaWYgZmxhZzoKICAgICAgICAgICAgaWYgZXh0cmE6CiAgICAgICAgICAgICAgICByZXR1cm4gIkh1Z2UgYW5kIGZsYWdnZWQgYW5kIGV4dHJhIgogICAgICAgICAgICBlbHNlOgogICAgICAgICAgICAgICAgcmV0dXJuICJIdWdlIGFuZCBmbGFnZ2VkIgogICAgICAgIGVsc2U6CiAgICAgICAgICAgIGlmIGV4dHJhOgogICAgICAgICAgICAgICAgcmV0dXJuICJIdWdlIGFuZCBleHRyYSIKICAgICAgICAgICAgZWxzZToKICAgICAgICAgICAgICAgIHJldHVybiAiSHVnZSIKICAgIGVsaWYgbnVtID4gNTA6CiAgICAgICAgaWYgZmxhZzoKICAgICAgICAgICAgcmV0dXJuICJNZWRpdW0gYW5kIGZsYWdnZWQiCiAgICAgICAgZWxzZToKICAgICAgICAgICAgcmV0dXJuICJNZWRpdW0iCiAgICBlbGlmIG51bSA+IDEwOgogICAgICAgIGlmIGV4dHJhOgogICAgICAgICAgICByZXR1cm4gIlNtYWxsIGFuZCBleHRyYSIKICAgICAgICBlbHNlOgogICAgICAgICAgICByZXR1cm4gIlNtYWxsIgogICAgZWxzZToKICAgICAgICBpZiBmbGFnIG9yIGV4dHJhOgogICAgICAgICAgICByZXR1cm4gIlRpbnkgYnV0IHNwZWNpYWwiCiAgICAgICAgZWxzZToKICAgICAgICAgICAgcmV0dXJuICJUaW55IgpgYGA=').then(res => res.blob()).then(blob => {
       const downloadURL = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       document.body.appendChild(a);
@@ -320,9 +327,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       a.download = 'complexity_example.qmd'; a.click();
       window.URL.revokeObjectURL(downloadURL);
       document.body.removeChild(a);
-        });"><button class="btn btn-light downloadthis  " id="dnldts63431"><i class="bi bi-download"></i> Download the example </button></a></p>
+        });"><button class="btn btn-light downloadthis  " id="dnldts13232"><i class="bi bi-download"></i> Download the example </button></a></p>
 <div class="pale-grey">
-<div id="6ea49740" class="cell" data-execution_count="3">
+<div id="18ba5e32" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
 <pre><code>1:     ---
 2:     title: "Example"
@@ -374,7 +381,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="run-radon-using-lintquarto" class="level2">
 <h2 class="anchored" data-anchor-id="run-radon-using-lintquarto">Run radon using <code>lintquarto</code></h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> radon <span class="at">-p</span> complexity_example.qmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> radon-cc <span class="at">-p</span> complexity_example.qmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="pale-green">
 <style>
 .cell-output-stdout code {
@@ -382,14 +389,91 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   white-space: pre-wrap !important;
 }
 </style>
-<div id="95abb4a7" class="cell" data-execution_count="4">
+<div id="79a82d95" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <pre><code>=============================================================
-Running radon...
+Running radon-cc...
 =============================================================
 /home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/complexity_example.qmd
     F 17:0 check_number - C
     F 9:0 simple_addition - A
+</code></pre>
+</div>
+</div>
+</div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> radon-mi <span class="at">-p</span> complexity_example.qmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="pale-green">
+<style>
+.cell-output-stdout code {
+  word-break: break-word !important;
+  white-space: pre-wrap !important;
+}
+</style>
+<div id="7852af70" class="cell" data-execution_count="5">
+<div class="cell-output cell-output-stdout">
+<pre><code>=============================================================
+Running radon-mi...
+=============================================================
+/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/complexity_example.qmd - A
+</code></pre>
+</div>
+</div>
+</div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> radon-raw <span class="at">-p</span> complexity_example.qmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="pale-green">
+<style>
+.cell-output-stdout code {
+  word-break: break-word !important;
+  white-space: pre-wrap !important;
+}
+</style>
+<div id="feaf581d" class="cell" data-execution_count="6">
+<div class="cell-output cell-output-stdout">
+<pre><code>=============================================================
+Running radon-raw...
+=============================================================
+/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/complexity_example.qmd
+    LOC: 31
+    LLOC: 29
+    SLOC: 29
+    Comments: 2
+    Single comments: 2
+    Multi: 0
+    Blank: 0
+    - Comment Stats
+        (C % L): 6%
+        (C % S): 7%
+        (C + M % L): 6%
+</code></pre>
+</div>
+</div>
+</div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> radon-hal <span class="at">-p</span> complexity_example.qmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="pale-green">
+<style>
+.cell-output-stdout code {
+  word-break: break-word !important;
+  white-space: pre-wrap !important;
+}
+</style>
+<div id="97d2acec" class="cell" data-execution_count="7">
+<div class="cell-output cell-output-stdout">
+<pre><code>=============================================================
+Running radon-hal...
+=============================================================
+/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/complexity_example.qmd:
+    h1: 3
+    h2: 8
+    N1: 5
+    N2: 10
+    vocabulary: 11
+    length: 15
+    calculated_length: 28.75488750216347
+    volume: 51.89147427955947
+    difficulty: 1.875
+    effort: 97.296514274174
+    time: 5.405361904120777
+    bugs: 0.01729715809318649
 </code></pre>
 </div>
 </div>

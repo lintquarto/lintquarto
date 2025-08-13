@@ -73,7 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-ad1b498389437159db4d81852bbc7ac3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-b86f7682cb833efb10edcb74d46a0890.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -181,9 +181,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="doc-section doc-section-attributes anchored" data-anchor-id="attributes">Attributes</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 13%">
-<col style="width: 6%">
-<col style="width: 79%">
+<col style="width: 10%">
+<col style="width: 4%">
+<col style="width: 85%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -200,18 +200,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td>in_python</td>
-<td>boolean</td>
+<td>bool</td>
 <td>True if currently processing lines inside a Python code chunk.</td>
 </tr>
 <tr class="odd">
 <td>in_chunk_options</td>
-<td>boolean</td>
+<td>bool</td>
 <td>True if currently at the start of a code chunk, parsing Quarto chunk options or leading blank lines.</td>
 </tr>
 <tr class="even">
 <td>linter</td>
 <td>str</td>
 <td>Name of the linter that will be used.</td>
+</tr>
+<tr class="odd">
+<td>preserve_line_count</td>
+<td>bool</td>
+<td>If True (default), preserve line count by inserting “#-” and “# %% [python]” for non-code lines. If False, skip non-code lines entirely (only preserving code lines).</td>
 </tr>
 </tbody>
 </table>
