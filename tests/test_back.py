@@ -58,11 +58,52 @@ TEST_CASES = [
         ]
     },
     {
-        "linter": "radon",
+        "linter": "radon-cc",
         "qmd": "complexity_example.qmd",
         "contains": [
             "F 17:0 check_number - C",
             "F 9:0 simple_addition - A"
+        ]
+    },
+    {
+        "linter": "radon-mi",
+        "qmd": "complexity_example.qmd",
+        "contains": [
+            "tests/examples/complexity_example.qmd - A"
+        ]
+    },
+    {
+        "linter": "radon-raw",
+        "qmd": "lines_example.qmd",
+        "contains": [
+            "LOC: 10",
+            "LLOC: 6",
+            "SLOC: 6",
+            "Comments: 1",
+            "Single comments: 1",
+            "Multi: 0",
+            "Blank: 3",
+            "(C % L): 10%",
+            "(C % S): 17%",
+            "(C + M % L): 10%"
+        ]
+    },
+    {
+        "linter": "radon-hal",
+        "qmd": "lines_example.qmd",
+        "contains": [
+            "h1: 1",
+            "h2: 6",
+            "N1: 4",
+            "N2: 8",
+            "vocabulary: 7",
+            "length: 12",
+            "calculated_length: 15.509775004326936",
+            "volume: 33.68825906469125",
+            "difficulty: 0.6666666666666666",
+            "effort: 22.458839376460833",
+            "time: 1.2477132986922685",
+            "bugs: 0.011229419688230418"
         ]
     },
     {

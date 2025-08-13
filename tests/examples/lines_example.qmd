@@ -1,0 +1,28 @@
+---
+title: "Example"
+---
+
+This file is for tools (like `radon raw`) which are recording metrics like line counts, comment counts, etc.
+
+```{python}
+# Import packages
+import sys
+```
+
+```{python}
+#| echo: false
+1+2+3
+3+3
+
+def add_numbers(a, b):
+    return a + b
+```
+
+## A title
+
+Some more bits and bobs of code.
+```{python}
+
+
+add_numbers(3, 5)
+```

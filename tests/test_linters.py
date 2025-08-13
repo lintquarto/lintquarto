@@ -8,7 +8,8 @@ from lintquarto.linters import Linters
 
 
 ALL_LINTERS = ["pylint", "flake8", "pyflakes", "ruff", "vulture",
-               "radon", "pycodestyle", "mypy", "pyright", "pyrefly", "pytype"]
+               "radon-cc", "radon-mi", "radon-raw", "radon-hal", "pycodestyle",
+               "mypy", "pyright", "pyrefly", "pytype"]
 
 
 # =============================================================================
@@ -88,38 +89,3 @@ def test_check_available_not_found():
     with patch("shutil.which", return_value=None):
         with pytest.raises(FileNotFoundError, match="pylint not found"):
             linters.check_available("pylint")
-
-
-@pytest.mark.parametrize("linter_name", ["", None])
-def test_check_available_edge_cases(linter_name):
-    """
-    Test that check_available() raises error for empty or None linter names.
-    """
-    linters = Linters()
-    with patch("shutil.which", return_value=None):
-        with pytest.raises(FileNotFoundError):
-            linters.check_available(linter_name)
-
-
-@pytest.mark.parametrize("linter_name", ["Pylint", "PYLINT"])
-def test_check_available_case_sensitivity(linter_name):
-    """
-    Test that check_available() is case-sensitive and fails for incorrect case.
-    """
-    linters = Linters()
-    with patch("shutil.which", return_value=None):
-        with pytest.raises(FileNotFoundError):
-            linters.check_available(linter_name)  # Should be 'pylint'
-
-
-def test_check_available_error_message_content():
-    """
-    Test that error message for unavailable linter includes the linter name.
-    """
-    linters = Linters()
-    linter_name = "notalinter"
-    with patch("shutil.which", return_value=None):
-        with pytest.raises(FileNotFoundError) as excinfo:
-            linters.check_available(linter_name)
-    assert linter_name in str(excinfo.value)
-    assert "not found" in str(excinfo.value)

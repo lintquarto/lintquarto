@@ -2,7 +2,14 @@
 
 # radon
 
-Computes code metrics - `lintquarto` supports calculating complexity metrics.
+Computes four different code metrics:
+
+* `radon-cc`: cyclomatic complexity (measures the number of independent paths through code).
+* `radon-mi`: maintainability index (estimates ease of maintenance).
+* `radon-raw`: raw metrics (counts lines, comments, blanks, etc.).
+* `radon-hal`: halstead metrics (quantifies code complexity based on operators (symbols) and operands (variables)).
+
+See the [radon documentation](https://radon.readthedocs.io/en/latest/intro.html) for more details.
 
 ```{python}
 #| echo: false
@@ -43,7 +50,7 @@ print_quarto("examples/complexity_example.qmd")
 ## Run radon using `lintquarto`
 
 ```{.bash}
-lintquarto -l radon -p complexity_example.qmd
+lintquarto -l radon-cc -p complexity_example.qmd
 ```
 
 :::{.pale-green}
@@ -56,7 +63,70 @@ lintquarto -l radon -p complexity_example.qmd
 ```{python}
 #| echo: false
 result = subprocess.run(
-    ["lintquarto", "-l", "radon", "-p", "examples/complexity_example.qmd"],
+    ["lintquarto", "-l", "radon-cc", "-p", "examples/complexity_example.qmd"],
+    capture_output=True, text=True, check=False
+)
+print(result.stdout)
+```
+:::
+
+```{.bash}
+lintquarto -l radon-mi -p complexity_example.qmd
+```
+
+:::{.pale-green}
+<style>
+.cell-output-stdout code {
+  word-break: break-word !important;
+  white-space: pre-wrap !important;
+}
+</style>
+```{python}
+#| echo: false
+result = subprocess.run(
+    ["lintquarto", "-l", "radon-mi", "-p", "examples/complexity_example.qmd"],
+    capture_output=True, text=True, check=False
+)
+print(result.stdout)
+```
+:::
+
+```{.bash}
+lintquarto -l radon-raw -p complexity_example.qmd
+```
+
+:::{.pale-green}
+<style>
+.cell-output-stdout code {
+  word-break: break-word !important;
+  white-space: pre-wrap !important;
+}
+</style>
+```{python}
+#| echo: false
+result = subprocess.run(
+    ["lintquarto", "-l", "radon-raw", "-p", "examples/complexity_example.qmd"],
+    capture_output=True, text=True, check=False
+)
+print(result.stdout)
+```
+:::
+
+```{.bash}
+lintquarto -l radon-hal -p complexity_example.qmd
+```
+
+:::{.pale-green}
+<style>
+.cell-output-stdout code {
+  word-break: break-word !important;
+  white-space: pre-wrap !important;
+}
+</style>
+```{python}
+#| echo: false
+result = subprocess.run(
+    ["lintquarto", "-l", "radon-hal", "-p", "examples/complexity_example.qmd"],
     capture_output=True, text=True, check=False
 )
 print(result.stdout)

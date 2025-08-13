@@ -27,13 +27,17 @@ class QmdToPyConverter:
     ----------
     py_lines : list
         Stores the lines to be written to the output Python file.
-    in_python : boolean
+    in_python : bool
         True if currently processing lines inside a Python code chunk.
-    in_chunk_options : boolean
+    in_chunk_options : bool
         True if currently at the start of a code chunk, parsing Quarto chunk
         options or leading blank lines.
     linter : str
         Name of the linter that will be used.
+    preserve_line_count : bool
+        If True (default), preserve line count by inserting "#-" and
+        "# %% [python]" for non-code lines. If False, skip non-code lines
+        entirely (only preserving code lines).
 
     Notes
     -----
@@ -55,6 +59,12 @@ class QmdToPyConverter:
 
         # Check if linter name is valid
         Linters().check_supported(self.linter)
+
+        # Determine whether to preserve line count (depends on linter)
+        if self.linter == "radon-raw":
+            self.preserve_line_count = False
+        else:
+            self.preserve_line_count = True
 
     def reset(self):
         """
@@ -99,13 +109,15 @@ class QmdToPyConverter:
         if re.match(r"^```\{python\}", line):
             self.in_python = True
             self.in_chunk_options = True
-            self.py_lines.append("# %% [python]")
+            if self.preserve_line_count:
+                self.py_lines.append("# %% [python]")
 
         # Check if it is the end of a code chunk
         elif line.strip() == "```":
             self.in_python = False
             self.in_chunk_options = False
-            self.py_lines.append("# -")
+            if self.preserve_line_count:
+                self.py_lines.append("# -")
 
         # Check if it is within a python code chunk
         elif self.in_python:
@@ -113,7 +125,8 @@ class QmdToPyConverter:
 
         # For all other lines, set to # -
         else:
-            self.py_lines.append("# -")
+            if self.preserve_line_count:
+                self.py_lines.append("# -")
 
     def _handle_python_chunk(self, line):
         """
@@ -154,7 +167,8 @@ class QmdToPyConverter:
         if stripped.startswith("#| "):
             indent = line[:len(line) - len(stripped)]
             modified_line = indent + "# |" + stripped[3:]
-            self.py_lines.append(modified_line)
+            if self.preserve_line_count:
+                self.py_lines.append(modified_line)
             return
 
         # First code line after options/blanks:
@@ -291,15 +305,16 @@ def convert_qmd_to_py(qmd_path, linter, output_path=None, verbose=False):
         if verbose:
             print(f"✓ Successfully converted {qmd_path} to {output_path}")
 
-        # Check that line counts match
-        qmd_len = len(qmd_lines)
-        py_len = len(py_lines)
-        if qmd_len == py_len:
-            if verbose:
-                print(f"  Line count: {qmd_len} → {py_len} ")
-        else:
-            warnings.warn(f"Line count mismatch: {qmd_len} → {py_len}",
-                          RuntimeWarning)
+        # Check that line counts match (if intend to preserve them)
+        if converter.preserve_line_count:
+            qmd_len = len(qmd_lines)
+            py_len = len(py_lines)
+            if qmd_len == py_len:
+                if verbose:
+                    print(f"  Line count: {qmd_len} → {py_len} ")
+            else:
+                warnings.warn(f"Line count mismatch: {qmd_len} → {py_len}",
+                              RuntimeWarning)
 
     # Error messages if issues finding/accessing files, or otherwise.
     except FileNotFoundError:
