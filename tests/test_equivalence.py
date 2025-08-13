@@ -53,7 +53,7 @@ def test_radon_hal_preserve_line_effect():
 
     def normalise_radon_output(output: str) -> str:
         """Remove strings from radon output, keeping numeric results."""
-        return re.sub(r'^[^:]+:', "<FILE>:", output, flags=re.MULTILINE)
+        return re.sub(r'^.*:', '<FILE>:', output, flags=re.MULTILINE)
 
     result_false = normalise_radon_output(run_radon_hal(False))
     result_true = normalise_radon_output(run_radon_hal(True))
