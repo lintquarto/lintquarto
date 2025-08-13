@@ -10,9 +10,8 @@ class Linters:
     Attributes
     ----------
     supported : dict
-        Dictionary of supported linters - key is the name of the package, and
-        value is the command that users would run before specifying files
-        (e.g. "radon cc" - full command would then be "radon cc [file/dir]").
+        Dictionary of supported linters. The key (e.g. `radon-cc`) maps to the
+        full command (e.g. `["radon", "cc"]`).
     """
     def __init__(self):
         """
@@ -29,6 +28,7 @@ class Linters:
             "radon-cc": ["radon", "cc"],  # To compute cyclomatic complexity
             "radon-mi": ["radon", "mi"],  # To compute maintainability index
             "radon-raw": ["radon", "raw"],  # To compute raw metrics
+            "radon-hal": ["radon", "hal"],  # To compute halstead metrics
             "pycodestyle": ["pycodestyle"],
             "mypy": ["mypy"],
             "pyright": ["pyright"],

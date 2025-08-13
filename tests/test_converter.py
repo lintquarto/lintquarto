@@ -10,8 +10,8 @@ from lintquarto.converter import (
 
 # All linters that preserve the line count
 PRESERVE_LINTERS = ["pylint", "flake8", "pyflakes", "ruff", "vulture",
-                    "radon-cc", "radon-mi", "pycodestyle", "mypy", "pyright",
-                    "pyrefly", "pytype"]
+                    "radon-cc", "radon-mi", "radon-hal", "pycodestyle", "mypy",
+                    "pyright", "pyrefly", "pytype"]
 LINTERS_SUPPORTING_NOQA = ["flake8", "pycodestyle", "ruff"]
 
 

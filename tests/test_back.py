@@ -89,6 +89,24 @@ TEST_CASES = [
         ]
     },
     {
+        "linter": "radon-hal",
+        "qmd": "lines_example.qmd",
+        "contains": [
+            "h1: 1",
+            "h2: 6",
+            "N1: 4",
+            "N2: 8",
+            "vocabulary: 7",
+            "length: 12",
+            "calculated_length: 15.509775004326936",
+            "volume: 33.68825906469125",
+            "difficulty: 0.6666666666666666",
+            "effort: 22.458839376460833",
+            "time: 1.2477132986922685",
+            "bugs: 0.011229419688230418"
+        ]
+    },
+    {
         "linter": "vulture",
         "qmd": "unusedcode_example.qmd",
         "contains": [
