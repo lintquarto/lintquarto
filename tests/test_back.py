@@ -58,11 +58,18 @@ TEST_CASES = [
         ]
     },
     {
-        "linter": "radon",
+        "linter": "radon-cc",
         "qmd": "complexity_example.qmd",
         "contains": [
             "F 17:0 check_number - C",
             "F 9:0 simple_addition - A"
+        ]
+    },
+    {
+        "linter": "radon-mi",
+        "qmd": "complexity_example.qmd",
+        "contains": [
+            "tests/examples/complexity_example.qmd - A"
         ]
     },
     {
