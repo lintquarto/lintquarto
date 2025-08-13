@@ -69,7 +69,7 @@ TEST_CASES = [
         "linter": "radon-mi",
         "qmd": "complexity_example.qmd",
         "contains": [
-            "tests/examples/complexity_example.qmd - A"
+            "complexity_example.qmd - A"
         ]
     },
     {
