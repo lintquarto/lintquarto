@@ -8,7 +8,7 @@ echo "--------------------------------------------------------------------"
 echo "Linting quarto files..."
 echo "--------------------------------------------------------------------"
 
-LINTERS="ruff flake8 pylint vulture radon"
+LINTERS="ruff flake8 pylint vulture radon-cc"
 EXCLUDE="docs/pages/api docs/pages/tools/examples"
 
 lintquarto -l $LINTERS -p docs --exclude $EXCLUDE
