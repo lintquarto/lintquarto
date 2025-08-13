@@ -29,7 +29,7 @@ def generate_html(pypi_url, github_url, conda_url=None):
 <div style="display: flex; gap: 1em; margin-bottom: 1em;">
   <a href="{pypi_url}" target="_blank" style="text-decoration: none;">
     <span style="display: inline-flex; align-items: center; background:
-    #3775A9; color: #fff; border-radius: 20px; padding: 0.4em 1em; 
+    #3775A9; color: #fff; border-radius: 20px; padding: 0.4em 1em;
     font-weight: 600; gap: 0.5em;">
       <img src=
       "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/pypi.svg"

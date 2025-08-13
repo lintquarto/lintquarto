@@ -25,7 +25,7 @@ Use the sidebar to explore ready-to-run examples and detailed usage for each too
 
 | Tool | Speciality | Description |
 | --- | - | - |
-| [**radon**](radon.qmd) | Complexity | Computes code metrics - `lintquarto` supports calculating complexity metrics. |
+| [**radon**](radon.qmd) | Various | Calculates complexity, maintainability, raw statistics, and Halstead metrics. |
 | [**vulture**](vulture.qmd) | Dead Code | Finds unused code. |
 : {tbl-colwidths="[10,15,75]"}
 
