@@ -58,6 +58,7 @@ If you want to contribute to `lintquarto` or run its tests, you'll need some add
 | **check-dependencies** | Test for undeclared dependencies |
 | **flit** | Packaging and publishing |
 | **genbadge** | Create coverage badge (README) |
+| **grayskull** | Uploading to `conda-forge` |
 | **jupyter** | Run python code in docs |
 | **pytest** | Run tests |
 | **pytest-cov** | Calculate coverage |
@@ -140,6 +141,16 @@ make -C docs
 
 ## 📦 Updating the package
 
+### Preparation
+
+Before proceeding, you will need to have cloned the `lintquarto/staged-recipes` repository which is used to push updates to conda.
+
+```{.bash}
+git clone https://github.com/lintquarto/staged-recipes
+```
+
+### Workflow for updates
+
 If you are a maintainer and need to publish a new release:
 
 1. Update the `CHANGELOG.md`.
@@ -171,6 +182,63 @@ rm -rf dist/
 flit build
 twine upload --repository testpypi dist/*
 ```
+
+5. Navigate to the `staged-recipes` repository folder (which you should have cloned onto your machine), and move into the `recipes` folder.
+
+```{.bash}
+staged-recipes
+➜ cd recipes
+```
+
+6. Switch over to the `lintquarto` branch.
+
+```{.bash}
+git checkout lintquarto
+```
+
+7. Use `grayskull` to update the recipe (`lintquarto/meta.yaml`). It will pull the metadata about the package from PyPI, and will not use your local installation of the package.
+
+```{.bash}
+grayskull pypi lintquarto
+```
+
+8. Fix the `meta.yaml` file. There are two changes to make...
+
+Add the `home` element within `about`.
+
+```{.bash}
+home: https://lintquarto.github.io/lintquarto/
+```
+
+Update the python version requirements syntax as per the [conda-forge documentation](https://conda-forge.org/docs/maintainer/knowledge_base/#noarch-python), using the `python_min` variable and setting fixed versions for `host` and `requires`.
+
+```{.bash}
+{% set name = "lintquarto" %}
+{% set version = "0.4.0" %}
+{% set python_min = "3.7" %}
+
+...
+
+  host:
+    - python {{ python_min }}
+
+...
+
+  run:
+    - python >={{ python_min }}
+
+...
+
+  requires:
+    - python {{ python_min }}
+
+```
+
+9. Create a pull request to merge `lintquarto:lintquarto` into `conda-forge:main` ([as compared here](https://github.com/conda-forge/staged-recipes/compare/main...lintquarto:staged-recipes:lintquarto)).
+
+You will need to complete the checklist template in the pull request.
+
+CI actions will then run and test the package build. 
 
 <br>
 
