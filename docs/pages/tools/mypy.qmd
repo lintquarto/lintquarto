@@ -4,6 +4,8 @@
 
 Python's popular static type checker.
 
+**Note:** You may see files outside the specified path (`-p`) in your outputs. This is because mypy follows all imports, even those not explicitly listed. See the [mypy documentation](https://mypy.readthedocs.io/en/latest/running_mypy.html#following-imports) for details.
+
 ```{python}
 #| echo: false
 #| # pylint: disable=missing-module-docstring
