@@ -238,15 +238,11 @@ Add the `home` element within `about`.
 home: https://lintquarto.github.io/lintquarto/
 ```
 
-Update the python version requirements syntax as per the [conda-forge documentation](https://conda-forge.org/docs/maintainer/knowledge_base/#noarch-python), using the `python_min` variable and setting fixed versions for `host` and `requires`.
+Update the python version requirements syntax as per the [conda-forge documentation](https://conda-forge.org/docs/maintainer/knowledge_base/#noarch-python), using `python_min` for `host` (fixed version), `run` (minimum version) and `requires` (fixed version).
+
+**Note:** Don't need to set the `python_min` anywhere unless it differs from conda default (currently 3.7).
 
 ```{.bash}
-{% set name = "lintquarto" %}
-{% set version = "0.4.0" %}
-{% set python_min = "3.7" %}
-
-...
-
   host:
     - python {{ python_min }}
 
