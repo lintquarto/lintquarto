@@ -2,11 +2,19 @@
 
 Thank you for your interest in contributing! 🤗
 
+This file covers:
+
+* 🐞 Workflow for bug reports, feature requests and documentation improvements
+* 🚀 Workflow for code contributions (bug fixes, enhancements)
+* 🛠️ Development and testing
+* 📦 Updating the package
+* 🤝 Code of conduct
+
 <br>
 
 ## 🐞 Workflow for bug reports, feature requests and documentation improvements
 
-Before opening an issue, please search [existing issues](https://github.com/lintquarto/lintquarto/issues/) to avoid duplicates. If there is not an existing issue, please open open and provide as much detail as possible.
+Before opening an issue, please search [existing issues](https://github.com/lintquarto/lintquarto/issues/) to avoid duplicates. If an issue exists, you can add a comment with additional details and/or upvote (👍) the issue. If there is not an existing issue, please open one and provide as much detail as possible.
 
 * **For feature requests or documentation improvements**, please describe your suggestion clearly.
 * **For bugs**, include:
@@ -21,7 +29,7 @@ Before opening an issue, please search [existing issues](https://github.com/lint
 * Label the issue appropriately (e.g. `bug`).
 * Request additional information if necessary.
 * Link related issues or pull requests.
-* One resolved, close the issue with a brief summary of the fix.
+* Once resolved, close the issue with a brief summary of the fix.
 
 <br>
 
@@ -66,7 +74,7 @@ If you want to contribute to `lintquarto` or run its tests, you'll need some add
 | **quartodoc** | Generate API docs |
 | `-e .[all]` | Editable install + all linters |
 
-These are listed in `requirements-dev.txt` for convenience. To set up your development environment, run:
+These are listed in `requirements-dev.txt` for convenience. To set up your development environment, create an environment (e.g. `virtualenv`) and run:
 
 ```{.bash}
 pip install -r requirements-dev.txt
@@ -96,12 +104,30 @@ To update the stable environment, run `conda update --all` and test thoroughly (
 
 <br>
 
+### Docstrings
+
+We follow the [numpydoc](https://numpydoc.readthedocs.io/en/latest/format.html) style for docstrings.
+
+<br>
+
 ### Tests
 
 Run all tests (with coverage):
 
 ```{.bash}
 pytest --cov
+```
+
+Run an individual test file:
+
+```{.bash}
+pytest tests/test_back.py
+```
+
+Run a specific test:
+
+```{.bash}
+pytest tests/test_linters.py::test_supported_error
 ```
 
 <br>
@@ -136,6 +162,8 @@ Build and preview the documentation locally:
 ```{.bash}
 make -C docs
 ```
+
+When running this, function documentation will be automatically generated from the codebase using `quartodoc`
 
 <br>
 
