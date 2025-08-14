@@ -5,6 +5,38 @@ All notable changes to this project are documented.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Dates formatted as YYYY-MM-DD as per [ISO standard](https://www.iso.org/iso-8601-date-and-time-format.html).
 
+## v0.4.0 - 2025-08-14
+
+Extended support for radon, incorporating commands for maintainability index, Halstead metrics, and raw code metrics. Also some additional tests and documentation improvements, and a few small fixes.
+
+### Added
+
+* **Radon:** Extended support beyond `radon cc` - now also supports `radon mi`, `radon hal` and `radon raw` - which required addition of `preserve_line_count` in `QmdToPyConverter`.
+* **Tests:**
+    * Add back testing for every linter (`test_back.py`).
+    * Add test using `check-dependencies` which tests for missing or undeclared dependencies.
+    * Add new tests related to radon changes (`test_preserve_line_count_false_removes_non_code()`, `test_radon_hal_preserve_line_effect()`).
+* **Build:** Add `toml` as required dependency
+
+### Changed
+
+* **Radon:** Command for radon cc is now `radon-cc` (was `radon` before).
+* **Documentation:**
+    * `docs.yaml` now uses Python 3.12 (as one of the linters is unsupported in 3.13).
+    * Improved readability of `CONTRIBUTING.md`.
+    * Correct statement about only specifying one linter per command in `README.md`.
+    * Add back in bold and gap for PyPI button.
+
+### Removed
+
+* **Tests:** Removed some redundant `check_available` tests (which were actually already covered by `check_supported`).
+
+### Fixed
+
+* **File type:** Fixed replacement of `.py` with `.qmd` in the output for some linters.
+* **Tests:** Include error in checkd output and remove line numbers for pytype. Add skip for `pytype` back-test for unsupported python versions.
+* **`lint_package.sh`:** Only run pylint on files that exist in `tests/` to prevent false error about `tests/__init__.py`.
+
 ## v0.3.0 - 2025-07-07
 
 Major updates include support for multiple linters and file/directory exclusion, expanded testing, several fixes (e.g. false positive linter warnings, deletion of `.py` files, coverage badge), and the removal of `pylama`.
