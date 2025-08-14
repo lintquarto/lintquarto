@@ -2,6 +2,7 @@ check-dependencies
 flit
 jupyter
 genbadge
+grayskull
 pytest
 pytest-cov
 quartodoc
