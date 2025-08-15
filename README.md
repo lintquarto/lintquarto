@@ -12,11 +12,13 @@
 
 <br>
 
-**Package for running linters and static type checkers on quarto `.qmd` files.**
+**Package for running linters, static type checkers and code analysis tools on python code in quarto (`.qmd`) files.**
 
-Currently supported linters: [pylint](https://github.com/pylint-dev/pylint), [flake8](https://github.com/pycqa/flake8), [pyflakes](https://github.com/PyCQA/pyflakes), [ruff](https://github.com/astral-sh/ruff), [vulture](https://github.com/jendrikseipp/vulture), [radon](https://github.com/rubik/radon), and [pycodestyle](https://github.com/PyCQA/pycodestyle).
+Currently supported:
 
-It also supports some static type checkers: [mypy](https://github.com/python/mypy), [pyright](https://github.com/microsoft/pyright), [pyrefly](https://github.com/facebook/pyrefly), and [pytype](https://github.com/google/pytype).
+* Linters: [pylint](https://github.com/pylint-dev/pylint), [flake8](https://github.com/pycqa/flake8), [pyflakes](https://github.com/PyCQA/pyflakes), [ruff](https://github.com/astral-sh/ruff), [vulture](https://github.com/jendrikseipp/vulture), and [pycodestyle](https://github.com/PyCQA/pycodestyle).
+* Static type checkers: [mypy](https://github.com/python/mypy), [pyright](https://github.com/microsoft/pyright), [pyrefly](https://github.com/facebook/pyrefly), and [pytype](https://github.com/google/pytype).
+* Code analysis tools: [radon](https://github.com/rubik/radon).
 
 [![Code licence](https://img.shields.io/badge/🖱️_Click_to_view_package_documentation-37a779?style=for-the-badge)](https://lintquarto.github.io/lintquarto/)
 
@@ -112,11 +114,13 @@ Curious about contributing? Check out the [contributing guidelines](CONTRIBUTING
 
 ## How to cite `lintquarto`
 
-Please cite the repository on GitHub, PyPI and/or Zenodo:
+Please cite the repository on GitHub, PyPI, conda and/or Zenodo:
 
 > Heather, A. (2025). lintquarto (v0.4.0).  https://github.com/lintquarto/lintquarto.
 >
-> Heather, A. (2025). lintquarto (v0.4.0). https://pypi.org/project/lintquarto/
+> Heather, A. (2025). lintquarto (v0.4.0). https://pypi.org/project/lintquarto/.
+>
+> Heather, A. (2025). lintquarto (v0.4.0). https://anaconda.org/conda-forge/lintquarto.
 >
 > Heather, A. (2025). lintquarto (v0.4.0). https://doi.org/10.5281/zenodo.15731161.
 

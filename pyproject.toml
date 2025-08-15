@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "lintquarto"
-description = "Package for running linters and static type checkers on quarto .qmd files."
+description = "Package for running linters, static type checkers and code analysis tools on python code in quarto (.qmd) files."
 authors = [{name = "Amy Heather", email = "a.heather2@exeter.ac.uk"}]
 maintainers = [{name = "Amy Heather", email = "a.heather2@exeter.ac.uk"}]
 readme = "README.md"
