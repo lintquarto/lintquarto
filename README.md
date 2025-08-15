@@ -5,6 +5,7 @@
 ![Code licence](https://img.shields.io/badge/🛡️_Code_licence-MIT-8a00c2?&labelColor=gray)
 [![ORCID](https://img.shields.io/badge/ORCID_Amy_Heather-0000--0002--6596--3479-A6CE39?&logo=orcid&logoColor=white)](https://orcid.org/0000-0002-6596-3479)
 [![PyPI](https://img.shields.io/pypi/v/lintquarto?&labelColor=gray)](https://pypi.org/project/lintquarto/)
+[![Anaconda-Server Badge](https://anaconda.org/conda-forge/lintquarto/badges/version.svg)](https://anaconda.org/conda-forge/lintquarto)
 [![DOI](https://img.shields.io/badge/DOI-10.5281/zenodo.15731161-486CAC?&logoColor=white)](https://doi.org/10.5281/zenodo.15731161)
 [![Coverage](https://github.com/lintquarto/lintquarto/raw/main/images/coverage-badge.svg)](https://github.com/lintquarto/lintquarto/actions/workflows/tests.yaml)
 </div>
@@ -27,17 +28,29 @@ It also supports some static type checkers: [mypy](https://github.com/python/myp
 
 ## Installation
 
-You can install `lintquarto` from [PyPI](https://pypi.org/project/lintquarto/):
+You can install **lintquarto** with pip ([from PyPI](https://pypi.org/project/lintquarto/)) or conda ([from conda-forge](https://anaconda.org/conda-forge/lintquarto)).
+
+### Install with pip
 
 ```
 pip install lintquarto
 ```
 
-To also install all supported linters:
+To include your selection of linters, install them as needed.
+
+For a one-step installation that includes lintquarto and all supported linters and type checkers, use:
 
 ```
 pip install lintquarto[all]
 ```
+
+### Install with conda
+
+```
+conda install conda-forge::lintquarto
+```
+
+With conda, only the main lintquarto tool is installed. If you want to use any linters or type checkers, you must install them separately (either with conda or pip, depending on availability).
 
 <br>
 
