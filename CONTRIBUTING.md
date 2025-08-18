@@ -267,6 +267,7 @@ Fix B: Correct python version requirements syntax as per the [conda-forge docume
 ```{.bash}
 git add --all
 git commit -m "updated feedstock to version 0.5.0"
+git push
 ```
 
 8. Use the GitHub website to open a pull request. Completed the provided checklist -
