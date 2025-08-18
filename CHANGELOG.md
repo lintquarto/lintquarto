@@ -18,7 +18,7 @@ Package now supports `pydoclint`, adds conda-related tooling and optional dev de
 
 * **Type hints:** Add type hints to package, and then use `pydoclint` and `mypy` when linting docs and package.
 * **CONTRIBUTING:** Improvements include table of contents and instructions for conda upload.
-* **Documentation:**str, optional
+* **Documentation:**
     * Add conda badge and PyPI downloads badges.
     * Add explanation for `mypy` output containing files outside specified path.
     * Mentioned "code analysis tools" (rather than referring to `radon` as a linter).
