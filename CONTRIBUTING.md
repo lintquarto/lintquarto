@@ -218,34 +218,31 @@ flit build
 twine upload --repository testpypi dist/*
 ```
 
-5. Navigate to the `staged-recipes` repository folder (which you should have cloned onto your machine), and move into the `recipes` folder.
+5. If you haven't already, fork the lintquarto feedstock ([conda-forge/lintquarto-feedstock](https://github.com/conda-forge/lintquarto-feedstock)). This fork must be to your personal GitHub account and not an organisation account. Clone it to your local machine.
+
+If you already have a fork, make sure it is up-to-date by running `git pull`.
+
+6. Create and checkout a branch - e.g. `update_0_5_0`.
 
 ```{.bash}
-staged-recipes
-➜ cd recipes
+git checkout -b update_0_5_0
 ```
 
-6. Switch over to the `lintquarto` branch.
-
-```{.bash}
-git checkout lintquarto
-```
-
-7. Use `grayskull` to update the recipe (`lintquarto/meta.yaml`). It will pull the metadata about the package from PyPI, and will not use your local installation of the package.
+7. Use `grayskull` to update the recipe (`recipe/meta.yaml`). It will pull the metadata about the package from PyPI, and will not use your local installation of the package.
 
 ```{.bash}
 grayskull pypi lintquarto
 ```
 
-8. Fix the `meta.yaml` file. There are two changes to make...
+It will create `lintquarto/meta.yaml`. You will need to copy over the contents into `recipe/meta.yaml`. When you do so, make sure to keep the two fixes made to the `meta.yaml` file which are...
 
-Add the `home` element within `about`.
+Fix A: The addition of a `home` element within `about`.
 
 ```{.bash}
 home: https://lintquarto.github.io/lintquarto/
 ```
 
-Update the python version requirements syntax as per the [conda-forge documentation](https://conda-forge.org/docs/maintainer/knowledge_base/#noarch-python), using `python_min` for `host` (fixed version), `run` (minimum version) and `requires` (fixed version).
+Fix B: Correct python version requirements syntax as per the [conda-forge documentation](https://conda-forge.org/docs/maintainer/knowledge_base/#noarch-python), using `python_min` for `host` (fixed version), `run` (minimum version) and `requires` (fixed version).
 
 **Note:** Don't need to set the `python_min` anywhere unless it differs from conda default (currently 3.7).
 
@@ -265,11 +262,21 @@ Update the python version requirements syntax as per the [conda-forge documentat
 
 ```
 
-9. Create a pull request to merge `lintquarto:lintquarto` into `conda-forge:main` ([as compared here](https://github.com/conda-forge/staged-recipes/compare/main...lintquarto:staged-recipes:lintquarto)).
+7. Create a commit with the updated feedstock - for example:
 
-You will need to complete the checklist template in the pull request.
+```{.bash}
+git add --all
+git commit -m "updated feedstock to version 0.5.0"
+```
 
-CI actions will then run and test the package build. 
+8. Use the GitHub website to open a pull request. Completed the provided checklist -
+
+* Personal account? Yes, if you used your GitHub and not an organisation.
+* Bump? Not relevant as doing a version update, can remove.
+* Reset base? Yes, should show as `base: 0` in `meta.yaml` by default.
+* Re-render? Add the command `@conda-forge-admin, please rerender` to the end of the pull request.
+
+9. Wait for the CI actions to run. If all pass, then you can click "Merge pull request".
 
 <br>
 
