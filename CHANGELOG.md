@@ -5,6 +5,25 @@ All notable changes to this project are documented.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Dates formatted as YYYY-MM-DD as per [ISO standard](https://www.iso.org/iso-8601-date-and-time-format.html).
 
+## v0.5.0 - 2025-08-18
+
+Package now supports `pydoclint`, adds conda-related tooling and optional dev dependencies. Code now uses type hints, and have add some version-specific test and installation skips.
+
+### Added
+
+* **pydoclint:** Add support for a new linter: `pydoclint`.
+* **Environment:** Add `grayskull`, `types-toml`, and made a `[dev]` optional dependencies section in `pyproject.toml`. Add exclusions for particular python versions.
+
+### Changed
+
+* **Type hints:** Add type hints to package, and then use `pydoclint` and `mypy` when linting docs and package.
+* **CONTRIBUTING:** Improvements include table of contents and instructions for conda upload.
+* **Documentation:**str, optional
+    * Add conda badge and PyPI downloads badges.
+    * Add explanation for `mypy` output containing files outside specified path.
+    * Mentioned "code analysis tools" (rather than referring to `radon` as a linter).
+* **Test:** Utility function for skipping tests when unavailable on certain python versions.
+
 ## v0.4.0 - 2025-08-14
 
 Extended support for radon, incorporating commands for maintainability index, Halstead metrics, and raw code metrics. Also some additional tests and documentation improvements, and a few small fixes.
