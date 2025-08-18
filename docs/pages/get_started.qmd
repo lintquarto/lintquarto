@@ -36,15 +36,17 @@ lintquarto --version
 
 ### Install with conda
 
-TODO
+```
+conda install conda-forge::lintquarto
+```
 
-<br>
+With conda, only the main lintquarto tool is installed. If you want to use any linters or type checkers, you must install them separately (either with conda or pip, depending on availability).
 
 ## Basic usage
 
 **lintquarto -l LINTER [LINTER ...] -p PATH [PATH ...] [-e EXCLUDE [EXCLUDE ...]] [-k]**
 
-* **-l --linters** LINTER [LINTER ...] - Linters to run. Valid options: `pylint`, `flake8`, `pyflakes`, `ruff`, `vulture`, `radon`, `pycodestyle`, `mypy`, `pyright`, `pyrefly`, or `pytype`.
+* **-l --linters** LINTER [LINTER ...] - Linters to run.
 * **-p --paths** PATH [PATH ...]- Quarto files and/or directories to lint.
 * **-e --exclude** EXCLUDE [EXCLUDE ...] - Files and/or directories to exclude from linting.
 * **-k, --keep-temp** - Keep the temporary `.py` files created during linting (for debugging).
