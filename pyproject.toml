@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "lintquarto"
-description = "Package for running linters and static type checkers on quarto .qmd files."
+description = "Package for running linters, static type checkers and code analysis tools on python code in quarto (.qmd) files."
 authors = [{name = "Amy Heather", email = "a.heather2@exeter.ac.uk"}]
 maintainers = [{name = "Amy Heather", email = "a.heather2@exeter.ac.uk"}]
 readme = "README.md"
@@ -53,12 +53,23 @@ all = [
   "radon",
   "pycodestyle",
   "mypy",
+  "pydoclint; python_version >= '3.9'",
   "pyright",
   "pyrefly",
-  "pytype"
+  "pytype; python_version <= '3.12'"
 ]
-test = ["pytest"]
-docs = ["jupyter", "quartodoc"]
+dev = [
+  "check-dependencies; python_version >= '3.8'",
+  "flit",
+  "genbadge",
+  "grayskull",
+  "jupyter",
+  "pytest",
+  "pytest-cov",
+  "quartodoc",
+  "twine",
+  "types-toml; python_version >= '3.8'"
+]
 
 [project.urls]
 Home = "https://github.com/lintquarto/lintquarto"

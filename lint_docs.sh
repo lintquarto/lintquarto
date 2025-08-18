@@ -8,7 +8,7 @@ echo "--------------------------------------------------------------------"
 echo "Linting quarto files..."
 echo "--------------------------------------------------------------------"
 
-LINTERS="ruff flake8 pylint vulture radon-cc"
+LINTERS="ruff flake8 pylint radon-cc vulture pydoclint"
 EXCLUDE="docs/pages/api docs/pages/tools/examples"
 
 lintquarto -l $LINTERS -p docs --exclude $EXCLUDE
@@ -27,8 +27,9 @@ PYFILES=$(find docs -type d -name ".*" -prune -false -o -type f -name "*.py" -pr
 echo "Running ruff check..."
 ruff check $PYFILES
 
-# echo "Running flake8..."
-flake8 $PYFILES
+# Ignore type hint-related warnings
+echo "Running flake8..."
+flake8 --ignore=DOC105,DOC106,DOC107 $PYFILES
 
 echo "Running pylint..."
 pylint $PYFILES
@@ -38,3 +39,6 @@ radon cc $PYFILES
 
 echo "Running vulture..."
 vulture $PYFILES vulture/whitelist.py
+
+echo "Running pydoclint..."
+pydoclint $PYFILES

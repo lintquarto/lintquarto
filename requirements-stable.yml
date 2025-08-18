@@ -6,6 +6,7 @@ channels:
 dependencies:
   - flake8=7.2.0
   - flit=3.11.0
+  - grayskull=2.9.1
   - jupyter=1.1.1
   - mypy=1.16.1
   - pip=25.1.1
@@ -27,3 +28,5 @@ dependencies:
       - -e .
       - check-dependencies==0.12.6
       - genbadge==1.1.2
+      - pydoclint==0.6.10
+      - types-toml==0.10.8.20240310

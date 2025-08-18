@@ -1,5 +1,5 @@
 ---
-title: <br>Run linters and static type checkers on quarto `.qmd` files
+title: <br>Run linters, static type checkers and code analysis tools on python code in quarto `.qmd` files
 pagetitle: lintquarto
 authors:
   - name: Amy Heather

@@ -1,9 +1,11 @@
-check-dependencies
+check-dependencies ; python_version >= "3.8"
 flit
-jupyter
 genbadge
+grayskull
+jupyter
 pytest
 pytest-cov
 quartodoc
 twine
+types-toml ; python_version >= "3.8"
 -e .[all]

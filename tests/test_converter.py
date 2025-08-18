@@ -9,9 +9,9 @@ from lintquarto.converter import (
 )
 
 # All linters that preserve the line count
-PRESERVE_LINTERS = ["pylint", "flake8", "pyflakes", "ruff", "vulture",
-                    "radon-cc", "radon-mi", "radon-hal", "pycodestyle", "mypy",
-                    "pyright", "pyrefly", "pytype"]
+PRESERVE_LINTERS = ["flake8", "mypy", "pycodestyle", "pydoclint", "pyflakes",
+                    "pylint", "pyrefly", "pyright", "pytype", "radon-cc",
+                    "radon-mi", "radon-hal", "ruff", "vulture"]
 LINTERS_SUPPORTING_NOQA = ["flake8", "pycodestyle", "ruff"]
 
 
@@ -73,7 +73,7 @@ def remove_noqa(lines):
 PYTHON_CHUNKS = [
     # Simple code chunk
     {
-        "lines": ["```{python}",  "1+1", "```"],
+        "lines": ["```{python}", "1+1", "```"],
         "expected": ["# %% [python]", "1+1  # noqa: E305,E501", "# -"]
     },
     # Function definition
