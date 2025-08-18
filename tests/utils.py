@@ -1,3 +1,5 @@
+"""Testing utilities."""
+
 import sys
 import pytest
 

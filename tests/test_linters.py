@@ -9,7 +9,7 @@ from lintquarto.linters import Linters
 
 ALL_LINTERS = ["flake8", "mypy", "pycodestyle", "pydoclint", "pyflakes",
                "pylint", "pyrefly", "pyright", "pytype", "radon-cc",
-               "radon-mi", "radon-raw", "radon-hal", "ruff", "vulture",]
+               "radon-mi", "radon-raw", "radon-hal", "ruff", "vulture"]
 
 
 # =============================================================================
