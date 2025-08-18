@@ -53,6 +53,7 @@ all = [
   "radon",
   "pycodestyle",
   "mypy",
+  "pydoclint",
   "pyright",
   "pyrefly",
   "pytype"

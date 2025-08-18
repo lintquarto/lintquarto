@@ -44,6 +44,7 @@ website:
           contents:
             - pages/tools/flake8.qmd
             - pages/tools/pycodestyle.qmd
+            - pages/tools/pydoclint.qmd
             - pages/tools/pyflakes.qmd
             - pages/tools/pylint.qmd
             - pages/tools/ruff.qmd

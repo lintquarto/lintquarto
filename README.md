@@ -16,7 +16,7 @@
 
 Currently supported:
 
-* Linters: [pylint](https://github.com/pylint-dev/pylint), [flake8](https://github.com/pycqa/flake8), [pyflakes](https://github.com/PyCQA/pyflakes), [ruff](https://github.com/astral-sh/ruff), [vulture](https://github.com/jendrikseipp/vulture), and [pycodestyle](https://github.com/PyCQA/pycodestyle).
+* Linters: [pylint](https://github.com/pylint-dev/pylint), [flake8](https://github.com/pycqa/flake8), [pydoclint](https://github.com/jsh9/pydoclint), [pyflakes](https://github.com/PyCQA/pyflakes), [ruff](https://github.com/astral-sh/ruff), [vulture](https://github.com/jendrikseipp/vulture), and [pycodestyle](https://github.com/PyCQA/pycodestyle).
 * Static type checkers: [mypy](https://github.com/python/mypy), [pyright](https://github.com/microsoft/pyright), [pyrefly](https://github.com/facebook/pyrefly), and [pytype](https://github.com/google/pytype).
 * Code analysis tools: [radon](https://github.com/rubik/radon).
 
@@ -62,7 +62,7 @@ With conda, only the main lintquarto tool is installed. If you want to use any l
 
 **lintquarto -l LINTER [LINTER ...] -p PATH [PATH ...] [-e EXCLUDE [EXCLUDE ...]] [-k]**
 
-* **-l --linters** LINTER [LINTER ...] - Linters to run. Valid options: `pylint`, `flake8`, `pyflakes`, `ruff`, `vulture`, `radon`, `pycodestyle`, `mypy`, `pyright`, `pyrefly`, or `pytype`.
+* **-l --linters** LINTER [LINTER ...] - Linters to run.
 * **-p --paths** PATH [PATH ...]- Quarto files and/or directories to lint.
 * **-e --exclude** EXCLUDE [EXCLUDE ...] - Files and/or directories to exclude from linting.
 * **-k, --keep-temp** - Keep the temporary `.py` files created during linting (for debugging).

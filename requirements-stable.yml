@@ -28,3 +28,4 @@ dependencies:
       - -e .
       - check-dependencies==0.12.6
       - genbadge==1.1.2
+      - pydoclint==0.6.10

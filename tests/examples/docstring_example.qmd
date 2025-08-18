@@ -1,0 +1,17 @@
+---
+title: "Docstrings example"
+---
+
+This file contains an example of a function with docstring issues.
+
+```{python}
+def add(a, b):
+    """
+    Add two numbers.
+
+    Parameters
+    ----------
+    a : str
+    """
+    return a + b
+```

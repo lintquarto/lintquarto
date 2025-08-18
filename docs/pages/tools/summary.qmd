@@ -16,6 +16,7 @@ Use the sidebar to explore ready-to-run examples and detailed usage for each too
 | - | - |
 | [**flake8**](flake8.qmd) | Lightweight tool focused on PEP-8 style, basic errors, and code complexity. |
 | [**pycodestyle**](pycodestyle.qmd) | Checks against PEP-8 style guidelines. |
+| [**pydoclint**](pydoclint.qmd) | Docstring linter. |
 | [**pyflakes**](pyflakes.qmd) | Checks for logical errors like undefined names and unused imports. |
 | [**pylint**](pylint.qmd) | Detailed linter that detects errors, bugs, variable naming issues, and other code problems. |
 | [**ruff**](ruff.qmd) | Modern, ultra-fast linter that implements checks from Flake8 and some other popular plugins. |

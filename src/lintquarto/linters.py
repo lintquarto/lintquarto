@@ -18,22 +18,22 @@ class Linters:
         Initialise Linters instance.
         """
         self.supported = {
-            # For pylint, disable missing-module-docstring (C0114) as this will
-            # never be relevant for a quarto file.
-            "pylint": ["pylint", "--disable=C0114"],
             "flake8": ["flake8"],
+            "mypy": ["mypy"],
+            "pycodestyle": ["pycodestyle"],
+            "pydoclint": ["pydoclint"],
             "pyflakes": ["pyflakes"],
-            "ruff": ["ruff", "check"],  # To specify linter (not formatter)
-            "vulture": ["vulture"],
+            # Disable missing module docstring (C0114) as not relevant for qmd
+            "pylint": ["pylint", "--disable=C0114"],
+            "pyright": ["pyright"],
+            "pyrefly": ["pyrefly", "check"],
+            "pytype": ["pytype"],
             "radon-cc": ["radon", "cc"],  # To compute cyclomatic complexity
             "radon-mi": ["radon", "mi"],  # To compute maintainability index
             "radon-raw": ["radon", "raw"],  # To compute raw metrics
             "radon-hal": ["radon", "hal"],  # To compute halstead metrics
-            "pycodestyle": ["pycodestyle"],
-            "mypy": ["mypy"],
-            "pyright": ["pyright"],
-            "pyrefly": ["pyrefly", "check"],
-            "pytype": ["pytype"]
+            "ruff": ["ruff", "check"],  # To specify linter (not formatter)
+            "vulture": ["vulture"]
         }
 
     def check_supported(self, linter_name):

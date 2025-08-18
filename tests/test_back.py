@@ -30,6 +30,15 @@ TEST_CASES = [
         ]
     },
     {
+        "linter": "pydoclint",
+        "qmd": "docstring_example.qmd",
+        "contains": [
+            "8: DOC101: Function `add`: Docstring contains fewer arguments",
+            "8: DOC103: Function `add`: Docstring arguments are different",
+            "8: DOC201: Function `add` does not have a return section"
+        ]
+    },
+    {
         "linter": "pyflakes",
         "qmd": "general_example.qmd",
         "contains": [

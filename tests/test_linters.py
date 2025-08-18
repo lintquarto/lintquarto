@@ -7,9 +7,9 @@ import pytest
 from lintquarto.linters import Linters
 
 
-ALL_LINTERS = ["pylint", "flake8", "pyflakes", "ruff", "vulture",
-               "radon-cc", "radon-mi", "radon-raw", "radon-hal", "pycodestyle",
-               "mypy", "pyright", "pyrefly", "pytype"]
+ALL_LINTERS = ["flake8", "mypy", "pycodestyle", "pydoclint", "pyflakes",
+               "pylint", "pyrefly", "pyright", "pytype", "radon-cc",
+               "radon-mi", "radon-raw", "radon-hal", "ruff", "vulture",]
 
 
 # =============================================================================

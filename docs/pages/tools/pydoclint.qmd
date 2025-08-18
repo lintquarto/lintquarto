@@ -1,0 +1,63 @@
+<hr style="height:0pt; visibility:hidden;" />
+
+# pydoclint
+
+Docstring linter that checks whether the parameters, return values and exceptions match the function/class signature. Supports three docstring styles: NumPy, Google and Sphinx.
+
+```{python}
+#| echo: false
+# pylint: disable=missing-module-docstring
+# Import required packages
+import subprocess
+import sys
+
+# Add parent directory to sys.path
+sys.path.insert(0, "..")
+
+# Import the helper functions
+# pylint: disable = import-error, wrong-import-position
+from helpers import generate_html, print_quarto  # noqa: E402
+```
+
+```{python}
+#| echo: false
+#| output: asis
+generate_html(
+    pypi_url="https://pypi.org/project/pydoclint/",
+    github_url="https://github.com/jsh9/pydoclint"
+)
+```
+
+## Example Quarto `.qmd` file:
+
+{{< downloadthis examples/docstring_example.qmd dname="docstring_example" label="Download the example" type="light" >}}
+
+:::{.pale-grey}
+```{python}
+#| echo: false
+print_quarto("examples/docstring_example.qmd")
+```
+:::
+
+## Run pydoclint using `lintquarto`
+
+```{.bash}
+lintquarto -l pydoclint -p docstring_example.qmd
+```
+
+:::{.pale-green}
+<style>
+.cell-output-stdout code {
+  word-break: break-word !important;
+  white-space: pre-wrap !important;
+}
+</style>
+```{python}
+#| echo: false
+result = subprocess.run(
+    ["lintquarto", "-l", "pydoclint", "-p", "examples/docstring_example.qmd"],
+    capture_output=True, text=True, check=False
+)
+print(result.stderr)
+```
+:::
