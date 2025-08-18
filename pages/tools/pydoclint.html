@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>pylint – lintquarto</title>
+<title>pydoclint – lintquarto</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../pages/tools/ruff.html" rel="next">
-<link href="../../pages/tools/pyflakes.html" rel="prev">
+<link href="../../pages/tools/pyflakes.html" rel="next">
+<link href="../../pages/tools/pycodestyle.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -165,7 +165,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/tools/flake8.html"><strong>Linters</strong></a></li><li class="breadcrumb-item"><a href="../../pages/tools/pylint.html">pylint</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/tools/flake8.html"><strong>Linters</strong></a></li><li class="breadcrumb-item"><a href="../../pages/tools/pydoclint.html">pydoclint</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -206,7 +206,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../pages/tools/pydoclint.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/tools/pydoclint.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">pydoclint</span></a>
   </div>
 </li>
@@ -218,7 +218,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../pages/tools/pylint.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../pages/tools/pylint.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">pylint</span></a>
   </div>
 </li>
@@ -295,68 +295,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/tools/flake8.html"><strong>Linters</strong></a></li><li class="breadcrumb-item"><a href="../../pages/tools/pylint.html">pylint</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/tools/flake8.html"><strong>Linters</strong></a></li><li class="breadcrumb-item"><a href="../../pages/tools/pydoclint.html">pydoclint</a></li></ol></nav></header>
 
 
 
 
 <hr style="height:0pt; visibility:hidden;">
-<section id="pylint" class="level1">
-<h1>pylint</h1>
-<p>Detailed linter that detects errors, bugs, variable naming issues, and other code problems.</p>
+<section id="pydoclint" class="level1">
+<h1>pydoclint</h1>
+<p>Docstring linter that checks whether the parameters, return values and exceptions match the function/class signature. Supports three docstring styles: NumPy, Google and Sphinx.</p>
+<p><code>pydoclint</code> is a <code>flake8</code> plugin, so when installed into your environment, it will also show when you run <code>flake8</code> on code with docstrings (the warnings beginning “DOC”).</p>
 <div style="display: flex; gap: 1em; margin-bottom: 1em;">
-<p><a href="https://pypi.org/project/pylint/" target="_blank" style="text-decoration: none;"> <span style="display: inline-flex; align-items: center; background:
+<p><a href="https://pypi.org/project/pydoclint/" target="_blank" style="text-decoration: none;"> <span style="display: inline-flex; align-items: center; background:
     #3775A9; color: #fff; border-radius: 20px; padding: 0.4em 1em;
     font-weight: 600; gap: 0.5em;"> <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/pypi.svg" alt="PyPI" width="20" height="20" style="filter: brightness(0)
-      invert(1);"> View on PyPI </span> </a> <a href="https://github.com/pylint-dev/pylint" target="_blank" style="text-decoration: none;"> <span style="display: inline-flex; align-items: center; background: #000;
+      invert(1);"> View on PyPI </span> </a> <a href="https://github.com/jsh9/pydoclint" target="_blank" style="text-decoration: none;"> <span style="display: inline-flex; align-items: center; background: #000;
     color: #fff; border-radius: 20px; padding: 0.4em 1em; font-weight: 600;
     gap: 0.5em;"> <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg" alt="GitHub" width="20" height="20" style="filter: brightness(0)
-      invert(1);"> View on GitHub </span> </a> <a href="https://anaconda.org/conda-forge/pylint" target="_blank" style="text-decoration: none;"> <span style="display: inline-flex; align-items: center;
-  background: #3EB049; color: #fff; border-radius: 20px; padding: 0.4em 1em;
-  font-weight: 600; gap: 0.5em;"> <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/anaconda.svg" alt="Conda" width="20" height="20" style="filter: brightness(0)
-    invert(1);"> View on Conda </span> </a></p>
+      invert(1);"> View on GitHub </span> </a></p>
 </div>
 <section id="example-quarto-.qmd-file" class="level2">
 <h2 class="anchored" data-anchor-id="example-quarto-.qmd-file">Example Quarto <code>.qmd</code> file:</h2>
-<p><a href="#dnldts63247" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgdG8gaWRlbnRpZnkuCgpgYGB7cHl0aG9ufQp2ZXJ5X2xvbmdfbGluZSA9ICJUaGlzIGxvbmcgc3RyaW5nIGV4Y2VlZHMgdGhlIG1heGltdW0gYWxsb3dlZCBjaGFyYWN0ZXJzIHBlciBsaW5lLiIKYGBgCgpUaGVyZSdzIHNvbWUgbW9yZSBpc3N1ZXMgYmVsb3cuLi4KCmBgYHtweXRob259CmRlZiBhZGRfbnVtYmVycyhhLCBiKToKICAgIHJldHVybiBhICsgYgoKYWRkX251bWJlcnMoMywgNSkKCmltcG9ydCBzeXMKYGBg').then(res => res.blob()).then(blob => {
+<p><a href="#dnldts14764" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgYW4gZXhhbXBsZSBvZiBhIGZ1bmN0aW9uIHdpdGggZG9jc3RyaW5nIGlzc3Vlcy4KCmBgYHtweXRob259CmRlZiBhZGQoYSwgYik6CiAgICAiIiIKICAgIEFkZCB0d28gbnVtYmVycy4KCiAgICBQYXJhbWV0ZXJzCiAgICAtLS0tLS0tLS0tCiAgICBhIDogc3RyCiAgICAiIiIKICAgIHJldHVybiBhICsgYgpgYGA=').then(res => res.blob()).then(blob => {
       const downloadURL = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       document.body.appendChild(a);
       a.href = downloadURL;
-      a.download = 'general_example.qmd'; a.click();
+      a.download = 'docstring_example.qmd'; a.click();
       window.URL.revokeObjectURL(downloadURL);
       document.body.removeChild(a);
-        });"><button class="btn btn-light downloadthis  " id="dnldts63247"><i class="bi bi-download"></i> Download the example </button></a></p>
+        });"><button class="btn btn-light downloadthis  " id="dnldts14764"><i class="bi bi-download"></i> Download the example </button></a></p>
 <div class="pale-grey">
-<div id="40425722" class="cell" data-execution_count="3">
+<div id="5d0a4051" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
 <pre><code>1:     ---
 2:     title: "Example"
 3:     ---
 4:     
-5:     This file contains some issues for the linter to identify.
+5:     This file contains an example of a function with docstring issues.
 6:     
 7:     ```{python}
-8:     very_long_line = "This long string exceeds the maximum allowed characters per line."
-9:     ```
-10:    
-11:    There's some more issues below...
-12:    
-13:    ```{python}
-14:    def add_numbers(a, b):
-15:        return a + b
-16:    
-17:    add_numbers(3, 5)
-18:    
-19:    import sys
-20:    ```</code></pre>
+8:     def add(a, b):
+9:         """
+10:        Add two numbers.
+11:    
+12:        Parameters
+13:        ----------
+14:        a : str
+15:        """
+16:        return a + b
+17:    ```</code></pre>
 </div>
 </div>
 </div>
 </section>
-<section id="run-pylint-using-lintquarto" class="level2">
-<h2 class="anchored" data-anchor-id="run-pylint-using-lintquarto">Run pylint using <code>lintquarto</code></h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> pylint <span class="at">-p</span> general_example.qmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="run-pydoclint-using-lintquarto" class="level2">
+<h2 class="anchored" data-anchor-id="run-pydoclint-using-lintquarto">Run pydoclint using <code>lintquarto</code></h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> pydoclint <span class="at">-p</span> docstring_example.qmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="pale-green">
 <style>
 .cell-output-stdout code {
@@ -364,19 +359,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   white-space: pre-wrap !important;
 }
 </style>
-<div id="7e6b141c" class="cell" data-execution_count="4">
+<div id="a28ea277" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
-<pre><code>=============================================================
-Running pylint...
-=============================================================
-************* Module general_example
-examples//home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:8:0: C0103: Constant name "very_long_line" doesn't conform to UPPER_CASE naming style (invalid-name)
-examples//home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:14:0: C0116: Missing function or method docstring (missing-function-docstring)
-examples//home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:19:0: C0413: Import "import sys" should be placed at the top of the module (wrong-import-position)
-examples//home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:19:0: W0611: Unused import sys (unused-import)
-
------------------------------------
-Your code has been rated at 2.00/10
+<pre><code>Skipping files that match this pattern: \.git|\.tox
+/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/docstring_example.qmd
+/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/docstring_example.qmd
+    8: DOC101: Function `add`: Docstring contains fewer arguments than in function signature.
+    8: DOC106: Function `add`: The option `--arg-type-hints-in-signature` is `True` but there are no argument type hints in the signature
+    8: DOC107: Function `add`: The option `--arg-type-hints-in-signature` is `True` but not all args in the signature have type hints
+    8: DOC103: Function `add`: Docstring arguments are different from function arguments. (Or could be other formatting issues: https://jsh9.github.io/pydoclint/violation_codes.html#notes-on-doc103 ). Arguments in the function signature but not in the docstring: [b: ].
+    8: DOC201: Function `add` does not have a return section in docstring
 
 </code></pre>
 </div>
@@ -789,13 +781,13 @@ Your code has been rated at 2.00/10
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../pages/tools/pyflakes.html" class="pagination-link" aria-label="pyflakes">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">pyflakes</span>
+      <a href="../../pages/tools/pycodestyle.html" class="pagination-link" aria-label="pycodestyle">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">pycodestyle</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../pages/tools/ruff.html" class="pagination-link" aria-label="ruff">
-        <span class="nav-page-text">ruff</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../pages/tools/pyflakes.html" class="pagination-link" aria-label="pyflakes">
+        <span class="nav-page-text">pyflakes</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

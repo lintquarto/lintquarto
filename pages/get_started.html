@@ -188,6 +188,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="installation" class="level2">
 <h2 class="anchored" data-anchor-id="installation">Installation</h2>
 <p>Python 3.7 or higher is required. <code>lintquarto</code> itself has only one required package: <code>toml</code>.</p>
+<p>You can install <strong>lintquarto</strong> with pip (<a href="https://pypi.org/project/lintquarto/">from PyPI</a>) or conda (<a href="https://anaconda.org/conda-forge/lintquarto">from conda-forge</a>).</p>
+<section id="install-with-pip" class="level3">
+<h3 class="anchored" data-anchor-id="install-with-pip">Install with pip</h3>
 <p>Install <code>lintquarto</code> with:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install lintquarto</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Linters are installed separately. For example, to use <code>pylint</code> and <code>flake8</code>, run:</p>
@@ -196,13 +199,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install lintquarto<span class="pp">[</span><span class="ss">all</span><span class="pp">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You can verify your installation with:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><br></p>
+</section>
+<section id="install-with-conda" class="level3">
+<h3 class="anchored" data-anchor-id="install-with-conda">Install with conda</h3>
+<pre><code>conda install conda-forge::lintquarto</code></pre>
+<p>With conda, only the main lintquarto tool is installed. If you want to use any linters or type checkers, you must install them separately (either with conda or pip, depending on availability).</p>
+</section>
 </section>
 <section id="basic-usage" class="level2">
 <h2 class="anchored" data-anchor-id="basic-usage">Basic usage</h2>
 <p><strong>lintquarto -l LINTER [LINTER …] -p PATH [PATH …] [-e EXCLUDE [EXCLUDE …]] [-k]</strong></p>
 <ul>
-<li><strong>-l –linters</strong> LINTER [LINTER …] - Linters to run. Valid options: <code>pylint</code>, <code>flake8</code>, <code>pyflakes</code>, <code>ruff</code>, <code>vulture</code>, <code>radon</code>, <code>pycodestyle</code>, <code>mypy</code>, <code>pyright</code>, <code>pyrefly</code>, or <code>pytype</code>.</li>
+<li><strong>-l –linters</strong> LINTER [LINTER …] - Linters to run.</li>
 <li><strong>-p –paths</strong> PATH [PATH …]- Quarto files and/or directories to lint.</li>
 <li><strong>-e –exclude</strong> EXCLUDE [EXCLUDE …] - Files and/or directories to exclude from linting.</li>
 <li><strong>-k, –keep-temp</strong> - Keep the temporary <code>.py</code> files created during linting (for debugging).</li>
@@ -214,18 +222,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="examples">Examples</h2>
 <p>The linter used is interchangeable in these examples.</p>
 <p>Lint all <code>.qmd</code> files in the current directory (using <code>pylint</code>):</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> pylint <span class="at">-p</span> .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> pylint <span class="at">-p</span> .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Lint several specific files (using <code>pylint</code> and <code>flake8</code>):</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> pylint flake8 <span class="at">-p</span> file1.qmd file2.qmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> pylint flake8 <span class="at">-p</span> file1.qmd file2.qmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Keep temporary <code>.py</code> files after linting (with <code>pylint</code>)</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> pylint <span class="at">-p</span> . <span class="at">-k</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> pylint <span class="at">-p</span> . <span class="at">-k</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Lint all files in current directory (using <code>ruff</code>):</p>
 <ul>
 <li>Excluding folders <code>examples/</code> and <code>ignore/</code>, or-</li>
 <li>Excluding a specific file <code>analysis/test.qmd</code>.</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> ruff <span class="at">-p</span> . <span class="at">-e</span> examples,ignore</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> ruff <span class="at">-p</span> . <span class="at">-e</span> analysis/test.qmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> ruff <span class="at">-p</span> . <span class="at">-e</span> examples,ignore</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> ruff <span class="at">-p</span> . <span class="at">-e</span> analysis/test.qmd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>

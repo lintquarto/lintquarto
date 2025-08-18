@@ -149,7 +149,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text"><strong>General linters</strong></span></a>
+ <span class="menu-text"><strong>Linters</strong></span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -165,6 +165,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="../../pages/tools/pycodestyle.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">pycodestyle</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/tools/pydoclint.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">pydoclint</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -185,23 +191,6 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">ruff</span></a>
   </div>
 </li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text"><strong>Speciality linters</strong></span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../pages/tools/radon.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">radon</span></a>
-  </div>
-</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../pages/tools/vulture.html" class="sidebar-item-text sidebar-link">
@@ -212,13 +201,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text"><strong>Static type checkers</strong></span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../pages/tools/mypy.html" class="sidebar-item-text sidebar-link">
@@ -245,6 +234,23 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Code analysis tools</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/tools/radon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">radon</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -257,7 +263,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>The <code>lintquarto</code> package enables you to run a range of linters and static type checkers on python code in Quarto <code>.qmd</code> files.</p>
+<p>The <code>lintquarto</code> package enables you to run a range of linters, static type checkers and code analysis tools on python code in Quarto <code>.qmd</code> files.</p>
 <p>This page provides an overview of the available tools.</p>
 <p>Use the sidebar to explore ready-to-run examples and detailed usage for each tool.</p>
 <p><br></p>
@@ -284,45 +290,24 @@ ul.task-list li input[type="checkbox"] {
 <td>Checks against PEP-8 style guidelines.</td>
 </tr>
 <tr class="odd">
+<td><a href="../../pages/tools/pydoclint.html"><strong>pydoclint</strong></a></td>
+<td>Docstring linter.</td>
+</tr>
+<tr class="even">
 <td><a href="../../pages/tools/pyflakes.html"><strong>pyflakes</strong></a></td>
 <td>Checks for logical errors like undefined names and unused imports.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="../../pages/tools/pylint.html"><strong>pylint</strong></a></td>
 <td>Detailed linter that detects errors, bugs, variable naming issues, and other code problems.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="../../pages/tools/ruff.html"><strong>ruff</strong></a></td>
 <td>Modern, ultra-fast linter that implements checks from Flake8 and some other popular plugins.</td>
 </tr>
-</tbody>
-</table>
-</section>
-<section id="specialty-linters" class="level2">
-<h2 class="anchored" data-anchor-id="specialty-linters">Specialty linters</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 10%">
-<col style="width: 15%">
-<col style="width: 75%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Tool</th>
-<th>Speciality</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
 <tr class="odd">
-<td><a href="../../pages/tools/radon.html"><strong>radon</strong></a></td>
-<td>Various</td>
-<td>Calculates complexity, maintainability, raw statistics, and Halstead metrics.</td>
-</tr>
-<tr class="even">
 <td><a href="../../pages/tools/vulture.html"><strong>vulture</strong></a></td>
-<td>Dead Code</td>
-<td>Finds unused code.</td>
+<td>Finds unused/dead code.</td>
 </tr>
 </tbody>
 </table>
@@ -356,6 +341,27 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td><a href="../../pages/tools/pytype.html"><strong>pytype</strong></a></td>
 <td>Google’s static type checker.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="code-analysis-tools" class="level2">
+<h2 class="anchored" data-anchor-id="code-analysis-tools">Code analysis tools</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 85%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tool</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="../../pages/tools/radon.html"><strong>radon</strong></a></td>
+<td>Calculates complexity, maintainability, raw statistics, and Halstead metrics.</td>
 </tr>
 </tbody>
 </table>

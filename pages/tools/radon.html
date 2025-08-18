@@ -64,8 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../pages/tools/vulture.html" rel="next">
-<link href="../../pages/tools/ruff.html" rel="prev">
+<link href="../../pages/tools/pytype.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -165,7 +164,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/tools/radon.html"><strong>Speciality linters</strong></a></li><li class="breadcrumb-item"><a href="../../pages/tools/radon.html">radon</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/tools/radon.html"><strong>Code analysis tools</strong></a></li><li class="breadcrumb-item"><a href="../../pages/tools/radon.html">radon</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -186,7 +185,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text"><strong>General linters</strong></span></a>
+ <span class="menu-text"><strong>Linters</strong></span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -202,6 +201,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../../pages/tools/pycodestyle.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">pycodestyle</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/tools/pydoclint.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">pydoclint</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -222,23 +227,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">ruff</span></a>
   </div>
 </li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text"><strong>Speciality linters</strong></span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../pages/tools/radon.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">radon</span></a>
-  </div>
-</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../pages/tools/vulture.html" class="sidebar-item-text sidebar-link">
@@ -249,13 +237,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text"><strong>Static type checkers</strong></span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../pages/tools/mypy.html" class="sidebar-item-text sidebar-link">
@@ -282,6 +270,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Code analysis tools</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/tools/radon.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">radon</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -289,7 +294,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/tools/radon.html"><strong>Speciality linters</strong></a></li><li class="breadcrumb-item"><a href="../../pages/tools/radon.html">radon</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/tools/radon.html"><strong>Code analysis tools</strong></a></li><li class="breadcrumb-item"><a href="../../pages/tools/radon.html">radon</a></li></ol></nav></header>
 
 
 
@@ -319,7 +324,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="example-quarto-.qmd-file" class="level2">
 <h2 class="anchored" data-anchor-id="example-quarto-.qmd-file">Example Quarto <code>.qmd</code> file:</h2>
-<p><a href="#dnldts1979" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgdG8gaWRlbnRpZnkuCgpgYGB7cHl0aG9ufQojIEZ1bmN0aW9uIHdpdGggbG93IGNvbXBsZXhpdHkKZGVmIHNpbXBsZV9hZGRpdGlvbihhLCBiKToKICAgIHJldHVybiBhICsgYgpgYGAKClRoZXJlJ3MgYW5vdGhlciBmdW5jdGlvbiB0byBjaGVjayBiZWxvdzoKCmBgYHtweXRob259CiMgRnVuY3Rpb24gd2l0aCBtb2RlcmF0ZSBjb21wbGV4aXR5CmRlZiBjaGVja19udW1iZXIobnVtLCBmbGFnLCBleHRyYSk6CiAgICBpZiBudW0gPiAxMDA6CiAgICAgICAgaWYgZmxhZzoKICAgICAgICAgICAgaWYgZXh0cmE6CiAgICAgICAgICAgICAgICByZXR1cm4gIkh1Z2UgYW5kIGZsYWdnZWQgYW5kIGV4dHJhIgogICAgICAgICAgICBlbHNlOgogICAgICAgICAgICAgICAgcmV0dXJuICJIdWdlIGFuZCBmbGFnZ2VkIgogICAgICAgIGVsc2U6CiAgICAgICAgICAgIGlmIGV4dHJhOgogICAgICAgICAgICAgICAgcmV0dXJuICJIdWdlIGFuZCBleHRyYSIKICAgICAgICAgICAgZWxzZToKICAgICAgICAgICAgICAgIHJldHVybiAiSHVnZSIKICAgIGVsaWYgbnVtID4gNTA6CiAgICAgICAgaWYgZmxhZzoKICAgICAgICAgICAgcmV0dXJuICJNZWRpdW0gYW5kIGZsYWdnZWQiCiAgICAgICAgZWxzZToKICAgICAgICAgICAgcmV0dXJuICJNZWRpdW0iCiAgICBlbGlmIG51bSA+IDEwOgogICAgICAgIGlmIGV4dHJhOgogICAgICAgICAgICByZXR1cm4gIlNtYWxsIGFuZCBleHRyYSIKICAgICAgICBlbHNlOgogICAgICAgICAgICByZXR1cm4gIlNtYWxsIgogICAgZWxzZToKICAgICAgICBpZiBmbGFnIG9yIGV4dHJhOgogICAgICAgICAgICByZXR1cm4gIlRpbnkgYnV0IHNwZWNpYWwiCiAgICAgICAgZWxzZToKICAgICAgICAgICAgcmV0dXJuICJUaW55IgpgYGA=').then(res => res.blob()).then(blob => {
+<p><a href="#dnldts57489" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgdG8gaWRlbnRpZnkuCgpgYGB7cHl0aG9ufQojIEZ1bmN0aW9uIHdpdGggbG93IGNvbXBsZXhpdHkKZGVmIHNpbXBsZV9hZGRpdGlvbihhLCBiKToKICAgIHJldHVybiBhICsgYgpgYGAKClRoZXJlJ3MgYW5vdGhlciBmdW5jdGlvbiB0byBjaGVjayBiZWxvdzoKCmBgYHtweXRob259CiMgRnVuY3Rpb24gd2l0aCBtb2RlcmF0ZSBjb21wbGV4aXR5CmRlZiBjaGVja19udW1iZXIobnVtLCBmbGFnLCBleHRyYSk6CiAgICBpZiBudW0gPiAxMDA6CiAgICAgICAgaWYgZmxhZzoKICAgICAgICAgICAgaWYgZXh0cmE6CiAgICAgICAgICAgICAgICByZXR1cm4gIkh1Z2UgYW5kIGZsYWdnZWQgYW5kIGV4dHJhIgogICAgICAgICAgICBlbHNlOgogICAgICAgICAgICAgICAgcmV0dXJuICJIdWdlIGFuZCBmbGFnZ2VkIgogICAgICAgIGVsc2U6CiAgICAgICAgICAgIGlmIGV4dHJhOgogICAgICAgICAgICAgICAgcmV0dXJuICJIdWdlIGFuZCBleHRyYSIKICAgICAgICAgICAgZWxzZToKICAgICAgICAgICAgICAgIHJldHVybiAiSHVnZSIKICAgIGVsaWYgbnVtID4gNTA6CiAgICAgICAgaWYgZmxhZzoKICAgICAgICAgICAgcmV0dXJuICJNZWRpdW0gYW5kIGZsYWdnZWQiCiAgICAgICAgZWxzZToKICAgICAgICAgICAgcmV0dXJuICJNZWRpdW0iCiAgICBlbGlmIG51bSA+IDEwOgogICAgICAgIGlmIGV4dHJhOgogICAgICAgICAgICByZXR1cm4gIlNtYWxsIGFuZCBleHRyYSIKICAgICAgICBlbHNlOgogICAgICAgICAgICByZXR1cm4gIlNtYWxsIgogICAgZWxzZToKICAgICAgICBpZiBmbGFnIG9yIGV4dHJhOgogICAgICAgICAgICByZXR1cm4gIlRpbnkgYnV0IHNwZWNpYWwiCiAgICAgICAgZWxzZToKICAgICAgICAgICAgcmV0dXJuICJUaW55IgpgYGA=').then(res => res.blob()).then(blob => {
       const downloadURL = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       document.body.appendChild(a);
@@ -327,9 +332,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       a.download = 'complexity_example.qmd'; a.click();
       window.URL.revokeObjectURL(downloadURL);
       document.body.removeChild(a);
-        });"><button class="btn btn-light downloadthis  " id="dnldts1979"><i class="bi bi-download"></i> Download the example </button></a></p>
+        });"><button class="btn btn-light downloadthis  " id="dnldts57489"><i class="bi bi-download"></i> Download the example </button></a></p>
 <div class="pale-grey">
-<div id="7de240f8" class="cell" data-execution_count="3">
+<div id="228b315a" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
 <pre><code>1:     ---
 2:     title: "Example"
@@ -389,7 +394,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   white-space: pre-wrap !important;
 }
 </style>
-<div id="086e43da" class="cell" data-execution_count="4">
+<div id="062cad2a" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <pre><code>=============================================================
 Running radon-cc...
@@ -409,7 +414,7 @@ Running radon-cc...
   white-space: pre-wrap !important;
 }
 </style>
-<div id="4b935927" class="cell" data-execution_count="5">
+<div id="2239e187" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-stdout">
 <pre><code>=============================================================
 Running radon-mi...
@@ -427,7 +432,7 @@ Running radon-mi...
   white-space: pre-wrap !important;
 }
 </style>
-<div id="749a6212" class="cell" data-execution_count="6">
+<div id="66e61346" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-stdout">
 <pre><code>=============================================================
 Running radon-raw...
@@ -456,7 +461,7 @@ Running radon-raw...
   white-space: pre-wrap !important;
 }
 </style>
-<div id="05f6fb7c" class="cell" data-execution_count="7">
+<div id="33737604" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-stdout">
 <pre><code>=============================================================
 Running radon-hal...
@@ -885,14 +890,11 @@ Running radon-hal...
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../pages/tools/ruff.html" class="pagination-link" aria-label="ruff">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">ruff</span>
+      <a href="../../pages/tools/pytype.html" class="pagination-link" aria-label="pytype">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">pytype</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../pages/tools/vulture.html" class="pagination-link" aria-label="vulture">
-        <span class="nav-page-text">vulture</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

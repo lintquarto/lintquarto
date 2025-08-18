@@ -7,7 +7,7 @@
     "text": "Example Quarto .qmd file:\n Download the example \n\n\n\n1:     ---\n2:     title: \"Example\"\n3:     ---\n4:     \n5:     This file contains some issues for the linter to identify.\n6:     \n7:     ```{python}\n8:     import random\n9:     \n10:    def unused_function():\n11:        print(\"This function is never called.\")\n12:    ```\n13:    \n14:    There's some more issues below...\n15:    \n16:    ```{python}\n17:    spare_part = 123\n18:    ```",
     "crumbs": [
       "User guide",
-      "**Speciality linters**",
+      "**Linters**",
       "vulture"
     ]
   },
@@ -19,7 +19,7 @@
     "text": "Run vulture using lintquarto\nlintquarto -l vulture -p unusedcode_example.qmd\n\n\n\n\n=============================================================\nRunning vulture...\n=============================================================\nexamples//home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/unusedcode_example.qmd:8: unused import 'random' (90% confidence)\nexamples//home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/unusedcode_example.qmd:10: unused function 'unused_function' (60% confidence)\nexamples//home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/unusedcode_example.qmd:17: unused variable 'spare_part' (60% confidence)",
     "crumbs": [
       "User guide",
-      "**Speciality linters**",
+      "**Linters**",
       "vulture"
     ]
   },
@@ -31,7 +31,7 @@
     "text": "Example Quarto .qmd file:\n Download the example \n\n\n\n1:     ---\n2:     title: \"Example\"\n3:     ---\n4:     \n5:     This file contains some issues for the linter to identify.\n6:     \n7:     ```{python}\n8:     very_long_line = \"This long string exceeds the maximum allowed characters per line.\"\n9:     ```\n10:    \n11:    There's some more issues below...\n12:    \n13:    ```{python}\n14:    def add_numbers(a, b):\n15:        return a + b\n16:    \n17:    add_numbers(3, 5)\n18:    \n19:    import sys\n20:    ```",
     "crumbs": [
       "User guide",
-      "**General linters**",
+      "**Linters**",
       "ruff"
     ]
   },
@@ -40,10 +40,10 @@
     "href": "pages/tools/ruff.html#run-ruff-using-lintquarto",
     "title": "ruff",
     "section": "Run ruff using lintquarto",
-    "text": "Run ruff using lintquarto\nlintquarto -l ruff -p general_example.qmd\n\n\n\n\n\n=============================================================\n\nRunning ruff...\n\n=============================================================\n\nexamples//home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:19:1: E402 Module level import not at top of file\n\n   |\n\n17 | add_numbers(3, 5)\n\n18 |\n\n19 | import sys\n\n   | ^^^^^^^^^^ E402\n\n20 | # -\n\n   |\n\n\n\nexamples//home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:19:8: F401 [*] `sys` imported but unused\n\n   |\n\n17 | add_numbers(3, 5)\n\n18 |\n\n19 | import sys\n\n   |        ^^^ F401\n\n20 | # -\n\n   |\n\n   = help: Remove unused import: `sys`\n\n\n\nFound 2 errors.\n\n[*] 1 fixable with the `--fix` option.",
+    "text": "Run ruff using lintquarto\nlintquarto -l ruff -p general_example.qmd\n\n\n\n\n\n=============================================================\n\nRunning ruff...\n\n=============================================================\n\nE402 Module level import not at top of file\n\n  --&gt; examples//home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:19:1\n\n   |\n\n17 | add_numbers(3, 5)\n\n18 |\n\n19 | import sys\n\n   | ^^^^^^^^^^\n\n20 | # -\n\n   |\n\n\n\nF401 [*] `sys` imported but unused\n\n  --&gt; examples//home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:19:8\n\n   |\n\n17 | add_numbers(3, 5)\n\n18 |\n\n19 | import sys\n\n   |        ^^^\n\n20 | # -\n\n   |\n\nhelp: Remove unused import: `sys`\n\n\n\nFound 2 errors.\n\n[*] 1 fixable with the `--fix` option.",
     "crumbs": [
       "User guide",
-      "**General linters**",
+      "**Linters**",
       "ruff"
     ]
   },
@@ -103,7 +103,7 @@
     "text": "Example Quarto .qmd file:\n Download the example \n\n\n\n1:     ---\n2:     title: \"Example\"\n3:     ---\n4:     \n5:     This file contains some issues for the linter to identify.\n6:     \n7:     ```{python}\n8:     very_long_line = \"This long string exceeds the maximum allowed characters per line.\"\n9:     ```\n10:    \n11:    There's some more issues below...\n12:    \n13:    ```{python}\n14:    def add_numbers(a, b):\n15:        return a + b\n16:    \n17:    add_numbers(3, 5)\n18:    \n19:    import sys\n20:    ```",
     "crumbs": [
       "User guide",
-      "**General linters**",
+      "**Linters**",
       "pyflakes"
     ]
   },
@@ -115,61 +115,337 @@
     "text": "Run pyflakes using lintquarto\nlintquarto -l pyflakes -p general_example.qmd\n\n\n\n\n=============================================================\nRunning pyflakes...\n=============================================================\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:19:1: 'sys' imported but unused",
     "crumbs": [
       "User guide",
-      "**General linters**",
+      "**Linters**",
       "pyflakes"
     ]
   },
   {
-    "objectID": "pages/tools/mypy.html#example-quarto-.qmd-file",
-    "href": "pages/tools/mypy.html#example-quarto-.qmd-file",
-    "title": "mypy",
+    "objectID": "pages/tools/pycodestyle.html#example-quarto-.qmd-file",
+    "href": "pages/tools/pycodestyle.html#example-quarto-.qmd-file",
+    "title": "pycodestyle",
     "section": "Example Quarto .qmd file:",
-    "text": "Example Quarto .qmd file:\n Download the example \n\n\n\n1:     ---\n2:     title: \"Example\"\n3:     ---\n4:     \n5:     This file contains some issues for the linter (static type checker) to identify.\n6:     \n7:     ```{python}\n8:     def add_numbers(a: int, b: int) -&gt; int:\n9:         return a + b\n10:    \n11:    add_numbers(3, \"5\")\n12:    ```\n13:    \n14:    There's some more issues below...\n15:    \n16:    ```{python}\n17:    add_numbers(1, 4)\n18:    \n19:    add_numbers(\"apples\", 8)\n20:    ```",
+    "text": "Example Quarto .qmd file:\n Download the example \n\n\n\n1:     ---\n2:     title: \"Example\"\n3:     ---\n4:     \n5:     This file contains some issues for the linter to identify.\n6:     \n7:     ```{python}\n8:     very_long_line = \"This long string exceeds the maximum allowed characters per line.\"\n9:     ```\n10:    \n11:    There's some more issues below...\n12:    \n13:    ```{python}\n14:    def add_numbers(a, b):\n15:        return a + b\n16:    \n17:    add_numbers(3, 5)\n18:    \n19:    import sys\n20:    ```",
     "crumbs": [
       "User guide",
-      "**Static type checkers**",
-      "mypy"
+      "**Linters**",
+      "pycodestyle"
     ]
   },
   {
-    "objectID": "pages/tools/mypy.html#run-mypy-using-lintquarto",
-    "href": "pages/tools/mypy.html#run-mypy-using-lintquarto",
-    "title": "mypy",
-    "section": "Run mypy using lintquarto",
-    "text": "Run mypy using lintquarto\nlintquarto -l mypy -p typecheck_example.qmd\n\n\n\n\n\n=============================================================\n\nRunning mypy...\n\n=============================================================\n\nexamples//home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/typecheck_example.qmd:11: error: Argument 2 to \"add_numbers\" has incompatible type \"str\"; expected \"int\"  [arg-type]\n\nexamples//home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/typecheck_example.qmd:19: error: Argument 1 to \"add_numbers\" has incompatible type \"str\"; expected \"int\"  [arg-type]\n\nFound 2 errors in 1 file (checked 1 source file)",
+    "objectID": "pages/tools/pycodestyle.html#run-pycodestyle-using-lintquarto",
+    "href": "pages/tools/pycodestyle.html#run-pycodestyle-using-lintquarto",
+    "title": "pycodestyle",
+    "section": "Run pycodestyle using lintquarto",
+    "text": "Run pycodestyle using lintquarto\nlintquarto -l pycodestyle -p general_example.qmd\n\n\n\n\n=============================================================\nRunning pycodestyle...\n=============================================================\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:14:1: E302 expected 2 blank lines, found 0\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:17:1: E305 expected 2 blank lines after class or function definition, found 1\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:19:1: E402 module level import not at top of file",
     "crumbs": [
       "User guide",
-      "**Static type checkers**",
-      "mypy"
+      "**Linters**",
+      "pycodestyle"
     ]
   },
   {
-    "objectID": "pages/get_started.html",
-    "href": "pages/get_started.html",
-    "title": "Getting started",
+    "objectID": "pages/tools/flake8.html#example-quarto-.qmd-file",
+    "href": "pages/tools/flake8.html#example-quarto-.qmd-file",
+    "title": "flake8",
+    "section": "Example Quarto .qmd file:",
+    "text": "Example Quarto .qmd file:\n Download the example \n\n\n\n1:     ---\n2:     title: \"Example\"\n3:     ---\n4:     \n5:     This file contains some issues for the linter to identify.\n6:     \n7:     ```{python}\n8:     very_long_line = \"This long string exceeds the maximum allowed characters per line.\"\n9:     ```\n10:    \n11:    There's some more issues below...\n12:    \n13:    ```{python}\n14:    def add_numbers(a, b):\n15:        return a + b\n16:    \n17:    add_numbers(3, 5)\n18:    \n19:    import sys\n20:    ```",
+    "crumbs": [
+      "User guide",
+      "**Linters**",
+      "flake8"
+    ]
+  },
+  {
+    "objectID": "pages/tools/flake8.html#run-flake8-using-lintquarto",
+    "href": "pages/tools/flake8.html#run-flake8-using-lintquarto",
+    "title": "flake8",
+    "section": "Run flake8 using lintquarto",
+    "text": "Run flake8 using lintquarto\nlintquarto -l flake8 -p general_example.qmd\n\n\n\n\n=============================================================\nRunning flake8...\n=============================================================\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:8:80: E501 line too long (98 &gt; 79 characters)\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:17:1: E305 expected 2 blank lines after class or function definition, found 1\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:19:1: F401 'sys' imported but unused\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:19:1: E402 module level import not at top of file",
+    "crumbs": [
+      "User guide",
+      "**Linters**",
+      "flake8"
+    ]
+  },
+  {
+    "objectID": "pages/contributing.html",
+    "href": "pages/contributing.html",
+    "title": "Contributing",
     "section": "",
-    "text": "Python 3.7 or higher is required. lintquarto itself has only one required package: toml.\nInstall lintquarto with:\npip install lintquarto\nLinters are installed separately. For example, to use pylint and flake8, run:\npip install pylint flake8\nIf you want to install lintquarto along with all supported linters, use:\npip install lintquarto[all]\nYou can verify your installation with:\nlintquarto --version"
+    "text": "Thank you for your interest in contributing! 🤗\nThis file covers:\n\n🐞 Workflow for bug reports, feature requests and documentation improvements\n🚀 Workflow for code contributions (bug fixes, enhancements)\n🛠️ Development and testing\n📦 Updating the package\n🤝 Code of conduct\n\n\n\n\nBefore opening an issue, please search existing issues to avoid duplicates. If an issue exists, you can add a comment with additional details and/or upvote (👍) the issue. If there is not an existing issue, please open one and provide as much detail as possible.\n\nFor feature requests or documentation improvements, please describe your suggestion clearly.\nFor bugs, include:\n\nSteps to reproduce.\nExpected and actual behaviour.\nEnvironment details (operating system, python version, dependencies).\nRelevant files (e.g. problematic .qmd files).\n\n\n\n\n\nConfirm reproducibility by following the reported steps.\nLabel the issue appropriately (e.g. bug).\nRequest additional information if necessary.\nLink related issues or pull requests.\nOnce resolved, close the issue with a brief summary of the fix.\n\n\n\n\n\n\n\nFork the repository and clone your fork.\nCreate a new branch for your feature or fix:\n\ngit checkout -b my-feature\n\nMake your changes and commit them with clear, descriptive messages using the conventional commits standard.\nPush your branch to your fork:\n\ngit push origin my-feature\n\nOpen a pull request against the main branch. Describe your changes and reference any related issues.\n\n\n\n\n\n\n\nIf you want to contribute to lintquarto or run its tests, you’ll need some additional tools:\n\n\n\nTool\nPurpose\n\n\n\n\ncheck-dependencies\nTest for undeclared dependencies\n\n\nflit\nPackaging and publishing\n\n\ngenbadge\nCreate coverage badge (README)\n\n\ngrayskull\nUploading to conda-forge\n\n\njupyter\nRun python code in docs\n\n\npytest\nRun tests\n\n\npytest-cov\nCalculate coverage\n\n\ntwine\nUpload to PyPI\n\n\ntypes-toml\nRequired by mypy\n\n\nquartodoc\nGenerate API docs\n\n\n-e .[all]\nEditable install + all linters\n\n\n\nThese are listed in requirements-dev.txt for convenience. To set up your development environment, create an environment (e.g. virtualenv) and run:\npip install -r requirements-dev.txt\nFor testing only (used by GitHub actions):\npip install -r requirements-test.txt\nYou can also install the packages in requirements-dev.txt when you install lintquarto by running:\npip install lintquarto[dev]\nQuarto (used for the docs) is a standalone tool - install it from https://quarto.org/docs/get-started/.\n\n\n\n\nContributors are encouraged to install and use the latest versions of development tools. This helps keep the project compatible with current tooling and catches issues early.\nIf you need a fully reproducible and stable setup, use the provided Conda environment file. This file pins all development tool versions, including Python:\nconda env create -f requirements-stable.yml\nTo update the stable environment, run conda update --all and test thoroughly (running tests, building documentation), and then update requirements-stable.yml with any changes.\n\n\n\n\nWe follow the numpydoc style for docstrings, and check these using pydoclint.\n\n\n\n\nRun all tests (with coverage):\npytest --cov\nRun an individual test file:\npytest tests/test_back.py\nRun a specific test:\npytest tests/test_linters.py::test_supported_error\n\n\n\n\nMake scripts executable (first time only):\nchmod +x lint_package.sh\nchmod +x lint_docs.sh\nLint the package:\nlint_package.sh\nLint the documentation:\nlint_docs.sh\n\n\n\n\nBuild and preview the documentation locally:\nmake -C docs\nWhen running this, function documentation will be automatically generated from the codebase using quartodoc\n\n\n\n\n\n\n\nBefore proceeding, you will need to have cloned the lintquarto/staged-recipes repository which is used to push updates to conda.\ngit clone https://github.com/lintquarto/staged-recipes\n\n\n\nIf you are a maintainer and need to publish a new release:\n\nUpdate the CHANGELOG.md.\nUpdate the version number in __init__.py, CITATION.cff and README.md citation, and update the date in CITATION.cff.\nCreate a release on GitHub, which will automatically archive to Zenodo.\nBuild and publish using flit or twine.\n\nTo upload to PyPI using flit:\nflit publish\nTo upload to PyPI using twine: remove any existing builds, then build the package locally and push with twine, entering the API token when prompted:\nrm -rf dist/\nflit build\ntwine upload --repository pypi dist/*\nFor test runs, you can use the same method with test PyPI:\nrm -rf dist/\nflit build\ntwine upload --repository testpypi dist/*\n\nNavigate to the staged-recipes repository folder (which you should have cloned onto your machine), and move into the recipes folder.\n\nstaged-recipes\n➜ cd recipes\n\nSwitch over to the lintquarto branch.\n\ngit checkout lintquarto\n\nUse grayskull to update the recipe (lintquarto/meta.yaml). It will pull the metadata about the package from PyPI, and will not use your local installation of the package.\n\ngrayskull pypi lintquarto\n\nFix the meta.yaml file. There are two changes to make…\n\nAdd the home element within about.\nhome: https://lintquarto.github.io/lintquarto/\nUpdate the python version requirements syntax as per the conda-forge documentation, using python_min for host (fixed version), run (minimum version) and requires (fixed version).\nNote: Don’t need to set the python_min anywhere unless it differs from conda default (currently 3.7).\n  host:\n    - python {{ python_min }}\n\n...\n\n  run:\n    - python &gt;={{ python_min }}\n\n...\n\n  requires:\n    - python {{ python_min }}\n\nCreate a pull request to merge lintquarto:lintquarto into conda-forge:main (as compared here).\n\nYou will need to complete the checklist template in the pull request.\nCI actions will then run and test the package build.\n\n\n\n\n\nPlease be respectful and considerate. See the code of conduct for details."
   },
   {
-    "objectID": "pages/get_started.html#installation",
-    "href": "pages/get_started.html#installation",
-    "title": "Getting started",
+    "objectID": "pages/contributing.html#workflow-for-bug-reports-feature-requests-and-documentation-improvements",
+    "href": "pages/contributing.html#workflow-for-bug-reports-feature-requests-and-documentation-improvements",
+    "title": "Contributing",
     "section": "",
-    "text": "Python 3.7 or higher is required. lintquarto itself has only one required package: toml.\nInstall lintquarto with:\npip install lintquarto\nLinters are installed separately. For example, to use pylint and flake8, run:\npip install pylint flake8\nIf you want to install lintquarto along with all supported linters, use:\npip install lintquarto[all]\nYou can verify your installation with:\nlintquarto --version"
+    "text": "Before opening an issue, please search existing issues to avoid duplicates. If an issue exists, you can add a comment with additional details and/or upvote (👍) the issue. If there is not an existing issue, please open one and provide as much detail as possible.\n\nFor feature requests or documentation improvements, please describe your suggestion clearly.\nFor bugs, include:\n\nSteps to reproduce.\nExpected and actual behaviour.\nEnvironment details (operating system, python version, dependencies).\nRelevant files (e.g. problematic .qmd files).\n\n\n\n\n\nConfirm reproducibility by following the reported steps.\nLabel the issue appropriately (e.g. bug).\nRequest additional information if necessary.\nLink related issues or pull requests.\nOnce resolved, close the issue with a brief summary of the fix."
   },
   {
-    "objectID": "pages/get_started.html#basic-usage",
-    "href": "pages/get_started.html#basic-usage",
-    "title": "Getting started",
-    "section": "Basic usage",
-    "text": "Basic usage\nlintquarto -l LINTER [LINTER …] -p PATH [PATH …] [-e EXCLUDE [EXCLUDE …]] [-k]\n\n-l –linters LINTER [LINTER …] - Linters to run. Valid options: pylint, flake8, pyflakes, ruff, vulture, radon, pycodestyle, mypy, pyright, pyrefly, or pytype.\n-p –paths PATH [PATH …]- Quarto files and/or directories to lint.\n-e –exclude EXCLUDE [EXCLUDE …] - Files and/or directories to exclude from linting.\n-k, –keep-temp - Keep the temporary .py files created during linting (for debugging).\n\nPassing extra arguments directly to linters is not supported. Only .qmd files are processed."
+    "objectID": "pages/contributing.html#workflow-for-code-contributions-bug-fixes-enhancements",
+    "href": "pages/contributing.html#workflow-for-code-contributions-bug-fixes-enhancements",
+    "title": "Contributing",
+    "section": "",
+    "text": "Fork the repository and clone your fork.\nCreate a new branch for your feature or fix:\n\ngit checkout -b my-feature\n\nMake your changes and commit them with clear, descriptive messages using the conventional commits standard.\nPush your branch to your fork:\n\ngit push origin my-feature\n\nOpen a pull request against the main branch. Describe your changes and reference any related issues."
   },
   {
-    "objectID": "pages/get_started.html#examples",
-    "href": "pages/get_started.html#examples",
-    "title": "Getting started",
-    "section": "Examples",
-    "text": "Examples\nThe linter used is interchangeable in these examples.\nLint all .qmd files in the current directory (using pylint):\nlintquarto -l pylint -p .\nLint several specific files (using pylint and flake8):\nlintquarto -l pylint flake8 -p file1.qmd file2.qmd\nKeep temporary .py files after linting (with pylint)\nlintquarto -l pylint -p . -k\nLint all files in current directory (using ruff):\n\nExcluding folders examples/ and ignore/, or-\nExcluding a specific file analysis/test.qmd.\n\nlintquarto -l ruff -p . -e examples,ignore\nlintquarto -l ruff -p . -e analysis/test.qmd"
+    "objectID": "pages/contributing.html#development-and-testing",
+    "href": "pages/contributing.html#development-and-testing",
+    "title": "Contributing",
+    "section": "",
+    "text": "If you want to contribute to lintquarto or run its tests, you’ll need some additional tools:\n\n\n\nTool\nPurpose\n\n\n\n\ncheck-dependencies\nTest for undeclared dependencies\n\n\nflit\nPackaging and publishing\n\n\ngenbadge\nCreate coverage badge (README)\n\n\ngrayskull\nUploading to conda-forge\n\n\njupyter\nRun python code in docs\n\n\npytest\nRun tests\n\n\npytest-cov\nCalculate coverage\n\n\ntwine\nUpload to PyPI\n\n\ntypes-toml\nRequired by mypy\n\n\nquartodoc\nGenerate API docs\n\n\n-e .[all]\nEditable install + all linters\n\n\n\nThese are listed in requirements-dev.txt for convenience. To set up your development environment, create an environment (e.g. virtualenv) and run:\npip install -r requirements-dev.txt\nFor testing only (used by GitHub actions):\npip install -r requirements-test.txt\nYou can also install the packages in requirements-dev.txt when you install lintquarto by running:\npip install lintquarto[dev]\nQuarto (used for the docs) is a standalone tool - install it from https://quarto.org/docs/get-started/.\n\n\n\n\nContributors are encouraged to install and use the latest versions of development tools. This helps keep the project compatible with current tooling and catches issues early.\nIf you need a fully reproducible and stable setup, use the provided Conda environment file. This file pins all development tool versions, including Python:\nconda env create -f requirements-stable.yml\nTo update the stable environment, run conda update --all and test thoroughly (running tests, building documentation), and then update requirements-stable.yml with any changes.\n\n\n\n\nWe follow the numpydoc style for docstrings, and check these using pydoclint.\n\n\n\n\nRun all tests (with coverage):\npytest --cov\nRun an individual test file:\npytest tests/test_back.py\nRun a specific test:\npytest tests/test_linters.py::test_supported_error\n\n\n\n\nMake scripts executable (first time only):\nchmod +x lint_package.sh\nchmod +x lint_docs.sh\nLint the package:\nlint_package.sh\nLint the documentation:\nlint_docs.sh\n\n\n\n\nBuild and preview the documentation locally:\nmake -C docs\nWhen running this, function documentation will be automatically generated from the codebase using quartodoc"
+  },
+  {
+    "objectID": "pages/contributing.html#updating-the-package",
+    "href": "pages/contributing.html#updating-the-package",
+    "title": "Contributing",
+    "section": "",
+    "text": "Before proceeding, you will need to have cloned the lintquarto/staged-recipes repository which is used to push updates to conda.\ngit clone https://github.com/lintquarto/staged-recipes\n\n\n\nIf you are a maintainer and need to publish a new release:\n\nUpdate the CHANGELOG.md.\nUpdate the version number in __init__.py, CITATION.cff and README.md citation, and update the date in CITATION.cff.\nCreate a release on GitHub, which will automatically archive to Zenodo.\nBuild and publish using flit or twine.\n\nTo upload to PyPI using flit:\nflit publish\nTo upload to PyPI using twine: remove any existing builds, then build the package locally and push with twine, entering the API token when prompted:\nrm -rf dist/\nflit build\ntwine upload --repository pypi dist/*\nFor test runs, you can use the same method with test PyPI:\nrm -rf dist/\nflit build\ntwine upload --repository testpypi dist/*\n\nNavigate to the staged-recipes repository folder (which you should have cloned onto your machine), and move into the recipes folder.\n\nstaged-recipes\n➜ cd recipes\n\nSwitch over to the lintquarto branch.\n\ngit checkout lintquarto\n\nUse grayskull to update the recipe (lintquarto/meta.yaml). It will pull the metadata about the package from PyPI, and will not use your local installation of the package.\n\ngrayskull pypi lintquarto\n\nFix the meta.yaml file. There are two changes to make…\n\nAdd the home element within about.\nhome: https://lintquarto.github.io/lintquarto/\nUpdate the python version requirements syntax as per the conda-forge documentation, using python_min for host (fixed version), run (minimum version) and requires (fixed version).\nNote: Don’t need to set the python_min anywhere unless it differs from conda default (currently 3.7).\n  host:\n    - python {{ python_min }}\n\n...\n\n  run:\n    - python &gt;={{ python_min }}\n\n...\n\n  requires:\n    - python {{ python_min }}\n\nCreate a pull request to merge lintquarto:lintquarto into conda-forge:main (as compared here).\n\nYou will need to complete the checklist template in the pull request.\nCI actions will then run and test the package build."
+  },
+  {
+    "objectID": "pages/contributing.html#code-of-conduct",
+    "href": "pages/contributing.html#code-of-conduct",
+    "title": "Contributing",
+    "section": "",
+    "text": "Please be respectful and considerate. See the code of conduct for details."
+  },
+  {
+    "objectID": "pages/api/process_qmd.html",
+    "href": "pages/api/process_qmd.html",
+    "title": "process_qmd",
+    "section": "",
+    "text": "__main__.process_qmd(qmd_file, linter, keep_temp_files=False, verbose=False)\nConvert a .qmd file to .py, lint it, and clean up.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nqmd_file\nUnion[str, Path]\nPath to the input .qmd file.\nrequired\n\n\nlinter\nstr\nName of the linter to use (pylint, flake8, mypy).\nrequired\n\n\nkeep_temp_files\nbool\nIf True, retain the temporary .py file after linting.\nFalse\n\n\nverbose\nbool\nIf True, print detailed progress information.\nFalse\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nint\n0 on success, nonzero on error."
+  },
+  {
+    "objectID": "pages/api/process_qmd.html#parameters",
+    "href": "pages/api/process_qmd.html#parameters",
+    "title": "process_qmd",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\nqmd_file\nUnion[str, Path]\nPath to the input .qmd file.\nrequired\n\n\nlinter\nstr\nName of the linter to use (pylint, flake8, mypy).\nrequired\n\n\nkeep_temp_files\nbool\nIf True, retain the temporary .py file after linting.\nFalse\n\n\nverbose\nbool\nIf True, print detailed progress information.\nFalse"
+  },
+  {
+    "objectID": "pages/api/process_qmd.html#returns",
+    "href": "pages/api/process_qmd.html#returns",
+    "title": "process_qmd",
+    "section": "",
+    "text": "Name\nType\nDescription\n\n\n\n\n\nint\n0 on success, nonzero on error."
+  },
+  {
+    "objectID": "pages/api/index.html",
+    "href": "pages/api/index.html",
+    "title": "Reference",
+    "section": "",
+    "text": "The main CLI logic for linting Python code in Quarto (.qmd) files, including argument parsing, file conversion, linter invocation, and temporary file management.\n\n\n\nmain\nEntry point for the lintquarto CLI.\n\n\ngather_qmd_files\nGather all .qmd files from a list of files and directories, excluding\n\n\nprocess_qmd\nConvert a .qmd file to .py, lint it, and clean up.\n\n\n\n\n\n\nFunctions to convert Quarto (.qmd) files to Python (.py) files, preserving line alignment and extracting Python code, with both a command-line interface and callable functions.\n\n\n\nQmdToPyConverter\nConvert lines from a .qmd file to .py file.\n\n\nget_unique_filename\nGenerate a unique file path by appending ” (n)” before the file extension\n\n\nconvert_qmd_to_py\nConvert a Quarto (.qmd) file to Python (.py) file, preserving line\n\n\n\n\n\n\nClass to check for supported and available Python linters, static type checkers or code analysis tools on the user’s system.\n\n\n\nLinters\nChecks if requested linter (or static type checker) is available.\n\n\n\n\n\n\nClass to detect configured line length.\n\n\n\nLineLengthDetector\nDetect the configured line length for a given Python linter.\n\n\n\n\n\n\nClass which extends argparse.ArgumentParser to provide user-friendly error messages and help text when incorrect command-line arguments are supplied.\n\n\n\nCustomArgumentParser\nPrint user-friendly error message and help text when incorrect"
+  },
+  {
+    "objectID": "pages/api/index.html#main-module",
+    "href": "pages/api/index.html#main-module",
+    "title": "Reference",
+    "section": "",
+    "text": "The main CLI logic for linting Python code in Quarto (.qmd) files, including argument parsing, file conversion, linter invocation, and temporary file management.\n\n\n\nmain\nEntry point for the lintquarto CLI.\n\n\ngather_qmd_files\nGather all .qmd files from a list of files and directories, excluding\n\n\nprocess_qmd\nConvert a .qmd file to .py, lint it, and clean up."
+  },
+  {
+    "objectID": "pages/api/index.html#converter-module",
+    "href": "pages/api/index.html#converter-module",
+    "title": "Reference",
+    "section": "",
+    "text": "Functions to convert Quarto (.qmd) files to Python (.py) files, preserving line alignment and extracting Python code, with both a command-line interface and callable functions.\n\n\n\nQmdToPyConverter\nConvert lines from a .qmd file to .py file.\n\n\nget_unique_filename\nGenerate a unique file path by appending ” (n)” before the file extension\n\n\nconvert_qmd_to_py\nConvert a Quarto (.qmd) file to Python (.py) file, preserving line"
+  },
+  {
+    "objectID": "pages/api/index.html#linters-module",
+    "href": "pages/api/index.html#linters-module",
+    "title": "Reference",
+    "section": "",
+    "text": "Class to check for supported and available Python linters, static type checkers or code analysis tools on the user’s system.\n\n\n\nLinters\nChecks if requested linter (or static type checker) is available."
+  },
+  {
+    "objectID": "pages/api/index.html#line-length-module",
+    "href": "pages/api/index.html#line-length-module",
+    "title": "Reference",
+    "section": "",
+    "text": "Class to detect configured line length.\n\n\n\nLineLengthDetector\nDetect the configured line length for a given Python linter."
+  },
+  {
+    "objectID": "pages/api/index.html#args-module",
+    "href": "pages/api/index.html#args-module",
+    "title": "Reference",
+    "section": "",
+    "text": "Class which extends argparse.ArgumentParser to provide user-friendly error messages and help text when incorrect command-line arguments are supplied.\n\n\n\nCustomArgumentParser\nPrint user-friendly error message and help text when incorrect"
+  },
+  {
+    "objectID": "pages/api/gather_qmd_files.html",
+    "href": "pages/api/gather_qmd_files.html",
+    "title": "gather_qmd_files",
+    "section": "",
+    "text": "__main__.gather_qmd_files(paths, exclude=None)\nGather all .qmd files from a list of files and directories, excluding specified paths.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\npaths\nUnion[List[str], List[Path]]\nList of file or directory paths.\nrequired\n\n\nexclude\nOptional[Union[List[str], List[Path]]]\nList of files or directories to exclude. Defaults to None.\nNone\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nList[str]\nList of .qmd file paths found, excluding those in exclude."
+  },
+  {
+    "objectID": "pages/api/gather_qmd_files.html#parameters",
+    "href": "pages/api/gather_qmd_files.html#parameters",
+    "title": "gather_qmd_files",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\npaths\nUnion[List[str], List[Path]]\nList of file or directory paths.\nrequired\n\n\nexclude\nOptional[Union[List[str], List[Path]]]\nList of files or directories to exclude. Defaults to None.\nNone"
+  },
+  {
+    "objectID": "pages/api/gather_qmd_files.html#returns",
+    "href": "pages/api/gather_qmd_files.html#returns",
+    "title": "gather_qmd_files",
+    "section": "",
+    "text": "Name\nType\nDescription\n\n\n\n\n\nList[str]\nList of .qmd file paths found, excluding those in exclude."
+  },
+  {
+    "objectID": "pages/api/QmdToPyConverter.html",
+    "href": "pages/api/QmdToPyConverter.html",
+    "title": "QmdToPyConverter",
+    "section": "",
+    "text": "converter.QmdToPyConverter(linter)\nConvert lines from a .qmd file to .py file.\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\nin_chunk_options\nbool\nTrue if currently at the start of a code chunk, parsing Quarto chunk options or leading blank lines.\n\n\nin_python\nbool\nTrue if currently processing lines inside a Python code chunk.\n\n\npy_lines\nlist\nStores the lines to be written to the output Python file.\n\n\n\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nconvert\nRun converter on the provided lines.\n\n\nprocess_line\nProcess individual lines with state tracking.\n\n\nreset\nReset the state (except linter).\n\n\n\n\n\nconverter.QmdToPyConverter.convert(qmd_lines)\nRun converter on the provided lines.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nqmd_lines\nList[str]\nList containing each line from the Quarto file.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\npy_lines\nList[str]\nList of each line for the output Python file.\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.process_line(original_line)\nProcess individual lines with state tracking.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\noriginal_line\nstr\nLine to process.\nrequired\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.reset()\nReset the state (except linter)."
+  },
+  {
+    "objectID": "pages/api/QmdToPyConverter.html#attributes",
+    "href": "pages/api/QmdToPyConverter.html#attributes",
+    "title": "QmdToPyConverter",
+    "section": "",
+    "text": "Name\nType\nDescription\n\n\n\n\nin_chunk_options\nbool\nTrue if currently at the start of a code chunk, parsing Quarto chunk options or leading blank lines.\n\n\nin_python\nbool\nTrue if currently processing lines inside a Python code chunk.\n\n\npy_lines\nlist\nStores the lines to be written to the output Python file."
+  },
+  {
+    "objectID": "pages/api/QmdToPyConverter.html#methods",
+    "href": "pages/api/QmdToPyConverter.html#methods",
+    "title": "QmdToPyConverter",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nconvert\nRun converter on the provided lines.\n\n\nprocess_line\nProcess individual lines with state tracking.\n\n\nreset\nReset the state (except linter).\n\n\n\n\n\nconverter.QmdToPyConverter.convert(qmd_lines)\nRun converter on the provided lines.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nqmd_lines\nList[str]\nList containing each line from the Quarto file.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\npy_lines\nList[str]\nList of each line for the output Python file.\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.process_line(original_line)\nProcess individual lines with state tracking.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\noriginal_line\nstr\nLine to process.\nrequired\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.reset()\nReset the state (except linter)."
+  },
+  {
+    "objectID": "pages/api/LineLengthDetector.html",
+    "href": "pages/api/LineLengthDetector.html",
+    "title": "LineLengthDetector",
+    "section": "",
+    "text": "linelength.LineLengthDetector(linter, start_dir='.')\nDetect the configured line length for a given Python linter.\nThis class searches for relevant configuration files in the directory tree, extracts the maximum line length setting for the specified linter, and returns the default value if no configuration is found.\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\ndefaults\ndict\nThe default maximum line length for each linter.\n\n\n\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nget_line_length\nGet the configured maximum line length for the specified linter.\n\n\n\n\n\nlinelength.LineLengthDetector.get_line_length()\nGet the configured maximum line length for the specified linter.\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nint\nThe maximum line length."
+  },
+  {
+    "objectID": "pages/api/LineLengthDetector.html#attributes",
+    "href": "pages/api/LineLengthDetector.html#attributes",
+    "title": "LineLengthDetector",
+    "section": "",
+    "text": "Name\nType\nDescription\n\n\n\n\ndefaults\ndict\nThe default maximum line length for each linter."
+  },
+  {
+    "objectID": "pages/api/LineLengthDetector.html#methods",
+    "href": "pages/api/LineLengthDetector.html#methods",
+    "title": "LineLengthDetector",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nget_line_length\nGet the configured maximum line length for the specified linter.\n\n\n\n\n\nlinelength.LineLengthDetector.get_line_length()\nGet the configured maximum line length for the specified linter.\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nint\nThe maximum line length."
+  },
+  {
+    "objectID": "index.html#easy-to-use",
+    "href": "index.html#easy-to-use",
+    "title": "Run linters, static type checkers and code analysis tools on python code in quarto .qmd files",
+    "section": "Easy to use",
+    "text": "Easy to use\nInstall and run checks in minutes. See getting started for installation and basic commands."
+  },
+  {
+    "objectID": "index.html#variety-of-tools",
+    "href": "index.html#variety-of-tools",
+    "title": "Run linters, static type checkers and code analysis tools on python code in quarto .qmd files",
+    "section": "Variety of tools",
+    "text": "Variety of tools\nTry out a range of linters and type checkers, each with ready-to-run examples. Discover what’s available in the user guide."
+  },
+  {
+    "objectID": "pages/api/CustomArgumentParser.html",
+    "href": "pages/api/CustomArgumentParser.html",
+    "title": "CustomArgumentParser",
+    "section": "",
+    "text": "args.CustomArgumentParser()\nPrint user-friendly error message and help text when incorrect arguments are provided.\n\n\n\n\n\nName\nDescription\n\n\n\n\nerror\nPrint error message.\n\n\n\n\n\nargs.CustomArgumentParser.error(message)\nPrint error message.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nmessage\nstr\nThe error message to display.\nrequired"
+  },
+  {
+    "objectID": "pages/api/CustomArgumentParser.html#methods",
+    "href": "pages/api/CustomArgumentParser.html#methods",
+    "title": "CustomArgumentParser",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nerror\nPrint error message.\n\n\n\n\n\nargs.CustomArgumentParser.error(message)\nPrint error message.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nmessage\nstr\nThe error message to display.\nrequired"
+  },
+  {
+    "objectID": "pages/api/Linters.html",
+    "href": "pages/api/Linters.html",
+    "title": "Linters",
+    "section": "",
+    "text": "linters.Linters()\nChecks if requested linter (or static type checker) is available.\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\nsupported\ndict\nDictionary of supported linters. The key (e.g. radon-cc) maps to the full command (e.g. [\"radon\", \"cc\"]).\n\n\n\n\n\n\n\n\n\nName\nDescription\n\n\n\n\ncheck_available\nCheck if a linter is available in the user’s system.\n\n\ncheck_supported\nCheck if linter is supported by lintquarto.\n\n\n\n\n\nlinters.Linters.check_available(linter_name)\nCheck if a linter is available in the user’s system.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nlinter_name\nstr\nName of the linter to check.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nFileNotFoundError\nIf the linter’s command is not found in the user’s PATH.\n\n\n\n\n\n\n\nlinters.Linters.check_supported(linter_name)\nCheck if linter is supported by lintquarto.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nlinter_name\nstr\nName of the linter to check.\nrequired\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nValueError\nIf linter is not supported."
+  },
+  {
+    "objectID": "pages/api/Linters.html#attributes",
+    "href": "pages/api/Linters.html#attributes",
+    "title": "Linters",
+    "section": "",
+    "text": "Name\nType\nDescription\n\n\n\n\nsupported\ndict\nDictionary of supported linters. The key (e.g. radon-cc) maps to the full command (e.g. [\"radon\", \"cc\"])."
+  },
+  {
+    "objectID": "pages/api/Linters.html#methods",
+    "href": "pages/api/Linters.html#methods",
+    "title": "Linters",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\ncheck_available\nCheck if a linter is available in the user’s system.\n\n\ncheck_supported\nCheck if linter is supported by lintquarto.\n\n\n\n\n\nlinters.Linters.check_available(linter_name)\nCheck if a linter is available in the user’s system.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nlinter_name\nstr\nName of the linter to check.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nFileNotFoundError\nIf the linter’s command is not found in the user’s PATH.\n\n\n\n\n\n\n\nlinters.Linters.check_supported(linter_name)\nCheck if linter is supported by lintquarto.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nlinter_name\nstr\nName of the linter to check.\nrequired\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nValueError\nIf linter is not supported."
+  },
+  {
+    "objectID": "pages/api/convert_qmd_to_py.html",
+    "href": "pages/api/convert_qmd_to_py.html",
+    "title": "convert_qmd_to_py",
+    "section": "",
+    "text": "converter.convert_qmd_to_py(qmd_path, linter, output_path=None, verbose=False)\nConvert a Quarto (.qmd) file to Python (.py) file, preserving line alignment.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nqmd_path\nUnion[str, Path]\nPath to the input .qmd file.\nrequired\n\n\nlinter\nstr\nName of the linter that will be used.\nrequired\n\n\noutput_path\nOptional[Union[str, Path]]\nPath for the output .py file. If None, uses qmd_path with .py suffix.\nNone\n\n\nverbose\nbool\nIf True, print detailed progress information.\nFalse\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\noutput_path\nOptional[Path]\nPath for the output .py file, or None if there was an error.\n\n\n\n\n\n\n&gt;&gt;&gt; convert_qmd_to_py(\"input.qmd\", \"output.py\", True)\n# To use from the command line:\n# $ python converter.py input.qmd [output.py] [-v]"
+  },
+  {
+    "objectID": "pages/api/convert_qmd_to_py.html#parameters",
+    "href": "pages/api/convert_qmd_to_py.html#parameters",
+    "title": "convert_qmd_to_py",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\nqmd_path\nUnion[str, Path]\nPath to the input .qmd file.\nrequired\n\n\nlinter\nstr\nName of the linter that will be used.\nrequired\n\n\noutput_path\nOptional[Union[str, Path]]\nPath for the output .py file. If None, uses qmd_path with .py suffix.\nNone\n\n\nverbose\nbool\nIf True, print detailed progress information.\nFalse"
+  },
+  {
+    "objectID": "pages/api/convert_qmd_to_py.html#returns",
+    "href": "pages/api/convert_qmd_to_py.html#returns",
+    "title": "convert_qmd_to_py",
+    "section": "",
+    "text": "Name\nType\nDescription\n\n\n\n\noutput_path\nOptional[Path]\nPath for the output .py file, or None if there was an error."
+  },
+  {
+    "objectID": "pages/api/convert_qmd_to_py.html#examples",
+    "href": "pages/api/convert_qmd_to_py.html#examples",
+    "title": "convert_qmd_to_py",
+    "section": "",
+    "text": "&gt;&gt;&gt; convert_qmd_to_py(\"input.qmd\", \"output.py\", True)\n# To use from the command line:\n# $ python converter.py input.qmd [output.py] [-v]"
+  },
+  {
+    "objectID": "pages/api/get_unique_filename.html",
+    "href": "pages/api/get_unique_filename.html",
+    "title": "get_unique_filename",
+    "section": "",
+    "text": "converter.get_unique_filename(path)\nGenerate a unique file path by appending ” (n)” before the file extension if needed.\nIf the given path already exists, this function appends an incrementing number in parentheses before the file extension (e.g., “file (1).py”) until an unused filename is found.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\npath\nUnion[str, Path]\nThe initial file path to check.\nrequired\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nPath\nA unique file path that does not currently exist.\n\n\n\n\n\n\n&gt;&gt;&gt; get_unique_filename(\"script.py\")\nPosixPath('script.py')  # if 'script.py' does not exist\n&gt;&gt;&gt; get_unique_filename(\"script.py\")\nPosixPath('script (1).py')  # if 'script.py' exists"
+  },
+  {
+    "objectID": "pages/api/get_unique_filename.html#parameters",
+    "href": "pages/api/get_unique_filename.html#parameters",
+    "title": "get_unique_filename",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\npath\nUnion[str, Path]\nThe initial file path to check.\nrequired"
+  },
+  {
+    "objectID": "pages/api/get_unique_filename.html#returns",
+    "href": "pages/api/get_unique_filename.html#returns",
+    "title": "get_unique_filename",
+    "section": "",
+    "text": "Name\nType\nDescription\n\n\n\n\n\nPath\nA unique file path that does not currently exist."
+  },
+  {
+    "objectID": "pages/api/get_unique_filename.html#examples",
+    "href": "pages/api/get_unique_filename.html#examples",
+    "title": "get_unique_filename",
+    "section": "",
+    "text": "&gt;&gt;&gt; get_unique_filename(\"script.py\")\nPosixPath('script.py')  # if 'script.py' does not exist\n&gt;&gt;&gt; get_unique_filename(\"script.py\")\nPosixPath('script (1).py')  # if 'script.py' exists"
+  },
+  {
+    "objectID": "pages/api/main.html",
+    "href": "pages/api/main.html",
+    "title": "main",
+    "section": "",
+    "text": "main\n__main__.main()\nEntry point for the lintquarto CLI.\nParses arguments, processes .qmd files, and exits with appropriate status code."
   },
   {
     "objectID": "pages/changelog.html",
@@ -207,380 +483,79 @@
     "text": "🌱 First release.\n\n\n\nLint Quarto markdown (.qmd) files using pylint, flake8, or mypy."
   },
   {
-    "objectID": "pages/api/main.html",
-    "href": "pages/api/main.html",
-    "title": "main",
+    "objectID": "pages/get_started.html",
+    "href": "pages/get_started.html",
+    "title": "Getting started",
     "section": "",
-    "text": "__main__.main()\nEntry point for the lintquarto CLI.\nParses arguments, processes .qmd files, and exits with appropriate status code.\n\n\nAdapted from code generated by Perplexity."
+    "text": "Python 3.7 or higher is required. lintquarto itself has only one required package: toml.\nYou can install lintquarto with pip (from PyPI) or conda (from conda-forge).\n\n\nInstall lintquarto with:\npip install lintquarto\nLinters are installed separately. For example, to use pylint and flake8, run:\npip install pylint flake8\nIf you want to install lintquarto along with all supported linters, use:\npip install lintquarto[all]\nYou can verify your installation with:\nlintquarto --version\n\n\n\nconda install conda-forge::lintquarto\nWith conda, only the main lintquarto tool is installed. If you want to use any linters or type checkers, you must install them separately (either with conda or pip, depending on availability)."
   },
   {
-    "objectID": "pages/api/main.html#notes",
-    "href": "pages/api/main.html#notes",
-    "title": "main",
+    "objectID": "pages/get_started.html#installation",
+    "href": "pages/get_started.html#installation",
+    "title": "Getting started",
     "section": "",
-    "text": "Adapted from code generated by Perplexity."
+    "text": "Python 3.7 or higher is required. lintquarto itself has only one required package: toml.\nYou can install lintquarto with pip (from PyPI) or conda (from conda-forge).\n\n\nInstall lintquarto with:\npip install lintquarto\nLinters are installed separately. For example, to use pylint and flake8, run:\npip install pylint flake8\nIf you want to install lintquarto along with all supported linters, use:\npip install lintquarto[all]\nYou can verify your installation with:\nlintquarto --version\n\n\n\nconda install conda-forge::lintquarto\nWith conda, only the main lintquarto tool is installed. If you want to use any linters or type checkers, you must install them separately (either with conda or pip, depending on availability)."
   },
   {
-    "objectID": "pages/api/get_unique_filename.html",
-    "href": "pages/api/get_unique_filename.html",
-    "title": "get_unique_filename",
-    "section": "",
-    "text": "converter.get_unique_filename(path)\nGenerate a unique file path by appending ” (n)” before the file extension if needed.\nIf the given path already exists, this function appends an incrementing number in parentheses before the file extension (e.g., “file (1).py”) until an unused filename is found.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\npath\nstr or Path\nThe initial file path to check.\nrequired\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nPath\nA unique file path that does not currently exist.\n\n\n\n\n\n\n&gt;&gt;&gt; get_unique_filename(\"script.py\")\nPosixPath('script.py')  # if 'script.py' does not exist\n&gt;&gt;&gt; get_unique_filename(\"script.py\")\nPosixPath('script (1).py')  # if 'script.py' exists"
+    "objectID": "pages/get_started.html#basic-usage",
+    "href": "pages/get_started.html#basic-usage",
+    "title": "Getting started",
+    "section": "Basic usage",
+    "text": "Basic usage\nlintquarto -l LINTER [LINTER …] -p PATH [PATH …] [-e EXCLUDE [EXCLUDE …]] [-k]\n\n-l –linters LINTER [LINTER …] - Linters to run.\n-p –paths PATH [PATH …]- Quarto files and/or directories to lint.\n-e –exclude EXCLUDE [EXCLUDE …] - Files and/or directories to exclude from linting.\n-k, –keep-temp - Keep the temporary .py files created during linting (for debugging).\n\nPassing extra arguments directly to linters is not supported. Only .qmd files are processed."
   },
   {
-    "objectID": "pages/api/get_unique_filename.html#parameters",
-    "href": "pages/api/get_unique_filename.html#parameters",
-    "title": "get_unique_filename",
-    "section": "",
-    "text": "Name\nType\nDescription\nDefault\n\n\n\n\npath\nstr or Path\nThe initial file path to check.\nrequired"
+    "objectID": "pages/get_started.html#examples",
+    "href": "pages/get_started.html#examples",
+    "title": "Getting started",
+    "section": "Examples",
+    "text": "Examples\nThe linter used is interchangeable in these examples.\nLint all .qmd files in the current directory (using pylint):\nlintquarto -l pylint -p .\nLint several specific files (using pylint and flake8):\nlintquarto -l pylint flake8 -p file1.qmd file2.qmd\nKeep temporary .py files after linting (with pylint)\nlintquarto -l pylint -p . -k\nLint all files in current directory (using ruff):\n\nExcluding folders examples/ and ignore/, or-\nExcluding a specific file analysis/test.qmd.\n\nlintquarto -l ruff -p . -e examples,ignore\nlintquarto -l ruff -p . -e analysis/test.qmd"
   },
   {
-    "objectID": "pages/api/get_unique_filename.html#returns",
-    "href": "pages/api/get_unique_filename.html#returns",
-    "title": "get_unique_filename",
-    "section": "",
-    "text": "Name\nType\nDescription\n\n\n\n\n\nPath\nA unique file path that does not currently exist."
-  },
-  {
-    "objectID": "pages/api/get_unique_filename.html#examples",
-    "href": "pages/api/get_unique_filename.html#examples",
-    "title": "get_unique_filename",
-    "section": "",
-    "text": "&gt;&gt;&gt; get_unique_filename(\"script.py\")\nPosixPath('script.py')  # if 'script.py' does not exist\n&gt;&gt;&gt; get_unique_filename(\"script.py\")\nPosixPath('script (1).py')  # if 'script.py' exists"
-  },
-  {
-    "objectID": "pages/api/convert_qmd_to_py.html",
-    "href": "pages/api/convert_qmd_to_py.html",
-    "title": "convert_qmd_to_py",
-    "section": "",
-    "text": "converter.convert_qmd_to_py(qmd_path, linter, output_path=None, verbose=False)\nConvert a Quarto (.qmd) file to Python (.py) file, preserving line alignment.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nqmd_path\nstr or Path\nPath to the input .qmd file.\nrequired\n\n\nlinter\nstr\nName of the linter that will be used.\nrequired\n\n\noutput_path\nstr or Path\nPath for the output .py file. If None, uses qmd_path with .py suffix.\nNone\n\n\nverbose\nbool\nIf True, print detailed progress information.\nFalse\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\noutput_path\nPath\nPath for the output .py file.\n\n\n\n\n\n\n&gt;&gt;&gt; convert_qmd_to_py(\"input.qmd\", \"output.py\", True)\n# To use from the command line:\n# $ python converter.py input.qmd [output.py] [-v]\n\n\n\nAdapted from code generated by Perplexity."
-  },
-  {
-    "objectID": "pages/api/convert_qmd_to_py.html#parameters",
-    "href": "pages/api/convert_qmd_to_py.html#parameters",
-    "title": "convert_qmd_to_py",
-    "section": "",
-    "text": "Name\nType\nDescription\nDefault\n\n\n\n\nqmd_path\nstr or Path\nPath to the input .qmd file.\nrequired\n\n\nlinter\nstr\nName of the linter that will be used.\nrequired\n\n\noutput_path\nstr or Path\nPath for the output .py file. If None, uses qmd_path with .py suffix.\nNone\n\n\nverbose\nbool\nIf True, print detailed progress information.\nFalse"
-  },
-  {
-    "objectID": "pages/api/convert_qmd_to_py.html#returns",
-    "href": "pages/api/convert_qmd_to_py.html#returns",
-    "title": "convert_qmd_to_py",
-    "section": "",
-    "text": "Name\nType\nDescription\n\n\n\n\noutput_path\nPath\nPath for the output .py file."
-  },
-  {
-    "objectID": "pages/api/convert_qmd_to_py.html#examples",
-    "href": "pages/api/convert_qmd_to_py.html#examples",
-    "title": "convert_qmd_to_py",
-    "section": "",
-    "text": "&gt;&gt;&gt; convert_qmd_to_py(\"input.qmd\", \"output.py\", True)\n# To use from the command line:\n# $ python converter.py input.qmd [output.py] [-v]"
-  },
-  {
-    "objectID": "pages/api/convert_qmd_to_py.html#notes",
-    "href": "pages/api/convert_qmd_to_py.html#notes",
-    "title": "convert_qmd_to_py",
-    "section": "",
-    "text": "Adapted from code generated by Perplexity."
-  },
-  {
-    "objectID": "pages/api/Linters.html",
-    "href": "pages/api/Linters.html",
-    "title": "Linters",
-    "section": "",
-    "text": "linters.Linters()\nChecks if requested linter (or static type checker) is available.\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\nsupported\ndict\nDictionary of supported linters. The key (e.g. radon-cc) maps to the full command (e.g. [\"radon\", \"cc\"]).\n\n\n\n\n\n\n\n\n\nName\nDescription\n\n\n\n\ncheck_available\nCheck if a linter is available in the user’s system.\n\n\ncheck_supported\nCheck if linter is supported by lintquarto.\n\n\n\n\n\nlinters.Linters.check_available(linter_name)\nCheck if a linter is available in the user’s system.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nlinter_name\nstr\nName of the linter to check.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nFileNotFoundError\nIf the linter’s command is not found in the user’s PATH.\n\n\n\n\n\n\n\nlinters.Linters.check_supported(linter_name)\nCheck if linter is supported by lintquarto.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nlinter_name\nstr\nName of the linter to check.\nrequired\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nValueError\nIf linter is not supported."
-  },
-  {
-    "objectID": "pages/api/Linters.html#attributes",
-    "href": "pages/api/Linters.html#attributes",
-    "title": "Linters",
-    "section": "",
-    "text": "Name\nType\nDescription\n\n\n\n\nsupported\ndict\nDictionary of supported linters. The key (e.g. radon-cc) maps to the full command (e.g. [\"radon\", \"cc\"])."
-  },
-  {
-    "objectID": "pages/api/Linters.html#methods",
-    "href": "pages/api/Linters.html#methods",
-    "title": "Linters",
-    "section": "",
-    "text": "Name\nDescription\n\n\n\n\ncheck_available\nCheck if a linter is available in the user’s system.\n\n\ncheck_supported\nCheck if linter is supported by lintquarto.\n\n\n\n\n\nlinters.Linters.check_available(linter_name)\nCheck if a linter is available in the user’s system.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nlinter_name\nstr\nName of the linter to check.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nFileNotFoundError\nIf the linter’s command is not found in the user’s PATH.\n\n\n\n\n\n\n\nlinters.Linters.check_supported(linter_name)\nCheck if linter is supported by lintquarto.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nlinter_name\nstr\nName of the linter to check.\nrequired\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nValueError\nIf linter is not supported."
-  },
-  {
-    "objectID": "pages/api/CustomArgumentParser.html",
-    "href": "pages/api/CustomArgumentParser.html",
-    "title": "CustomArgumentParser",
-    "section": "",
-    "text": "args.CustomArgumentParser()\nPrint user-friendly error message and help text when incorrect arguments are provided.\n\n\nAdapted from code generated by Perplexity.\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nerror\nPrint error message.\n\n\n\n\n\nargs.CustomArgumentParser.error(message)\nPrint error message.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nmessage\nstr\nThe error message to display.\nrequired"
-  },
-  {
-    "objectID": "pages/api/CustomArgumentParser.html#notes",
-    "href": "pages/api/CustomArgumentParser.html#notes",
-    "title": "CustomArgumentParser",
-    "section": "",
-    "text": "Adapted from code generated by Perplexity."
-  },
-  {
-    "objectID": "pages/api/CustomArgumentParser.html#methods",
-    "href": "pages/api/CustomArgumentParser.html#methods",
-    "title": "CustomArgumentParser",
-    "section": "",
-    "text": "Name\nDescription\n\n\n\n\nerror\nPrint error message.\n\n\n\n\n\nargs.CustomArgumentParser.error(message)\nPrint error message.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nmessage\nstr\nThe error message to display.\nrequired"
-  },
-  {
-    "objectID": "index.html#easy-to-use",
-    "href": "index.html#easy-to-use",
-    "title": "Run linters and static type checkers on quarto .qmd files",
-    "section": "Easy to use",
-    "text": "Easy to use\nInstall and run checks in minutes. See getting started for installation and basic commands."
-  },
-  {
-    "objectID": "index.html#variety-of-tools",
-    "href": "index.html#variety-of-tools",
-    "title": "Run linters and static type checkers on quarto .qmd files",
-    "section": "Variety of tools",
-    "text": "Variety of tools\nTry out a range of linters and type checkers, each with ready-to-run examples. Discover what’s available in the user guide."
-  },
-  {
-    "objectID": "pages/api/LineLengthDetector.html",
-    "href": "pages/api/LineLengthDetector.html",
-    "title": "LineLengthDetector",
-    "section": "",
-    "text": "linelength.LineLengthDetector(linter, start_dir='.')\nDetect the configured line length for a given Python linter.\nThis class searches for relevant configuration files in the directory tree, extracts the maximum line length setting for the specified linter, and returns the default value if no configuration is found.\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\nlinter\nstr\nThe name of the linter to check (“flake8”, “pycodestyle”, “ruff”)\n\n\ndefaults\ndict\nThe default maximum line length for each linter.\n\n\nstart_dir\nstr\nThe directory from which to start searching for configuration files.\n\n\n\n\n\n\nAdapted from code generated by Perplexity.\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nget_line_length\nGet the configured maximum line length for the specified linter.\n\n\n\n\n\nlinelength.LineLengthDetector.get_line_length()\nGet the configured maximum line length for the specified linter.\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nint\nThe maximum line length."
-  },
-  {
-    "objectID": "pages/api/LineLengthDetector.html#attributes",
-    "href": "pages/api/LineLengthDetector.html#attributes",
-    "title": "LineLengthDetector",
-    "section": "",
-    "text": "Name\nType\nDescription\n\n\n\n\nlinter\nstr\nThe name of the linter to check (“flake8”, “pycodestyle”, “ruff”)\n\n\ndefaults\ndict\nThe default maximum line length for each linter.\n\n\nstart_dir\nstr\nThe directory from which to start searching for configuration files."
-  },
-  {
-    "objectID": "pages/api/LineLengthDetector.html#notes",
-    "href": "pages/api/LineLengthDetector.html#notes",
-    "title": "LineLengthDetector",
-    "section": "",
-    "text": "Adapted from code generated by Perplexity."
-  },
-  {
-    "objectID": "pages/api/LineLengthDetector.html#methods",
-    "href": "pages/api/LineLengthDetector.html#methods",
-    "title": "LineLengthDetector",
-    "section": "",
-    "text": "Name\nDescription\n\n\n\n\nget_line_length\nGet the configured maximum line length for the specified linter.\n\n\n\n\n\nlinelength.LineLengthDetector.get_line_length()\nGet the configured maximum line length for the specified linter.\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nint\nThe maximum line length."
-  },
-  {
-    "objectID": "pages/api/QmdToPyConverter.html",
-    "href": "pages/api/QmdToPyConverter.html",
-    "title": "QmdToPyConverter",
-    "section": "",
-    "text": "converter.QmdToPyConverter(linter)\nConvert lines from a .qmd file to .py file.\n\nPreserve line alignment.\nAmend Quarto code chunk options (“#|” to “# |”) to prevent lint errors, with handling for leading indentation and blank lines at cell start.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\npy_lines\nlist\nStores the lines to be written to the output Python file.\n\n\nin_python\nbool\nTrue if currently processing lines inside a Python code chunk.\n\n\nin_chunk_options\nbool\nTrue if currently at the start of a code chunk, parsing Quarto chunk options or leading blank lines.\n\n\nlinter\nstr\nName of the linter that will be used.\n\n\npreserve_line_count\nbool\nIf True (default), preserve line count by inserting “#-” and “# %% [python]” for non-code lines. If False, skip non-code lines entirely (only preserving code lines).\n\n\n\n\n\n\nAdapted from code generated by Perplexity.\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nconvert\nRun converter on the provided lines.\n\n\nprocess_line\nProcess individual lines with state tracking.\n\n\nreset\nReset the state (except linter).\n\n\n\n\n\nconverter.QmdToPyConverter.convert(qmd_lines)\nRun converter on the provided lines.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nqmd_lines\nlist\nList containing each line from the Quarto file.\nrequired\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\npy_lines\nlist\nList of each line for the output Python file.\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.process_line(original_line)\nProcess individual lines with state tracking.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\noriginal_line\nstr\nLine to process.\nrequired\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.reset()\nReset the state (except linter)."
-  },
-  {
-    "objectID": "pages/api/QmdToPyConverter.html#attributes",
-    "href": "pages/api/QmdToPyConverter.html#attributes",
-    "title": "QmdToPyConverter",
-    "section": "",
-    "text": "Name\nType\nDescription\n\n\n\n\npy_lines\nlist\nStores the lines to be written to the output Python file.\n\n\nin_python\nbool\nTrue if currently processing lines inside a Python code chunk.\n\n\nin_chunk_options\nbool\nTrue if currently at the start of a code chunk, parsing Quarto chunk options or leading blank lines.\n\n\nlinter\nstr\nName of the linter that will be used.\n\n\npreserve_line_count\nbool\nIf True (default), preserve line count by inserting “#-” and “# %% [python]” for non-code lines. If False, skip non-code lines entirely (only preserving code lines)."
-  },
-  {
-    "objectID": "pages/api/QmdToPyConverter.html#notes",
-    "href": "pages/api/QmdToPyConverter.html#notes",
-    "title": "QmdToPyConverter",
-    "section": "",
-    "text": "Adapted from code generated by Perplexity."
-  },
-  {
-    "objectID": "pages/api/QmdToPyConverter.html#methods",
-    "href": "pages/api/QmdToPyConverter.html#methods",
-    "title": "QmdToPyConverter",
-    "section": "",
-    "text": "Name\nDescription\n\n\n\n\nconvert\nRun converter on the provided lines.\n\n\nprocess_line\nProcess individual lines with state tracking.\n\n\nreset\nReset the state (except linter).\n\n\n\n\n\nconverter.QmdToPyConverter.convert(qmd_lines)\nRun converter on the provided lines.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nqmd_lines\nlist\nList containing each line from the Quarto file.\nrequired\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\npy_lines\nlist\nList of each line for the output Python file.\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.process_line(original_line)\nProcess individual lines with state tracking.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\noriginal_line\nstr\nLine to process.\nrequired\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.reset()\nReset the state (except linter)."
-  },
-  {
-    "objectID": "pages/api/gather_qmd_files.html",
-    "href": "pages/api/gather_qmd_files.html",
-    "title": "gather_qmd_files",
-    "section": "",
-    "text": "__main__.gather_qmd_files(paths, exclude=None)\nGather all .qmd files from a list of files and directories, excluding specified paths.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\npaths\nlist of str or Path\nList of file or directory paths.\nrequired\n\n\nexclude\nlist of str or Path\nList of files or directories to exclude.\nNone\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nlist of str\nList of .qmd file paths found, excluding those in exclude.\n\n\n\n\n\n\nAdapted from code generated by Perplexity."
-  },
-  {
-    "objectID": "pages/api/gather_qmd_files.html#parameters",
-    "href": "pages/api/gather_qmd_files.html#parameters",
-    "title": "gather_qmd_files",
-    "section": "",
-    "text": "Name\nType\nDescription\nDefault\n\n\n\n\npaths\nlist of str or Path\nList of file or directory paths.\nrequired\n\n\nexclude\nlist of str or Path\nList of files or directories to exclude.\nNone"
-  },
-  {
-    "objectID": "pages/api/gather_qmd_files.html#returns",
-    "href": "pages/api/gather_qmd_files.html#returns",
-    "title": "gather_qmd_files",
-    "section": "",
-    "text": "Name\nType\nDescription\n\n\n\n\n\nlist of str\nList of .qmd file paths found, excluding those in exclude."
-  },
-  {
-    "objectID": "pages/api/gather_qmd_files.html#notes",
-    "href": "pages/api/gather_qmd_files.html#notes",
-    "title": "gather_qmd_files",
-    "section": "",
-    "text": "Adapted from code generated by Perplexity."
-  },
-  {
-    "objectID": "pages/api/index.html",
-    "href": "pages/api/index.html",
-    "title": "Reference",
-    "section": "",
-    "text": "The main CLI logic for linting Python code in Quarto (.qmd) files, including argument parsing, file conversion, linter invocation, and temporary file management.\n\n\n\nmain\nEntry point for the lintquarto CLI.\n\n\ngather_qmd_files\nGather all .qmd files from a list of files and directories, excluding\n\n\nprocess_qmd\nConvert a .qmd file to .py, lint it, and clean up.\n\n\n\n\n\n\nFunctions to convert Quarto (.qmd) files to Python (.py) files, preserving line alignment and extracting Python code, with both a command-line interface and callable functions.\n\n\n\nQmdToPyConverter\nConvert lines from a .qmd file to .py file.\n\n\nget_unique_filename\nGenerate a unique file path by appending ” (n)” before the file extension\n\n\nconvert_qmd_to_py\nConvert a Quarto (.qmd) file to Python (.py) file, preserving line\n\n\n\n\n\n\nClass to check for supported and available Python linters or static type checkers on the user’s system.\n\n\n\nLinters\nChecks if requested linter (or static type checker) is available.\n\n\n\n\n\n\nClass to detect configured line length.\n\n\n\nLineLengthDetector\nDetect the configured line length for a given Python linter.\n\n\n\n\n\n\nClass which extends argparse.ArgumentParser to provide user-friendly error messages and help text when incorrect command-line arguments are supplied.\n\n\n\nCustomArgumentParser\nPrint user-friendly error message and help text when incorrect"
-  },
-  {
-    "objectID": "pages/api/index.html#main-module",
-    "href": "pages/api/index.html#main-module",
-    "title": "Reference",
-    "section": "",
-    "text": "The main CLI logic for linting Python code in Quarto (.qmd) files, including argument parsing, file conversion, linter invocation, and temporary file management.\n\n\n\nmain\nEntry point for the lintquarto CLI.\n\n\ngather_qmd_files\nGather all .qmd files from a list of files and directories, excluding\n\n\nprocess_qmd\nConvert a .qmd file to .py, lint it, and clean up."
-  },
-  {
-    "objectID": "pages/api/index.html#converter-module",
-    "href": "pages/api/index.html#converter-module",
-    "title": "Reference",
-    "section": "",
-    "text": "Functions to convert Quarto (.qmd) files to Python (.py) files, preserving line alignment and extracting Python code, with both a command-line interface and callable functions.\n\n\n\nQmdToPyConverter\nConvert lines from a .qmd file to .py file.\n\n\nget_unique_filename\nGenerate a unique file path by appending ” (n)” before the file extension\n\n\nconvert_qmd_to_py\nConvert a Quarto (.qmd) file to Python (.py) file, preserving line"
-  },
-  {
-    "objectID": "pages/api/index.html#linters-module",
-    "href": "pages/api/index.html#linters-module",
-    "title": "Reference",
-    "section": "",
-    "text": "Class to check for supported and available Python linters or static type checkers on the user’s system.\n\n\n\nLinters\nChecks if requested linter (or static type checker) is available."
-  },
-  {
-    "objectID": "pages/api/index.html#line-length-module",
-    "href": "pages/api/index.html#line-length-module",
-    "title": "Reference",
-    "section": "",
-    "text": "Class to detect configured line length.\n\n\n\nLineLengthDetector\nDetect the configured line length for a given Python linter."
-  },
-  {
-    "objectID": "pages/api/index.html#args-module",
-    "href": "pages/api/index.html#args-module",
-    "title": "Reference",
-    "section": "",
-    "text": "Class which extends argparse.ArgumentParser to provide user-friendly error messages and help text when incorrect command-line arguments are supplied.\n\n\n\nCustomArgumentParser\nPrint user-friendly error message and help text when incorrect"
-  },
-  {
-    "objectID": "pages/api/process_qmd.html",
-    "href": "pages/api/process_qmd.html",
-    "title": "process_qmd",
-    "section": "",
-    "text": "__main__.process_qmd(qmd_file, linter, keep_temp_files=False, verbose=False)\nConvert a .qmd file to .py, lint it, and clean up.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nqmd_file\nstr or Path\nPath to the input .qmd file.\nrequired\n\n\nlinter\nstr\nName of the linter to use (pylint, flake8, mypy).\nrequired\n\n\nkeep_temp_files\nbool\nIf True, retain the temporary .py file after linting.\nFalse\n\n\nverbose\nbool\nIf True, print detailed progress information.\nFalse\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nint\n0 on success, nonzero on error.\n\n\n\n\n\n\nAdapted from code generated by Perplexity."
-  },
-  {
-    "objectID": "pages/api/process_qmd.html#parameters",
-    "href": "pages/api/process_qmd.html#parameters",
-    "title": "process_qmd",
-    "section": "",
-    "text": "Name\nType\nDescription\nDefault\n\n\n\n\nqmd_file\nstr or Path\nPath to the input .qmd file.\nrequired\n\n\nlinter\nstr\nName of the linter to use (pylint, flake8, mypy).\nrequired\n\n\nkeep_temp_files\nbool\nIf True, retain the temporary .py file after linting.\nFalse\n\n\nverbose\nbool\nIf True, print detailed progress information.\nFalse"
-  },
-  {
-    "objectID": "pages/api/process_qmd.html#returns",
-    "href": "pages/api/process_qmd.html#returns",
-    "title": "process_qmd",
-    "section": "",
-    "text": "Name\nType\nDescription\n\n\n\n\n\nint\n0 on success, nonzero on error."
-  },
-  {
-    "objectID": "pages/api/process_qmd.html#notes",
-    "href": "pages/api/process_qmd.html#notes",
-    "title": "process_qmd",
-    "section": "",
-    "text": "Adapted from code generated by Perplexity."
-  },
-  {
-    "objectID": "pages/contributing.html",
-    "href": "pages/contributing.html",
-    "title": "Contributing",
-    "section": "",
-    "text": "Thank you for your interest in contributing! 🤗\n\n\n\nBefore opening an issue, please search existing issues to avoid duplicates. If there is not an existing issue, please open open and provide as much detail as possible.\n\nFor feature requests or documentation improvements, please describe your suggestion clearly.\nFor bugs, include:\n\nSteps to reproduce.\nExpected and actual behaviour.\nEnvironment details (operating system, python version, dependencies).\nRelevant files (e.g. problematic .qmd files).\n\n\n\n\n\nConfirm reproducibility by following the reported steps.\nLabel the issue appropriately (e.g. bug).\nRequest additional information if necessary.\nLink related issues or pull requests.\nOne resolved, close the issue with a brief summary of the fix.\n\n\n\n\n\n\n\nFork the repository and clone your fork.\nCreate a new branch for your feature or fix:\n\ngit checkout -b my-feature\n\nMake your changes and commit them with clear, descriptive messages using the conventional commits standard.\nPush your branch to your fork:\n\ngit push origin my-feature\n\nOpen a pull request against the main branch. Describe your changes and reference any related issues.\n\n\n\n\n\n\n\nIf you want to contribute to lintquarto or run its tests, you’ll need some additional tools:\n\n\n\nTool\nPurpose\n\n\n\n\ncheck-dependencies\nTest for undeclared dependencies\n\n\nflit\nPackaging and publishing\n\n\ngenbadge\nCreate coverage badge (README)\n\n\njupyter\nRun python code in docs\n\n\npytest\nRun tests\n\n\npytest-cov\nCalculate coverage\n\n\ntwine\nUpload to PyPI\n\n\nquartodoc\nGenerate API docs\n\n\n-e .[all]\nEditable install + all linters\n\n\n\nThese are listed in requirements-dev.txt for convenience. To set up your development environment, run:\npip install -r requirements-dev.txt\nFor testing only (used by GitHub actions):\npip install -r requirements-test.txt\nQuarto (used for the docs) is a standalone tool - install it from https://quarto.org/docs/get-started/.\n\n\n\n\nContributors are encouraged to install and use the latest versions of development tools. This helps keep the project compatible with current tooling and catches issues early.\nIf you need a fully reproducible and stable setup, use the provided Conda environment file. This file pins all development tool versions, including Python:\nconda env create -f requirements-stable.yml\nTo update the stable environment, run conda update --all and test thoroughly (running tests, building documentation), and then update requirements-stable.yml with any changes.\n\n\n\n\nRun all tests (with coverage):\npytest --cov\n\n\n\n\nMake scripts executable (first time only):\nchmod +x lint_package.sh\nchmod +x lint_docs.sh\nLint the package:\nlint_package.sh\nLint the documentation:\nlint_docs.sh\n\n\n\n\nBuild and preview the documentation locally:\nmake -C docs\n\n\n\n\n\nIf you are a maintainer and need to publish a new release:\n\nUpdate the CHANGELOG.md.\nUpdate the version number in __init__.py, CITATION.cff and README.md citation, and update the date in CITATION.cff.\nCreate a release on GitHub, which will automatically archive to Zenodo.\nBuild and publish using flit or twine.\n\nTo upload to PyPI using flit:\nflit publish\nTo upload to PyPI using twine: remove any existing builds, then build the package locally and push with twine, entering the API token when prompted:\nrm -rf dist/\nflit build\ntwine upload --repository pypi dist/*\nFor test runs, you can use the same method with test PyPI:\nrm -rf dist/\nflit build\ntwine upload --repository testpypi dist/*\n\n\n\n\nPlease be respectful and considerate. See the code of conduct for details."
-  },
-  {
-    "objectID": "pages/contributing.html#workflow-for-bug-reports-feature-requests-and-documentation-improvements",
-    "href": "pages/contributing.html#workflow-for-bug-reports-feature-requests-and-documentation-improvements",
-    "title": "Contributing",
-    "section": "",
-    "text": "Before opening an issue, please search existing issues to avoid duplicates. If there is not an existing issue, please open open and provide as much detail as possible.\n\nFor feature requests or documentation improvements, please describe your suggestion clearly.\nFor bugs, include:\n\nSteps to reproduce.\nExpected and actual behaviour.\nEnvironment details (operating system, python version, dependencies).\nRelevant files (e.g. problematic .qmd files).\n\n\n\n\n\nConfirm reproducibility by following the reported steps.\nLabel the issue appropriately (e.g. bug).\nRequest additional information if necessary.\nLink related issues or pull requests.\nOne resolved, close the issue with a brief summary of the fix."
-  },
-  {
-    "objectID": "pages/contributing.html#workflow-for-code-contributions-bug-fixes-enhancements",
-    "href": "pages/contributing.html#workflow-for-code-contributions-bug-fixes-enhancements",
-    "title": "Contributing",
-    "section": "",
-    "text": "Fork the repository and clone your fork.\nCreate a new branch for your feature or fix:\n\ngit checkout -b my-feature\n\nMake your changes and commit them with clear, descriptive messages using the conventional commits standard.\nPush your branch to your fork:\n\ngit push origin my-feature\n\nOpen a pull request against the main branch. Describe your changes and reference any related issues."
-  },
-  {
-    "objectID": "pages/contributing.html#development-and-testing",
-    "href": "pages/contributing.html#development-and-testing",
-    "title": "Contributing",
-    "section": "",
-    "text": "If you want to contribute to lintquarto or run its tests, you’ll need some additional tools:\n\n\n\nTool\nPurpose\n\n\n\n\ncheck-dependencies\nTest for undeclared dependencies\n\n\nflit\nPackaging and publishing\n\n\ngenbadge\nCreate coverage badge (README)\n\n\njupyter\nRun python code in docs\n\n\npytest\nRun tests\n\n\npytest-cov\nCalculate coverage\n\n\ntwine\nUpload to PyPI\n\n\nquartodoc\nGenerate API docs\n\n\n-e .[all]\nEditable install + all linters\n\n\n\nThese are listed in requirements-dev.txt for convenience. To set up your development environment, run:\npip install -r requirements-dev.txt\nFor testing only (used by GitHub actions):\npip install -r requirements-test.txt\nQuarto (used for the docs) is a standalone tool - install it from https://quarto.org/docs/get-started/.\n\n\n\n\nContributors are encouraged to install and use the latest versions of development tools. This helps keep the project compatible with current tooling and catches issues early.\nIf you need a fully reproducible and stable setup, use the provided Conda environment file. This file pins all development tool versions, including Python:\nconda env create -f requirements-stable.yml\nTo update the stable environment, run conda update --all and test thoroughly (running tests, building documentation), and then update requirements-stable.yml with any changes.\n\n\n\n\nRun all tests (with coverage):\npytest --cov\n\n\n\n\nMake scripts executable (first time only):\nchmod +x lint_package.sh\nchmod +x lint_docs.sh\nLint the package:\nlint_package.sh\nLint the documentation:\nlint_docs.sh\n\n\n\n\nBuild and preview the documentation locally:\nmake -C docs"
-  },
-  {
-    "objectID": "pages/contributing.html#updating-the-package",
-    "href": "pages/contributing.html#updating-the-package",
-    "title": "Contributing",
-    "section": "",
-    "text": "If you are a maintainer and need to publish a new release:\n\nUpdate the CHANGELOG.md.\nUpdate the version number in __init__.py, CITATION.cff and README.md citation, and update the date in CITATION.cff.\nCreate a release on GitHub, which will automatically archive to Zenodo.\nBuild and publish using flit or twine.\n\nTo upload to PyPI using flit:\nflit publish\nTo upload to PyPI using twine: remove any existing builds, then build the package locally and push with twine, entering the API token when prompted:\nrm -rf dist/\nflit build\ntwine upload --repository pypi dist/*\nFor test runs, you can use the same method with test PyPI:\nrm -rf dist/\nflit build\ntwine upload --repository testpypi dist/*"
-  },
-  {
-    "objectID": "pages/contributing.html#code-of-conduct",
-    "href": "pages/contributing.html#code-of-conduct",
-    "title": "Contributing",
-    "section": "",
-    "text": "Please be respectful and considerate. See the code of conduct for details."
-  },
-  {
-    "objectID": "pages/tools/flake8.html#example-quarto-.qmd-file",
-    "href": "pages/tools/flake8.html#example-quarto-.qmd-file",
-    "title": "flake8",
+    "objectID": "pages/tools/mypy.html#example-quarto-.qmd-file",
+    "href": "pages/tools/mypy.html#example-quarto-.qmd-file",
+    "title": "mypy",
     "section": "Example Quarto .qmd file:",
-    "text": "Example Quarto .qmd file:\n Download the example \n\n\n\n1:     ---\n2:     title: \"Example\"\n3:     ---\n4:     \n5:     This file contains some issues for the linter to identify.\n6:     \n7:     ```{python}\n8:     very_long_line = \"This long string exceeds the maximum allowed characters per line.\"\n9:     ```\n10:    \n11:    There's some more issues below...\n12:    \n13:    ```{python}\n14:    def add_numbers(a, b):\n15:        return a + b\n16:    \n17:    add_numbers(3, 5)\n18:    \n19:    import sys\n20:    ```",
+    "text": "Example Quarto .qmd file:\n Download the example \n\n\n\n1:     ---\n2:     title: \"Example\"\n3:     ---\n4:     \n5:     This file contains some issues for the linter (static type checker) to identify.\n6:     \n7:     ```{python}\n8:     def add_numbers(a: int, b: int) -&gt; int:\n9:         return a + b\n10:    \n11:    add_numbers(3, \"5\")\n12:    ```\n13:    \n14:    There's some more issues below...\n15:    \n16:    ```{python}\n17:    add_numbers(1, 4)\n18:    \n19:    add_numbers(\"apples\", 8)\n20:    ```",
     "crumbs": [
       "User guide",
-      "**General linters**",
-      "flake8"
+      "**Static type checkers**",
+      "mypy"
     ]
   },
   {
-    "objectID": "pages/tools/flake8.html#run-flake8-using-lintquarto",
-    "href": "pages/tools/flake8.html#run-flake8-using-lintquarto",
-    "title": "flake8",
-    "section": "Run flake8 using lintquarto",
-    "text": "Run flake8 using lintquarto\nlintquarto -l flake8 -p general_example.qmd\n\n\n\n\n=============================================================\nRunning flake8...\n=============================================================\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:8:80: E501 line too long (98 &gt; 79 characters)\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:17:1: E305 expected 2 blank lines after class or function definition, found 1\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:19:1: F401 'sys' imported but unused\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:19:1: E402 module level import not at top of file",
+    "objectID": "pages/tools/mypy.html#run-mypy-using-lintquarto",
+    "href": "pages/tools/mypy.html#run-mypy-using-lintquarto",
+    "title": "mypy",
+    "section": "Run mypy using lintquarto",
+    "text": "Run mypy using lintquarto\nlintquarto -l mypy -p typecheck_example.qmd\n\n\n\n\n\n=============================================================\n\nRunning mypy...\n\n=============================================================\n\nexamples//home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/typecheck_example.qmd:11: error: Argument 2 to \"add_numbers\" has incompatible type \"str\"; expected \"int\"  [arg-type]\n\nexamples//home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/typecheck_example.qmd:19: error: Argument 1 to \"add_numbers\" has incompatible type \"str\"; expected \"int\"  [arg-type]\n\nFound 2 errors in 1 file (checked 1 source file)",
     "crumbs": [
       "User guide",
-      "**General linters**",
-      "flake8"
+      "**Static type checkers**",
+      "mypy"
     ]
   },
   {
-    "objectID": "pages/tools/pycodestyle.html#example-quarto-.qmd-file",
-    "href": "pages/tools/pycodestyle.html#example-quarto-.qmd-file",
-    "title": "pycodestyle",
+    "objectID": "pages/tools/pydoclint.html#example-quarto-.qmd-file",
+    "href": "pages/tools/pydoclint.html#example-quarto-.qmd-file",
+    "title": "pydoclint",
     "section": "Example Quarto .qmd file:",
-    "text": "Example Quarto .qmd file:\n Download the example \n\n\n\n1:     ---\n2:     title: \"Example\"\n3:     ---\n4:     \n5:     This file contains some issues for the linter to identify.\n6:     \n7:     ```{python}\n8:     very_long_line = \"This long string exceeds the maximum allowed characters per line.\"\n9:     ```\n10:    \n11:    There's some more issues below...\n12:    \n13:    ```{python}\n14:    def add_numbers(a, b):\n15:        return a + b\n16:    \n17:    add_numbers(3, 5)\n18:    \n19:    import sys\n20:    ```",
+    "text": "Example Quarto .qmd file:\n Download the example \n\n\n\n1:     ---\n2:     title: \"Example\"\n3:     ---\n4:     \n5:     This file contains an example of a function with docstring issues.\n6:     \n7:     ```{python}\n8:     def add(a, b):\n9:         \"\"\"\n10:        Add two numbers.\n11:    \n12:        Parameters\n13:        ----------\n14:        a : str\n15:        \"\"\"\n16:        return a + b\n17:    ```",
     "crumbs": [
       "User guide",
-      "**General linters**",
-      "pycodestyle"
+      "**Linters**",
+      "pydoclint"
     ]
   },
   {
-    "objectID": "pages/tools/pycodestyle.html#run-pycodestyle-using-lintquarto",
-    "href": "pages/tools/pycodestyle.html#run-pycodestyle-using-lintquarto",
-    "title": "pycodestyle",
-    "section": "Run pycodestyle using lintquarto",
-    "text": "Run pycodestyle using lintquarto\nlintquarto -l pycodestyle -p general_example.qmd\n\n\n\n\n=============================================================\nRunning pycodestyle...\n=============================================================\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:14:1: E302 expected 2 blank lines, found 0\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:17:1: E305 expected 2 blank lines after class or function definition, found 1\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:19:1: E402 module level import not at top of file",
+    "objectID": "pages/tools/pydoclint.html#run-pydoclint-using-lintquarto",
+    "href": "pages/tools/pydoclint.html#run-pydoclint-using-lintquarto",
+    "title": "pydoclint",
+    "section": "Run pydoclint using lintquarto",
+    "text": "Run pydoclint using lintquarto\nlintquarto -l pydoclint -p docstring_example.qmd\n\n\n\n\nSkipping files that match this pattern: \\.git|\\.tox\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/docstring_example.qmd\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/docstring_example.qmd\n    8: DOC101: Function `add`: Docstring contains fewer arguments than in function signature.\n    8: DOC106: Function `add`: The option `--arg-type-hints-in-signature` is `True` but there are no argument type hints in the signature\n    8: DOC107: Function `add`: The option `--arg-type-hints-in-signature` is `True` but not all args in the signature have type hints\n    8: DOC103: Function `add`: Docstring arguments are different from function arguments. (Or could be other formatting issues: https://jsh9.github.io/pydoclint/violation_codes.html#notes-on-doc103 ). Arguments in the function signature but not in the docstring: [b: ].\n    8: DOC201: Function `add` does not have a return section in docstring",
     "crumbs": [
       "User guide",
-      "**General linters**",
-      "pycodestyle"
+      "**Linters**",
+      "pydoclint"
     ]
   },
   {
@@ -591,7 +566,7 @@
     "text": "Example Quarto .qmd file:\n Download the example \n\n\n\n1:     ---\n2:     title: \"Example\"\n3:     ---\n4:     \n5:     This file contains some issues for the linter to identify.\n6:     \n7:     ```{python}\n8:     very_long_line = \"This long string exceeds the maximum allowed characters per line.\"\n9:     ```\n10:    \n11:    There's some more issues below...\n12:    \n13:    ```{python}\n14:    def add_numbers(a, b):\n15:        return a + b\n16:    \n17:    add_numbers(3, 5)\n18:    \n19:    import sys\n20:    ```",
     "crumbs": [
       "User guide",
-      "**General linters**",
+      "**Linters**",
       "pylint"
     ]
   },
@@ -603,7 +578,7 @@
     "text": "Run pylint using lintquarto\nlintquarto -l pylint -p general_example.qmd\n\n\n\n\n=============================================================\nRunning pylint...\n=============================================================\n************* Module general_example\nexamples//home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:8:0: C0103: Constant name \"very_long_line\" doesn't conform to UPPER_CASE naming style (invalid-name)\nexamples//home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:14:0: C0116: Missing function or method docstring (missing-function-docstring)\nexamples//home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:19:0: C0413: Import \"import sys\" should be placed at the top of the module (wrong-import-position)\nexamples//home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/general_example.qmd:19:0: W0611: Unused import sys (unused-import)\n\n-----------------------------------\nYour code has been rated at 2.00/10",
     "crumbs": [
       "User guide",
-      "**General linters**",
+      "**Linters**",
       "pylint"
     ]
   },
@@ -639,7 +614,7 @@
     "text": "Example Quarto .qmd file:\n Download the example \n\n\n\n1:     ---\n2:     title: \"Example\"\n3:     ---\n4:     \n5:     This file contains some issues for the linter to identify.\n6:     \n7:     ```{python}\n8:     # Function with low complexity\n9:     def simple_addition(a, b):\n10:        return a + b\n11:    ```\n12:    \n13:    There's another function to check below:\n14:    \n15:    ```{python}\n16:    # Function with moderate complexity\n17:    def check_number(num, flag, extra):\n18:        if num &gt; 100:\n19:            if flag:\n20:                if extra:\n21:                    return \"Huge and flagged and extra\"\n22:                else:\n23:                    return \"Huge and flagged\"\n24:            else:\n25:                if extra:\n26:                    return \"Huge and extra\"\n27:                else:\n28:                    return \"Huge\"\n29:        elif num &gt; 50:\n30:            if flag:\n31:                return \"Medium and flagged\"\n32:            else:\n33:                return \"Medium\"\n34:        elif num &gt; 10:\n35:            if extra:\n36:                return \"Small and extra\"\n37:            else:\n38:                return \"Small\"\n39:        else:\n40:            if flag or extra:\n41:                return \"Tiny but special\"\n42:            else:\n43:                return \"Tiny\"\n44:    ```",
     "crumbs": [
       "User guide",
-      "**Speciality linters**",
+      "**Code analysis tools**",
       "radon"
     ]
   },
@@ -651,7 +626,7 @@
     "text": "Run radon using lintquarto\nlintquarto -l radon-cc -p complexity_example.qmd\n\n\n\n\n=============================================================\nRunning radon-cc...\n=============================================================\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/complexity_example.qmd\n    F 17:0 check_number - C\n    F 9:0 simple_addition - A\n\n\n\n\nlintquarto -l radon-mi -p complexity_example.qmd\n\n\n\n\n=============================================================\nRunning radon-mi...\n=============================================================\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/complexity_example.qmd - A\n\n\n\n\nlintquarto -l radon-raw -p complexity_example.qmd\n\n\n\n\n=============================================================\nRunning radon-raw...\n=============================================================\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/complexity_example.qmd\n    LOC: 31\n    LLOC: 29\n    SLOC: 29\n    Comments: 2\n    Single comments: 2\n    Multi: 0\n    Blank: 0\n    - Comment Stats\n        (C % L): 6%\n        (C % S): 7%\n        (C + M % L): 6%\n\n\n\n\nlintquarto -l radon-hal -p complexity_example.qmd\n\n\n\n\n=============================================================\nRunning radon-hal...\n=============================================================\n/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/complexity_example.qmd:\n    h1: 3\n    h2: 8\n    N1: 5\n    N2: 10\n    vocabulary: 11\n    length: 15\n    calculated_length: 28.75488750216347\n    volume: 51.89147427955947\n    difficulty: 1.875\n    effort: 97.296514274174\n    time: 5.405361904120777\n    bugs: 0.01729715809318649",
     "crumbs": [
       "User guide",
-      "**Speciality linters**",
+      "**Code analysis tools**",
       "radon"
     ]
   },
@@ -660,7 +635,7 @@
     "href": "pages/tools/summary.html",
     "title": "lintquarto",
     "section": "",
-    "text": "The lintquarto package enables you to run a range of linters and static type checkers on python code in Quarto .qmd files.\nThis page provides an overview of the available tools.\nUse the sidebar to explore ready-to-run examples and detailed usage for each tool.",
+    "text": "The lintquarto package enables you to run a range of linters, static type checkers and code analysis tools on python code in Quarto .qmd files.\nThis page provides an overview of the available tools.\nUse the sidebar to explore ready-to-run examples and detailed usage for each tool.",
     "crumbs": [
       "User guide",
       "**Summary**"
@@ -671,18 +646,7 @@
     "href": "pages/tools/summary.html#general-linters",
     "title": "lintquarto",
     "section": "General linters",
-    "text": "General linters\n\n\n\n\n\n\n\nTool\nDescription\n\n\n\n\nflake8\nLightweight tool focused on PEP-8 style, basic errors, and code complexity.\n\n\npycodestyle\nChecks against PEP-8 style guidelines.\n\n\npyflakes\nChecks for logical errors like undefined names and unused imports.\n\n\npylint\nDetailed linter that detects errors, bugs, variable naming issues, and other code problems.\n\n\nruff\nModern, ultra-fast linter that implements checks from Flake8 and some other popular plugins.",
-    "crumbs": [
-      "User guide",
-      "**Summary**"
-    ]
-  },
-  {
-    "objectID": "pages/tools/summary.html#specialty-linters",
-    "href": "pages/tools/summary.html#specialty-linters",
-    "title": "lintquarto",
-    "section": "Specialty linters",
-    "text": "Specialty linters\n\n\n\n\n\n\n\n\nTool\nSpeciality\nDescription\n\n\n\n\nradon\nVarious\nCalculates complexity, maintainability, raw statistics, and Halstead metrics.\n\n\nvulture\nDead Code\nFinds unused code.",
+    "text": "General linters\n\n\n\n\n\n\n\nTool\nDescription\n\n\n\n\nflake8\nLightweight tool focused on PEP-8 style, basic errors, and code complexity.\n\n\npycodestyle\nChecks against PEP-8 style guidelines.\n\n\npydoclint\nDocstring linter.\n\n\npyflakes\nChecks for logical errors like undefined names and unused imports.\n\n\npylint\nDetailed linter that detects errors, bugs, variable naming issues, and other code problems.\n\n\nruff\nModern, ultra-fast linter that implements checks from Flake8 and some other popular plugins.\n\n\nvulture\nFinds unused/dead code.",
     "crumbs": [
       "User guide",
       "**Summary**"
@@ -694,6 +658,17 @@
     "title": "lintquarto",
     "section": "Static type checkers",
     "text": "Static type checkers\n\n\n\n\n\n\n\nTool\nDescription\n\n\n\n\nmypy\nPython’s popular static type checker.\n\n\npyrefly\nMeta’s Rust-based static type checker (successor to Pyre).\n\n\npyright\nMicrosoft’s static type checker.\n\n\npytype\nGoogle’s static type checker.",
+    "crumbs": [
+      "User guide",
+      "**Summary**"
+    ]
+  },
+  {
+    "objectID": "pages/tools/summary.html#code-analysis-tools",
+    "href": "pages/tools/summary.html#code-analysis-tools",
+    "title": "lintquarto",
+    "section": "Code analysis tools",
+    "text": "Code analysis tools\n\n\n\n\n\n\n\nTool\nDescription\n\n\n\n\nradon\nCalculates complexity, maintainability, raw statistics, and Halstead metrics.",
     "crumbs": [
       "User guide",
       "**Summary**"
