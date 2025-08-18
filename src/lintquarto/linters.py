@@ -13,30 +13,26 @@ class Linters:
         Dictionary of supported linters. The key (e.g. `radon-cc`) maps to the
         full command (e.g. `["radon", "cc"]`).
     """
-    def __init__(self):
-        """
-        Initialise Linters instance.
-        """
-        self.supported = {
-            "flake8": ["flake8"],
-            "mypy": ["mypy"],
-            "pycodestyle": ["pycodestyle"],
-            "pydoclint": ["pydoclint"],
-            "pyflakes": ["pyflakes"],
-            # Disable missing module docstring (C0114) as not relevant for qmd
-            "pylint": ["pylint", "--disable=C0114"],
-            "pyright": ["pyright"],
-            "pyrefly": ["pyrefly", "check"],
-            "pytype": ["pytype"],
-            "radon-cc": ["radon", "cc"],  # To compute cyclomatic complexity
-            "radon-mi": ["radon", "mi"],  # To compute maintainability index
-            "radon-raw": ["radon", "raw"],  # To compute raw metrics
-            "radon-hal": ["radon", "hal"],  # To compute halstead metrics
-            "ruff": ["ruff", "check"],  # To specify linter (not formatter)
-            "vulture": ["vulture"]
-        }
+    supported: dict = {
+        "flake8": ["flake8"],
+        "mypy": ["mypy"],
+        "pycodestyle": ["pycodestyle"],
+        "pydoclint": ["pydoclint"],
+        "pyflakes": ["pyflakes"],
+        # Disable missing module docstring (C0114) as not relevant for qmd
+        "pylint": ["pylint", "--disable=C0114"],
+        "pyright": ["pyright"],
+        "pyrefly": ["pyrefly", "check"],
+        "pytype": ["pytype"],
+        "radon-cc": ["radon", "cc"],  # To compute cyclomatic complexity
+        "radon-mi": ["radon", "mi"],  # To compute maintainability index
+        "radon-raw": ["radon", "raw"],  # To compute raw metrics
+        "radon-hal": ["radon", "hal"],  # To compute halstead metrics
+        "ruff": ["ruff", "check"],  # To specify linter (not formatter)
+        "vulture": ["vulture"]
+    }
 
-    def check_supported(self, linter_name):
+    def check_supported(self, linter_name: str) -> None:
         """
         Check if linter is supported by lintquarto.
 
@@ -52,11 +48,11 @@ class Linters:
         """
         if linter_name not in self.supported:
             raise ValueError(
-                f"Unsupported linter '{linter_name}'. Supported: " +
+                f"Unsupported linter '{linter_name}'. Supported: "
                 f"{', '.join(self.supported.keys())}"
             )
 
-    def check_available(self, linter_name):
+    def check_available(self, linter_name: str) -> None:
         """
         Check if a linter is available in the user's system.
 
