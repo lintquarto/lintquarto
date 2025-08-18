@@ -29,11 +29,10 @@ def test_default_line_length(linter, expected):
 # =============================================================================
 
 @pytest.mark.parametrize("linter,config_file", [
-        ("flake8", ".flake8"),
-        ("pycodestyle", "setup.cfg"),
-        ("flake8", "tox.ini"),
-    ]
-)
+    ("flake8", ".flake8"),
+    ("pycodestyle", "setup.cfg"),
+    ("flake8", "tox.ini"),
+])
 def test_config_detection(linter, config_file):
     """Test detection of line length from various config files."""
 

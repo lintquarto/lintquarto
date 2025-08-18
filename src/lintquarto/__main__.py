@@ -95,14 +95,14 @@ def process_qmd(
 
     # Replace all references to the .py file with the .qmd file
     for variant in [py_file_path, py_file_name, py_file_abs]:
-        result.stdout = result.stdout.replace(variant, qmd_file)
+        result.stdout = result.stdout.replace(str(variant), str(qmd_file))
     print(result.stdout, end="")
 
     # If there is an error - which will include some linter outputs that get
     # classed as errors - then also replace `.py` and then print
     if result.stderr:
         for variant in [py_file_path, py_file_name, py_file_abs]:
-            result.stderr = result.stderr.replace(variant, qmd_file)
+            result.stderr = result.stderr.replace(str(variant), str(qmd_file))
         print(result.stderr, file=sys.stderr)
 
     # Remove temporary .py file unless keep_temp_files is set
@@ -164,23 +164,23 @@ def gather_qmd_files(
     List[str]
         List of .qmd file paths found, excluding those in `exclude`.
     """
-    exclude = set(Path(e).resolve() for e in (exclude or []))
+    exclude_paths = set(Path(e).resolve() for e in (exclude or []))
     files = []
     for path in paths:
         p = Path(path)
         # For files...
         if p.is_file() and p.suffix == ".qmd":
             abs_file = p.resolve()
-            # Exclude if file or its parent dir is in exclude
+            # Exclude if file or its parent dir is in exclude_paths
             if not any(abs_file == e or _is_relative_to(abs_file, e)
-                       for e in exclude):
+                       for e in exclude_paths):
                 files.append(str(abs_file))
         # For directories...
         elif p.is_dir():
             for f in p.rglob("*.qmd"):
                 abs_file = f.resolve()
                 if not any(abs_file == e or _is_relative_to(abs_file, e)
-                           for e in exclude):
+                           for e in exclude_paths):
                     files.append(str(abs_file))
     return files
 

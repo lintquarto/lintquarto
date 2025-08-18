@@ -73,7 +73,7 @@ def remove_noqa(lines):
 PYTHON_CHUNKS = [
     # Simple code chunk
     {
-        "lines": ["```{python}",  "1+1", "```"],
+        "lines": ["```{python}", "1+1", "```"],
         "expected": ["# %% [python]", "1+1  # noqa: E305,E501", "# -"]
     },
     # Function definition

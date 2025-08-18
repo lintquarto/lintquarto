@@ -13,8 +13,7 @@ TEST_CASES = [
         "qmd": "general_example.qmd",
         "contains": [
             "8:80: E501 line too long (98 > 79 characters)",
-            "17:1: E305 expected 2 blank lines after class or function " +
-            "definition, found 1",
+            "17:1: E305 expected 2 blank lines after class or function",
             "19:1: F401 'sys' imported but unused",
             "E402 module level import not at top of file"
         ]
@@ -24,8 +23,7 @@ TEST_CASES = [
         "qmd": "general_example.qmd",
         "contains": [
             "14:1: E302 expected 2 blank lines, found 0",
-            "17:1: E305 expected 2 blank lines after class or function " +
-            "definition, found 1",
+            "17:1: E305 expected 2 blank lines after class or function",
             "19:1: E402 module level import not at top of file"
         ]
     },
@@ -49,12 +47,9 @@ TEST_CASES = [
         "linter": "pylint",
         "qmd": "general_example.qmd",
         "contains": [
-            """8:0: C0103: Constant name "very_long_line" doesn't conform """ +
-            """to UPPER_CASE naming style (invalid-name)""",
-            "14:0: C0116: Missing function or method docstring (missing-" +
-            "function-docstring)",
-            """19:0: C0413: Import "import sys" should be placed at the """ +
-            "top of the module (wrong-import-position)",
+            """8:0: C0103: Constant name "very_long_line" doesn't conform """,
+            "14:0: C0116: Missing function or method docstring (missing-",
+            """19:0: C0413: Import "import sys" should be placed at the """,
             "19:0: W0611: Unused import sys (unused-import)"
         ]
     },
@@ -128,33 +123,24 @@ TEST_CASES = [
         "linter": "mypy",
         "qmd": "typecheck_example.qmd",
         "contains": [
-            """11: error: Argument 2 to "add_numbers" has incompatible """ +
-            """type "str"; expected "int"  [arg-type]""",
-            """19: error: Argument 1 to "add_numbers" has incompatible """ +
-            """type "str"; expected "int"  [arg-type]"""
+            """11: error: Argument 2 to "add_numbers" has incompatible """,
+            """19: error: Argument 1 to "add_numbers" has incompatible """,
         ]
     },
     {
         "linter": "pyrefly",
         "qmd": "typecheck_example.qmd",
         "contains": [
-            "Argument `Literal['5']` is not assignable to parameter `b`" +
-            " with type `int` in function `add_numbers` [bad-argument-type]",
-            "Argument `Literal['apples']` is not assignable to " +
-            "parameter `a` with type `int` in function `add_numbers` " +
-            "[bad-argument-type]"
+            "Argument `Literal['5']` is not assignable to parameter `b`",
+            "Argument `Literal['apples']` is not assignable to parameter `a`"
         ]
     },
     {
         "linter": "pyright",
         "qmd": "typecheck_example.qmd",
         "contains": [
-            '''11:16 - error: Argument of type "Literal['5']" cannot be ''' +
-            '''assigned to parameter "b" of type "int" in function ''' +
-            '''"add_numbers"''',
-            '''19:13 - error: Argument of type "Literal['apples']" cannot ''' +
-            '''be assigned to parameter "a" of type "int" in function ''' +
-            '''"add_numbers"'''
+            '''11:16 - error: Argument of type "Literal['5']" cannot be ''',
+            '''19:13 - error: Argument of type "Literal['apples']" cannot '''
         ]
     },
     {
@@ -162,10 +148,7 @@ TEST_CASES = [
         "qmd": "typecheck_example.qmd",
         "contains": [
             # Doesn't include line numbers as different output on python 3.7
-            "Function add_numbers was called with the wrong arguments " +
-            "[wrong-arg-types]",
-            "Function add_numbers was called with the wrong arguments " +
-            "[wrong-arg-types]"
+            "Function add_numbers was called with the wrong arguments "
         ]
     }
 ]

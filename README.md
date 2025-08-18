@@ -130,4 +130,4 @@ Citation instructions are also provided in `CITATION.cff`.
 
 ## Acknowledgements
 
-Parts of this package were generated or adapted from code provided by [Perplexity](https://www.perplexity.ai/).
+This project was written and maintained by hand, while making occasional use of [Perplexity](https://www.perplexity.ai/). For transparency, this is acknowledged, but the project should not be considered AI‑generated.

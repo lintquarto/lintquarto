@@ -4,6 +4,8 @@
 
 Docstring linter that checks whether the parameters, return values and exceptions match the function/class signature. Supports three docstring styles: NumPy, Google and Sphinx.
 
+`pydoclint` is a `flake8` plugin, so when installed into your environment, it will also show when you run `flake8` on code with docstrings (the warnings beginning "DOC").
+
 ```{python}
 #| echo: false
 # pylint: disable=missing-module-docstring

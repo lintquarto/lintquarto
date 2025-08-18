@@ -8,7 +8,7 @@ echo "--------------------------------------------------------------------"
 echo "Linting quarto files..."
 echo "--------------------------------------------------------------------"
 
-LINTERS="ruff flake8 pylint vulture radon-cc"
+LINTERS="ruff flake8 pylint radon-cc vulture pydoclint"
 EXCLUDE="docs/pages/api docs/pages/tools/examples"
 
 lintquarto -l $LINTERS -p docs --exclude $EXCLUDE
@@ -39,3 +39,6 @@ radon cc $PYFILES
 
 echo "Running vulture..."
 vulture $PYFILES vulture/whitelist.py
+
+echo "Running pydoclint..."
+pydoclint $PYFILES
