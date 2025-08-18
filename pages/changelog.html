@@ -138,11 +138,36 @@ ul.task-list li input[type="checkbox"] {
 <h1>Changelog</h1>
 <p>All notable changes to this project are documented.</p>
 <p>The format is based on <a href="https://keepachangelog.com/en/1.1.0/">Keep a Changelog</a>, and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>. Dates formatted as YYYY-MM-DD as per <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO standard</a>.</p>
+<section id="v0.5.0---2025-08-18" class="level2">
+<h2 class="anchored" data-anchor-id="v0.5.0---2025-08-18">v0.5.0 - 2025-08-18</h2>
+<p>Package now supports <code>pydoclint</code>, adds conda-related tooling and optional dev dependencies. Code now uses type hints, and have add some version-specific test and installation skips.</p>
+<section id="added" class="level3">
+<h3 class="anchored" data-anchor-id="added">Added</h3>
+<ul>
+<li><strong>pydoclint:</strong> Add support for a new linter: <code>pydoclint</code>.</li>
+<li><strong>Environment:</strong> Add <code>grayskull</code>, <code>types-toml</code>, and made a <code>[dev]</code> optional dependencies section in <code>pyproject.toml</code>. Add exclusions for particular python versions.</li>
+</ul>
+</section>
+<section id="changed" class="level3">
+<h3 class="anchored" data-anchor-id="changed">Changed</h3>
+<ul>
+<li><strong>Type hints:</strong> Add type hints to package, and then use <code>pydoclint</code> and <code>mypy</code> when linting docs and package.</li>
+<li><strong>CONTRIBUTING:</strong> Improvements include table of contents and instructions for conda upload.</li>
+<li><strong>Documentation:</strong>str, optional
+<ul>
+<li>Add conda badge and PyPI downloads badges.</li>
+<li>Add explanation for <code>mypy</code> output containing files outside specified path.</li>
+<li>Mentioned “code analysis tools” (rather than referring to <code>radon</code> as a linter).</li>
+</ul></li>
+<li><strong>Test:</strong> Utility function for skipping tests when unavailable on certain python versions.</li>
+</ul>
+</section>
+</section>
 <section id="v0.4.0---2025-08-14" class="level2">
 <h2 class="anchored" data-anchor-id="v0.4.0---2025-08-14">v0.4.0 - 2025-08-14</h2>
 <p>Extended support for radon, incorporating commands for maintainability index, Halstead metrics, and raw code metrics. Also some additional tests and documentation improvements, and a few small fixes.</p>
-<section id="added" class="level3">
-<h3 class="anchored" data-anchor-id="added">Added</h3>
+<section id="added-1" class="level3">
+<h3 class="anchored" data-anchor-id="added-1">Added</h3>
 <ul>
 <li><strong>Radon:</strong> Extended support beyond <code>radon cc</code> - now also supports <code>radon mi</code>, <code>radon hal</code> and <code>radon raw</code> - which required addition of <code>preserve_line_count</code> in <code>QmdToPyConverter</code>.</li>
 <li><strong>Tests:</strong>
@@ -154,8 +179,8 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Build:</strong> Add <code>toml</code> as required dependency</li>
 </ul>
 </section>
-<section id="changed" class="level3">
-<h3 class="anchored" data-anchor-id="changed">Changed</h3>
+<section id="changed-1" class="level3">
+<h3 class="anchored" data-anchor-id="changed-1">Changed</h3>
 <ul>
 <li><strong>Radon:</strong> Command for radon cc is now <code>radon-cc</code> (was <code>radon</code> before).</li>
 <li><strong>Documentation:</strong>
@@ -185,8 +210,8 @@ ul.task-list li input[type="checkbox"] {
 <section id="v0.3.0---2025-07-07" class="level2">
 <h2 class="anchored" data-anchor-id="v0.3.0---2025-07-07">v0.3.0 - 2025-07-07</h2>
 <p>Major updates include support for multiple linters and file/directory exclusion, expanded testing, several fixes (e.g.&nbsp;false positive linter warnings, deletion of <code>.py</code> files, coverage badge), and the removal of <code>pylama</code>.</p>
-<section id="added-1" class="level3">
-<h3 class="anchored" data-anchor-id="added-1">Added</h3>
+<section id="added-2" class="level3">
+<h3 class="anchored" data-anchor-id="added-2">Added</h3>
 <ul>
 <li><strong>Exclude:</strong> Add an <code>-e</code> / <code>--exclude</code> flag to exclude files/directories, with examples in documentation.</li>
 <li><strong>Multiple linters:</strong> Add option to run multiple linters using <code>-l</code> / <code>--linters</code>.</li>
@@ -194,8 +219,8 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Test CI:</strong> GitHub actions workflow now runs tests on multiple Python versions (3.7-3.13).</li>
 </ul>
 </section>
-<section id="changed-1" class="level3">
-<h3 class="anchored" data-anchor-id="changed-1">Changed</h3>
+<section id="changed-2" class="level3">
+<h3 class="anchored" data-anchor-id="changed-2">Changed</h3>
 <ul>
 <li><strong>Converter:</strong> Changed conversion of quarto to python file from a function (<code>_qmd_lines_to_py_lines</code>) to a class (<code>QmdToPyConverter</code>).</li>
 <li><strong>Command to run lintquarto:</strong> To run multiple linters, now required to use <code>-l</code> / <code>--linters</code> for linters and <code>-p</code> / <code>--paths</code> for files and directories.</li>
@@ -227,8 +252,8 @@ ul.task-list li input[type="checkbox"] {
 <section id="v0.2.0---2025-06-27" class="level2">
 <h2 class="anchored" data-anchor-id="v0.2.0---2025-06-27">v0.2.0 - 2025-06-27</h2>
 <p>Major updates include expanded linter support, new Quarto documentation, and new CI/CD workflows.</p>
-<section id="added-2" class="level3">
-<h3 class="anchored" data-anchor-id="added-2">Added</h3>
+<section id="added-3" class="level3">
+<h3 class="anchored" data-anchor-id="added-3">Added</h3>
 <ul>
 <li><strong>Linter support:</strong> Added support for new Python linters: <code>pyflakes</code>, <code>ruff</code>, <code>pylama</code>, <code>vulture</code>, <code>pycodestyle</code>, <code>pyright</code>, <code>pyrefly</code> and <code>pytype</code>.</li>
 <li><strong>Documentation:</strong>
@@ -242,8 +267,8 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Environment:</strong> Created a stable version of the environment with pinned versions using Conda.</li>
 </ul>
 </section>
-<section id="changed-2" class="level3">
-<h3 class="anchored" data-anchor-id="changed-2">Changed</h3>
+<section id="changed-3" class="level3">
+<h3 class="anchored" data-anchor-id="changed-3">Changed</h3>
 <ul>
 <li><strong>Refactoring:</strong> Refactored and simplified main code and converter logic, and linted the package.</li>
 <li><strong>README:</strong> Updated with new buttons and shield badges.</li>
@@ -261,8 +286,8 @@ ul.task-list li input[type="checkbox"] {
 <section id="v0.1.0---2025-06-24" class="level2">
 <h2 class="anchored" data-anchor-id="v0.1.0---2025-06-24">v0.1.0 - 2025-06-24</h2>
 <p>🌱 First release.</p>
-<section id="added-3" class="level3">
-<h3 class="anchored" data-anchor-id="added-3">Added</h3>
+<section id="added-4" class="level3">
+<h3 class="anchored" data-anchor-id="added-4">Added</h3>
 <ul>
 <li>Lint Quarto markdown (<code>.qmd</code>) files using <code>pylint</code>, <code>flake8</code>, or <code>mypy</code>.</li>
 </ul>
