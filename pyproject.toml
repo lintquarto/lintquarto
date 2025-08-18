@@ -53,10 +53,10 @@ all = [
   "radon",
   "pycodestyle",
   "mypy",
-  "pydoclint",
+  "pydoclint; python_version >= '3.9'",
   "pyright",
   "pyrefly",
-  "pytype"
+  "pytype; python_version <= '3.12'"
 ]
 dev = [
   "check-dependencies; python_version >= '3.8'",
