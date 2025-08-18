@@ -58,8 +58,18 @@ all = [
   "pyrefly",
   "pytype"
 ]
-test = ["pytest"]
-docs = ["jupyter", "quartodoc"]
+dev = [
+  "check-dependencies; python_version >= '3.8'",
+  "flit",
+  "genbadge",
+  "grayskull",
+  "jupyter",
+  "pytest",
+  "pytest-cov",
+  "quartodoc",
+  "twine",
+  "types-toml; python_version >= '3.8'"
+]
 
 [project.urls]
 Home = "https://github.com/lintquarto/lintquarto"

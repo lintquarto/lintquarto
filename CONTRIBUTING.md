@@ -70,7 +70,8 @@ If you want to contribute to `lintquarto` or run its tests, you'll need some add
 | **jupyter** | Run python code in docs |
 | **pytest** | Run tests |
 | **pytest-cov** | Calculate coverage |
-| **twine** | Upload to PyPI
+| **twine** | Upload to PyPI |
+| **types-toml** | Required by `mypy` |
 | **quartodoc** | Generate API docs |
 | `-e .[all]` | Editable install + all linters |
 
@@ -84,6 +85,12 @@ For testing only (used by GitHub actions):
 
 ```{.bash}
 pip install -r requirements-test.txt
+```
+
+You can also install the packages in `requirements-dev.txt` when you install `lintquarto` by running:
+
+```{.bash}
+pip install lintquarto[dev]
 ```
 
 Quarto (used for the docs) is a standalone tool - install it from https://quarto.org/docs/get-started/.
@@ -106,7 +113,7 @@ To update the stable environment, run `conda update --all` and test thoroughly (
 
 ### Docstrings
 
-We follow the [numpydoc](https://numpydoc.readthedocs.io/en/latest/format.html) style for docstrings.
+We follow the [numpydoc](https://numpydoc.readthedocs.io/en/latest/format.html) style for docstrings, and check these using [pydoclint](https://github.com/jsh9/pydoclint).
 
 <br>
 
