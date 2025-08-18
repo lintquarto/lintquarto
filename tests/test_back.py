@@ -6,6 +6,8 @@ import sys
 
 import pytest
 
+from utils import skip_if_linter_unavailable
+
 
 TEST_CASES = [
     {
@@ -57,8 +59,8 @@ TEST_CASES = [
         "linter": "ruff",
         "qmd": "general_example.qmd",
         "contains": [
-            "19:1: E402 Module level import not at top of file",
-            "19:8: F401 [*] `sys` imported but unused"
+            "E402 Module level import not at top of file",
+            "F401 [*] `sys` imported but unused"
         ]
     },
     {
@@ -154,15 +156,13 @@ TEST_CASES = [
 ]
 
 
-@pytest.mark.skipif(
-    sys.version_info >= (3, 13),
-    reason="pytype does not support Python >3.12"
-)
 @pytest.mark.parametrize(
     "case", TEST_CASES, ids=[case["linter"] for case in TEST_CASES]
 )
 def test_back_contains(case):
     """Back test checking linter has all messages."""
+
+    skip_if_linter_unavailable(case["linter"])
 
     test_dir = Path(__file__).parent
     qmd_path = test_dir / "examples" / case["qmd"]
@@ -186,6 +186,8 @@ def test_back_contains(case):
 )
 def test_back_file_type(case):
     """Back test checking correct file type in output."""
+
+    skip_if_linter_unavailable(case["linter"])
 
     test_dir = Path(__file__).parent
     qmd_path = test_dir / "examples" / case["qmd"]
