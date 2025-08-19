@@ -2,21 +2,37 @@
 
 # lintquarto
 
-![Code licence](https://img.shields.io/badge/🛡️_Code_licence-MIT-8a00c2?&labelColor=gray)
+**Project info:** 
+![Code licence](https://img.shields.io/badge/Licence-MIT-A6CE39?&labelColor=gray)
 [![ORCID](https://img.shields.io/badge/ORCID_Amy_Heather-0000--0002--6596--3479-A6CE39?&logo=orcid&logoColor=white)](https://orcid.org/0000-0002-6596-3479)
+[![DOI](https://img.shields.io/badge/DOI-10.5281/zenodo.15731161-A6CE39?&logoColor=white)](https://doi.org/10.5281/zenodo.15731161)
+
+**Installation:**
 [![PyPI](https://img.shields.io/pypi/v/lintquarto?&labelColor=gray)](https://pypi.org/project/lintquarto/)
 [![Anaconda-Server Badge](https://anaconda.org/conda-forge/lintquarto/badges/version.svg)](https://anaconda.org/conda-forge/lintquarto)
-[![DOI](https://img.shields.io/badge/DOI-10.5281/zenodo.15731161-486CAC?&logoColor=white)](https://doi.org/10.5281/zenodo.15731161)
-[![Coverage](https://github.com/lintquarto/lintquarto/raw/main/images/coverage-badge.svg)](https://github.com/lintquarto/lintquarto/actions/workflows/tests.yaml)
 
+**Usage metrics:**
 [![PyPI downloads](https://static.pepy.tech/badge/lintquarto)](https://pepy.tech/project/lintquarto)
 [![PyPI downloads](https://static.pepy.tech/badge/lintquarto/month)](https://pepy.tech/project/lintquarto)
 [![PyPI downloads](https://static.pepy.tech/badge/lintquarto/week)](https://pepy.tech/project/lintquarto)
+
+**Build & quality status:**
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Coverage](https://github.com/lintquarto/lintquarto/raw/main/images/coverage-badge.svg)](https://github.com/lintquarto/lintquarto/actions/workflows/tests.yaml)
+[![Tests](https://github.com/lintquarto/lintquarto/actions/workflows/tests.yaml/badge.svg)](https://github.com/lintquarto/lintquarto/actions/workflows/tests.yaml)
+[![Docs](https://github.com/lintquarto/lintquarto/actions/workflows/docs.yaml/badge.svg)](https://github.com/lintquarto/lintquarto/actions/workflows/docs.yaml)
+
+**Supported platforms:**
+![Python 3.7|3.8|3.9|3.10|3.11|3.12|3.13](https://img.shields.io/badge/Python-3.7%7C3.8%7C3.9%7C3.10%7C3.11%7C3.12%7C3.13-blue)
+![OS](https://img.shields.io/badge/OS-Windows%20%7C%20Linux%20%7C%20macOS-blue?logo=windows&logo=linux&logo=apple)
+
 </div>
 
 <br>
 
 **Package for running linters, static type checkers and code analysis tools on python code in quarto (`.qmd`) files.**
+
+By default, python code validation tools can't check embedded python code in Quarto files. This package fills that gap, enabling analysts and researchers to run python quality checks within Quarto documents.
 
 Currently supported:
 
@@ -24,7 +40,7 @@ Currently supported:
 * Static type checkers: [mypy](https://github.com/python/mypy), [pyright](https://github.com/microsoft/pyright), [pyrefly](https://github.com/facebook/pyrefly), and [pytype](https://github.com/google/pytype).
 * Code analysis tools: [radon](https://github.com/rubik/radon).
 
-[![Code licence](https://img.shields.io/badge/🖱️_Click_to_view_package_documentation-37a779?style=for-the-badge)](https://lintquarto.github.io/lintquarto/)
+[![Click to view docs](https://img.shields.io/badge/🖱️_Click_to_view_package_documentation-37a779?style=for-the-badge)](https://lintquarto.github.io/lintquarto/)
 
 <p align="center">
   <img src="https://github.com/lintquarto/lintquarto/raw/main/docs/images/linting.png" alt="Linting illustration" width="400"/>
@@ -107,6 +123,12 @@ lintquarto -l ruff -p . -e examples,ignore
 ```{.bash}
 lintquarto -l ruff -p . -e analysis/test.qmd
 ```
+
+### Find out more
+
+Visit our website to find out more and see examples from running with each code validation tool.
+
+[![Click to view docs](https://img.shields.io/badge/🖱️_Click_to_view_package_documentation-37a779?style=for-the-badge)](https://lintquarto.github.io/lintquarto/)
 
 <br>
 
