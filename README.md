@@ -18,7 +18,6 @@
 ![Conda Downloads](https://img.shields.io/conda/d/conda-forge/lintquarto)
 ![GitHub Repo stars](https://img.shields.io/github/stars/lintquarto/lintquarto)
 ![GitHub forks](https://img.shields.io/github/forks/lintquarto/lintquarto)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/lintquarto/lintquarto)
 ![GitHub last commit](https://img.shields.io/github/last-commit/lintquarto/lintquarto)
 ![GitHub Release Date](https://img.shields.io/github/release-date/lintquarto/lintquarto)
 
