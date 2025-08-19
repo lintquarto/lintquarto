@@ -1,4 +1,4 @@
-name: Update GitHub pages
+name: docs
 run-name: Render Quarto website and publish on GitHub pages
 
 on:
