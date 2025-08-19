@@ -1,4 +1,5 @@
 name: tests
+run-name: Run tests
 
 on:
   push:
