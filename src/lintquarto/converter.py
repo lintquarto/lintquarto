@@ -45,11 +45,21 @@ class QmdToPyConverter:
             Name of the linter that will be used.
         """
         self.linter = linter
+
+        # Check the linter is supported
         Linters().check_supported(self.linter)
+
+        # Determine whether to preserve line count
         if self.linter == "radon-raw":
             self.preserve_line_count = False
         else:
             self.preserve_line_count = True
+
+        # Determine if linter uses noqa, and so find max line length
+        self.uses_noqa = self.linter in ["flake8", "ruff", "pycodestyle"]
+        if self.uses_noqa:
+            len_detect = LineLengthDetector(linter=self.linter)
+            self.max_line_length = len_detect.get_line_length()
 
     def reset(self) -> None:
         """
@@ -139,19 +149,14 @@ class QmdToPyConverter:
         # Remove blank space at start of line
         stripped = line.lstrip()
 
-        # If line is a quarto chunk option, only append when preserving lines,
-        # and suppress E265 to prevent false positive warning about "# "
+        # If line is a quarto chunk option, only append when preserving lines
+        # and suppress E265 (as will warn for "#|" comment spacing)
         if stripped.startswith("#| "):
-            if self.preserve_line_count:
-                if self.linter in ["flake8", "ruff", "pycodestyle"]:
-                    len_detect = LineLengthDetector(linter=self.linter)
-                    max_line = len_detect.get_line_length()
-                    line_was_short = len(line) <= max_line
-                    if line_was_short:
-                        line = f"{line.rstrip()}  # noqa: E265,E501"
-                    else:
-                        line = f"{line.rstrip()}  # noqa: E265"
-                self.py_lines.append(line)
+            if not self.preserve_line_count:
+                return
+            if self.uses_noqa:
+                line = self._add_noqa(line, ["E265"])
+            self.py_lines.append(line)
             return
 
         # If line is a comment, just append it
@@ -159,30 +164,40 @@ class QmdToPyConverter:
             self.py_lines.append(line)
             return
 
-        # First code line after options/blanks/comments:
-        # - Always suppress E305
-        # - If it is a function or class, suppress E302
-        # - If it was under line limit, suppress E501
-        if self.linter in ["flake8", "ruff", "pycodestyle"]:
-            len_detect = LineLengthDetector(linter=self.linter)
-            max_line = len_detect.get_line_length()
+        # First code line after options/blanks/comments, always suppress E305,
+        # and suppress E302 if it is a function or class
+        if self.uses_noqa:
             is_def_or_class = re.match(r"^(def|class)\b", stripped)
-            line_was_short = len(line) <= max_line
-
-            # If it is a function or class, suppress E302
             if is_def_or_class:
-                if line_was_short:
-                    line = f"{line.rstrip()}  # noqa: E302,E305,E501"
-                else:
-                    line = f"{line.rstrip()}  # noqa: E302,E305"
+                line = self._add_noqa(line, ["E302", "E305"])
             else:
-                if line_was_short:
-                    line = f"{line.rstrip()}  # noqa: E305,E501"
-                else:
-                    line = f"{line.rstrip()}  # noqa: E305"
+                line = self._add_noqa(line, ["E305"])
 
         self.py_lines.append(line)
         self.in_chunk_options = False
+
+    def _add_noqa(self, line: str, suppress: list) -> str:
+        """
+        Add noqa suppressions to the line, plus E501 for short lines.
+
+        E501 is add to lines that do not already exceed the max line length, as
+        the noqa comment itself may cause the final line to exceed the limit.
+
+        Parameters
+        ----------
+        line : str
+            The line to process.
+        suppress : list
+            List of noqa flags to add.
+
+        Returns
+        -------
+        str
+            The input line with 'noqa' suppressions appended as a comment.
+        """
+        if len(line) <= self.max_line_length:
+            suppress.append("E501")
+        return f"{line.rstrip()}  # noqa: {','.join(suppress)}"
 
 
 def get_unique_filename(path: Union[str, Path]) -> Path:
