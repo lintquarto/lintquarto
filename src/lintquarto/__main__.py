@@ -75,14 +75,6 @@ def process_qmd(
               file=sys.stderr)
         return 1
 
-    # Prepare filename variants for replacement
-    py_file_path = str(py_file)
-    py_file_name = py_file.name
-    try:
-        py_file_abs = str(py_file.resolve())
-    except Exception:  # pylint: disable=broad-exception-caught
-        py_file_abs = py_file_path
-
     # Run linter on the temporary .py file and capture output
     command = linters.supported[linter] + [str(py_file)]
     result = subprocess.run(
@@ -94,15 +86,13 @@ def process_qmd(
     )
 
     # Replace all references to the .py file with the .qmd file
-    for variant in [py_file_path, py_file_name, py_file_abs]:
-        result.stdout = result.stdout.replace(str(variant), str(qmd_file))
+    result.stdout = result.stdout.replace(str(py_file.name), str(qmd_file))
     print(result.stdout, end="")
 
     # If there is an error - which will include some linter outputs that get
     # classed as errors - then also replace `.py` and then print
     if result.stderr:
-        for variant in [py_file_path, py_file_name, py_file_abs]:
-            result.stderr = result.stderr.replace(str(variant), str(qmd_file))
+        result.stderr = result.stderr.replace(str(py_file.name), str(qmd_file))
         print(result.stderr, file=sys.stderr)
 
     # Remove temporary .py file unless keep_temp_files is set
