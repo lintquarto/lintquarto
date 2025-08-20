@@ -6,6 +6,8 @@ linter logic and conversion process), whilst functional tests involve running
 the full workflow (e.g. simulating user commands).
 """
 
+from pathlib import Path
+import re
 import subprocess
 import sys
 
@@ -60,6 +62,38 @@ def test_process_qmd_keep_temp(tmp_path):
     assert py_file.exists(), (
         "Temporary .py file should be kept when keep_temp_files=True"
     )
+
+
+def test_process_qmd_pylint_filepath(capsys):
+    """Checks filepath in pylint output is not repeating folder names."""
+
+    # Get path to the example QMD file that already produces pylint warnings.
+    # This ensures we will have some output to check.
+    test_dir = Path(__file__).parent
+    qmd_path = test_dir / "examples" / "general_example.qmd"
+
+    # Run process_qmd with pylint on the example file and capture output.
+    _ = process_qmd(qmd_path, "pylint", keep_temp_files=False, verbose=True)
+    output = capsys.readouterr().out
+
+    # Use regex to extract every filename prefix used in diagnostic lines.
+    # Each pylint diagnostic typically looks like:
+    #   filename.qmd:LINE:COL: CODE: message
+    pattern = re.compile(r"^(.*\.qmd):\d+:\d+", re.MULTILINE)
+    paths = pattern.findall(output)
+
+    # There should be at least one path in the pylint output.
+    assert paths, f"No qmd filepaths found in pylint output:\n{output}"
+
+    # Define the expected relative path format used for test examples
+    expected_rel = str(Path("tests/examples/general_example.qmd"))
+
+    # Check there is not duplicated folder (tests/examples/.../tests/examples/)
+    # If it starts with "tests/examples/", path must be exact match
+    for p in paths:
+        assert not p.startswith("tests/examples/") or p == expected_rel, (
+            f"Invalid filepath in pylint output: {p}\nFull output:\n{output}"
+        )
 
 
 # =============================================================================
