@@ -180,6 +180,21 @@ PYTHON_CHUNKS = [
             "# %% [python]",
             "x = '" + "a" * 100 + "'  # noqa: E305"
         ]
+    },
+    {
+        "id": "first line is a comment",
+        "lines": [
+            "```{python}",
+            "# This is a comment at top of chunk",
+            "x = 42",
+            "```"
+        ],
+        "expected": [
+            "# %% [python]",
+            "# This is a comment at top of chunk",
+            "x = 42  # noqa: E305,E501",
+            "# -"
+        ]
     }
 ]
 

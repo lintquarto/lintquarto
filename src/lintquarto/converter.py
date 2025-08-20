@@ -154,6 +154,11 @@ class QmdToPyConverter:
                 self.py_lines.append(line)
             return
 
+        # If line is a comment, just append it
+        if stripped.startswith("#"):
+            self.py_lines.append(line)
+            return
+
         # First code line after options/blanks/comments:
         # - Always suppress E305
         # - If it is a function or class, suppress E302
