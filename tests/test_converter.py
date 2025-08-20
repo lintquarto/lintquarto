@@ -71,70 +71,122 @@ def remove_noqa(lines):
 
 
 PYTHON_CHUNKS = [
-    # Simple code chunk
     {
-        "lines": ["```{python}", "1+1", "```"],
-        "expected": ["# %% [python]", "1+1  # noqa: E305,E501", "# -"]
-    },
-    # Function definition
-    {
-        "lines": ["```{python}", "def foo():"],
-        "expected": ["# %% [python]", "def foo():  # noqa: E302,E305,E501"]
-    },
-    # Class definition
-    {
-        "lines": ["```{python}", "class foo:"],
-        "expected": ["# %% [python]", "class foo:  # noqa: E302,E305,E501"]
-    },
-    # Chunk with options and code
-    {
+        "id": "simple code chunk",
         "lines": [
-            "```{python}", " ", "#| echo: false", "#| output: asis", "1+1"
+            "```{python}",
+            "1+1",
+            "```"
         ],
         "expected": [
-            "# %% [python]", " ", "# |echo: false", "# |output: asis",
+            "# %% [python]",
+            "1+1  # noqa: E305,E501",
+            "# -"
+        ]
+    },
+    {
+        "id": "function definition",
+        "lines": [
+            "```{python}",
+            "def foo():"
+        ],
+        "expected": [
+            "# %% [python]",
+            "def foo():  # noqa: E302,E305,E501"
+        ]
+    },
+    {
+        "id": "class definition",
+        "lines": [
+            "```{python}",
+            "class foo:"
+        ],
+        "expected": [
+            "# %% [python]",
+            "class foo:  # noqa: E302,E305,E501"
+        ]
+    },
+    {
+        "id": "chunk with options and code",
+        "lines": [
+            "```{python}", " ",
+            "#| echo: false",
+            "#| output: asis",
+            "1+1"
+        ],
+        "expected": [
+            "# %% [python]",
+            " ",
+            "#| echo: false  # noqa: E265,E501",
+            "#| output: asis  # noqa: E265,E501",
             "1+1  # noqa: E305,E501"
         ]
     },
-    # Indented chunk options
     {
-        "lines": ["```{python}", "    #| echo: false", "    x = 1"],
+        "id": "indented chunk options",
+        "lines": [
+            "```{python}",
+            "    #| echo: false",
+            "    x = 1"
+        ],
         "expected": [
-            "# %% [python]", "    # |echo: false",
+            "# %% [python]",
+            "    #| echo: false  # noqa: E265,E501",
             "    x = 1  # noqa: E305,E501"
         ]
     },
-    # Malformed chunk options
     {
-        "lines": ["```{python}",
-                  "#|echo: true",  # no space after '#|'
-                  " #|   echo: false",  # extra spaces
-                  "# | echo: valid",  # already correct
-                  "x = 1",
-                  "```"],
-        "expected": ["# %% [python]",
-                     "#|echo: true  # noqa: E305,E501",
-                     " #|   echo: false",
-                     "# | echo: valid",
-                     "x = 1",
-                     "# -"]
+        "id": "malformed chunk options",
+        "lines": [
+            "```{python}",
+            "#|echo: true",
+            " #|   echo: false",
+            "# | echo: valid",
+            "x = 1",
+            "```"],
+        "expected": [
+            "# %% [python]",
+            "#|echo: true",
+            " #|   echo: false  # noqa: E265,E501",
+            "# | echo: valid",
+            "x = 1  # noqa: E305,E501",
+            "# -"]
     },
-    # Multiple consecutive code chunks
     {
-        "lines": ["```{python}", "a = 1", "```",
-                  "```{python}", "b = 2", "```"],
-        "expected": ["# %% [python]", "a = 1  # noqa: E305,E501", "# -",
-                     "# %% [python]", "b = 2  # noqa: E305,E501", "# -"]
+        "id": "multiple consecutive code chunks",
+        "lines": [
+            "```{python}",
+            "a = 1",
+            "```",
+            "```{python}",
+            "b = 2",
+            "```"],
+        "expected": [
+            "# %% [python]",
+            "a = 1  # noqa: E305,E501",
+            "# -",
+            "# %% [python]",
+            "b = 2  # noqa: E305,E501",
+            "# -"
+        ]
     },
-    # Long line (should omit E501 for long string)
     {
-        "lines": ["```{python}", "x = '" + "a" * 100 + "'"],
-        "expected": ["# %% [python]", "x = '" + "a" * 100 + "'  # noqa: E305"]
+        "id": "long line (should omit E501 for long string)",
+        "lines": [
+            "```{python}",
+            "x = '" + "a" * 100 + "'"
+        ],
+        "expected": [
+            "# %% [python]",
+            "x = '" + "a" * 100 + "'  # noqa: E305"
+        ]
     }
 ]
 
 
-@pytest.mark.parametrize("case", PYTHON_CHUNKS)
+@pytest.mark.parametrize(
+    "case", PYTHON_CHUNKS, ids=[c["id"] for c in PYTHON_CHUNKS]
+)
 @pytest.mark.parametrize("linter", PRESERVE_LINTERS)
 def test_python_chunk_start(case, linter):
     """Python chunk conversion produces expected results for all linters."""

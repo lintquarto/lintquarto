@@ -117,21 +117,6 @@ class QmdToPyConverter:
         """
         Process a line within a Python code chunk.
 
-        - Handles Quarto chunk options (lines starting with '#| '), converting
-        them to '# |'.
-        - Skips blank lines at the start of the chunk.
-        - For the first actual code line after options/blanks:
-            - Appends '# noqa: E305' to suppress false positives for missing
-            blank lines after previous cell's function/class.
-            - If the line starts with 'def' or 'class', also appends
-            '# noqa: E302' to suppress false positives for missing blank lines
-            before a function/class.
-            - If the line was under the character limit, then add E501 to
-            prevent a false line length warning when the temporary noqa flag
-            takes the line length over the limit - but do not add if the line
-            was already too long.
-        - All subsequent lines are appended unchanged.
-
         Parameters
         ----------
         line : str
@@ -141,26 +126,35 @@ class QmdToPyConverter:
         -------
         None
         """
+        # After the first code line, append all lines unchanged
         if not self.in_chunk_options:
-            # After the first code line, append all lines unchanged
             self.py_lines.append(line)
             return
 
-        # If line is blank, just append it and keep looking for options
+        # If line is blank, just append it
         if line.strip() == "":
             self.py_lines.append(line)
             return
 
-        # Handle Quarto chunk options
+        # Remove blank space at start of line
         stripped = line.lstrip()
+
+        # If line is a quarto chunk option, only append when preserving lines,
+        # and suppress E265 to prevent false positive warning about "# "
         if stripped.startswith("#| "):
-            indent = line[:len(line) - len(stripped)]
-            modified_line = indent + "# |" + stripped[3:]
             if self.preserve_line_count:
-                self.py_lines.append(modified_line)
+                if self.linter in ["flake8", "ruff", "pycodestyle"]:
+                    len_detect = LineLengthDetector(linter=self.linter)
+                    max_line = len_detect.get_line_length()
+                    line_was_short = len(line) <= max_line
+                    if line_was_short:
+                        line = f"{line.rstrip()}  # noqa: E265,E501"
+                    else:
+                        line = f"{line.rstrip()}  # noqa: E265"
+                self.py_lines.append(line)
             return
 
-        # First code line after options/blanks:
+        # First code line after options/blanks/comments:
         # - Always suppress E305
         # - If it is a function or class, suppress E302
         # - If it was under line limit, suppress E501
