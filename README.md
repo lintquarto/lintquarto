@@ -163,4 +163,4 @@ Citation instructions are also provided in `CITATION.cff`.
 
 ## Acknowledgements
 
-This project was written and maintained by hand, while making occasional use of [Perplexity](https://www.perplexity.ai/). For transparency, this is acknowledged, but the project should not be considered AI‑generated.
+This project was written and maintained by hand, with occasional use of [Perplexity](https://www.perplexity.ai/) during development. AI assistance was used for small, targeted tasks (e.g. help when troubleshooting, identifying issues, refining docstrings, improving code structure), rather than to generate complete functions or substantial content. All code and design decisions were reviewed and finalised by a human. For transparency, the use of AI is acknowledged, but the project should not be considered AI‑generated.
