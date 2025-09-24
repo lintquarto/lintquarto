@@ -186,27 +186,49 @@ PYTHON_CHUNKS = [
         "lines": [
             "```{python}",
             "# This is a comment at top of chunk",
-            "x = 42",
-            "```"
+            "x = 42"
         ],
         "expected": [
             "# %% [python]",
             "# This is a comment at top of chunk",
-            "x = 42  # noqa: E305,E501",
-            "# -"
+            "x = 42  # noqa: E305,E501"
         ]
     },
     {
         "id": "single chunk with include syntax",
         "lines": [
             "```{python}",
-            "{{< include filename.py >}}",
-            "```"
+            "{{< include filename.py >}}"
         ],
         "expected": [
             "# %% [python]",
-            "# {{< include filename.py >}}  # noqa: E305,E501",
-            "# -"
+            "# {{< include filename.py >}}  # noqa: E305,E501"
+        ]
+    },
+    {
+        "id": "comment and code with '#<<' that should be removed",
+        "lines": [
+            "```{python}",
+            "# Comment #<<",
+            "variable1 = 2#<<",
+            "variable2 = 2   #<<"
+        ],
+        "expected": [
+            "# %% [python]",
+            "# Comment",
+            "variable1 = 2  # noqa: E305,E501",
+            "variable2 = 2"
+        ]
+    },
+    {
+        "id": "chunk options and '#<<' that should not be removed",
+        "lines": [
+            "```{python}",
+            "#| echo: false #<<"
+        ],
+        "expected": [
+            "# %% [python]",
+            "#| echo: false #<<  # noqa: E265,E501"
         ]
     }
 ]
