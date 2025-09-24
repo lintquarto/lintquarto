@@ -218,8 +218,8 @@ class QmdToPyConverter:
             The input line, but commented if it had quarto include syntax.
         """
         if (
-            line.lstrip().startswith("{{< include ")
-            and line.rstrip().endswith(">}}")
+            line.lstrip().startswith("{{< include ") and
+            line.rstrip().endswith(">}}")
         ):
             return f"# {line}"
         return line
