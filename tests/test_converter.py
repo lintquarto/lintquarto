@@ -195,6 +195,19 @@ PYTHON_CHUNKS = [
             "x = 42  # noqa: E305,E501",
             "# -"
         ]
+    },
+    {
+        "id": "single chunk with include syntax",
+        "lines": [
+            "```{python}",
+            "{{< include filename.py >}}",
+            "```"
+        ],
+        "expected": [
+            "# %% [python]",
+            "# {{< include filename.py >}}  # noqa: E305,E501",
+            "# -"
+        ]
     }
 ]
 
