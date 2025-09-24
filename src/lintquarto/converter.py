@@ -131,9 +131,11 @@ class QmdToPyConverter:
         None
         """
         # After the first code line, append all lines unchanged (with handling
-        # for quarto include syntax)
+        # for quarto include syntax and code annotations)
         if not self.in_chunk_options:
-            self.py_lines.append(self._handle_includes(line))
+            line = self._handle_includes(line)
+            line = self._handle_annotations(line)
+            self.py_lines.append(line)
             return
 
         # If line is blank, just append it
@@ -154,15 +156,17 @@ class QmdToPyConverter:
             self.py_lines.append(line)
             return
 
-        # If line is a comment, just append it
+        # If line is a comment, just append it (but handle code annotations)
         if stripped.startswith("#"):
+            line = self._handle_annotations(line)
             self.py_lines.append(line)
             return
 
         # Identified this as first code line after options/blanks/comments...
 
-        # Comment line if it has quarto include syntax
+        # Handle quarto include syntax and code annotations
         line = self._handle_includes(line)
+        line = self._handle_annotations(line)
 
         # Always suppress E305, and suppress E302 if it is a function or class
         if self.uses_noqa:
@@ -200,7 +204,8 @@ class QmdToPyConverter:
 
     def _handle_includes(self, line: str) -> str:
         """
-        Comment line if it contains Quarto include syntax.
+        Comment line if it contains Quarto include syntax
+        ("{{< include ... >}}").
 
         Parameters
         ----------
@@ -210,7 +215,7 @@ class QmdToPyConverter:
         Returns
         -------
         str
-            The input line, commented if it had "include" syntax.
+            The input line, but commented if it had quarto include syntax.
         """
         if (
             line.lstrip().startswith("{{< include ") and
@@ -218,6 +223,26 @@ class QmdToPyConverter:
         ):
             return f"# {line}"
         return line
+
+    def _handle_annotations(self, line: str) -> str:
+        """
+        Remove in-line quarto code annotations ("#<<").
+
+        These are placed at the end of a line for shafayetShafee's
+        line-highlight extension. If found, "#<<" and any whitespace before it
+        are stripped from the end of the line.
+
+        Parameters
+        ----------
+        line : str
+            The line to process.
+
+        Returns
+        -------
+        str
+            The line with trailing whitespace and any "#<<" at the end removed.
+        """
+        return re.sub(r"\s*#<<\s*$", "", line)
 
 
 def get_unique_filename(path: Union[str, Path]) -> Path:
