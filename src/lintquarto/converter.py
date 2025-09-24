@@ -130,9 +130,10 @@ class QmdToPyConverter:
         -------
         None
         """
-        # After the first code line, append all lines unchanged
+        # After the first code line, append all lines unchanged (with handling
+        # for quarto include syntax)
         if not self.in_chunk_options:
-            self.py_lines.append(line)
+            self.py_lines.append(self._handle_includes(line))
             return
 
         # If line is blank, just append it
@@ -158,8 +159,12 @@ class QmdToPyConverter:
             self.py_lines.append(line)
             return
 
-        # First code line after options/blanks/comments, always suppress E305,
-        # and suppress E302 if it is a function or class
+        # Identified this as first code line after options/blanks/comments...
+
+        # Comment line if it has quarto include syntax
+        line = self._handle_includes(line)
+
+        # Always suppress E305, and suppress E302 if it is a function or class
         if self.uses_noqa:
             is_def_or_class = re.match(r"^(def|class)\b", stripped)
             if is_def_or_class:
@@ -192,6 +197,27 @@ class QmdToPyConverter:
         if len(line) <= self.max_line_length:
             suppress.append("E501")
         return f"{line.rstrip()}  # noqa: {','.join(suppress)}"
+
+    def _handle_includes(self, line: str) -> str:
+        """
+        Comment line if it contains Quarto include syntax.
+
+        Parameters
+        ----------
+        line : str
+            The line to process.
+
+        Returns
+        -------
+        str
+            The input line, commented if it had "include" syntax.
+        """
+        if (
+            line.lstrip().startswith("{{< include ") and
+            line.rstrip().endswith(">}}")
+        ):
+            return f"# {line}"
+        return line
 
 
 def get_unique_filename(path: Union[str, Path]) -> Path:
