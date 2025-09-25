@@ -230,6 +230,24 @@ PYTHON_CHUNKS = [
             "# %% [python]",
             "#| echo: false #<<  # noqa: E265,E501"
         ]
+    },
+    {
+        "id": "chunk options within {python}",
+        "lines": [
+            "```{python, echo=FALSE}"
+        ],
+        "expected": [
+            "# %% [python]"
+        ]
+    },
+    {
+        "id": "spaces before {python}",
+        "lines": [
+            "```   {python}"
+        ],
+        "expected": [
+            "# %% [python]"
+        ]
     }
 ]
 
@@ -341,7 +359,7 @@ def test_output_file_overwrite(tmp_path, linter):
     """Uses a unique filename if output file exists."""
     # Create a dummy QMD input file
     qmd_file = tmp_path / "input.qmd"
-    qmd_file.write_text("```{python}```")
+    qmd_file.write_text("```{python}\n```")
 
     # Create an output file that already exists
     out_file = tmp_path / "input.py"
