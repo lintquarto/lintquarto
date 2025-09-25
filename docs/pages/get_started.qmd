@@ -44,12 +44,18 @@ With conda, only the main lintquarto tool is installed. If you want to use any l
 
 ## Basic usage
 
-**lintquarto -l LINTER [LINTER ...] -p PATH [PATH ...] [-e EXCLUDE [EXCLUDE ...]] [-k]**
+Usage:
 
-* **-l --linters** LINTER [LINTER ...] - Linters to run.
-* **-p --paths** PATH [PATH ...]- Quarto files and/or directories to lint.
-* **-e --exclude** EXCLUDE [EXCLUDE ...] - Files and/or directories to exclude from linting.
-* **-k, --keep-temp** - Keep the temporary `.py` files created during linting (for debugging).
+```
+lintquarto -l LINTER [LINTER ...] -p PATH [PATH ...] [-e EXCLUDE [EXCLUDE ...]] [-k]
+```
+
+Options:
+
+* `-l, --linters LINTER [LINTER ...]` - linters to run.
+* `-p, --paths PATH [PATH ...]` - quarto files and/or directories to include.
+* `-e, --exclude EXCLUDE [EXCLUDE ...]` - optional, files and/or directories to exclude.
+* `-k, --keep-temp` - optional, keep temporary `.py` files created during linting (for debugging).
 
 Passing extra arguments directly to linters is not supported. Only `.qmd` files are processed.
 
