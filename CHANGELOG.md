@@ -5,6 +5,30 @@ All notable changes to this project are documented.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Dates formatted as YYYY-MM-DD as per [ISO standard](https://www.iso.org/iso-8601-date-and-time-format.html).
 
+## v0.6.0 - 2025-09-25
+
+### Added
+
+* **GitHub actions:** Add linting action.
+* **Tests:** Add tests relevant to changes/fixes below.
+
+### Changed
+
+* **Acknowledgements:** Redid LLM acknowledgement so just one overarching statement in README, and add more specific details on how it was used, based on PyOpenSci discussions.
+* **Converter:** Quarto code chunks now use noqa messages (rather than changing "#| " to "# | ", as they did before).
+* **CONTRIBUTING:** Corrected instructions for conda update.
+* **process_qmd:** Refactored to reduce complexity and repetition.
+* **README:** Add more badges (build & quality status, stars/download metrics) and button linking to documentation.
+
+### Fixed
+* **process_qmd:** Replace `...py` in output with just the filename, and not the full file path (as that is there already, depending on linter, so get duplicates).
+* **Converter:**
+    * "First code line" now excludes comments.
+    * Can now handle Quarto {{< include ... >}} syntax (comments the line, else linters break as not valid Python syntax).
+    * Can now handle "#<<" code annotations from shafayetShafee's line-highlight extension (removes them and any whitespace prior).
+    * Corrected detection of python code chunk start (allowing spaces before {python} and allowing in-line chunk options e.g. {python, echo=...}).
+* **GitHub actions:** Linting action now fails even for warning messages (previously, just failed for errors but not warnings).
+
 ## v0.5.0 - 2025-08-18
 
 Package now supports `pydoclint`, adds conda-related tooling and optional dev dependencies. Code now uses type hints, and have add some version-specific test and installation skips.
