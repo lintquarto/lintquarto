@@ -94,8 +94,9 @@ class QmdToPyConverter:
         # Remove the trailing new line
         line = original_line.rstrip("\n")
 
-        # Check if it is the start of a python code chunk
-        if re.match(r"^```\{python\}", line):
+        # Check if it is the start of a python code chunk (allowing spaces
+        # before {python} and allowing chunk options e.g. {python, echo=...})
+        if re.match(r"^```\s*{python[^}]*}$", line):
             self.in_python = True
             self.in_chunk_options = True
             if self.preserve_line_count:
