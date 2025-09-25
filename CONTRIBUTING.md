@@ -220,7 +220,10 @@ twine upload --repository testpypi dist/*
 
 5. If you haven't already, fork the lintquarto feedstock ([conda-forge/lintquarto-feedstock](https://github.com/conda-forge/lintquarto-feedstock)). This fork must be to your personal GitHub account and not an organisation account. Clone it to your local machine.
 
-If you already have a fork, make sure it is up-to-date by running `git pull`.
+If you already have a fork, make sure it is up-to-date:
+
+* With the `conda-forge` feedstock - on your forked `main` branch, click "🔄 Sync fork".
+* Locally on your `main` branch (`git checkout main`), run `git pull`.
 
 6. Create and checkout a branch - e.g. `update_0_5_0`.
 
@@ -274,7 +277,7 @@ git push
 
 * Personal account? Yes, if you used your GitHub and not an organisation.
 * Bump? Not relevant as doing a version update, can remove.
-* Reset base? Yes, should show as `base: 0` in `meta.yaml` by default.
+* Reset base? Yes, should show as `number: 0` in `meta.yaml` by default.
 * Re-render? Add the command `@conda-forge-admin, please rerender` to the end of the pull request.
 
 9. Wait for the CI actions to run. If all pass, then you can click "Merge pull request".
