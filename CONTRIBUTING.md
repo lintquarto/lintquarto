@@ -68,6 +68,7 @@ If you want to contribute to `lintquarto` or run its tests, you'll need some add
 | **genbadge** | Create coverage badge (README) |
 | **grayskull** | Uploading to `conda-forge` |
 | **jupyter** | Run python code in docs |
+| **pre-commit** | To make pre-commit hook that lints files |
 | **pytest** | Run tests |
 | **pytest-cov** | Calculate coverage |
 | **twine** | Upload to PyPI |
@@ -159,6 +160,14 @@ Lint the documentation:
 ```{.bash}
 lint_docs.sh
 ```
+
+There is a pre-commit hook provided which will lint the package and documentation with every commit. To make it executable, run:
+
+```{.bash}
+pre-commit install
+```
+
+**Not running in the right environment?** You may find the pre-commit fails if it is using the wrong environment - I've found this to be the case in VSCode. I've found the simplest way to fix this is to work on the command line, activate the environment, and then either do the commit directly there (i.e., `git add`, `git commit`) or launch VS Code (`code .`) which ensures it inherits the environment.
 
 <br>
 
