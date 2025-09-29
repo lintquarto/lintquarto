@@ -1,18 +1,18 @@
 # Contributing
 
-Thank you for your interest in contributing! 🤗
+Thank you for your interest in contributing!
 
 This file covers:
 
-* 🐞 Workflow for bug reports, feature requests and documentation improvements
-* 🚀 Workflow for code contributions (bug fixes, enhancements)
-* 🛠️ Development and testing
-* 📦 Updating the package
-* 🤝 Code of conduct
+* Workflow for bug reports, feature requests and documentation improvements
+* Workflow for code contributions (bug fixes, enhancements)
+* Development and testing
+* Updating the package
+* Code of conduct
 
 <br>
 
-## 🐞 Workflow for bug reports, feature requests and documentation improvements
+## Workflow for bug reports, feature requests and documentation improvements
 
 Before opening an issue, please search [existing issues](https://github.com/lintquarto/lintquarto/issues/) to avoid duplicates. If an issue exists, you can add a comment with additional details and/or upvote (👍) the issue. If there is not an existing issue, please open one and provide as much detail as possible.
 
@@ -33,7 +33,7 @@ Before opening an issue, please search [existing issues](https://github.com/lint
 
 <br>
 
-## 🚀 Workflow for code contributions (bug fixes, enhancements)
+## Workflow for code contributions (bug fixes, enhancements)
 
 1. Fork the repository and clone your fork.
 
@@ -55,7 +55,7 @@ git push origin my-feature
 
 <br>
 
-## 🛠️ Development and testing
+## Development and testing
 
 ### Dependencies
 
@@ -183,7 +183,7 @@ When running this, function documentation will be automatically generated from t
 
 <br>
 
-## 📦 Updating the package
+## Updating the package
 
 ### Preparation
 
@@ -293,6 +293,6 @@ git push
 
 <br>
 
-## 🤝 Code of conduct
+## Code of conduct
 
 Please be respectful and considerate. See the [code of conduct](https://github.com/lintquarto/lintquarto/blob/main/CODE_OF_CONDUCT.md) for details.
