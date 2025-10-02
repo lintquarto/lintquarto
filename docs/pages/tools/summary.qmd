@@ -1,6 +1,4 @@
----
-pagetitle: Summary
----
+# Summary
 
 The `lintquarto` package enables you to run a range of linters, static type checkers and code analysis tools on python code in Quarto `.qmd` files.
 
@@ -39,3 +37,19 @@ Use the sidebar to explore ready-to-run examples and detailed usage for each too
 | --- | - |
 | [**radon**](radon.qmd) | Calculates complexity, maintainability, raw statistics, and Halstead metrics. |
 : {tbl-colwidths="[15,85]"}
+
+<br>
+
+## Known limitation: config files
+
+Config files are supported, but they have a limitation similar to [nbqa](https://nbqa.readthedocs.io/en/latest/known-limitations.html): filenames must use the `.py` extension.
+
+When lintquarto runs, it creates a temporary `.py` copy of each file - for example, `mypage.qmd` becomes `mypage.py`. If a file with the same name already exists, it creates a variant like `mypage(1).py`. In the config file, entries should use a pattern that matches possible duplicates using `*.py`.
+
+For example, to run `flake8` on `mypage.qmd` but disable the `C0103` (invalid-name) warning, the `.flake8` file must be written as:
+
+```{.bash}
+[flake8]
+per-file-ignores =
+    mypage*.py: C0103
+```

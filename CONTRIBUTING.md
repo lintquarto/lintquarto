@@ -1,18 +1,18 @@
 # Contributing
 
-Thank you for your interest in contributing! 🤗
+Thank you for your interest in contributing!
 
 This file covers:
 
-* 🐞 Workflow for bug reports, feature requests and documentation improvements
-* 🚀 Workflow for code contributions (bug fixes, enhancements)
-* 🛠️ Development and testing
-* 📦 Updating the package
-* 🤝 Code of conduct
+* Workflow for bug reports, feature requests and documentation improvements
+* Workflow for code contributions (bug fixes, enhancements)
+* Development and testing
+* Updating the package
+* Code of conduct
 
 <br>
 
-## 🐞 Workflow for bug reports, feature requests and documentation improvements
+## Workflow for bug reports, feature requests and documentation improvements
 
 Before opening an issue, please search [existing issues](https://github.com/lintquarto/lintquarto/issues/) to avoid duplicates. If an issue exists, you can add a comment with additional details and/or upvote (👍) the issue. If there is not an existing issue, please open one and provide as much detail as possible.
 
@@ -33,7 +33,7 @@ Before opening an issue, please search [existing issues](https://github.com/lint
 
 <br>
 
-## 🚀 Workflow for code contributions (bug fixes, enhancements)
+## Workflow for code contributions (bug fixes, enhancements)
 
 1. Fork the repository and clone your fork.
 
@@ -55,7 +55,7 @@ git push origin my-feature
 
 <br>
 
-## 🛠️ Development and testing
+## Development and testing
 
 ### Dependencies
 
@@ -68,6 +68,7 @@ If you want to contribute to `lintquarto` or run its tests, you'll need some add
 | **genbadge** | Create coverage badge (README) |
 | **grayskull** | Uploading to `conda-forge` |
 | **jupyter** | Run python code in docs |
+| **pre-commit** | To make pre-commit hook that lints files |
 | **pytest** | Run tests |
 | **pytest-cov** | Calculate coverage |
 | **twine** | Upload to PyPI |
@@ -160,6 +161,14 @@ Lint the documentation:
 lint_docs.sh
 ```
 
+There is a pre-commit hook provided which will lint the package and documentation with every commit. To make it executable, run:
+
+```{.bash}
+pre-commit install
+```
+
+**Not running in the right environment?** You may find the pre-commit fails if it is using the wrong environment - I've found this to be the case in VSCode. I've found the simplest way to fix this is to work on the command line, activate the environment, and then either do the commit directly there (i.e., `git add`, `git commit`) or launch VS Code (`code .`) which ensures it inherits the environment.
+
 <br>
 
 ### Documentation
@@ -174,7 +183,7 @@ When running this, function documentation will be automatically generated from t
 
 <br>
 
-## 📦 Updating the package
+## Updating the package
 
 ### Preparation
 
@@ -220,7 +229,10 @@ twine upload --repository testpypi dist/*
 
 5. If you haven't already, fork the lintquarto feedstock ([conda-forge/lintquarto-feedstock](https://github.com/conda-forge/lintquarto-feedstock)). This fork must be to your personal GitHub account and not an organisation account. Clone it to your local machine.
 
-If you already have a fork, make sure it is up-to-date by running `git pull`.
+If you already have a fork, make sure it is up-to-date:
+
+* With the `conda-forge` feedstock - on your forked `main` branch, click "🔄 Sync fork".
+* Locally on your `main` branch (`git checkout main`), run `git pull`.
 
 6. Create and checkout a branch - e.g. `update_0_5_0`.
 
@@ -274,13 +286,13 @@ git push
 
 * Personal account? Yes, if you used your GitHub and not an organisation.
 * Bump? Not relevant as doing a version update, can remove.
-* Reset base? Yes, should show as `base: 0` in `meta.yaml` by default.
+* Reset base? Yes, should show as `number: 0` in `meta.yaml` by default.
 * Re-render? Add the command `@conda-forge-admin, please rerender` to the end of the pull request.
 
 9. Wait for the CI actions to run. If all pass, then you can click "Merge pull request".
 
 <br>
 
-## 🤝 Code of conduct
+## Code of conduct
 
 Please be respectful and considerate. See the [code of conduct](https://github.com/lintquarto/lintquarto/blob/main/CODE_OF_CONDUCT.md) for details.

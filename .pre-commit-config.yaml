@@ -1,0 +1,11 @@
+repos:
+  - repo: local
+    hooks:
+      - id: lint-package
+        name: Lint Package
+        entry: ./lint_package.sh
+        language: system
+      - id: lint-docs
+        name: Lint Documentation
+        entry: ./lint_docs.sh
+        language: system

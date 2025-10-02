@@ -3,6 +3,7 @@ flit
 genbadge
 grayskull
 jupyter
+pre-commit
 pytest
 pytest-cov
 quartodoc
