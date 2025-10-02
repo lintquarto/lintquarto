@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -71,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-954f2a9f9f7b2cec31abcf8c67fbd0ec.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -174,18 +174,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="contributing" class="level1">
 <h1>Contributing</h1>
-<p>Thank you for your interest in contributing! 🤗</p>
+<p>Thank you for your interest in contributing!</p>
 <p>This file covers:</p>
 <ul>
-<li>🐞 Workflow for bug reports, feature requests and documentation improvements</li>
-<li>🚀 Workflow for code contributions (bug fixes, enhancements)</li>
-<li>🛠️ Development and testing</li>
-<li>📦 Updating the package</li>
-<li>🤝 Code of conduct</li>
+<li>Workflow for bug reports, feature requests and documentation improvements</li>
+<li>Workflow for code contributions (bug fixes, enhancements)</li>
+<li>Development and testing</li>
+<li>Updating the package</li>
+<li>Code of conduct</li>
 </ul>
 <p><br></p>
 <section id="workflow-for-bug-reports-feature-requests-and-documentation-improvements" class="level2">
-<h2 class="anchored" data-anchor-id="workflow-for-bug-reports-feature-requests-and-documentation-improvements">🐞 Workflow for bug reports, feature requests and documentation improvements</h2>
+<h2 class="anchored" data-anchor-id="workflow-for-bug-reports-feature-requests-and-documentation-improvements">Workflow for bug reports, feature requests and documentation improvements</h2>
 <p>Before opening an issue, please search <a href="https://github.com/lintquarto/lintquarto/issues/">existing issues</a> to avoid duplicates. If an issue exists, you can add a comment with additional details and/or upvote (👍) the issue. If there is not an existing issue, please open one and provide as much detail as possible.</p>
 <ul>
 <li><strong>For feature requests or documentation improvements</strong>, please describe your suggestion clearly.</li>
@@ -210,7 +210,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 <section id="workflow-for-code-contributions-bug-fixes-enhancements" class="level2">
-<h2 class="anchored" data-anchor-id="workflow-for-code-contributions-bug-fixes-enhancements">🚀 Workflow for code contributions (bug fixes, enhancements)</h2>
+<h2 class="anchored" data-anchor-id="workflow-for-code-contributions-bug-fixes-enhancements">Workflow for code contributions (bug fixes, enhancements)</h2>
 <ol type="1">
 <li><p>Fork the repository and clone your fork.</p></li>
 <li><p>Create a new branch for your feature or fix:</p></li>
@@ -227,7 +227,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><br></p>
 </section>
 <section id="development-and-testing" class="level2">
-<h2 class="anchored" data-anchor-id="development-and-testing">🛠️ Development and testing</h2>
+<h2 class="anchored" data-anchor-id="development-and-testing">Development and testing</h2>
 <section id="dependencies" class="level3">
 <h3 class="anchored" data-anchor-id="dependencies">Dependencies</h3>
 <p>If you want to contribute to <code>lintquarto</code> or run its tests, you’ll need some additional tools:</p>
@@ -260,26 +260,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Run python code in docs</td>
 </tr>
 <tr class="even">
+<td><strong>pre-commit</strong></td>
+<td>To make pre-commit hook that lints files</td>
+</tr>
+<tr class="odd">
 <td><strong>pytest</strong></td>
 <td>Run tests</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong>pytest-cov</strong></td>
 <td>Calculate coverage</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>twine</strong></td>
 <td>Upload to PyPI</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><strong>types-toml</strong></td>
 <td>Required by <code>mypy</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><strong>quartodoc</strong></td>
 <td>Generate API docs</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>-e .[all]</code></td>
 <td>Editable install + all linters</td>
 </tr>
@@ -326,22 +330,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lint_package.sh</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Lint the documentation:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lint_docs.sh</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>There is a pre-commit hook provided which will lint the package and documentation with every commit. To make it executable, run:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pre-commit</span> install</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Not running in the right environment?</strong> You may find the pre-commit fails if it is using the wrong environment - I’ve found this to be the case in VSCode. I’ve found the simplest way to fix this is to work on the command line, activate the environment, and then either do the commit directly there (i.e., <code>git add</code>, <code>git commit</code>) or launch VS Code (<code>code .</code>) which ensures it inherits the environment.</p>
 <p><br></p>
 </section>
 <section id="documentation" class="level3">
 <h3 class="anchored" data-anchor-id="documentation">Documentation</h3>
 <p>Build and preview the documentation locally:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> <span class="at">-C</span> docs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make</span> <span class="at">-C</span> docs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>When running this, function documentation will be automatically generated from the codebase using <code>quartodoc</code></p>
 <p><br></p>
 </section>
 </section>
 <section id="updating-the-package" class="level2">
-<h2 class="anchored" data-anchor-id="updating-the-package">📦 Updating the package</h2>
+<h2 class="anchored" data-anchor-id="updating-the-package">Updating the package</h2>
 <section id="preparation" class="level3">
 <h3 class="anchored" data-anchor-id="preparation">Preparation</h3>
 <p>Before proceeding, you will need to have cloned the <code>lintquarto/staged-recipes</code> repository which is used to push updates to conda.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/lintquarto/staged-recipes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/lintquarto/staged-recipes</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="workflow-for-updates" class="level3">
 <h3 class="anchored" data-anchor-id="workflow-for-updates">Workflow for updates</h3>
@@ -353,57 +360,61 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Build and publish using flit or twine.</p></li>
 </ol>
 <p>To upload to PyPI using <code>flit</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">flit</span> publish</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">flit</span> publish</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>To upload to PyPI using <code>twine</code>: remove any existing builds, then build the package locally and push with twine, entering the API token when prompted:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> dist/</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="ex">flit</span> build</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="ex">twine</span> upload <span class="at">--repository</span> pypi dist/<span class="pp">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>For test runs, you can use the same method with test PyPI:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> dist/</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">flit</span> build</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="ex">twine</span> upload <span class="at">--repository</span> testpypi dist/<span class="pp">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="ex">twine</span> upload <span class="at">--repository</span> pypi dist/<span class="pp">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For test runs, you can use the same method with test PyPI:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> dist/</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ex">flit</span> build</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="ex">twine</span> upload <span class="at">--repository</span> testpypi dist/<span class="pp">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ol start="5" type="1">
 <li>If you haven’t already, fork the lintquarto feedstock (<a href="https://github.com/conda-forge/lintquarto-feedstock">conda-forge/lintquarto-feedstock</a>). This fork must be to your personal GitHub account and not an organisation account. Clone it to your local machine.</li>
 </ol>
-<p>If you already have a fork, make sure it is up-to-date by running <code>git pull</code>.</p>
+<p>If you already have a fork, make sure it is up-to-date:</p>
+<ul>
+<li>With the <code>conda-forge</code> feedstock - on your forked <code>main</code> branch, click “🔄 Sync fork”.</li>
+<li>Locally on your <code>main</code> branch (<code>git checkout main</code>), run <code>git pull</code>.</li>
+</ul>
 <ol start="6" type="1">
 <li>Create and checkout a branch - e.g.&nbsp;<code>update_0_5_0</code>.</li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout <span class="at">-b</span> update_0_5_0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout <span class="at">-b</span> update_0_5_0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ol start="7" type="1">
 <li>Use <code>grayskull</code> to update the recipe (<code>recipe/meta.yaml</code>). It will pull the metadata about the package from PyPI, and will not use your local installation of the package.</li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">grayskull</span> pypi lintquarto</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">grayskull</span> pypi lintquarto</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>It will create <code>lintquarto/meta.yaml</code>. You will need to copy over the contents into <code>recipe/meta.yaml</code>. When you do so, make sure to keep the two fixes made to the <code>meta.yaml</code> file which are…</p>
 <p>Fix A: The addition of a <code>home</code> element within <code>about</code>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">home:</span> https://lintquarto.github.io/lintquarto/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">home:</span> https://lintquarto.github.io/lintquarto/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Fix B: Correct python version requirements syntax as per the <a href="https://conda-forge.org/docs/maintainer/knowledge_base/#noarch-python">conda-forge documentation</a>, using <code>python_min</code> for <code>host</code> (fixed version), <code>run</code> (minimum version) and <code>requires</code> (fixed version).</p>
 <p><strong>Note:</strong> Don’t need to set the <code>python_min</code> anywhere unless it differs from conda default (currently 3.7).</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>  <span class="ex">host:</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">-</span> python {{ python_min }}</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">run:</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">-</span> python <span class="op">&gt;</span>={{ python_min }}</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="ex">requires:</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="ex">-</span> python {{ python_min }}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>  <span class="ex">host:</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">-</span> python {{ python_min }}</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">run:</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="ex">-</span> python <span class="op">&gt;</span>={{ python_min }}</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="ex">requires:</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    <span class="ex">-</span> python {{ python_min }}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ol start="7" type="1">
 <li>Create a commit with the updated feedstock - for example:</li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add <span class="at">--all</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"updated feedstock to version 0.5.0"</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add <span class="at">--all</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"updated feedstock to version 0.5.0"</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ol start="8" type="1">
 <li>Use the GitHub website to open a pull request. Completed the provided checklist -</li>
 </ol>
 <ul>
 <li>Personal account? Yes, if you used your GitHub and not an organisation.</li>
 <li>Bump? Not relevant as doing a version update, can remove.</li>
-<li>Reset base? Yes, should show as <code>base: 0</code> in <code>meta.yaml</code> by default.</li>
+<li>Reset base? Yes, should show as <code>number: 0</code> in <code>meta.yaml</code> by default.</li>
 <li>Re-render? Add the command <code>@conda-forge-admin, please rerender</code> to the end of the pull request.</li>
 </ul>
 <ol start="9" type="1">
@@ -413,7 +424,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 <section id="code-of-conduct" class="level2">
-<h2 class="anchored" data-anchor-id="code-of-conduct">🤝 Code of conduct</h2>
+<h2 class="anchored" data-anchor-id="code-of-conduct">Code of conduct</h2>
 <p>Please be respectful and considerate. See the <a href="https://github.com/lintquarto/lintquarto/blob/main/CODE_OF_CONDUCT.md">code of conduct</a> for details.</p>
 
 
