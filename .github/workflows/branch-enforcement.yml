@@ -33,6 +33,13 @@ jobs:
           head_ref: ${{ env.HEAD_REF }}
           base_ref: ${{ env.BASE_REF }}
 
+      # To prevent success of e.g. dev2 -> main
+      - name: Confirm exact dev->main only
+        if: env.BASE_REF == 'main' && env.HEAD_REF != 'dev'
+        run: |
+          echo "Only 'dev' branch can be merged into 'main'"
+          exit 1
+
       # This step should not run if the branch policy is not met.
       - name: Policy Passed
         id: passed
