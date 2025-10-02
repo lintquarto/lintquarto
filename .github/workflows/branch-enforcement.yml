@@ -1,0 +1,39 @@
+# Source: https://github.com/marketplace/actions/branch-enforcement
+
+name: Branch Enforcement
+
+on:
+  pull_request:
+
+jobs:
+  check-branch:
+    name: Check Branches
+    runs-on: ubuntu-latest
+
+    permissions:
+      statuses: write
+
+    env:
+      # The branch being merged.
+      HEAD_REF: ${{ github.head_ref }}
+      # The target branch.
+      BASE_REF: ${{ github.base_ref }}
+
+    steps:
+      # Policy:
+      #   - Any branch can be merged into dev (e.g. feature branches)
+      #   - dev can be merged into main
+      - name: Enforce Merge Policy
+        id: enforce-policy
+        uses: ncalteen/branch-enforcement@v2
+        with:
+          policy: |
+            *:dev
+            dev:main
+          head_ref: ${{ env.HEAD_REF }}
+          base_ref: ${{ env.BASE_REF }}
+
+      # This step should not run if the branch policy is not met.
+      - name: Policy Passed
+        id: passed
+        run: echo "This PR passes the merge policy!"
