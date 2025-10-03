@@ -5,7 +5,11 @@ repos:
         name: Lint Package
         entry: ./lint_package.sh
         language: system
+        pass_filenames: true
+        files: \.py$
       - id: lint-docs
         name: Lint Documentation
         entry: ./lint_docs.sh
         language: system
+        pass_filenames: true
+        files: ^docs/.*\.(py|qmd)$
