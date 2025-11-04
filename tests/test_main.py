@@ -96,6 +96,24 @@ def test_process_qmd_pylint_filepath(capsys):
         )
 
 
+def test_filename_warning():
+    """Check unique filename doesn't cause linting error."""
+    # Fetch the example file (which has existing .py file of same name)
+    test_dir = Path(__file__).parent
+    qmd_path = test_dir / "examples" / "existing_file.qmd"
+
+    # Run lintquarto on the file
+    result = subprocess.run(
+        [sys.executable, "-m", "lintquarto",
+         "-l", "pylint", "-p", qmd_path],
+        capture_output=True, text=True, check=False
+    )
+    output = result.stdout + result.stderr
+
+    # Check for invalid name warning
+    assert "C0103" not in output
+
+
 # =============================================================================
 # 2. gather_qmd()
 # =============================================================================
