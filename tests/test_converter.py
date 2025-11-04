@@ -349,8 +349,8 @@ def test_get_unique_filename(tmp_path):
     # The unique filename should not be the same as the original
     assert unique != file
 
-    # The unique filename should start with 'test (' and end with '.py'
-    assert unique.name.startswith("test (")
+    # The unique filename should start with 'test_' and end with '.py'
+    assert unique.name.startswith("test_")
     assert unique.suffix == ".py"
 
 
@@ -370,7 +370,7 @@ def test_output_file_overwrite(tmp_path, linter):
 
     # The result should be a new, unique file (not the existing one)
     assert result_path != out_file
-    assert result_path.name.startswith("input (")
+    assert result_path.name.startswith("input_")
     assert result_path.suffix == ".py"
 
     # The new file should contain the expected Python chunk marker
