@@ -187,12 +187,12 @@ def test_main_no_qmd_files_functional(tmp_path):
     assert "No .qmd files found" in result.stderr
 
 
-def test_protocol():
-    """Functional Test: blank line warning disabled despite protocols"""
+def test_decorator():
+    """Functional Test: blank line warning disabled despite decorator"""
     # Locate the Quarto example file containing a function decorated with a
-    # runtime-checkable protocol
+    # runtime-checkable decorator
     test_dir = Path(__file__).parent
-    qmd_path = test_dir / "examples" / "protocol_example.qmd"
+    qmd_path = test_dir / "examples" / "decorator_example.qmd"
 
     # Run lintquarto with flake8 on the example file.
     # Normally, flake8 would raise E302 ("expected 2 blank lines before
