@@ -185,3 +185,24 @@ def test_main_no_qmd_files_functional(tmp_path):
     # Assert that the exit code is 1 (error), and that error message is present
     assert result.returncode == 1
     assert "No .qmd files found" in result.stderr
+
+
+def test_protocol():
+    """Functional Test: blank line warning disabled despite protocols"""
+    # Locate the Quarto example file containing a function decorated with a
+    # runtime-checkable protocol
+    test_dir = Path(__file__).parent
+    qmd_path = test_dir / "examples" / "protocol_example.qmd"
+
+    # Run lintquarto with flake8 on the example file.
+    # Normally, flake8 would raise E302 ("expected 2 blank lines before
+    # function definition"), but lintquarto should suppress this warning
+    result = subprocess.run(
+        [sys.executable, "-m", "lintquarto",
+         "-l", "flake8", "-p", qmd_path],
+        capture_output=True, text=True, check=False
+    )
+    output = result.stdout + result.stderr
+
+    # Verify that the E302 warning does not appear in the lint output
+    assert "E302" not in output
