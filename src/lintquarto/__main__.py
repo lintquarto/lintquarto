@@ -174,6 +174,30 @@ def gather_qmd_files(
     return files
 
 
+def validate_no_commas(list_of_paths: list[str], argname: str) -> None:
+    """
+    Check for commas in list of paths and raise ValueError if found.
+
+    Parameters
+    ----------
+    list_of_paths : list[str]
+        List of file or directory paths to check.
+    argname : str
+        Name of the argument for error messaging.
+
+    Raises
+    ------
+    ValueError
+        If any path contains a comma, indicating improper separation.
+    """
+    for path in list_of_paths:
+        if ',' in path:
+            raise ValueError(
+                f"Argument '{argname}' contains a comma: '{path}'. "
+                "Separate paths with spaces, not commas. e.g: -p file.qmd dir2"
+            )
+
+
 def main():
     """
     Entry point for the lintquarto CLI.
@@ -208,6 +232,10 @@ def main():
         help="Keep temporary .py files after linting."
     )
     args = parser.parse_args()
+
+    # Enforce space-separated paths with clear error
+    validate_no_commas(args.paths, "paths")
+    validate_no_commas(args.exclude, "exclude")
 
     # Gather all .qmd files from the provided arguments
     qmd_files = gather_qmd_files(args.paths, exclude=args.exclude)

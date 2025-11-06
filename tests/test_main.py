@@ -11,8 +11,11 @@ import re
 import subprocess
 import sys
 
-from lintquarto.__main__ import gather_qmd_files, process_qmd
+import pytest
 
+from lintquarto.__main__ import (
+    gather_qmd_files, main, process_qmd, validate_no_commas
+)
 
 CORE_LINTER = "flake8"
 
@@ -149,7 +152,17 @@ def test_gather_qmd_files_exclude(tmp_path):
 
 
 # =============================================================================
-# 3. __main__()
+# 3. validate_no_commas()
+# =============================================================================
+
+def test_validate_no_commas():
+    """Unit Test: raises ValueError when path contains a comma."""
+    with pytest.raises(ValueError, match="contains a comma"):
+        validate_no_commas(["file1.qmd,dir2"], "paths")
+
+
+# =============================================================================
+# 4. __main__()
 # =============================================================================
 
 def test_main_runs_functional(tmp_path):
@@ -206,3 +219,20 @@ def test_decorator():
 
     # Verify that the E302 warning does not appear in the lint output
     assert "E302" not in output
+
+
+def test_paths_with_commas(monkeypatch):
+    """Functional Test: raises ValueError when --paths contains commas."""
+    test_args = ["prog", "-l", "pylint", "-p", "file1.qmd,dir2"]
+    monkeypatch.setattr(sys, "argv", test_args)
+    with pytest.raises(ValueError, match="contains a comma"):
+        main()
+
+
+def test_exclude_with_commas(monkeypatch):
+    """Functional Test: raises ValueError when --exclude contains commas."""
+    test_args = ["prog", "-l", "pylint", "-p", "file1.qmd",
+                 "-e", "dir2,file2.qmd"]
+    monkeypatch.setattr(sys, "argv", test_args)
+    with pytest.raises(ValueError, match="contains a comma"):
+        main()
