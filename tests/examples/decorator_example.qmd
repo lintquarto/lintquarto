@@ -1,0 +1,13 @@
+# Protocol example
+
+```{python}
+1+1
+```
+
+Some text.
+
+```{python}
+@runtime_checkable
+def add_numbers(a):
+    a + 1
+```

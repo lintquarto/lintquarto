@@ -170,9 +170,15 @@ class QmdToPyConverter:
         line = self._handle_annotations(line)
 
         # Always suppress E305, and suppress E302 if it is a function or class
+        # (checks for @ too as can have decorators - note, decorators are only
+        # applied to functions or classes)
         if self.uses_noqa:
-            is_def_or_class = re.match(r"^(def|class)\b", stripped)
-            if is_def_or_class:
+            is_function_or_class = (
+                stripped.startswith("@")
+                or stripped.startswith("def")
+                or stripped.startswith("class")
+            )
+            if is_function_or_class:
                 line = self._add_noqa(line, ["E302", "E305"])
             else:
                 line = self._add_noqa(line, ["E305"])
