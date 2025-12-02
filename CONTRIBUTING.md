@@ -169,6 +169,8 @@ pre-commit install
 
 **Not running in the right environment?** You may find the pre-commit fails if it is using the wrong environment - I've found this to be the case in VSCode. I've found the simplest way to fix this is to work on the command line, activate the environment, and then either do the commit directly there (i.e., `git add`, `git commit`) or launch VS Code (`code .`) which ensures it inherits the environment.
 
+**Unstaged files detected** If you see `[WARNING] Unstaged files detected` during commit, this is normal; pre-commit is just temporarily saving your unstaged changes. The real blocker is any "linting failed" message or linter error output that follows—fix those errors in the listed files, re-stage, and commit again! *This message can occur when there are linting issues in your staged files when trying to commit, but you also have some unstaged files present. With no unstaged files present, message will be like `Git: Lint Package...... failed`*.
+
 <br>
 
 ### Documentation

@@ -130,7 +130,7 @@ Lint all files in current directory (using `ruff`):
 * Excluding a specific file `analysis/test.qmd`.
 
 ```{.bash}
-lintquarto -l ruff -p . -e examples,ignore
+lintquarto -l ruff -p . -e examples ignore
 ```
 
 ```{.bash}

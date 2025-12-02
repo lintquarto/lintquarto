@@ -170,9 +170,15 @@ class QmdToPyConverter:
         line = self._handle_annotations(line)
 
         # Always suppress E305, and suppress E302 if it is a function or class
+        # (checks for @ too as can have decorators - note, decorators are only
+        # applied to functions or classes)
         if self.uses_noqa:
-            is_def_or_class = re.match(r"^(def|class)\b", stripped)
-            if is_def_or_class:
+            is_function_or_class = (
+                stripped.startswith("@")
+                or stripped.startswith("def")
+                or stripped.startswith("class")
+            )
+            if is_function_or_class:
                 line = self._add_noqa(line, ["E302", "E305"])
             else:
                 line = self._add_noqa(line, ["E305"])
@@ -248,12 +254,12 @@ class QmdToPyConverter:
 
 def get_unique_filename(path: Union[str, Path]) -> Path:
     """
-    Generate a unique file path by appending " (n)" before the file extension
+    Generate a unique file path by appending "_n" before the file extension
     if needed.
 
     If the given path already exists, this function appends an incrementing
-    number in parentheses before the file extension (e.g., "file (1).py") until
-    an unused filename is found.
+    number before the file extension (e.g., "file_1.py") until an unused
+    filename is found.
 
     Parameters
     ----------
@@ -270,7 +276,7 @@ def get_unique_filename(path: Union[str, Path]) -> Path:
     >>> get_unique_filename("script.py")
     PosixPath('script.py')  # if 'script.py' does not exist
     >>> get_unique_filename("script.py")
-    PosixPath('script (1).py')  # if 'script.py' exists
+    PosixPath('script_1.py')  # if 'script.py' exists
     """
     path = Path(path)
     if not path.exists():
@@ -282,7 +288,7 @@ def get_unique_filename(path: Union[str, Path]) -> Path:
 
     n = 1
     while True:
-        new_name = f"{stem} ({n}){suffix}"
+        new_name = f"{stem}_{n}{suffix}"
         new_path = parent / new_name
         if not new_path.exists():
             return new_path

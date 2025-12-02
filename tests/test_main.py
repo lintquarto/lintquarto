@@ -11,8 +11,11 @@ import re
 import subprocess
 import sys
 
-from lintquarto.__main__ import gather_qmd_files, process_qmd
+import pytest
 
+from lintquarto.__main__ import (
+    gather_qmd_files, main, process_qmd, validate_no_commas
+)
 
 CORE_LINTER = "flake8"
 
@@ -96,6 +99,24 @@ def test_process_qmd_pylint_filepath(capsys):
         )
 
 
+def test_filename_warning():
+    """Check unique filename doesn't cause linting error."""
+    # Fetch the example file (which has existing .py file of same name)
+    test_dir = Path(__file__).parent
+    qmd_path = test_dir / "examples" / "existing_file.qmd"
+
+    # Run lintquarto on the file
+    result = subprocess.run(
+        [sys.executable, "-m", "lintquarto",
+         "-l", "pylint", "-p", qmd_path],
+        capture_output=True, text=True, check=False
+    )
+    output = result.stdout + result.stderr
+
+    # Check for invalid name warning
+    assert "C0103" not in output
+
+
 # =============================================================================
 # 2. gather_qmd()
 # =============================================================================
@@ -131,7 +152,17 @@ def test_gather_qmd_files_exclude(tmp_path):
 
 
 # =============================================================================
-# 3. __main__()
+# 3. validate_no_commas()
+# =============================================================================
+
+def test_validate_no_commas():
+    """Unit Test: raises ValueError when path contains a comma."""
+    with pytest.raises(ValueError, match="contains a comma"):
+        validate_no_commas(["file1.qmd,dir2"], "paths")
+
+
+# =============================================================================
+# 4. __main__()
 # =============================================================================
 
 def test_main_runs_functional(tmp_path):
@@ -167,3 +198,41 @@ def test_main_no_qmd_files_functional(tmp_path):
     # Assert that the exit code is 1 (error), and that error message is present
     assert result.returncode == 1
     assert "No .qmd files found" in result.stderr
+
+
+def test_decorator():
+    """Functional Test: blank line warning disabled despite decorator"""
+    # Locate the Quarto example file containing a function decorated with a
+    # runtime-checkable decorator
+    test_dir = Path(__file__).parent
+    qmd_path = test_dir / "examples" / "decorator_example.qmd"
+
+    # Run lintquarto with flake8 on the example file.
+    # Normally, flake8 would raise E302 ("expected 2 blank lines before
+    # function definition"), but lintquarto should suppress this warning
+    result = subprocess.run(
+        [sys.executable, "-m", "lintquarto",
+         "-l", "flake8", "-p", qmd_path],
+        capture_output=True, text=True, check=False
+    )
+    output = result.stdout + result.stderr
+
+    # Verify that the E302 warning does not appear in the lint output
+    assert "E302" not in output
+
+
+def test_paths_with_commas(monkeypatch):
+    """Functional Test: raises ValueError when --paths contains commas."""
+    test_args = ["prog", "-l", "pylint", "-p", "file1.qmd,dir2"]
+    monkeypatch.setattr(sys, "argv", test_args)
+    with pytest.raises(ValueError, match="contains a comma"):
+        main()
+
+
+def test_exclude_with_commas(monkeypatch):
+    """Functional Test: raises ValueError when --exclude contains commas."""
+    test_args = ["prog", "-l", "pylint", "-p", "file1.qmd",
+                 "-e", "dir2,file2.qmd"]
+    monkeypatch.setattr(sys, "argv", test_args)
+    with pytest.raises(ValueError, match="contains a comma"):
+        main()
