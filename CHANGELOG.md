@@ -5,7 +5,33 @@ All notable changes to this project are documented.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Dates formatted as YYYY-MM-DD as per [ISO standard](https://www.iso.org/iso-8601-date-and-time-format.html).
 
+## v0.7.0 - 2025-12-05
+
+Fixed converter and CLI behaviour so duplicate output filenames now use an `_1` suffix, decorator-related E302 issues are suppressed, and paths containing commas correctly raise errors. These are supported by new tests. Other changes include a linting pre-commit hook and updates to documentation.
+
+### Added
+
+* **Pre-commit:** Add back in a linting pre-commit.
+* **Tests:**
+    * Add test checking that a duplicate filename triggers pylint
+    * Add test detecting E302 error for function with decorator (e.g., `@runtime_checkable`).
+    * Add test checking error is raised if there are commas in paths.
+
+### Changed
+
+* **CONTRIBUTING:** Make conda update instructions clearer, removed emojis and explain pre-commit.
+* **Documentation:** Make command line interface usage / options clearer, correct exclude command, and explain limitation of config files.
+
+### Fixed
+
+* **Converter:**
+    * Duplicate filenames now `_1` instead of ` (1)` (with tests changed accordingly).
+    * Suppress E302 for decorators (`@`).
+* **__main__:** Check for commas in paths and raise error if found.
+
 ## v0.6.0 - 2025-09-25
+
+Updates fix multiple converter and `process_qmd` issues, including improved detection of Python chunks, handling of comments, Quarto `include` syntax, and line highlight annotations. Other changes to documentation, actions and tests.
 
 ### Added
 
@@ -21,6 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **README:** Add more badges (build & quality status, stars/download metrics) and button linking to documentation.
 
 ### Fixed
+
 * **process_qmd:** Replace `...py` in output with just the filename, and not the full file path (as that is there already, depending on linter, so get duplicates).
 * **Converter:**
     * "First code line" now excludes comments.
