@@ -155,13 +155,13 @@ Curious about contributing? Check out the [contributing guidelines](CONTRIBUTING
 
 Please cite the repository on GitHub, PyPI, conda and/or Zenodo:
 
-> Heather, A. (2025). lintquarto (v0.5.0).  https://github.com/lintquarto/lintquarto.
+> Heather, A. (2025). lintquarto (v0.7.0).  https://github.com/lintquarto/lintquarto.
 >
-> Heather, A. (2025). lintquarto (v0.5.0). https://pypi.org/project/lintquarto/.
+> Heather, A. (2025). lintquarto (v0.7.0). https://pypi.org/project/lintquarto/.
 >
-> Heather, A. (2025). lintquarto (v0.5.0). https://anaconda.org/conda-forge/lintquarto.
+> Heather, A. (2025). lintquarto (v0.7.0). https://anaconda.org/conda-forge/lintquarto.
 >
-> Heather, A. (2025). lintquarto (v0.5.0). https://doi.org/10.5281/zenodo.15731161.
+> Heather, A. (2025). lintquarto (v0.7.0). https://doi.org/10.5281/zenodo.15731161.
 
 Citation instructions are also provided in `CITATION.cff`.
 
