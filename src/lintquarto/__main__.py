@@ -174,13 +174,13 @@ def gather_qmd_files(
     return files
 
 
-def validate_no_commas(list_of_paths: list[str], argname: str) -> None:
+def validate_no_commas(list_of_paths: List[str], argname: str) -> None:
     """
     Check for commas in list of paths and raise ValueError if found.
 
     Parameters
     ----------
-    list_of_paths : list[str]
+    list_of_paths : List[str]
         List of file or directory paths to check.
     argname : str
         Name of the argument for error messaging.
