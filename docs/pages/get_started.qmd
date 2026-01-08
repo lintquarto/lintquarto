@@ -36,7 +36,7 @@ lintquarto --version
 
 ### Install with conda
 
-```
+```{.bash}
 conda install conda-forge::lintquarto
 ```
 
