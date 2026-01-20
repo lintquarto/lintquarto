@@ -298,3 +298,15 @@ git push
 ## Code of conduct
 
 Please be respectful and considerate. See the [code of conduct](https://github.com/lintquarto/lintquarto/blob/main/CODE_OF_CONDUCT.md) for details.
+
+<br>
+
+## Journal of Open Source Software (JOSS)
+
+The `inst/` folder contains materials related to the submission to JOSS.
+
+* `paper.md` - paper
+* `paper.bib` - references
+* `codemeta.json` - paper metadata generate using https://gist.github.com/arfon/478b2ed49e11f984d6fb.
+
+There is also a [GitHub action which renders the paper as a PDF](https://github.com/lintquarto/lintquarto/actions/workflows/draft-pdf.yml).
