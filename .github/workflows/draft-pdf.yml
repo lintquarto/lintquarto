@@ -6,7 +6,8 @@ run-name: Generate JOSS PDF
 on:
   push:
     paths:
-      - 'paper.md'
+      - 'inst/paper.md'
+      - 'inst/paper.bib'
   workflow_dispatch:
 
 jobs:
@@ -22,10 +23,10 @@ jobs:
         uses: openjournals/openjournals-draft-action@master
         with:
           journal: joss
-          paper-path: paper.md
+          paper-path: inst/paper.md
 
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
           name: paper
-          path: paper.pdf
+          path: inst/paper.pdf

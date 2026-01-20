@@ -147,7 +147,7 @@ Visit our website to find out more and see examples from running with each code 
 
 ## PyOpenSci
 
-This package has been [submit to PyOpenSci for review](https://github.com/pyOpenSci/software-submission/issues/257). This includes an article for consideration by the Journal of Open Source Software (JOSS) which is in the root of this repository (`paper.md`). We include a [GitHub action which renders this as a PDF](https://github.com/lintquarto/lintquarto/actions/workflows/draft-pdf.yml).
+This package has been [submit to PyOpenSci for review](https://github.com/pyOpenSci/software-submission/issues/257). This includes an article for consideration by the Journal of Open Source Software (JOSS) which is in the `inst/` folder of this repository.
 
 <br>
 

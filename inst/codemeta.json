@@ -1,0 +1,23 @@
+{
+  "@context": "https://raw.githubusercontent.com/codemeta/codemeta/master/codemeta.jsonld",
+  "@type": "Code",
+  "author": [
+    {
+      "@id": "https://orcid.org/0000-0002-6596-3479",
+      "@type": "Person",
+      "email": "a.heather2@exeter.ac.uk",
+      "name": "amyheather",
+      "affiliation": "University of Exeter"
+    }
+  ],
+  "identifier": "https://doi.org/10.5281/zenodo.15731161",
+  "codeRepository": "https://github.com/lintquarto/lintquarto",
+  "datePublished": "2026-01-20",
+  "dateModified": "2026-01-20",
+  "dateCreated": "2026-01-20",
+  "description": "Package for running linters, static type checkers and code analysis tools on python code in quarto (.qmd) files.",
+  "keywords": "lint linting linter linters quarto qmd static-typechecking quartodoc static-type-checking",
+  "license": "MIT",
+  "title": "lintquarto",
+  "version": "0.7.0"
+}
