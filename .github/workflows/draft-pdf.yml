@@ -1,5 +1,11 @@
 name: Draft PDF
-on: [push]
+run-name: Generate JOSS PDF
+
+on:
+  push:
+    paths:
+      - 'paper.md'
+  workflow_dispatch:
 
 jobs:
   paper:
