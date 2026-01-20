@@ -13,6 +13,7 @@ affiliations:
  - name: University of Exeter, England
    index: 1
 date: 20 January 2026
+bibliography: paper.bib
 ---
 
 <!--
@@ -27,7 +28,7 @@ https://joss.readthedocs.io/en/latest/paper.html
 # Summary
 <!--A description of the high-level functionality and purpose of the software for a diverse, non-specialist audience.-->
 
-`lintquarto` enables existing Python linters, static type checkers, and code analysis tools to run on Python code in Quarto Markdown files. Quarto has become widely adopted in research for creating websites, papers, reports, and documentation that integrate code, narrative, and outputs However, standard Python code quality tools cannot natively run on Quarto's `.qmd` files. `lintquarto` bridges this gap, allowing researchers to maintain Python code quality standards in their Quarto documents.
+`lintquarto` enables existing Python linters, static type checkers, and code analysis tools to run on Python code in Quarto Markdown files. Quarto [@allaire_quarto_2022] has become widely adopted in research for creating websites, papers, reports, and documentation that integrate code, narrative, and outputs However, standard Python code quality tools cannot natively run on Quarto's `.qmd` files. `lintquarto` bridges this gap, allowing researchers to maintain Python code quality standards in their Quarto documents.
 
 # Statement of need
 <!-- A section that clearly illustrates the research purpose of the software and places it in the context of related work. This should clearly state what problems the software is designed to solve, who the target audience is, and its relation to other work.-->
@@ -63,19 +64,19 @@ The package is distributed via both PyPI and conda-forge, ensuring accessibility
 The software has been reviewed by PyOpenSci (CITE).
 
 | Category | Tool | Description | Source |
-| - | - | - | - |
-| Linters | `flake8` | Lightweight tool focused on PEP-8 style, basic errors, and code complexity |
-| Linters | `pycodestyle` | Checks against PEP-8 style guidelines |
-| Linters | `pydoclint` | Docstring linter |
-| Linters | `pyflakes` | Checks for logical errors like undefined names and unused imports |
-| Linters | `pylint` | Detailed linter that detects errors, bugs, variable naming issues, and other code problems |
-| Linters | `ruff` | Modern, ultra-fast linter that implements checks from Flake8 and some other popular plugins |
-| Linters | `vulture` | Finds unused/dead code |
-| Static type checkers | `mypy` | Python's popular static type checker |
-| Static type checkers | `pyrefly` | Meta's Rust-based static type checker (successor to Pyre) |
-| Static type checkers | `pyright` | Microsoft's static type checker |
-| Static type checkers | `pytype` | Google's static type checker |
-| Code analysis tools | `radon` | calculates complexity, maintainability, raw statistics, and Halstead metrics |
+| :-: | :-: | --- | - |
+| Linters | `flake8` | Lightweight tool focused on PEP-8 style, basic errors, and code complexity | [@python_code_quality_authority_flake8_2025] |
+| Linters | `pycodestyle` | Checks against PEP-8 style guidelines | [@python_code_quality_authority_pycodestyle_2025] |
+| Linters | `pydoclint` | Docstring linter | [@pydoclint_contributors_pydoclint_2025] |
+| Linters | `pyflakes` | Checks for logical errors like undefined names and unused imports | [@python_code_quality_authority_pyflakes_2025] |
+| Linters | `pylint` | Detailed linter that detects errors, bugs, variable naming issues, and other code problems | [@pylint_contributors_pylint_2026] |
+| Linters | `ruff` | Modern, ultra-fast linter that implements checks from Flake8 and some other popular plugins | [@astral_ruff_2026] |
+| Linters | `vulture` | Finds unused/dead code | [@seipp_jendrikseippvulture_2026] |
+| Static type checkers | `mypy` | Python's popular static type checker | [@python_mypy_2026] |
+| Static type checkers | `pyrefly` | Meta's Rust-based static type checker (successor to Pyre) | [@facebook_pyrefly_2026] |
+| Static type checkers | `pyright` | Microsoft's static type checker | [@microsoft_pyright_2026] |
+| Static type checkers | `pytype` | Google's static type checker | [@google_pytype_2025] |
+| Code analysis tools | `radon` | calculates complexity, maintainability, raw statistics, and Halstead metrics | [@radon_contributors_radon_2024] |
 
 # Research impact statement
 <!--Evidence of realized impact (publications, external use, integrations) or credible near-term significance (benchmarks, reproducible materials, community-readiness signals). The evidence should be compelling and specific, not aspirational.-->
@@ -87,10 +88,6 @@ By enabling linting of python code within Quarto Markdown files, this package he
 (I could explain it came out of a need for something liek this on STARS, is why I made it, used it there?)
 
 mention pyopensci again?
-
-# Funding
-
-This work is supported by the Medical Research Council [grant number MR/Z503915/1].
 
 # AI usage disclosure
 
