@@ -61,7 +61,7 @@ The package supports all major Python code quality tools:
 
 # Research impact statement
 
-By enabling Python code quality checking in Quarto Markdown, `lintquarto` supports reproducible and reliable scientific research. It has already been adopted in several applied projects in which the author is actively involved, including the DES RAP Book, a step‑by‑step guide for building discrete‑event simulation models in Python and R as part of a reproducible analytical pipeline, where it is used to maintain the quality of code within the Quarto book website <!--TODO: CITE-->. It is also used in the documentation of `sim-tools` (<!--TODO: CITE-->), `vidigi` (<!--TODO: CITE-->), and `lintquarto`'s own documentation site (<!--TODO: CITE-->).
+By enabling Python code quality checking in Quarto Markdown, `lintquarto` supports reproducible and reliable scientific research. It has already been adopted in several applied projects in which the author is actively involved, including the DES RAP Book, a step‑by‑step guide for building discrete‑event simulation models in Python and R as part of a reproducible analytical pipeline, where it is used to maintain the quality of code within the Quarto book website [@heather_rap_2026]. It is also used in `lintquarto`'s own documentation site.
 
 # AI usage disclosure
 
