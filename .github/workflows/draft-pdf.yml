@@ -1,3 +1,5 @@
+# Source: https://github.com/marketplace/actions/open-journals-pdf-generator
+
 name: Draft PDF
 run-name: Generate JOSS PDF
 
