@@ -145,6 +145,12 @@ Visit our website to find out more and see examples from running with each code 
 
 <br>
 
+## PyOpenSci
+
+This package has been [submit to PyOpenSci for review](https://github.com/pyOpenSci/software-submission/issues/257). This includes an article for consideration by the Journal of Open Source Software (JOSS) which is in the root of this repository (`paper.md`). We include a [GitHub action which renders this as a PDF](https://github.com/lintquarto/lintquarto/actions/workflows/draft-pdf.yml).
+
+<br>
+
 ## Community
 
 Curious about contributing? Check out the [contributing guidelines](CONTRIBUTING.md) to learn how you can help. Every bit of help counts, and your contribution - no matter how minor - is highly valued.
@@ -169,4 +175,8 @@ Citation instructions are also provided in `CITATION.cff`.
 
 ## Acknowledgements
 
-This project was written and maintained by hand, with occasional use of [Perplexity](https://www.perplexity.ai/) during development. AI assistance was used for small, targeted tasks (e.g. help when troubleshooting, identifying issues, refining docstrings, improving code structure), rather than to generate complete functions or substantial content. All code and design decisions were reviewed and finalised by a human. For transparency, the use of AI is acknowledged, but the project should not be considered AI‑generated.
+This project was written and maintained by hand, with occasional use of Perplexity AI during development (specific models and versions varied over time).
+
+AI assistance was used for small, targeted tasks (e.g. help when troubleshooting, identifying issues, refining docstrings, improving code structure), rather than to generate complete functions or substantial content.
+
+All code and design decisions were reviewed and finalised by a human. For transparency, the use of AI is acknowledged, but the project should not be considered AI‑generated.
