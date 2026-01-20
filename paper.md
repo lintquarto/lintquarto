@@ -13,7 +13,6 @@ affiliations:
  - name: University of Exeter, England
    index: 1
 date: 20 January 2026
-bibliography: paper.bib
 ---
 
 # Summary
