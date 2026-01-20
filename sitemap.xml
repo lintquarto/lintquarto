@@ -2,110 +2,110 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/tools/vulture.html</loc>
-    <lastmod>2026-01-20T16:15:50.899Z</lastmod>
+    <lastmod>2026-01-20T16:24:01.790Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/tools/ruff.html</loc>
-    <lastmod>2026-01-20T16:15:50.899Z</lastmod>
+    <lastmod>2026-01-20T16:24:01.790Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/tools/pytype.html</loc>
-    <lastmod>2026-01-20T16:15:50.899Z</lastmod>
+    <lastmod>2026-01-20T16:24:01.790Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/tools/pyrefly.html</loc>
-    <lastmod>2026-01-20T16:15:50.898Z</lastmod>
+    <lastmod>2026-01-20T16:24:01.790Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/tools/pyflakes.html</loc>
-    <lastmod>2026-01-20T16:15:50.898Z</lastmod>
+    <lastmod>2026-01-20T16:24:01.790Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/tools/pycodestyle.html</loc>
-    <lastmod>2026-01-20T16:15:50.898Z</lastmod>
+    <lastmod>2026-01-20T16:24:01.790Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/tools/flake8.html</loc>
-    <lastmod>2026-01-20T16:15:50.898Z</lastmod>
+    <lastmod>2026-01-20T16:24:01.790Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/contributing.html</loc>
-    <lastmod>2026-01-20T16:15:50.898Z</lastmod>
+    <lastmod>2026-01-20T16:24:01.790Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/api/process_qmd.html</loc>
-    <lastmod>2026-01-20T16:16:46.504Z</lastmod>
+    <lastmod>2026-01-20T16:24:46.897Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/api/index.html</loc>
-    <lastmod>2026-01-20T16:16:46.470Z</lastmod>
+    <lastmod>2026-01-20T16:24:46.864Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/api/gather_qmd_files.html</loc>
-    <lastmod>2026-01-20T16:16:46.498Z</lastmod>
+    <lastmod>2026-01-20T16:24:46.892Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/api/QmdToPyConverter.html</loc>
-    <lastmod>2026-01-20T16:16:46.516Z</lastmod>
+    <lastmod>2026-01-20T16:24:46.909Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/api/LineLengthDetector.html</loc>
-    <lastmod>2026-01-20T16:16:46.542Z</lastmod>
+    <lastmod>2026-01-20T16:24:46.935Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/index.html</loc>
-    <lastmod>2026-01-20T16:15:50.898Z</lastmod>
+    <lastmod>2026-01-20T16:24:01.789Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/api/CustomArgumentParser.html</loc>
-    <lastmod>2026-01-20T16:16:46.547Z</lastmod>
+    <lastmod>2026-01-20T16:24:46.940Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/api/Linters.html</loc>
-    <lastmod>2026-01-20T16:16:46.536Z</lastmod>
+    <lastmod>2026-01-20T16:24:46.929Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/api/convert_qmd_to_py.html</loc>
-    <lastmod>2026-01-20T16:16:46.526Z</lastmod>
+    <lastmod>2026-01-20T16:24:46.919Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/api/get_unique_filename.html</loc>
-    <lastmod>2026-01-20T16:16:46.520Z</lastmod>
+    <lastmod>2026-01-20T16:24:46.913Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/api/main.html</loc>
-    <lastmod>2026-01-20T16:16:46.491Z</lastmod>
+    <lastmod>2026-01-20T16:24:46.885Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/changelog.html</loc>
-    <lastmod>2026-01-20T16:15:50.898Z</lastmod>
+    <lastmod>2026-01-20T16:24:01.789Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/get_started.html</loc>
-    <lastmod>2026-01-20T16:15:50.898Z</lastmod>
+    <lastmod>2026-01-20T16:24:01.790Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/tools/mypy.html</loc>
-    <lastmod>2026-01-20T16:15:50.898Z</lastmod>
+    <lastmod>2026-01-20T16:24:01.790Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/tools/pydoclint.html</loc>
-    <lastmod>2026-01-20T16:15:50.898Z</lastmod>
+    <lastmod>2026-01-20T16:24:01.790Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/tools/pylint.html</loc>
-    <lastmod>2026-01-20T16:15:50.898Z</lastmod>
+    <lastmod>2026-01-20T16:24:01.790Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/tools/pyright.html</loc>
-    <lastmod>2026-01-20T16:15:50.898Z</lastmod>
+    <lastmod>2026-01-20T16:24:01.790Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/tools/radon.html</loc>
-    <lastmod>2026-01-20T16:15:50.899Z</lastmod>
+    <lastmod>2026-01-20T16:24:01.790Z</lastmod>
   </url>
   <url>
     <loc>https://lintquarto.github.io/lintquarto/pages/tools/summary.html</loc>
-    <lastmod>2026-01-20T16:15:50.899Z</lastmod>
+    <lastmod>2026-01-20T16:24:01.790Z</lastmod>
   </url>
 </urlset>
