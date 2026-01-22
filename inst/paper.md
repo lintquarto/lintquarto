@@ -57,7 +57,7 @@ As of publication, the package supports all major Python code quality tools:
 * `pyflakes` [@python_code_quality_authority_pyflakes_2025]
 * `pylint` [@pylint_contributors_pylint_2026]
 * `ruff` [@astral_ruff_2026]
-* `vulture` [@seipp_jendrikseippvulture_2026]
+* `vulture` [@vulture_contributors_vulture_2026]
 * `mypy` [@python_mypy_2026]
 * `pyrefly` [@facebook_pyrefly_2026]
 * `pyright` [@microsoft_pyright_2026]
