@@ -18,7 +18,6 @@ Use the sidebar to explore ready-to-run examples and detailed usage for each too
 | [**pyflakes**](pyflakes.qmd) | Checks for logical errors like undefined names and unused imports. |
 | [**pylint**](pylint.qmd) | Detailed linter that detects errors, bugs, variable naming issues, and other code problems. |
 | [**ruff**](ruff.qmd) | Modern, ultra-fast linter that implements checks from Flake8 and some other popular plugins. |
-| [**vulture**](vulture.qmd) | Finds unused/dead code. |
 : {tbl-colwidths="[15,85]"}
 
 ## Static type checkers
@@ -35,6 +34,7 @@ Use the sidebar to explore ready-to-run examples and detailed usage for each too
 
 | Tool | Description |
 | --- | - |
+| [**vulture**](vulture.qmd) | Finds unused/dead code. |
 | [**radon**](radon.qmd) | Calculates complexity, maintainability, raw statistics, and Halstead metrics. |
 : {tbl-colwidths="[15,85]"}
 
