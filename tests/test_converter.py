@@ -315,6 +315,7 @@ def test_preserve_line_count_false_removes_non_code():
     # we do manually anyway for good measure!)
     conv = QmdToPyConverter(linter="radon-raw")
     conv.preserve_line_count = False
+    _ = conv.preserve_line_count  # noqa: F841  # reassure static tools
     py_lines = conv.convert(qmd_lines)
 
     # Check there are no filler lines, and only code lines
@@ -441,3 +442,137 @@ def test_unsupported_linter():
     """Unsupported linter name raises an error."""
     with pytest.raises(ValueError):
         QmdToPyConverter(linter="notalinter")
+
+
+# =============================================================================
+# 6. parse_yaml_front_matter()
+# =============================================================================
+
+@pytest.mark.parametrize(
+    "lines, expected_eval",
+    [
+        (
+            # No YAML at all → default True
+            ["# title\n", "```{python}\n"],
+            True,
+        ),
+        (
+            # Proper YAML with execute.eval: false
+            [
+                "---\n",
+                "title: Test\n",
+                "execute:\n",
+                "  eval: false\n",
+                "---\n",
+                "```{python}\n",
+            ],
+            False,
+        ),
+        (
+            # execute present but eval missing → default True
+            [
+                "---\n",
+                "execute:\n",
+                "  echo: true\n",
+                "---\n",
+                "```{python}\n",
+            ],
+            True,
+        ),
+        (
+            # Non-dict execute → ignore, default True
+            [
+                "---\n",
+                "execute: false\n",
+                "---\n",
+                "```{python}\n",
+            ],
+            True,
+        ),
+        (
+            # String variant, case-insensitive
+            [
+                "---\n",
+                "execute:\n",
+                "  eval: \"False\"\n",
+                "---\n",
+            ],
+            False,
+        ),
+        (
+            # Unclosed YAML (no trailing ---) → treated as no YAML
+            [
+                "---\n",
+                "title: bad\n",
+                "execute:\n",
+                "  eval: false\n",
+                "# no closing fence\n",
+            ],
+            True,
+        ),
+    ],
+    ids=[
+        "no_yaml",
+        "yaml_eval_false",
+        "execute_without_eval",
+        "execute_not_dict",
+        "yaml_eval_string_false",
+        "yaml_unclosed",
+    ],
+)
+def test_parse_yaml_front_matter_eval_default(lines, expected_eval):
+    """Unit: parse_yaml_front_matter returns correct eval default."""
+    converter = QmdToPyConverter(linter="flake8")
+    eval_default = converter.parse_yaml_front_matter(lines)
+    assert eval_default is expected_eval
+
+
+def test_parse_yaml_front_matter_invalid_yaml():
+    """Unit: invalid YAML falls back to True."""
+    # safe_load will raise YAMLError on this
+    lines = [
+        "---\n",
+        "title: [unclosed\n",
+        "---\n",
+    ]
+    converter = QmdToPyConverter(linter="flake8")
+    eval_default = converter.parse_yaml_front_matter(lines)
+    assert eval_default is True
+
+
+# =============================================================================
+# 7. parse_chunk_eval_option()
+# =============================================================================
+
+@pytest.mark.parametrize(
+    "line, expected",
+    [
+        ("#| eval: true", True),
+        ("#| eval: false", False),
+        ("#| eval: TRUE", True),
+        ("#| eval: FALSE", False),
+        ("#| eval: 'true'", True),
+        ("#| eval: \"false\"", False),
+        ("#|   eval  :   yes", True),
+        ("#| eval: 0", False),
+        ("#| other: true", None),
+        ("#| eval : maybe", None),
+    ],
+    ids=[
+        "true",
+        "false",
+        "upper_true",
+        "upper_false",
+        "quoted_true",
+        "quoted_false",
+        "yes",
+        "zero",
+        "no_eval_key",
+        "invalid_value",
+    ],
+)
+def test_parse_chunk_eval_option(line, expected):
+    """Unit: parse_chunk_eval_option parses boolean eval values."""
+    converter = QmdToPyConverter(linter="flake8")
+    result = converter.parse_chunk_eval_option(line)
+    assert result is expected
