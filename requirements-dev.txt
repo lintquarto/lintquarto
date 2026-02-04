@@ -8,5 +8,6 @@ pytest
 pytest-cov
 quartodoc
 twine
+types-PyYAML ; python_version >= "3.9"
 types-toml ; python_version >= "3.8"
 -e .[all]
