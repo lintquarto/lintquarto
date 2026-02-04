@@ -12,6 +12,7 @@ from .linelength import LineLengthDetector
 from .linters import Linters
 
 
+# pylint: disable=too-many-instance-attributes
 class QmdToPyConverter:
     """
     Convert lines from a .qmd file to .py file.
@@ -25,10 +26,13 @@ class QmdToPyConverter:
         True if currently processing lines inside a Python code chunk.
     py_lines : list
         Stores the lines to be written to the output Python file.
+    yaml_eval_default : bool
+        Default eval setting from YAML front matter.
     """
     in_chunk_options: bool = False
     in_python: bool = False
     py_lines: list = []
+    yaml_eval_default: bool = True
 
     def __init__(self, linter: str) -> None:
         """
@@ -64,13 +68,9 @@ class QmdToPyConverter:
         self.in_python = False
         self.in_chunk_options = False
 
-    def parse_yaml_front_matter(self, qmd_lines: List[str]) -> bool:
+    def parse_yaml_front_matter(self, qmd_lines: List[str]) -> None:
         """
         Parse YAML front matter and extract execute.eval setting.
-
-        Scans the document for YAML front matter (delimited by ---) and
-        extracts the execute.eval setting. Returns the eval default and the
-        line number where YAML ends.
 
         Parameters
         ----------
@@ -79,12 +79,14 @@ class QmdToPyConverter:
 
         Returns
         -------
-        eval_default : bool
-            The execute.eval setting from YAML, or True if not specified.
+        None
+            Stores the eval setting in self.yaml_eval_default attribute.
+            Sets to True if no YAML front matter is found or if parsing fails.
         """
         # No YAML front matter detected
         if not qmd_lines or not qmd_lines[0].strip() == "---":
-            return True
+            self.yaml_eval_default = True
+            return
 
         yaml_lines = []
 
@@ -95,7 +97,8 @@ class QmdToPyConverter:
             yaml_lines.append(qmd_lines[i])
         else:
             # If no closing --- then treat as no YAML
-            return True
+            self.yaml_eval_default = True
+            return
 
         # Parse the YAML
         try:
@@ -103,7 +106,8 @@ class QmdToPyConverter:
             yaml_dict = yaml.safe_load(yaml_content) or {}
         except (yaml.YAMLError, AttributeError):
             # On parse error (i.e., invalid YAML), fall back to default True
-            return True
+            self.yaml_eval_default = True
+            return
 
         # Extract execute.eval setting
         execute_settings = yaml_dict.get("execute", {})
@@ -116,8 +120,9 @@ class QmdToPyConverter:
                     "no",
                     "0",
                 ]
-            return bool(eval_setting)
-        return True
+            self.yaml_eval_default = bool(eval_setting)
+            return
+        self.yaml_eval_default = True
 
     def convert(self, qmd_lines: List[str]) -> List[str]:
         """

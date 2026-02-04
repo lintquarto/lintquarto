@@ -523,21 +523,20 @@ def test_unsupported_linter():
 def test_parse_yaml_front_matter_eval_default(lines, expected_eval):
     """Unit: parse_yaml_front_matter returns correct eval default."""
     converter = QmdToPyConverter(linter="flake8")
-    eval_default = converter.parse_yaml_front_matter(lines)
-    assert eval_default is expected_eval
+    converter.parse_yaml_front_matter(lines)
+    assert converter.yaml_eval_default is expected_eval
 
 
 def test_parse_yaml_front_matter_invalid_yaml():
-    """Unit: invalid YAML falls back to True."""
-    # safe_load will raise YAMLError on this
+    """Unit: Invalid YAML should fall back to default eval=True"""
     lines = [
         "---\n",
         "title: [unclosed\n",
         "---\n",
     ]
     converter = QmdToPyConverter(linter="flake8")
-    eval_default = converter.parse_yaml_front_matter(lines)
-    assert eval_default is True
+    converter.parse_yaml_front_matter(lines)
+    assert converter.yaml_eval_default is True
 
 
 # =============================================================================
