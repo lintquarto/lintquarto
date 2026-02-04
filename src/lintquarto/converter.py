@@ -28,11 +28,14 @@ class QmdToPyConverter:
         Stores the lines to be written to the output Python file.
     yaml_eval_default : bool
         Default eval setting from YAML front matter.
+    current_chunk_eval : Optional[bool]
+        Eval setting for current chunk from chunk options (None if not set).
     """
     in_chunk_options: bool = False
     in_python: bool = False
     py_lines: list = []
     yaml_eval_default: bool = True
+    current_chunk_eval: Optional[bool] = None
 
     def __init__(self, linter: str) -> None:
         """
@@ -64,9 +67,10 @@ class QmdToPyConverter:
         """
         Reset the state (except linter and YAML eval default).
         """
-        self.py_lines = []
-        self.in_python = False
         self.in_chunk_options = False
+        self.in_python = False
+        self.py_lines = []
+        self.current_chunk_eval = None
 
     def parse_yaml_front_matter(self, qmd_lines: List[str]) -> None:
         """
@@ -165,6 +169,7 @@ class QmdToPyConverter:
         if re.match(r"^```\s*{python[^}]*}$", line):
             self.in_python = True
             self.in_chunk_options = True
+            self.current_chunk_eval = None  # Reset for new chunk
             if self.preserve_line_count:
                 self.py_lines.append("# %% [python]")
 
@@ -172,6 +177,7 @@ class QmdToPyConverter:
         elif line.strip() == "```":
             self.in_python = False
             self.in_chunk_options = False
+            self.current_chunk_eval = None  # Reset after chunk ends
             if self.preserve_line_count:
                 self.py_lines.append("# -")
 
@@ -216,8 +222,8 @@ class QmdToPyConverter:
         # If line is a quarto chunk option...
         if stripped.startswith("#| "):
 
-            # Check for eval option in this line
-            _ = self.parse_chunk_eval_option(stripped)
+            # Parse and store eval option in this line
+            self.parse_chunk_eval_option(stripped)
 
             # Don't append if not preserving line count
             if not self.preserve_line_count:
@@ -231,9 +237,14 @@ class QmdToPyConverter:
             return
 
         # If line is a comment, just append it (but handle code annotations)
+        # If eval status is false, just append # -
         if stripped.startswith("#"):
-            line = self._handle_annotations(line)
-            self.py_lines.append(line)
+            if self.should_lint_current_chunk():
+                line = self._handle_annotations(line)
+                self.py_lines.append(line)
+            else:
+                if self.preserve_line_count:
+                    self.py_lines.append("# -")
             return
 
         # Identified this as first code line after options/blanks/comments...
@@ -259,7 +270,21 @@ class QmdToPyConverter:
         self.py_lines.append(line)
         self.in_chunk_options = False
 
-    def parse_chunk_eval_option(self, stripped: str) -> Optional[bool]:
+    def should_lint_current_chunk(self) -> bool:
+        """
+        Determine if the current chunk should be linted.
+
+        Returns
+        -------
+        bool
+            True if chunk should be linted (eval is True), False otherwise.
+        """
+        # Chunk-level setting overrides YAML default
+        if self.current_chunk_eval is not None:
+            return self.current_chunk_eval
+        return self.yaml_eval_default
+
+    def parse_chunk_eval_option(self, stripped: str) -> None:
         """
         Parse chunk options to extract eval setting.
 
@@ -273,8 +298,10 @@ class QmdToPyConverter:
 
         Returns
         -------
-        Optional[bool]
-            True if eval: true, False if eval: false, None if not found.
+        None
+            Stores the eval setting in self.current_chunk_eval attribute.
+            Sets to True for "true"/"yes"/"1", False for "false"/"no"/"0",
+            Does not modify self.current_chunk_eval if no eval option found.
         """
         # Extract the part after "#| "
         options_part = stripped[3:]
@@ -287,12 +314,14 @@ class QmdToPyConverter:
         if eval_match:
             value = eval_match.group(2).lower()
             if value in ["true", "yes", "1"]:
-                return True
-            if value in ["false", "no", "0"]:
-                return False
-            return None
+                self.current_chunk_eval = True
+            elif value in ["false", "no", "0"]:
+                self.current_chunk_eval = False
+            else:
+                self.current_chunk_eval = None
 
-        return None
+        # If no eval match found, do NOT modify self.current_chunk_eval
+        # This preserves any previously parsed eval setting from earlier lines
 
     def _add_noqa(self, line: str, suppress: list) -> str:
         """
