@@ -72,7 +72,7 @@ If you want to contribute to `lintquarto` or run its tests, you'll need some add
 | **pytest** | Run tests |
 | **pytest-cov** | Calculate coverage |
 | **twine** | Upload to PyPI |
-| **types-toml** | Required by `mypy` |
+| **types-PyYAML** and **types-toml** | Required by `mypy` |
 | **quartodoc** | Generate API docs |
 | `-e .[all]` | Editable install + all linters |
 
