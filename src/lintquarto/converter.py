@@ -190,6 +190,7 @@ class QmdToPyConverter:
             if self.preserve_line_count:
                 self.py_lines.append("# -")
 
+    # pylint: disable=too-many-return-statements,too-many-branches
     def _handle_python_chunk(self, line: str) -> None:
         """
         Process a line within a Python code chunk.
@@ -206,6 +207,10 @@ class QmdToPyConverter:
         # After the first code line, append all lines unchanged (with handling
         # for quarto include syntax and code annotations)
         if not self.in_chunk_options:
+            if not self.should_lint_current_chunk():
+                if self.preserve_line_count:
+                    self.py_lines.append("# -")
+                return
             line = self._handle_includes(line)
             line = self._handle_annotations(line)
             self.py_lines.append(line)
@@ -248,6 +253,12 @@ class QmdToPyConverter:
             return
 
         # Identified this as first code line after options/blanks/comments...
+
+        if not self.should_lint_current_chunk():
+            if self.preserve_line_count:
+                self.py_lines.append("# -")
+            self.in_chunk_options = False
+            return
 
         # Handle quarto include syntax and code annotations
         line = self._handle_includes(line)
