@@ -1,16 +1,18 @@
-"""Convert .qmd file to python file."""
-
-import re
-import warnings
+"""Convert .qmd file to python file"""
 
 from pathlib import Path
+import re
 from typing import List, Union, Optional
+import warnings
+
+import yaml
 
 from .args import CustomArgumentParser
 from .linelength import LineLengthDetector
 from .linters import Linters
 
 
+# pylint: disable=too-many-instance-attributes
 class QmdToPyConverter:
     """
     Convert lines from a .qmd file to .py file.
@@ -24,10 +26,16 @@ class QmdToPyConverter:
         True if currently processing lines inside a Python code chunk.
     py_lines : list
         Stores the lines to be written to the output Python file.
+    yaml_eval_default : bool
+        Default eval setting from YAML front matter.
+    current_chunk_eval : Optional[bool]
+        Eval setting for current chunk from chunk options (None if not set).
     """
     in_chunk_options: bool = False
     in_python: bool = False
     py_lines: list = []
+    yaml_eval_default: bool = True
+    current_chunk_eval: Optional[bool] = None
 
     def __init__(self, linter: str) -> None:
         """
@@ -57,11 +65,68 @@ class QmdToPyConverter:
 
     def reset(self) -> None:
         """
-        Reset the state (except linter).
+        Reset the state (except linter and YAML eval default).
         """
-        self.py_lines = []
-        self.in_python = False
         self.in_chunk_options = False
+        self.in_python = False
+        self.py_lines = []
+        self.current_chunk_eval = None
+
+    def parse_yaml_front_matter(self, qmd_lines: List[str]) -> None:
+        """
+        Parse YAML front matter and extract execute.eval setting.
+
+        Parameters
+        ----------
+        qmd_lines : List[str]
+            List containing each line from the Quarto file.
+
+        Returns
+        -------
+        None
+            Stores the eval setting in self.yaml_eval_default attribute.
+            Sets to True if no YAML front matter is found or if parsing fails.
+        """
+        # No YAML front matter detected
+        if not qmd_lines or not qmd_lines[0].strip() == "---":
+            self.yaml_eval_default = True
+            return
+
+        yaml_lines = []
+
+        # Find the end of YAML front matter
+        for i in range(1, len(qmd_lines)):
+            if qmd_lines[i].strip() == "---":
+                break
+            yaml_lines.append(qmd_lines[i])
+        else:
+            # If no closing --- then treat as no YAML
+            self.yaml_eval_default = True
+            return
+
+        # Parse the YAML
+        try:
+            yaml_content = "\n".join(yaml_lines)
+            yaml_dict = yaml.safe_load(yaml_content) or {}
+        except (yaml.YAMLError, AttributeError):
+            # On parse error (i.e., invalid YAML), fall back to default True
+            self.yaml_eval_default = True
+            return
+
+        # Extract execute.eval setting
+        execute_settings = yaml_dict.get("execute", {})
+        if isinstance(execute_settings, dict):
+            eval_setting = execute_settings.get("eval", True)
+            # Convert to boolean (handle string representations)
+            if isinstance(eval_setting, str):
+                eval_setting = eval_setting.lower() not in [
+                    "false",
+                    "no",
+                    "0",
+                ]
+            self.yaml_eval_default = bool(eval_setting)
+            return
+        self.yaml_eval_default = True
 
     def convert(self, qmd_lines: List[str]) -> List[str]:
         """
@@ -77,9 +142,14 @@ class QmdToPyConverter:
         py_lines : List[str]
             List of each line for the output Python file.
         """
+        # Parse YAML front matter to get default eval setting
+        self.parse_yaml_front_matter(qmd_lines)
+
         self.reset()
+
         for original_line in qmd_lines:
             self.process_line(original_line)
+
         return self.py_lines
 
     def process_line(self, original_line: str) -> None:
@@ -99,6 +169,7 @@ class QmdToPyConverter:
         if re.match(r"^```\s*{python[^}]*}$", line):
             self.in_python = True
             self.in_chunk_options = True
+            self.current_chunk_eval = None  # Reset for new chunk
             if self.preserve_line_count:
                 self.py_lines.append("# %% [python]")
 
@@ -106,6 +177,7 @@ class QmdToPyConverter:
         elif line.strip() == "```":
             self.in_python = False
             self.in_chunk_options = False
+            self.current_chunk_eval = None  # Reset after chunk ends
             if self.preserve_line_count:
                 self.py_lines.append("# -")
 
@@ -118,6 +190,7 @@ class QmdToPyConverter:
             if self.preserve_line_count:
                 self.py_lines.append("# -")
 
+    # pylint: disable=too-many-return-statements,too-many-branches
     def _handle_python_chunk(self, line: str) -> None:
         """
         Process a line within a Python code chunk.
@@ -134,6 +207,10 @@ class QmdToPyConverter:
         # After the first code line, append all lines unchanged (with handling
         # for quarto include syntax and code annotations)
         if not self.in_chunk_options:
+            if not self.should_lint_current_chunk():
+                if self.preserve_line_count:
+                    self.py_lines.append("# -")
+                return
             line = self._handle_includes(line)
             line = self._handle_annotations(line)
             self.py_lines.append(line)
@@ -147,23 +224,41 @@ class QmdToPyConverter:
         # Remove blank space at start of line
         stripped = line.lstrip()
 
-        # If line is a quarto chunk option, only append when preserving lines
-        # and suppress E265 (as will warn for "#|" comment spacing)
+        # If line is a quarto chunk option...
         if stripped.startswith("#| "):
+
+            # Parse and store eval option in this line
+            self.parse_chunk_eval_option(stripped)
+
+            # Don't append if not preserving line count
             if not self.preserve_line_count:
                 return
+
+            # Append and suppress E265 (as will warn for "#|" comment spacing)
             if self.uses_noqa:
                 line = self._add_noqa(line, ["E265"])
+
             self.py_lines.append(line)
             return
 
         # If line is a comment, just append it (but handle code annotations)
+        # If eval status is false, just append # -
         if stripped.startswith("#"):
-            line = self._handle_annotations(line)
-            self.py_lines.append(line)
+            if self.should_lint_current_chunk():
+                line = self._handle_annotations(line)
+                self.py_lines.append(line)
+            else:
+                if self.preserve_line_count:
+                    self.py_lines.append("# -")
             return
 
         # Identified this as first code line after options/blanks/comments...
+
+        if not self.should_lint_current_chunk():
+            if self.preserve_line_count:
+                self.py_lines.append("# -")
+            self.in_chunk_options = False
+            return
 
         # Handle quarto include syntax and code annotations
         line = self._handle_includes(line)
@@ -185,6 +280,59 @@ class QmdToPyConverter:
 
         self.py_lines.append(line)
         self.in_chunk_options = False
+
+    def should_lint_current_chunk(self) -> bool:
+        """
+        Determine if the current chunk should be linted.
+
+        Returns
+        -------
+        bool
+            True if chunk should be linted (eval is True), False otherwise.
+        """
+        # Chunk-level setting overrides YAML default
+        if self.current_chunk_eval is not None:
+            return self.current_chunk_eval
+        return self.yaml_eval_default
+
+    def parse_chunk_eval_option(self, stripped: str) -> None:
+        """
+        Parse chunk options to extract eval setting.
+
+        Searches for lines like "#| eval: false" or "#| eval: true"
+        within chunk options.
+
+        Parameters
+        ----------
+        stripped : str
+            The line to parse (with blank space at start removed).
+
+        Returns
+        -------
+        None
+            Stores the eval setting in self.current_chunk_eval attribute.
+            Sets to True for "true"/"yes"/"1", False for "false"/"no"/"0",
+            Does not modify self.current_chunk_eval if no eval option found.
+        """
+        # Extract the part after "#| "
+        options_part = stripped[3:]
+
+        # Look for eval: pattern
+        eval_match = re.search(
+            r"eval\s*:\s*(['\"]?)(\w+)\1", options_part
+        )
+
+        if eval_match:
+            value = eval_match.group(2).lower()
+            if value in ["true", "yes", "1"]:
+                self.current_chunk_eval = True
+            elif value in ["false", "no", "0"]:
+                self.current_chunk_eval = False
+            else:
+                self.current_chunk_eval = None
+
+        # If no eval match found, do NOT modify self.current_chunk_eval
+        # This preserves any previously parsed eval setting from earlier lines
 
     def _add_noqa(self, line: str, suppress: list) -> str:
         """
@@ -236,8 +384,8 @@ class QmdToPyConverter:
         Remove in-line quarto code annotations ("#<<").
 
         These are placed at the end of a line for shafayetShafee's
-        line-highlight extension. If found, "#<<" and any whitespace before it
-        are stripped from the end of the line.
+        line-highlight extension. If found, "#<<" (and any whitespace before
+        it) are stripped from the end of the line.
 
         Parameters
         ----------

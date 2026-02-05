@@ -221,6 +221,29 @@ def test_decorator():
     assert "E302" not in output
 
 
+def test_eval_false():
+    """Functional Test: eval=false in document YAML"""
+    # Locate the Quarto example file
+    test_dir = Path(__file__).parent
+    qmd_path = test_dir / "examples" / "eval_example.qmd"
+
+    # Run lintquarto with flake8 on the example file.
+    result = subprocess.run(
+        [sys.executable, "-m", "lintquarto",
+         "-l", "flake8", "-p", qmd_path],
+        capture_output=True, text=True, check=False
+    )
+    output = result.stdout + result.stderr
+
+    # Verify that the warnings from the second chunk (eval=True) appear
+    assert "E305" in output
+    assert "F401" in output
+    assert "E402" in output
+
+    # Verify that the warnings from the first chunk do not
+    assert "501" not in output
+
+
 def test_paths_with_commas(monkeypatch):
     """Functional Test: raises ValueError when --paths contains commas."""
     test_args = ["prog", "-l", "pylint", "-p", "file1.qmd,dir2"]

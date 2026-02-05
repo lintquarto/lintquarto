@@ -55,14 +55,19 @@ def test_non_python_chunk_is_commented(linter):
 # 2. Conversion of active python chunks
 # =============================================================================
 
-def remove_noqa(lines):
+def remove_noqa(lines: list[str]) -> list[str]:
     """
     Helper to remove # noqa comments from expected output
 
     Parameters
     ----------
-    lines : list of str
+    lines : list[str]
         Lines of text (expected output)
+
+    Returns
+    -------
+    list[str]
+        Lines with any trailing '  noqa: ...' comments removed.
     """
     return [
         line.split("  # noqa")[0] if "  # noqa" in line
@@ -315,6 +320,7 @@ def test_preserve_line_count_false_removes_non_code():
     # we do manually anyway for good measure!)
     conv = QmdToPyConverter(linter="radon-raw")
     conv.preserve_line_count = False
+    _ = conv.preserve_line_count  # noqa: F841  # reassure static tools
     py_lines = conv.convert(qmd_lines)
 
     # Check there are no filler lines, and only code lines
@@ -441,3 +447,383 @@ def test_unsupported_linter():
     """Unsupported linter name raises an error."""
     with pytest.raises(ValueError):
         QmdToPyConverter(linter="notalinter")
+
+
+# =============================================================================
+# 6. parse_yaml_front_matter()
+# =============================================================================
+
+@pytest.mark.parametrize(
+    "lines, expected_eval",
+    [
+        (
+            # No YAML at all → default True
+            ["# title\n", "```{python}\n"],
+            True,
+        ),
+        (
+            # Proper YAML with execute.eval: false
+            [
+                "---\n",
+                "title: Test\n",
+                "execute:\n",
+                "  eval: false\n",
+                "---\n",
+                "```{python}\n",
+            ],
+            False,
+        ),
+        (
+            # execute present but eval missing → default True
+            [
+                "---\n",
+                "execute:\n",
+                "  echo: true\n",
+                "---\n",
+                "```{python}\n",
+            ],
+            True,
+        ),
+        (
+            # Non-dict execute → ignore, default True
+            [
+                "---\n",
+                "execute: false\n",
+                "---\n",
+                "```{python}\n",
+            ],
+            True,
+        ),
+        (
+            # String variant, case-insensitive
+            [
+                "---\n",
+                "execute:\n",
+                "  eval: \"False\"\n",
+                "---\n",
+            ],
+            False,
+        ),
+        (
+            # Unclosed YAML (no trailing ---) → treated as no YAML
+            [
+                "---\n",
+                "title: bad\n",
+                "execute:\n",
+                "  eval: false\n",
+                "# no closing fence\n",
+            ],
+            True,
+        ),
+    ],
+    ids=[
+        "no_yaml",
+        "yaml_eval_false",
+        "execute_without_eval",
+        "execute_not_dict",
+        "yaml_eval_string_false",
+        "yaml_unclosed",
+    ],
+)
+def test_parse_yaml_front_matter_eval_default(lines, expected_eval):
+    """Unit: parse_yaml_front_matter returns correct eval default."""
+    converter = QmdToPyConverter(linter="flake8")
+    converter.parse_yaml_front_matter(lines)
+    assert converter.yaml_eval_default is expected_eval
+
+
+def test_parse_yaml_front_matter_invalid_yaml():
+    """Unit: Invalid YAML should fall back to default eval=True"""
+    lines = [
+        "---\n",
+        "title: [unclosed\n",
+        "---\n",
+    ]
+    converter = QmdToPyConverter(linter="flake8")
+    converter.parse_yaml_front_matter(lines)
+    assert converter.yaml_eval_default is True
+
+
+# =============================================================================
+# 7. parse_chunk_eval_option()
+# =============================================================================
+
+@pytest.mark.parametrize(
+    "line, expected",
+    [
+        ("#| eval: true", True),
+        ("#| eval: false", False),
+        ("#| eval: TRUE", True),
+        ("#| eval: FALSE", False),
+        ("#| eval: 'true'", True),
+        ("#| eval: \"false\"", False),
+        ("#|   eval  :   yes", True),
+        ("#| eval: 0", False),
+        ("#| other: true", None),
+        ("#| eval : maybe", None),
+    ],
+    ids=[
+        "true",
+        "false",
+        "upper_true",
+        "upper_false",
+        "quoted_true",
+        "quoted_false",
+        "yes",
+        "zero",
+        "no_eval_key",
+        "invalid_value",
+    ],
+)
+def test_parse_chunk_eval_option(line, expected):
+    """Unit: parse_chunk_eval_option parses boolean eval values."""
+    converter = QmdToPyConverter(linter="flake8")
+    converter.parse_chunk_eval_option(line)
+    assert converter.current_chunk_eval is expected
+
+
+# =============================================================================
+# 8. Integration: eval controls which chunks are kept
+# =============================================================================
+
+def _convert(lines):
+    conv = QmdToPyConverter(linter="flake8")
+    return conv.convert(lines)
+
+
+def test_no_yaml_all_chunks_linted_by_default():
+    """Integration: no YAML → all python chunks linted (kept)."""
+    qmd = [
+        "Some text\n",
+        "```{python}\n",
+        "x = 1\n",
+        "```\n",
+        "\n",
+        "```{python}\n",
+        "y = 2\n",
+        "```\n",
+    ]
+    py = _convert(qmd)
+    assert any("x = 1" in line for line in py)
+    assert any("y = 2" in line for line in py)
+    assert len(py) == len(qmd)
+
+
+def test_yaml_eval_false_all_chunks_skipped_by_default():
+    """Integration: YAML eval: false → all chunks skipped unless overridden."""
+    qmd = [
+        "---\n",
+        "execute:\n",
+        "  eval: false\n",
+        "---\n",
+        "\n",
+        "```{python}\n",
+        "x = 1\n",
+        "```\n",
+    ]
+    py = _convert(qmd)
+    assert "x = 1" not in py
+    # still preserving line count
+    assert len(py) == len(qmd)
+
+
+def test_chunk_eval_true_overrides_yaml_false():
+    """Integration: #| eval: true keeps chunk even if YAML eval: false."""
+    qmd = [
+        "---\n",
+        "execute:\n",
+        "  eval: false\n",
+        "---\n",
+        "\n",
+        "```{python}\n",
+        "#| eval: true\n",
+        "x = 1\n",
+        "```\n",
+    ]
+    py = _convert(qmd)
+    assert any("x = 1" in line for line in py)
+
+
+def test_chunk_eval_false_overrides_yaml_true():
+    """Integration: #| eval: false skips chunk even if YAML eval: true."""
+    qmd = [
+        "---\n",
+        "execute:\n",
+        "  eval: true\n",
+        "---\n",
+        "\n",
+        "```{python}\n",
+        "#| eval: false\n",
+        "x = 1\n",
+        "```\n",
+    ]
+    py = _convert(qmd)
+    assert "x = 1" not in py
+
+
+def test_chunk_eval_false_without_yaml():
+    """Integration: #| eval: false skips chunk when no YAML present."""
+    qmd = [
+        "```{python}\n",
+        "#| eval: false\n",
+        "x = 1\n",
+        "```\n",
+    ]
+    py = _convert(qmd)
+    assert "x = 1" not in py
+    assert len(py) == len(qmd)
+
+
+def test_multiple_chunk_options():
+    """Integration: other options (#| echo etc.) must not reset eval."""
+    qmd = [
+        "```{python}\n",
+        "#| eval: true\n",
+        "#| echo: false\n",
+        "#| warning: false\n",
+        "x = 1\n",
+        "```\n",
+    ]
+    py = _convert(qmd)
+    assert any("x = 1" in line for line in py)
+
+
+def test_chunk_eval_option_order_irrelevant():
+    """Integration: eval can appear before or after other options."""
+    qmd = [
+        "```{python}\n",
+        "#| echo: false\n",
+        "#| eval: true\n",
+        "x = 1\n",
+        "```\n",
+    ]
+    py = _convert(qmd)
+    assert any("x = 1" in line for line in py)
+
+
+def test_chunk_eval_resets_between_chunks():
+    """Integration: eval setting must not bleed into next chunk."""
+    qmd = [
+        "```{python}\n",
+        "#| eval: false\n",
+        "x = 1\n",
+        "```\n",
+        "\n",
+        "```{python}\n",
+        "y = 2\n",
+        "```\n",
+    ]
+    py = _convert(qmd)
+    # first chunk skipped
+    assert "x = 1" not in py
+    # second chunk uses default (True when no YAML)
+    assert any("y = 2" in line for line in py)
+
+
+def test_yaml_eval_false_with_mixed_chunks():
+    """Integration: YAML eval: false with one chunk overriding to true."""
+    qmd = [
+        "---\n",
+        "execute:\n",
+        "  eval: false\n",
+        "---\n",
+        "\n",
+        "```{python}\n",
+        "a = 1\n",
+        "```\n",
+        "\n",
+        "```{python}\n",
+        "#| eval: true\n",
+        "b = 2\n",
+        "```\n",
+        "\n",
+        "```{python}\n",
+        "c = 3\n",
+        "```\n",
+    ]
+    py = _convert(qmd)
+    assert "a = 1" not in py
+    assert "c = 3" not in py
+    assert any("b = 2" in line for line in py)
+
+
+def test_yaml_eval_false_comments_code():
+    """Integration: in eval: false chunk, comments + code become non-code."""
+    qmd = [
+        "```{python}\n",
+        "#| eval: false\n",
+        "# a comment\n",
+        "x = 1\n",
+        "```\n",
+    ]
+    py = _convert(qmd)
+    assert "# a comment" not in py
+    assert "x = 1" not in py
+    assert len(py) == len(qmd)
+
+
+def test_yaml_eval_false_skip_exercise():
+    """Integration: setup linted, exercise chunks skipped."""
+    qmd = [
+        "---\n",
+        "execute:\n",
+        "  eval: false\n",
+        "---\n",
+        "\n",
+        "# Setup\n",
+        "```{python}\n",
+        "#| eval: true\n",
+        "import math\n",
+        "x = 1\n",
+        "```\n",
+        "\n",
+        "# Exercise\n",
+        "```{python}\n",
+        "y = x + 1\n",
+        "```\n",
+    ]
+    py = _convert(qmd)
+    # Setup kept
+    assert any("import math" in line for line in py)
+    assert any("x = 1" in line for line in py)
+    # Exercise skipped
+    assert not any("y = x + 1" in line for line in py)
+
+
+def test_yaml_eval_false_plain_chunk():
+    """Integration: YAML eval=false, 1st chunk plain, 2nd eval:true."""
+    qmd = [
+        "---\n",
+        "title: Example\n",
+        "execute:\n",
+        "  eval: false\n",
+        "---\n",
+        "\n",
+        "Some text\n",
+        "\n",
+        "```{python}\n",
+        "a = 1\n",
+        "b = 2\n",
+        "```\n",
+        "\n",
+        "More text\n",
+        "\n",
+        "```{python}\n",
+        "#| eval: true\n",
+        "c = 3\n",
+        "d = 4\n",
+        "```\n",
+    ]
+
+    py = _convert(qmd)
+
+    # First chunk (no #| eval, YAML eval:false) should be completely skipped
+    assert "a = 1" not in py
+    assert "b = 2" not in py
+
+    # Second chunk (eval:true) should be present
+    assert any("c = 3" in line for line in py)
+    assert any("d = 4" in line for line in py)
+
+    # Line count preserved
+    assert len(py) == len(qmd)

@@ -1,0 +1,23 @@
+---
+title: "Example"
+execute:
+  eval: false
+---
+
+This file shouldn't be linted as set eval to False in document YAML.
+
+```{python}
+very_long_line = "This long string exceeds the maximum allowed characters per line."
+```
+
+However, this file should, as have overridden with eval True in the chunk options.
+
+```{python}
+#| eval: true
+def add_numbers(a, b):
+    return a + b
+
+add_numbers(3, 5)
+
+import sys
+```

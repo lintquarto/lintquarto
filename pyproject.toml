@@ -12,9 +12,10 @@ license = {file = "LICENSE"}
 dynamic = ["version"]
 keywords = ["lint", "quarto", "qmd", "pylint", "flake8", "mypy"]
 
-# Only one required dependency - otherwise users install linters they want
+# Only two required dependencies - otherwise users install linters they want
 dependencies = [
-  "toml"
+  "toml",
+  "yaml"
 ]
 
 # Supports Python 3.7+. Uses subprocess.run() introduced in Python 3.5,
