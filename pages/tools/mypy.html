@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../pages/tools/pyrefly.html" rel="next">
-<link href="../../pages/tools/vulture.html" rel="prev">
+<link href="../../pages/tools/ruff.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -229,12 +229,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">ruff</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../pages/tools/vulture.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">vulture</span></a>
-  </div>
-</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -283,6 +277,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../pages/tools/vulture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">vulture</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../pages/tools/radon.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">radon</span></a>
   </div>
@@ -320,7 +320,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="example-quarto-.qmd-file" class="level2">
 <h2 class="anchored" data-anchor-id="example-quarto-.qmd-file">Example Quarto <code>.qmd</code> file:</h2>
-<p><a href="#dnldts48425" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgKHN0YXRpYyB0eXBlIGNoZWNrZXIpIHRvIGlkZW50aWZ5LgoKYGBge3B5dGhvbn0KZGVmIGFkZF9udW1iZXJzKGE6IGludCwgYjogaW50KSAtPiBpbnQ6CiAgICByZXR1cm4gYSArIGIKCmFkZF9udW1iZXJzKDMsICI1IikKYGBgCgpUaGVyZSdzIHNvbWUgbW9yZSBpc3N1ZXMgYmVsb3cuLi4KCmBgYHtweXRob259CmFkZF9udW1iZXJzKDEsIDQpCgphZGRfbnVtYmVycygiYXBwbGVzIiwgOCkKYGBg').then(res => res.blob()).then(blob => {
+<p><a href="#dnldts1589" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgKHN0YXRpYyB0eXBlIGNoZWNrZXIpIHRvIGlkZW50aWZ5LgoKYGBge3B5dGhvbn0KZGVmIGFkZF9udW1iZXJzKGE6IGludCwgYjogaW50KSAtPiBpbnQ6CiAgICByZXR1cm4gYSArIGIKCmFkZF9udW1iZXJzKDMsICI1IikKYGBgCgpUaGVyZSdzIHNvbWUgbW9yZSBpc3N1ZXMgYmVsb3cuLi4KCmBgYHtweXRob259CmFkZF9udW1iZXJzKDEsIDQpCgphZGRfbnVtYmVycygiYXBwbGVzIiwgOCkKYGBg').then(res => res.blob()).then(blob => {
       const downloadURL = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       document.body.appendChild(a);
@@ -328,9 +328,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       a.download = 'typecheck_example.qmd'; a.click();
       window.URL.revokeObjectURL(downloadURL);
       document.body.removeChild(a);
-        });"><button class="btn btn-light downloadthis  " id="dnldts48425"><i class="bi bi-download"></i> Download the example </button></a></p>
+        });"><button class="btn btn-light downloadthis  " id="dnldts1589"><i class="bi bi-download"></i> Download the example </button></a></p>
 <div class="pale-grey">
-<div id="96028a89" class="cell" data-execution_count="3">
+<div id="f5f3e949" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
 <pre><code>1:     ---
 2:     title: "Example"
@@ -366,7 +366,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   white-space: pre-wrap !important;
 }
 </style>
-<div id="f313b3e3" class="cell" data-execution_count="4">
+<div id="bb051911" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre>=============================================================
@@ -795,8 +795,8 @@ examples/typecheck_example.qmd:19: <span class="ansi-red-fg ansi-bold">error:</s
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../pages/tools/vulture.html" class="pagination-link" aria-label="vulture">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">vulture</span>
+      <a href="../../pages/tools/ruff.html" class="pagination-link" aria-label="ruff">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">ruff</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

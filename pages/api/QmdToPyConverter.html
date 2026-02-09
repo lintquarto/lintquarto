@@ -179,8 +179,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <table class="caption-top table">
 <colgroup>
 <col style="width: 14%">
-<col style="width: 6%">
-<col style="width: 79%">
+<col style="width: 12%">
+<col style="width: 72%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -205,6 +205,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>list</td>
 <td>Stores the lines to be written to the output Python file.</td>
 </tr>
+<tr class="even">
+<td>yaml_eval_default</td>
+<td>bool</td>
+<td>Default eval setting from YAML front matter.</td>
+</tr>
+<tr class="odd">
+<td>current_chunk_eval</td>
+<td>Optional[bool]</td>
+<td>Eval setting for current chunk from chunk options (None if not set).</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -223,12 +233,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Run converter on the provided lines.</td>
 </tr>
 <tr class="even">
+<td><a href="#lintquarto.converter.QmdToPyConverter.parse_chunk_eval_option">parse_chunk_eval_option</a></td>
+<td>Parse chunk options to extract eval setting.</td>
+</tr>
+<tr class="odd">
+<td><a href="#lintquarto.converter.QmdToPyConverter.parse_yaml_front_matter">parse_yaml_front_matter</a></td>
+<td>Parse YAML front matter and extract execute.eval setting.</td>
+</tr>
+<tr class="even">
 <td><a href="#lintquarto.converter.QmdToPyConverter.process_line">process_line</a></td>
 <td>Process individual lines with state tracking.</td>
 </tr>
 <tr class="odd">
 <td><a href="#lintquarto.converter.QmdToPyConverter.reset">reset</a></td>
-<td>Reset the state (except linter).</td>
+<td>Reset the state (except linter and YAML eval default).</td>
+</tr>
+<tr class="even">
+<td><a href="#lintquarto.converter.QmdToPyConverter.should_lint_current_chunk">should_lint_current_chunk</a></td>
+<td>Determine if the current chunk should be linted.</td>
 </tr>
 </tbody>
 </table>
@@ -288,12 +310,125 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </section>
 </section>
-<section id="lintquarto.converter.QmdToPyConverter.process_line" class="level3">
-<h3 class="anchored" data-anchor-id="lintquarto.converter.QmdToPyConverter.process_line">process_line</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>converter.QmdToPyConverter.process_line(original_line)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Process individual lines with state tracking.</p>
+<section id="lintquarto.converter.QmdToPyConverter.parse_chunk_eval_option" class="level3">
+<h3 class="anchored" data-anchor-id="lintquarto.converter.QmdToPyConverter.parse_chunk_eval_option">parse_chunk_eval_option</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>converter.QmdToPyConverter.parse_chunk_eval_option(stripped)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Parse chunk options to extract eval setting.</p>
+<p>Searches for lines like “#| eval: false” or “#| eval: true” within chunk options.</p>
 <section id="parameters-1" class="level4 doc-section doc-section-parameters">
 <h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-1">Parameters</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 9%">
+<col style="width: 65%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>stripped</td>
+<td>str</td>
+<td>The line to parse (with blank space at start removed).</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="returns-1" class="level4 doc-section doc-section-returns">
+<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns-1">Returns</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 92%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td>None</td>
+<td>Stores the eval setting in self.current_chunk_eval attribute. Sets to True for “true”/“yes”/“1”, False for “false”/“no”/“0”, Does not modify self.current_chunk_eval if no eval option found.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="lintquarto.converter.QmdToPyConverter.parse_yaml_front_matter" class="level3">
+<h3 class="anchored" data-anchor-id="lintquarto.converter.QmdToPyConverter.parse_yaml_front_matter">parse_yaml_front_matter</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>converter.QmdToPyConverter.parse_yaml_front_matter(qmd_lines)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Parse YAML front matter and extract execute.eval setting.</p>
+<section id="parameters-2" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-2">Parameters</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 15%">
+<col style="width: 57%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>qmd_lines</td>
+<td>List[str]</td>
+<td>List containing each line from the Quarto file.</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="returns-2" class="level4 doc-section doc-section-returns">
+<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns-2">Returns</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 88%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td>None</td>
+<td>Stores the eval setting in self.yaml_eval_default attribute. Sets to True if no YAML front matter is found or if parsing fails.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="lintquarto.converter.QmdToPyConverter.process_line" class="level3">
+<h3 class="anchored" data-anchor-id="lintquarto.converter.QmdToPyConverter.process_line">process_line</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>converter.QmdToPyConverter.process_line(original_line)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Process individual lines with state tracking.</p>
+<section id="parameters-3" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-3">Parameters</h4>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -316,10 +451,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="lintquarto.converter.QmdToPyConverter.reset" class="level3">
 <h3 class="anchored" data-anchor-id="lintquarto.converter.QmdToPyConverter.reset">reset</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>converter.QmdToPyConverter.reset()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Reset the state (except linter).</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>converter.QmdToPyConverter.reset()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Reset the state (except linter and YAML eval default).</p>
+</section>
+<section id="lintquarto.converter.QmdToPyConverter.should_lint_current_chunk" class="level3">
+<h3 class="anchored" data-anchor-id="lintquarto.converter.QmdToPyConverter.should_lint_current_chunk">should_lint_current_chunk</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>converter.QmdToPyConverter.should_lint_current_chunk()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Determine if the current chunk should be linted.</p>
+<section id="returns-3" class="level4 doc-section doc-section-returns">
+<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns-3">Returns</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 80%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td>bool</td>
+<td>True if chunk should be linted (eval is True), False otherwise.</td>
+</tr>
+</tbody>
+</table>
 
 
+</section>
 </section>
 </section>
 </section>
