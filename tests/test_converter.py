@@ -1,5 +1,6 @@
 """Unit tests for the converter module."""
 
+from typing import List
 from unittest import mock
 
 import pytest
@@ -55,18 +56,18 @@ def test_non_python_chunk_is_commented(linter):
 # 2. Conversion of active python chunks
 # =============================================================================
 
-def remove_noqa(lines: list[str]) -> list[str]:
+def remove_noqa(lines: List[str]) -> List[str]:
     """
     Helper to remove # noqa comments from expected output
 
     Parameters
     ----------
-    lines : list[str]
+    lines : List[str]
         Lines of text (expected output)
 
     Returns
     -------
-    list[str]
+    List[str]
         Lines with any trailing '  noqa: ...' comments removed.
     """
     return [
