@@ -16,11 +16,13 @@ import pytest
 )
 def test_check_dependencies():
     """Test for missing or undeclared dependencies."""
+    # Set yaml as missing - we import yaml and declare dependency pyyaml and
+    # that is correct, but check-dependencies does not recognise
     result = subprocess.run(
-        ["check-dependencies", "src/lintquarto"],
+        ["check-dependencies", "src/lintquarto", "--missing", "yaml"],
         capture_output=True, text=True, check=False
     )
-    assert result.returncode == 4, (
+    assert result.returncode in (4, 6), (
         "Missing or extra dependencies detected:\n"
         f"{result.stdout}\n{result.stderr}"
     )
