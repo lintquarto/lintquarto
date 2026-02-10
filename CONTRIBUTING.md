@@ -69,7 +69,6 @@ Key tools include:
 | Tool | Purpose |
 | - | - |
 | **check-dependencies** | Test for undeclared dependencies |
-| **flit** | Packaging and publishing |
 | **genbadge** | Create coverage badge (README) |
 | **grayskull** | Uploading to `conda-forge` |
 | **jupyter** | Run python code in docs |

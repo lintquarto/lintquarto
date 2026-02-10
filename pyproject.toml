@@ -63,7 +63,6 @@ all = [
 [dependency-groups]
 dev = [
   "check-dependencies; python_version >= '3.8'",
-  "flit",
   "genbadge",
   "grayskull",
   "jupyter",
