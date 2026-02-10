@@ -113,7 +113,7 @@ To do that:
 
 ```{.bash}
 # Optionally bump the Python version used for development
-uv python pin 3.11   # or 3.12, etc.
+uv python pin 3.12   # or 3.13, etc.
 
 # Upgrade dependencies within the limits of pyproject.toml
 uv lock --upgrade
@@ -156,19 +156,19 @@ We follow the [numpydoc](https://numpydoc.readthedocs.io/en/latest/format.html) 
 Run all tests (with coverage):
 
 ```{.bash}
-pytest --cov
+uv run pytest --cov
 ```
 
 Run an individual test file:
 
 ```{.bash}
-pytest tests/test_back.py
+uv run pytest tests/test_back.py
 ```
 
 Run a specific test:
 
 ```{.bash}
-pytest tests/test_linters.py::test_supported_error
+uv run pytest tests/test_linters.py::test_supported_error
 ```
 
 <br>
@@ -197,7 +197,7 @@ lint_docs.sh
 There is a pre-commit hook provided which will lint the package and documentation with every commit. To make it executable, run:
 
 ```{.bash}
-pre-commit install
+uv run pre-commit install
 ```
 
 **Not running in the right environment?** You may find the pre-commit fails if it is using the wrong environment - I've found this to be the case in VSCode. I've found the simplest way to fix this is to work on the command line, activate the environment, and then either do the commit directly there (i.e., `git add`, `git commit`) or launch VS Code (`code .`) which ensures it inherits the environment.
@@ -211,7 +211,7 @@ pre-commit install
 Build and preview the documentation locally:
 
 ```{.bash}
-make -C docs
+uv run make -C docs
 ```
 
 When running this, function documentation will be automatically generated from the codebase using `quartodoc`
