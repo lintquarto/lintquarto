@@ -59,7 +59,12 @@ git push origin my-feature
 
 ### Dependencies
 
-If you want to contribute to `lintquarto` or run its tests, you'll need some additional tools:
+If you want to contribute to `lintquarto` or run its tests, you'll need some additional tools. These are declared in `pyproject.toml` as:
+
+* The `all` extra under `[project.optional-dependencies]` (all possible linters and code checkers).
+* The `dev` dependency group under `[dependency-groups]` (packaging, docs, tests, etc.).
+
+Key tools include:
 
 | Tool | Purpose |
 | - | - |
@@ -76,39 +81,67 @@ If you want to contribute to `lintquarto` or run its tests, you'll need some add
 | **quartodoc** | Generate API docs |
 | `-e .[all]` | Editable install + all linters |
 
-These are listed in `requirements-dev.txt` for convenience. To set up your development environment, create an environment (e.g. `virtualenv`) and run:
+<br>
+
+### Setting up a dev environment with uv
+
+We recommend using **uv** for dependency management.
+
+#### 1. Start with the recorded environment
+
+In the project root:
 
 ```{.bash}
-pip install -r requirements-dev.txt
+uv sync --all-extras
 ```
 
-For testing only (used by GitHub actions):
+This will use the Python version recorded in `.python-version` and installs the dependency versions recorded in `uv.lock`.
+
+It will install the dev dependency group by default, but you need to add the command `--all-extras` to instruct it to also install the `[project.optional-dependencies].all` packages.
+
+Run the test suite to confirm everything passes:
+
+```{.bash}
+uv run pytest
+```
+
+#### 2. Keeping tools up to date (recommended)
+
+It's helpful if contributors periodically bump to the latest compatible versions, so we keep a latest stable, reproducible setup checked into version control.
+
+To do that:
+
+```{.bash}
+# Optionally bump the Python version used for development
+uv python pin 3.11   # or 3.12, etc.
+
+# Upgrade dependencies within the limits of pyproject.toml
+uv lock --upgrade
+
+# Recreate the environment with the updated lockfile
+uv sync --all-extras
+
+# Re‑run tests and checks
+uv run pytest
+```
+
+If everything passes, commit the updated `uv.lock` (and `.python-version` if changed) and mention in your pull request that you've refreshed the dev environment to current versions.
+
+<br>
+
+### Test-only environment
+
+The GitHub Actions test workflow uses a minimal environment with only test requirements:
 
 ```{.bash}
 pip install -r requirements-test.txt
 ```
 
-You can also install the packages in `requirements-dev.txt` when you install `lintquarto` by running:
-
-```{.bash}
-pip install lintquarto[dev]
-```
-
-Quarto (used for the docs) is a standalone tool - install it from https://quarto.org/docs/get-started/.
-
 <br>
 
-### Dependency versions
+### Quarto
 
-Contributors are encouraged to install and use the **latest versions** of development tools. This helps keep the project compatible with current tooling and catches issues early.
-
-If you need a fully reproducible and stable setup, use the provided Conda environment file. This file pins all development tool versions, including Python:
-
-```{.bash}
-conda env create -f requirements-stable.yml
-```
-
-To update the stable environment, run `conda update --all` and test thoroughly (running tests, building documentation), and then update `requirements-stable.yml` with any changes.
+Quarto (used for the docs) is a standalone tool - install it from https://quarto.org/docs/get-started/.
 
 <br>
 
