@@ -127,6 +127,14 @@ uv run pytest
 
 If everything passes, commit the updated `uv.lock` (and `.python-version` if changed) and mention in your pull request that you've refreshed the dev environment to current versions.
 
+> **Note:** On 10 February 2026, found incompatible `quartodoc` and `griffe`, so had to lock `griffe` at 1.14.0 by running:
+>
+> ```
+> uv lock --upgrade-package "griffe==1.14.0"
+> uv lock --upgrade-package "griffecli==2.0.0"
+> uv lock --upgrade-package "griffelib==2.0.0"
+> uv sync
+> ```
 <br>
 
 ### Test-only environment
