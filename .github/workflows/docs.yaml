@@ -6,16 +6,11 @@ on:
     branches: main
   workflow_dispatch:
 
-env:
-  UV_SYSTEM_PYTHON: "1"
-
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    env:
-      UV_SYSTEM_PYTHON: "1"
 
     steps:
       - name: Check out repository
@@ -41,6 +36,11 @@ jobs:
         working-directory: docs
         run: uv run quartodoc build
 
+      - name: Discover uv venv Python
+        id: venv
+        run: |
+          echo "PY=$(uv run which python)" >> "$GITHUB_OUTPUT"
+
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
@@ -48,3 +48,4 @@ jobs:
           path: docs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          QUARTO_PYTHON: ${{ steps.venv.outputs.PY }}
