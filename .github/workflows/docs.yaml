@@ -4,6 +4,8 @@ run-name: Render Quarto website and publish on GitHub pages
 on:
   push:
     branches: main
+  pull_request:
+    branches: main
   workflow_dispatch:
 
 jobs:
@@ -41,6 +43,7 @@ jobs:
         run: uv run quarto render
 
       - name: Quarto publish to gh-pages
+        if: github.ref == 'refs/heads/main'
         working-directory: docs
         run: |
           git config user.name "github-actions[bot]"
