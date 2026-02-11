@@ -21,8 +21,10 @@ Fixed issues with evaluation of inactive Python cells, and fixed version checks 
 * **Documentation:** Move `vulture` in documentation from "linters" to "code analysis tools".
 * **Build:** Switched to uv for dependency management and package build.
     * New/Changed files for uv: `.python-version`, `pyproject.toml`, `uv.lock`.
+    * Updated GitHub actions for docs and linting to use uv.
     * Removed `requirements-dev.txt` and `requirements-stable.yml`.
     * Updated instructions in `CONTRIBUTING.md`.
+* **GitHub actions:** Now run on pull request to main too (but docs action skips publish if not a push to main).
 
 ### Fixed
 
