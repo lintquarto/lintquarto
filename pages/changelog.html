@@ -160,9 +160,11 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Build:</strong> Switched to uv for dependency management and package build.
 <ul>
 <li>New/Changed files for uv: <code>.python-version</code>, <code>pyproject.toml</code>, <code>uv.lock</code>.</li>
+<li>Updated GitHub actions for docs and linting to use uv.</li>
 <li>Removed <code>requirements-dev.txt</code> and <code>requirements-stable.yml</code>.</li>
 <li>Updated instructions in <code>CONTRIBUTING.md</code>.</li>
 </ul></li>
+<li><strong>GitHub actions:</strong> Now run on pull request to main too (but docs action skips publish if not a push to main).</li>
 </ul>
 </section>
 <section id="fixed" class="level3">
