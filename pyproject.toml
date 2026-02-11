@@ -59,16 +59,19 @@ all = [
   "pyrefly",
   "pytype; python_version <= '3.12'"
 ]
+
+[dependency-groups]
 dev = [
   "check-dependencies; python_version >= '3.8'",
-  "flit",
   "genbadge",
   "grayskull",
   "jupyter",
+  "pre-commit",
   "pytest",
   "pytest-cov",
-  "quartodoc",
+  "quartodoc; python_version >= '3.9'",
   "twine",
+  "types-PyYAML; python_version >= '3.9'",
   "types-toml; python_version >= '3.8'"
 ]
 
