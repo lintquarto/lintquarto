@@ -5,6 +5,30 @@ All notable changes to this project are documented.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Dates formatted as YYYY-MM-DD as per [ISO standard](https://www.iso.org/iso-8601-date-and-time-format.html).
 
+## v0.8.0 - 2026-02-11
+
+Fixed issues with evaluation of inactive Python cells, and fixed version checks in test logic. Also switched to `uv` for dependencies and build, add new tests, moved `vulture` in docs, and add JOSS paper.
+
+### Added
+
+* **Paper** for Journal of Open Source Software (JOSS).
+    * New/Changed files for paper: `inst/` and `.github/workflows/draft-pdf.yml`.
+    * Described in `CONTRIBUTING.md` and `README.md`.
+* **Tests:** Tests for new logic that fetches and respects the overall YAML and chunk options for evaluation.
+
+### Changed
+
+* **Documentation:** Move `vulture` in documentation from "linters" to "code analysis tools".
+* **Build:** Switched to uv for dependency management and package build.
+    * New/Changed files for uv: `.python-version`, `pyproject.toml`, `uv.lock`.
+    * Removed `requirements-dev.txt` and `requirements-stable.yml`.
+    * Updated instructions in `CONTRIBUTING.md`.
+
+### Fixed
+
+* **Converter:** Fixed bug where code quality tools would run on inactive Python cells when overall YAML has set `eval: false`.
+* **Tests:** Corrected `skip_if_linter_available()` which checked for Python > 3.12, but would inclde 3.12.x - now set to >= 3.13.
+
 ## v0.7.0 - 2025-12-05
 
 Fixed converter and CLI behaviour so duplicate output filenames now use an `_1` suffix, decorator-related E302 issues are suppressed, and paths containing commas correctly raise errors. These are supported by new tests. Other changes include a linting pre-commit hook and updates to documentation.
