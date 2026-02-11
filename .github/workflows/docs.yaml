@@ -18,16 +18,22 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
       
-      - name: Install python and dependencies
+      - name: Set up Python from .python-version
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12'
-          cache: 'pip'
-      - run: pip install -r requirements-dev.txt
+          python-version-file: ".python-version"
+
+      - name: Install uv (with cache)
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Sync project from uv.lock
+        run: uv sync --locked --all-extras --dev
 
       - name: Build API docs with quartodoc
         working-directory: docs
-        run: quartodoc build
+        run: uv run quartodoc build
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
