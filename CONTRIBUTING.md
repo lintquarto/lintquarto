@@ -84,7 +84,7 @@ Key tools include:
 
 ### Setting up a dev environment with uv
 
-We recommend using **uv** for dependency management.
+We recommend using **uv** for dependency management. You should follow instructions from uv documentation for installing it onto your operating system.
 
 #### 1. Start with the recorded environment
 
@@ -102,6 +102,12 @@ Run the test suite to confirm everything passes:
 
 ```{.bash}
 uv run pytest
+```
+
+To see the installed packages and versions:
+
+```{.bash}
+uv run pip list
 ```
 
 #### 2. Keeping tools up to date (recommended)
@@ -245,27 +251,27 @@ If you are a maintainer and need to publish a new release:
 
 3. Create a release on GitHub, which will automatically archive to Zenodo.
 
-4. Build and publish using flit or twine.
-
-To upload to PyPI using `flit`:
-
-```{.bash}
-flit publish
-```
-
-To upload to PyPI using `twine`: remove any existing builds, then build the package locally and push with twine, entering the API token when prompted:
+4. Build and publish using flit or twine. First, remove any existing builds:
 
 ```{.bash}
 rm -rf dist/
-flit build
+```
+
+Then build the package locally with `uv`. It will create an isolated build environment, installing `flit_core` (as specified in `pyproject.toml` `[build-system]`).
+
+```{.bash}
+uv build
+```
+
+Finally, push with twine, entering the API token when prompted:
+
+```{.bash}
 twine upload --repository pypi dist/*
 ```
 
 For test runs, you can use the same method with test PyPI:
 
 ```{.bash}
-rm -rf dist/
-flit build
 twine upload --repository testpypi dist/*
 ```
 
