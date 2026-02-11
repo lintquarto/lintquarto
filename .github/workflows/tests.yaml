@@ -4,6 +4,8 @@ run-name: Run tests
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: main
   workflow_dispatch:
 
 jobs:
@@ -66,18 +68,27 @@ jobs:
         shell: bash
 
       - name: Generate coverage badge (for-the-badge style)
-        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
+        if: >
+          matrix.os == 'ubuntu-latest' &&
+          matrix.python-version == '3.13' &&
+          github.event_name == 'push'
         run: genbadge coverage -i coverage.xml -o images/coverage-badge.svg
 
       - name: Upload coverage badge
-        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
+        if: >
+          matrix.os == 'ubuntu-latest' &&
+          matrix.python-version == '3.13' &&
+          github.event_name == 'push'
         uses: actions/upload-artifact@v4
         with:
           name: coverage-badge
           path: images/coverage-badge.svg
 
       - name: Commit coverage badge
-        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.13'
+        if: >
+          matrix.os == 'ubuntu-latest' &&
+          matrix.python-version == '3.13' &&
+          github.event_name == 'push'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
