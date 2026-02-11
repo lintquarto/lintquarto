@@ -15,6 +15,7 @@ Fixed issues with evaluation of inactive Python cells, and fixed version checks 
     * New/Changed files for paper: `inst/` and `.github/workflows/draft-pdf.yml`.
     * Described in `CONTRIBUTING.md` and `README.md`.
 * **Tests:** Tests for new logic that fetches and respects the overall YAML and chunk options for evaluation.
+* **GitHub actions:** Add new action which tests the build of the package, and will build and publish to PyPI when release is published.
 
 ### Changed
 
