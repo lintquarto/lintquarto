@@ -249,31 +249,35 @@ If you are a maintainer and need to publish a new release:
 
 2. Update the version number in `__init__.py`, `CITATION.cff` and `README.md` citation, and update the date in `CITATION.cff`.
 
-3. Create a release on GitHub, which will automatically archive to Zenodo.
+3. Create a release on GitHub. This will automatically:
 
-4. Build and publish using flit or twine. First, remove any existing builds:
+* Archive to Zenodo.
+* Build and publish the package on PyPI (via `build-publish.yaml`).
 
-```{.bash}
-rm -rf dist/
-```
-
-Then build the package locally with `uv`. It will create an isolated build environment, installing `flit_core` (as specified in `pyproject.toml` `[build-system]`).
-
-```{.bash}
-uv build
-```
-
-Finally, push with twine, entering the API token when prompted:
-
-```{.bash}
-twine upload --repository pypi dist/*
-```
-
-For test runs, you can use the same method with test PyPI:
-
-```{.bash}
-twine upload --repository testpypi dist/*
-```
+> If you chose to remove `build-publish.yaml`, you could upload to PyPI manually as follows...
+> First, remove any existing builds:
+>
+> ```{.bash}
+> rm -rf dist/
+> ```
+>
+> Then build the package locally with `uv`. It will create an isolated build environment, installing `flit_core` (as specified in `pyproject.toml` `[build-system]`).
+>
+> ```{.bash}
+> uv build
+> ```
+>
+> Finally, push with twine, entering the API token when prompted:
+>
+> ```{.bash}
+> twine upload --repository pypi dist/*
+> ```
+>
+> For test runs, you can use the same method with test PyPI:
+>
+> ```{.bash}
+> twine upload --repository testpypi dist/*
+> ```
 
 5. If you haven't already, fork the lintquarto feedstock ([conda-forge/lintquarto-feedstock](https://github.com/conda-forge/lintquarto-feedstock)). This fork must be to your personal GitHub account and not an organisation account. Clone it to your local machine.
 
