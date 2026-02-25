@@ -238,6 +238,32 @@ PYTHON_CHUNKS = [
         ]
     },
     {
+        "id": "code annotations '# <n>' removed like '#<<'",
+        "lines": [
+            "```{python}",
+            "# Comment # <1>",
+            "value = 1# <2>",
+            "value = 2   # <10>"
+        ],
+        "expected": [
+            "# %% [python]",
+            "# Comment",
+            "value = 1  # noqa: E305,E501",
+            "value = 2"
+        ]
+    },
+    {
+        "id": "chunk options and '# <n>' that should not be removed",
+        "lines": [
+            "```{python}",
+            "#| echo: false # <1>"
+        ],
+        "expected": [
+            "# %% [python]",
+            "#| echo: false # <1>  # noqa: E265,E501"
+        ]
+    },
+    {
         "id": "chunk options within {python}",
         "lines": [
             "```{python, echo=FALSE}"
