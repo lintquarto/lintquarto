@@ -190,7 +190,6 @@ class QmdToPyConverter:
             if self.preserve_line_count:
                 self.py_lines.append("# -")
 
-    # pylint: disable=too-many-return-statements,too-many-branches
     def _handle_python_chunk(self, line: str) -> None:
         """
         Process a line within a Python code chunk.
@@ -199,24 +198,13 @@ class QmdToPyConverter:
         ----------
         line : str
             The line to process.
-
-        Returns
-        -------
-        None
         """
-        # After the first code line, append all lines unchanged (with handling
-        # for quarto include syntax and code annotations)
+        # After the first code line, append all lines unchanged
         if not self.in_chunk_options:
-            if not self.should_lint_current_chunk():
-                if self.preserve_line_count:
-                    self.py_lines.append("# -")
-                return
-            line = self._handle_includes(line)
-            line = self._handle_annotations(line)
-            self.py_lines.append(line)
+            self._handle_body_line(line)
             return
 
-        # If line is blank, just append it
+        # Blank lines within chunk options are kept as-is
         if line.strip() == "":
             self.py_lines.append(line)
             return
@@ -226,37 +214,88 @@ class QmdToPyConverter:
 
         # If line is a quarto chunk option...
         if stripped.startswith("#| "):
+            self._handle_chunk_option(line, stripped)
+        # If line is a comment...
+        elif stripped.startswith("#"):
+            self._handle_comment_in_options(line)
+        # First real code line after options/blanks/comments
+        else:
+            self._handle_first_code_line(line, stripped)
 
-            # Parse and store eval option in this line
-            self.parse_chunk_eval_option(stripped)
+    def _handle_body_line(self, line: str) -> None:
+        """
+        Handle a line in the body of a Python chunk (after chunk options).
 
-            # Don't append if not preserving line count
-            if not self.preserve_line_count:
-                return
-
-            # Append and suppress E265 (as will warn for "#|" comment spacing)
-            if self.uses_noqa:
-                line = self._add_noqa(line, ["E265"])
-
-            self.py_lines.append(line)
-            return
-
-        # If line is a comment, just append it (but handle code annotations)
-        # If eval status is false, just append # -
-        if stripped.startswith("#"):
-            if self.should_lint_current_chunk():
-                line = self._handle_annotations(line)
-                self.py_lines.append(line)
-            else:
-                if self.preserve_line_count:
-                    self.py_lines.append("# -")
-            return
-
-        # Identified this as first code line after options/blanks/comments...
-
+        Parameters
+        ----------
+        line : str
+            The line to process.
+        """
+        # Skip lines in chunks where eval is false
         if not self.should_lint_current_chunk():
-            if self.preserve_line_count:
-                self.py_lines.append("# -")
+            self._append_placeholder()
+            return
+        # Handle quarto include syntax and code annotations, then append as-is
+        line = self._handle_includes(line)
+        line = self._handle_annotations(line)
+        self.py_lines.append(line)
+
+    def _handle_chunk_option(self, line: str, stripped: str) -> None:
+        """
+        Handle a Quarto chunk option line (starting with `#|`).
+
+        Parameters
+        ----------
+        line : str
+            The original line to process.
+        stripped : str
+            The line with leading whitespace removed.
+        """
+        # Parse and store eval option if present in this line
+        self.parse_chunk_eval_option(stripped)
+
+        # Don't append if not preserving line count
+        if not self.preserve_line_count:
+            return
+
+        # Suppress E265 (as will warn for "#|" comment spacing)
+        if self.uses_noqa:
+            line = self._add_noqa(line, ["E265"])
+
+        self.py_lines.append(line)
+
+    def _handle_comment_in_options(self, line: str) -> None:
+        """
+        Handle a comment line encountered while still in chunk options.
+
+        Parameters
+        ----------
+        line : str
+            The comment line to process.
+        """
+        # If chunk should be linted, keep comment (but handle annotations)
+        # If eval is false, just append placeholder
+        if self.should_lint_current_chunk():
+            line = self._handle_annotations(line)
+            self.py_lines.append(line)
+        else:
+            self._append_placeholder()
+
+    def _handle_first_code_line(self, line: str, stripped: str) -> None:
+        """
+        Handle the first real code line after chunk options, blanks, and
+        comments.
+
+        Parameters
+        ----------
+        line : str
+            The original line to process.
+        stripped : str
+            The line with leading whitespace removed.
+        """
+        # Skip lines in chunks where eval is false
+        if not self.should_lint_current_chunk():
+            self._append_placeholder()
             self.in_chunk_options = False
             return
 
@@ -264,22 +303,51 @@ class QmdToPyConverter:
         line = self._handle_includes(line)
         line = self._handle_annotations(line)
 
-        # Always suppress E305, and suppress E302 if it is a function or class
-        # (checks for @ too as can have decorators - note, decorators are only
-        # applied to functions or classes)
+        # Add noqa suppressions for spacing warnings at chunk boundaries
         if self.uses_noqa:
-            is_function_or_class = (
-                stripped.startswith("@")
-                or stripped.startswith("def")
-                or stripped.startswith("class")
-            )
-            if is_function_or_class:
-                line = self._add_noqa(line, ["E302", "E305"])
-            else:
-                line = self._add_noqa(line, ["E305"])
+            line = self._add_noqa_for_first_code_line(line, stripped)
 
         self.py_lines.append(line)
         self.in_chunk_options = False
+
+    def _append_placeholder(self) -> None:
+        """
+        Append a placeholder comment line (`# -`) if preserving line count.
+        """
+        if self.preserve_line_count:
+            self.py_lines.append("# -")
+
+    def _add_noqa_for_first_code_line(self, line: str, stripped: str) -> str:
+        """
+        Add appropriate noqa suppressions for the first code line in a chunk.
+
+        Always suppresses E305 (expected 2 blank lines after top-level
+        statement). Also suppresses E302 if the line starts a function, class,
+        or decorator.
+
+        Parameters
+        ----------
+        line : str
+            The line to add noqa comments to.
+        stripped : str
+            The line with leading whitespace removed.
+
+        Returns
+        -------
+        str
+            The line with appropriate noqa suppressions appended.
+        """
+        # Check for @ too as can have decorators - note, decorators are only
+        # applied to functions or classes
+        is_function_or_class = (
+            stripped.startswith("@")
+            or stripped.startswith("def")
+            or stripped.startswith("class")
+        )
+        # Suppress E302 (expected 2 blank lines) in addition to E305
+        if is_function_or_class:
+            return self._add_noqa(line, ["E302", "E305"])
+        return self._add_noqa(line, ["E305"])
 
     def should_lint_current_chunk(self) -> bool:
         """
@@ -334,19 +402,20 @@ class QmdToPyConverter:
         # If no eval match found, do NOT modify self.current_chunk_eval
         # This preserves any previously parsed eval setting from earlier lines
 
-    def _add_noqa(self, line: str, suppress: list) -> str:
+    def _add_noqa(self, line: str, suppress: List[str]) -> str:
         """
-        Add noqa suppressions to the line, plus E501 for short lines.
+        Add noqa suppressions to a line for specified error codes.
 
-        E501 is add to lines that do not already exceed the max line length, as
-        the noqa comment itself may cause the final line to exceed the limit.
+        If the line is within the allowed max line length, E501 (line too long)
+        is also suppressed, since the added noqa comment may push it over the
+        limit.
 
         Parameters
         ----------
         line : str
-            The line to process.
-        suppress : list
-            List of noqa flags to add.
+            The line of code.
+        suppress : List[str]
+            The error code(s) to suppress (e.g. ["E302"]).
 
         Returns
         -------
