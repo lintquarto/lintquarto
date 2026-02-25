@@ -24,7 +24,7 @@
 
 **Build & quality status:**
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![Coverage](https://github.com/lintquarto/lintquarto/raw/main/images/coverage-badge.svg)](https://github.com/lintquarto/lintquarto/actions/workflows/tests.yaml)
+[![Coverage](https://raw.githubusercontent.com/lintquarto/lintquarto/coverage-badges/images/coverage-badge.svg)](https://github.com/lintquarto/lintquarto/actions/workflows/tests.yaml)
 [![Tests](https://github.com/lintquarto/lintquarto/actions/workflows/tests.yaml/badge.svg)](https://github.com/lintquarto/lintquarto/actions/workflows/tests.yaml)
 [![Docs](https://github.com/lintquarto/lintquarto/actions/workflows/docs.yaml/badge.svg)](https://github.com/lintquarto/lintquarto/actions/workflows/docs.yaml)
 [![Lint](https://github.com/lintquarto/lintquarto/actions/workflows/lint.yaml/badge.svg)](https://github.com/lintquarto/lintquarto/actions/workflows/lint.yaml)
