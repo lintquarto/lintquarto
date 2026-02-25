@@ -450,11 +450,11 @@ class QmdToPyConverter:
 
     def _handle_annotations(self, line: str) -> str:
         """
-        Remove in-line quarto code annotations ("#<<").
+        Remove in-line quarto code annotations (and any whitespace prior).
 
-        These are placed at the end of a line for shafayetShafee's
-        line-highlight extension. If found, "#<<" (and any whitespace before
-        it) are stripped from the end of the line.
+        These include:
+        - `#<<` used by shafayetShafee's line-highlight extension.
+        - `# <n>` used by Quarto code annotations (e.g., `# <1>`).
 
         Parameters
         ----------
@@ -466,7 +466,11 @@ class QmdToPyConverter:
         str
             The line with trailing whitespace and any "#<<" at the end removed.
         """
-        return re.sub(r"\s*#<<\s*$", "", line)
+        # Strip "#<<" annotations
+        line = re.sub(r"\s*#<<\s*$", "", line)
+        # Strip Quarto code annotations like "# <1>"
+        line = re.sub(r"\s*# <\d+>\s*$", "", line)
+        return line
 
 
 def get_unique_filename(path: Union[str, Path]) -> Path:

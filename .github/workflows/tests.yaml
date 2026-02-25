@@ -70,15 +70,15 @@ jobs:
       - name: Generate coverage badge (for-the-badge style)
         if: >
           matrix.os == 'ubuntu-latest' &&
-          matrix.python-version == '3.13' &&
-          github.event_name == 'push'
-        run: genbadge coverage -i coverage.xml -o images/coverage-badge.svg
+          matrix.python-version == '3.13'
+        run: |
+          mkdir -p images
+          genbadge coverage -i coverage.xml -o images/coverage-badge.svg
 
       - name: Upload coverage badge
         if: >
           matrix.os == 'ubuntu-latest' &&
-          matrix.python-version == '3.13' &&
-          github.event_name == 'push'
+          matrix.python-version == '3.13'
         uses: actions/upload-artifact@v4
         with:
           name: coverage-badge
@@ -88,12 +88,24 @@ jobs:
         if: >
           matrix.os == 'ubuntu-latest' &&
           matrix.python-version == '3.13' &&
-          github.event_name == 'push'
+          (github.event_name == 'push' || github.event_name == 'workflow_dispatch')  &&
+          github.ref == 'refs/heads/main'
         run: |
+          # Make sure we have the badges branch
+          git fetch origin coverage-badges || true
+
+          # Create or reset local branch to the remote one (or main on first run)
+          if git ls-remote --exit-code origin coverage-badges; then
+            git checkout coverage-badges
+            git reset --hard origin/coverage-badges
+          else
+            git checkout -b coverage-badges origin/main
+          fi
+
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add images/coverage-badge.svg
           git commit -m "ci(tests): update coverage badge" || echo "No changes to commit"
-          git push
+          git push origin coverage-badges
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
