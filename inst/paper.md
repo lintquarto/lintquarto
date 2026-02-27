@@ -42,14 +42,13 @@ However, researchers preferring Quarto Markdown have no equivalent Python tool.
 
 # Software design
 
-The command-line interface for `lintquarto` accepts three primary arguments: the code quality tools to run, the paths to exclude, and paths to exclude.
+The command-line interface for `lintquarto` accepts three primary arguments: the code quality tools to run, the paths to include, and paths to exclude.
 
-The core workflow converts each Quarto Markdown file into a temporary Python file. Where relevant, the converter preserves line numbers, enabling error messages to map directly back to the original Quarto file. The converter handles Quarto-specific syntax including Quarto chunk options, include directives, in-line annotations (e.g., `#<<`) and false positives triggered by chunk boundaries.
+The core workflow converts each Quarto Markdown file into a temporary Python file. Where relevant, the converter preserves line numbers, enabling error messages to map directly back to the original Quarto file. The converter handles Quarto-specific syntax including Quarto chunk options, include directives, in-line annotations (e.g., `#<<`, `# <1>`) and false positives triggered by chunk boundaries.
 
-After conversion, `lintquarto` runs the selected code quality tool on the temporary Python file, captures its output, and rewrites reported paths to reference the original The core workflow converts each Quarto Markdown file into a temporary Python file. Where relevant, the converter preserves line numbers, enabling error messages to map directly back to the original Quarto file. The converter handles Quarto-specific syntax including Quarto chunk options, include directives, in-line annotations (e.g., `#<<`) and false positives triggered by chunk boundaries.
- filename. This approach enables seamless integration. with no modifications to the underlying existing code quality tools, and makes it easy to extend to incorporate new tools.
+After conversion, `lintquarto` runs the selected code quality tool on the temporary Python file, captures its output, and rewrites reported paths to reference the original The core workflow converts each Quarto Markdown file into a temporary Python file. Where relevant, the converter preserves line numbers, enabling error messages to map directly back to the original Quarto file. The converter handles Quarto-specific syntax including Quarto chunk options, include directives, in-line annotations (e.g., `#<<`) and false positives triggered by chunk boundaries. 
 
-As of publication, the package supports all major Python code quality tools:
+This approach enables seamless integration. with no modifications to the underlying existing code quality tools, and makes it easy to extend to incorporate new tools. As of publication, the package supports all major Python code quality tools:
 
 * `flake8` [@python_code_quality_authority_flake8_2025]
 * `pycodestyle` [@python_code_quality_authority_pycodestyle_2025]
