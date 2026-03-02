@@ -5,6 +5,23 @@ All notable changes to this project are documented.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Dates formatted as YYYY-MM-DD as per [ISO standard](https://www.iso.org/iso-8601-date-and-time-format.html).
 
+## v0.9.0 - 2026-03-02
+
+Add support for quarto code annotations, switched to `codecov` for coverage badge, and refactored converter.
+
+### Added
+
+* **Converter:** Add support for quarto code annotations (e.g., `# <1>`), with tests checking this implementation.
+
+### Changed
+
+* **Converter:** Refactored to reduce complexity of `_handle_python_chunk()`.
+* **Paper:** Corrections.
+
+### Fixed
+
+* **Coverage:** Switched to `codecov` for generation of coverage badge.
+
 ## v0.8.0 - 2026-02-11
 
 Fixed issues with evaluation of inactive Python cells, and fixed version checks in test logic. Also switched to `uv` for dependencies and build, add new tests, moved `vulture` in docs, and add JOSS paper.
