@@ -408,7 +408,7 @@ uv sync</code></pre>
 <p>For test runs, you can use the same method with test PyPI:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">twine</span> upload <span class="at">--repository</span> testpypi dist/<span class="pp">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </blockquote>
-<ol start="5" type="1">
+<ol start="4" type="1">
 <li>If you haven’t already, fork the lintquarto feedstock (<a href="https://github.com/conda-forge/lintquarto-feedstock">conda-forge/lintquarto-feedstock</a>). This fork must be to your personal GitHub account and not an organisation account. Clone it to your local machine.</li>
 </ol>
 <p>If you already have a fork, make sure it is up-to-date:</p>
@@ -416,11 +416,11 @@ uv sync</code></pre>
 <li>With the <code>conda-forge</code> feedstock - on your forked <code>main</code> branch, click “🔄 Sync fork”.</li>
 <li>Locally on your <code>main</code> branch (<code>git checkout main</code>), run <code>git pull</code>.</li>
 </ul>
-<ol start="6" type="1">
+<ol start="5" type="1">
 <li>Create and checkout a branch - e.g.&nbsp;<code>update_0_5_0</code>.</li>
 </ol>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout <span class="at">-b</span> update_0_5_0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ol start="7" type="1">
+<ol start="6" type="1">
 <li>Use <code>grayskull</code> to update the recipe (<code>recipe/meta.yaml</code>). It will pull the metadata about the package from PyPI, and will not use your local installation of the package.</li>
 </ol>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">grayskull</span> pypi lintquarto</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
