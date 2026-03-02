@@ -279,20 +279,20 @@ If you are a maintainer and need to publish a new release:
 > twine upload --repository testpypi dist/*
 > ```
 
-5. If you haven't already, fork the lintquarto feedstock ([conda-forge/lintquarto-feedstock](https://github.com/conda-forge/lintquarto-feedstock)). This fork must be to your personal GitHub account and not an organisation account. Clone it to your local machine.
+4. If you haven't already, fork the lintquarto feedstock ([conda-forge/lintquarto-feedstock](https://github.com/conda-forge/lintquarto-feedstock)). This fork must be to your personal GitHub account and not an organisation account. Clone it to your local machine.
 
 If you already have a fork, make sure it is up-to-date:
 
 * With the `conda-forge` feedstock - on your forked `main` branch, click "🔄 Sync fork".
 * Locally on your `main` branch (`git checkout main`), run `git pull`.
 
-6. Create and checkout a branch - e.g. `update_0_5_0`.
+5. Create and checkout a branch - e.g. `update_0_5_0`.
 
 ```{.bash}
 git checkout -b update_0_5_0
 ```
 
-7. Use `grayskull` to update the recipe (`recipe/meta.yaml`). It will pull the metadata about the package from PyPI, and will not use your local installation of the package.
+6. Use `grayskull` to update the recipe (`recipe/meta.yaml`). It will pull the metadata about the package from PyPI, and will not use your local installation of the package.
 
 ```{.bash}
 grayskull pypi lintquarto
