@@ -140,15 +140,6 @@ If everything passes, commit the updated `uv.lock` (and `.python-version` if cha
 > uv lock --upgrade-package "griffelib==2.0.0"
 > uv sync
 > ```
-<br>
-
-### Test-only environment
-
-The GitHub Actions test workflow uses a minimal environment with only test requirements:
-
-```{.bash}
-pip install -r requirements-test.txt
-```
 
 <br>
 

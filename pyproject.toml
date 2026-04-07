@@ -74,6 +74,13 @@ dev = [
   "types-PyYAML; python_version >= '3.9'",
   "types-toml; python_version >= '3.8'"
 ]
+test = [
+  "check-dependencies; python_version >= '3.8'",
+  "genbadge[coverage]",
+  "pytest",
+  "pytest-cov",
+  "lintquarto[all]"
+]
 
 [project.urls]
 Home = "https://github.com/lintquarto/lintquarto"
