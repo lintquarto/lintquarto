@@ -18,10 +18,10 @@ dependencies = [
   "pyyaml"
 ]
 
-# Supports Python 3.7+. Uses subprocess.run() introduced in Python 3.5,
-# and f-strings introduced in Python 3.6, and also uses text=True (instead of
-# universal_newlines=True) in subprocess.run() as from Python 3.7+
-requires-python = ">=3.7"
+# Python 3.7 reached end-of-life in 2023 and 3.8 is in security-fix only mode.
+# lintquarto targets only actively maintained python versions, to align
+# with NEP 29 guidance and modern tooling support.
+requires-python = ">=3.9"
 
 classifiers = [
   "Development Status :: 4 - Beta",
@@ -32,8 +32,6 @@ classifiers = [
   "Topic :: Scientific/Engineering",
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.7",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
@@ -54,7 +52,7 @@ all = [
   "radon",
   "pycodestyle",
   "mypy",
-  "pydoclint; python_version >= '3.9'",
+  "pydoclint",
   "pyright",
   "pyrefly",
   "pytype; python_version <= '3.12'"
@@ -62,17 +60,24 @@ all = [
 
 [dependency-groups]
 dev = [
-  "check-dependencies; python_version >= '3.8'",
+  "check-dependencies",
   "genbadge",
   "grayskull",
   "jupyter",
   "pre-commit",
   "pytest",
   "pytest-cov",
-  "quartodoc; python_version >= '3.9'",
+  "quartodoc",
   "twine",
-  "types-PyYAML; python_version >= '3.9'",
-  "types-toml; python_version >= '3.8'"
+  "types-PyYAML",
+  "types-toml"
+]
+test = [
+  "check-dependencies",
+  "genbadge[coverage]",
+  "pytest",
+  "pytest-cov",
+  "lintquarto[all]"
 ]
 
 [project.urls]

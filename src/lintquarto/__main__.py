@@ -106,33 +106,6 @@ def process_qmd(
     return 0
 
 
-def _is_relative_to(child: Path, parent: Path) -> bool:
-    """
-    Determine if the 'child' path is the same as or inside the 'parent' path.
-
-    This function provides compatibility with Python versions before 3.9,
-    where Path.is_relative_to() is not available.
-
-    Parameters
-    ----------
-    child : Path
-        The path to check.
-    parent : Path
-        The potential parent directory.
-
-    Returns
-    -------
-    bool
-        True if 'child' is the same as or is a subpath of 'parent', False
-        otherwise.
-    """
-    try:
-        child.relative_to(parent)
-        return True
-    except ValueError:
-        return False
-
-
 def gather_qmd_files(
     paths: Union[List[str], List[Path]],
     exclude: Optional[Union[List[str], List[Path]]] = None
@@ -161,14 +134,14 @@ def gather_qmd_files(
         if p.is_file() and p.suffix == ".qmd":
             abs_file = p.resolve()
             # Exclude if file or its parent dir is in exclude_paths
-            if not any(abs_file == e or _is_relative_to(abs_file, e)
+            if not any(abs_file == e or abs_file.is_relative_to(e)
                        for e in exclude_paths):
                 files.append(str(abs_file))
         # For directories...
         elif p.is_dir():
             for f in p.rglob("*.qmd"):
                 abs_file = f.resolve()
-                if not any(abs_file == e or _is_relative_to(abs_file, e)
+                if not any(abs_file == e or abs_file.is_relative_to(e)
                            for e in exclude_paths):
                     files.append(str(abs_file))
     return files

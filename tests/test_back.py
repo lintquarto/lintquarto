@@ -149,7 +149,6 @@ TEST_CASES = [
         "linter": "pytype",
         "qmd": "typecheck_example.qmd",
         "contains": [
-            # Doesn't include line numbers as different output on python 3.7
             "Function add_numbers was called with the wrong arguments "
         ]
     }

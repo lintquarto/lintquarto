@@ -1,5 +1,0 @@
-check-dependencies ; python_version >= "3.8"
-genbadge[coverage]
-pytest
-pytest-cov
--e .[all]
