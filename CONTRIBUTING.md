@@ -222,6 +222,16 @@ When running this, function documentation will be automatically generated from t
 
 <br>
 
+## Supported python versions
+
+`lintquarto` supports only actively maintained Python versions. Python 3.7 is end-of-life and Python 3.8 is in security-fix-only mode, so the package targets Python 3.9 and above.
+
+Historically, the package targeted Python 3.7+ because the codebase depended on features introduced in Python 3.5-3.7 (e.g., `subprocess.run()`, f-strings, and `text=True` in `subprocess.run()`). We have since dropped 3.7 and 3.8 to align with current practice.
+
+This follows [NEP 29 guidance](https://numpy.org/neps/nep-0029-deprecation_policy.html) used across the scientific Python ecosystem and keeps our tooling, packaging, and test matrix manageable.
+
+<br>
+
 ## Updating the package
 
 ### Preparation

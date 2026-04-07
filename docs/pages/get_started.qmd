@@ -4,7 +4,7 @@ title: Getting started
 
 ## Installation
 
-Python 3.7 or higher is required. `lintquarto` itself has only one required package: `toml`.
+Python 3.9 or higher is required. `lintquarto` itself has only one required package: `toml`.
 
 You can install **lintquarto** with pip ([from PyPI](https://pypi.org/project/lintquarto/)) or conda ([from conda-forge](https://anaconda.org/conda-forge/lintquarto)).
 

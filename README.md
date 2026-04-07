@@ -30,7 +30,7 @@
 [![Lint](https://github.com/lintquarto/lintquarto/actions/workflows/lint.yaml/badge.svg)](https://github.com/lintquarto/lintquarto/actions/workflows/lint.yaml)
 
 **Supported platforms:**
-![Python 3.7|3.8|3.9|3.10|3.11|3.12|3.13](https://img.shields.io/badge/Python-3.7%7C3.8%7C3.9%7C3.10%7C3.11%7C3.12%7C3.13-blue)
+![Python 3.9|3.10|3.11|3.12|3.13](https://img.shields.io/badge/Python-3.9%7C3.10%7C3.11%7C3.12%7C3.13-blue)
 ![OS](https://img.shields.io/badge/OS-Windows%20%7C%20Linux%20%7C%20macOS-blue?logo=windows&logo=linux&logo=apple)
 
 </div>
