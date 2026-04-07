@@ -190,8 +190,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="installation" class="level2">
 <h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<p>Python 3.7 or higher is required. <code>lintquarto</code> itself has only one required package: <code>toml</code>.</p>
-<p>You can install <strong>lintquarto</strong> with pip (<a href="https://pypi.org/project/lintquarto/">from PyPI</a>) or conda (<a href="https://anaconda.org/conda-forge/lintquarto">from conda-forge</a>).</p>
+<p>Python 3.9 or higher is required. <code>lintquarto</code> itself has only one required package: <code>toml</code>.</p>
+<p>You can install <strong>lintquarto</strong> with pip (from <a href="https://pypi.org/project/lintquarto/">PyPI</a> or <a href="https://github.com/lintquarto/lintquarto">GitHub</a>) or conda (from <a href="https://anaconda.org/conda-forge/lintquarto">conda-forge</a>).</p>
 <section id="install-with-pip" class="level3">
 <h3 class="anchored" data-anchor-id="install-with-pip">Install with pip</h3>
 <p>Install <code>lintquarto</code> with:</p>
@@ -208,6 +208,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install conda-forge::lintquarto</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>With conda, only the main lintquarto tool is installed. If you want to use any linters or type checkers, you must install them separately (either with conda or pip, depending on availability).</p>
 </section>
+</section>
+<section id="development-version" class="level2">
+<h2 class="anchored" data-anchor-id="development-version">Development version</h2>
+<p>To install the latest development version of <code>lintquarto</code> directly from this repository:</p>
+<pre><code>pip install git+https://github.com/lintquarto/lintquarto</code></pre>
+<p>If you also want all supported linters and type checkers in one step, install from a local clone in editable mode with the <code>all</code> extra:</p>
+<pre><code>git clone https://github.com/lintquarto/lintquarto.git
+cd lintquarto
+pip install -e ".[all]"</code></pre>
 </section>
 <section id="basic-usage" class="level2">
 <h2 class="anchored" data-anchor-id="basic-usage">Basic usage</h2>
@@ -227,18 +236,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="examples">Examples</h2>
 <p>The linter used is interchangeable in these examples.</p>
 <p>Lint all <code>.qmd</code> files in the current directory (using <code>pylint</code>):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> pylint <span class="at">-p</span> .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> pylint <span class="at">-p</span> .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Lint several specific files (using <code>pylint</code> and <code>flake8</code>):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> pylint flake8 <span class="at">-p</span> file1.qmd file2.qmd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> pylint flake8 <span class="at">-p</span> file1.qmd file2.qmd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Keep temporary <code>.py</code> files after linting (with <code>pylint</code>)</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> pylint <span class="at">-p</span> . <span class="at">-k</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> pylint <span class="at">-p</span> . <span class="at">-k</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Lint all files in current directory (using <code>ruff</code>):</p>
 <ul>
 <li>Excluding folders <code>examples/</code> and <code>ignore/</code>, or-</li>
 <li>Excluding a specific file <code>analysis/test.qmd</code>.</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> ruff <span class="at">-p</span> . <span class="at">-e</span> examples ignore</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> ruff <span class="at">-p</span> . <span class="at">-e</span> analysis/test.qmd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> ruff <span class="at">-p</span> . <span class="at">-e</span> examples ignore</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> ruff <span class="at">-p</span> . <span class="at">-e</span> analysis/test.qmd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 
 </section>
