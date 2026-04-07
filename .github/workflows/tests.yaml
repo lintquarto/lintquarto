@@ -57,9 +57,9 @@ jobs:
       - name: Run tests (with coverage for Ubuntu 3.13)
         run: |
           if [ "${{ matrix.os }}" = "ubuntu-latest" ] && [ "${{ matrix.python-version }}" = "3.13" ]; then
-            pytest --cov --cov-report=xml
+            uv run pytest --cov --cov-report=xml
           else
-            pytest
+            uv run pytest
           fi
         shell: bash
 
