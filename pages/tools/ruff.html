@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>ruff – lintquarto</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -68,15 +71,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../pages/tools/pylint.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-168258e16f3cf5ceb7b173ebd722d66d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-cd0666703260af4d3e7ab2dc61dfa54b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/quarto-contrib/downloadthis-1.9.1/downloadthis.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
@@ -305,7 +307,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="ruff" class="level1">
 <h1>ruff</h1>
 <p>Modern, ultra-fast linter that implements checks from Flake8 and some other popular plugins.</p>
-<p>Ruff runs as a code formatter, but it’s linter will not report every issue that can be fixed by its formatter. Several stylistic issues are handled silently by the formatter and are not surfaced as lint errors. This means Ruff’s linter is <a href="https://github.com/astral-sh/ruff/issues/8232">intentionally more restricted</a> in scope than it’s formatter.</p>
+<p>lintquarto uses ruff as a read-only linter by running <code>ruff check</code> on a temporary Python version of your <code>.qmd</code> files. It does not support extra commands from ruff like <code>ruff check --fix</code> (which automatically applies some fixes) or <code>ruff format</code> (a code formatter). This means the Ruff checks you see in lintquarto will not cover every issue that could be fixed by the formatter, because Ruff’s linter is <a href="https://github.com/astral-sh/ruff/issues/8232">intentionally more restricted</a> in scope than its formatter and several stylistic issues are handled silently by the formatter rather than reported as lint errors.</p>
+<p>Supporting automatic fixes for <code>.qmd</code> files (<a href="https://github.com/lintquarto/lintquarto/issues/93">lintquarto issue #93</a>) would require safely mapping Ruff’s edits on the temporary <code>.py</code> file back into the original <code>.qmd</code> source, which is non-trivial, so lintquarto currently focuses on reporting issues without modifying your Quarto documents.</p>
 <div style="display: flex; gap: 1em; margin-bottom: 1em;">
 <p><a href="https://pypi.org/project/ruff/" target="_blank" style="text-decoration: none;"> <span style="display: inline-flex; align-items: center; background:
     #3775A9; color: #fff; border-radius: 20px; padding: 0.4em 1em;
@@ -320,7 +323,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="example-quarto-.qmd-file" class="level2">
 <h2 class="anchored" data-anchor-id="example-quarto-.qmd-file">Example Quarto <code>.qmd</code> file:</h2>
-<p><a href="#dnldts23399" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgdG8gaWRlbnRpZnkuCgpgYGB7cHl0aG9ufQp2ZXJ5X2xvbmdfbGluZSA9ICJUaGlzIGxvbmcgc3RyaW5nIGV4Y2VlZHMgdGhlIG1heGltdW0gYWxsb3dlZCBjaGFyYWN0ZXJzIHBlciBsaW5lLiIKYGBgCgpUaGVyZSdzIHNvbWUgbW9yZSBpc3N1ZXMgYmVsb3cuLi4KCmBgYHtweXRob259CmRlZiBhZGRfbnVtYmVycyhhLCBiKToKICAgIHJldHVybiBhICsgYgoKYWRkX251bWJlcnMoMywgNSkKCmltcG9ydCBzeXMKYGBg').then(res => res.blob()).then(blob => {
+<p><a href="#dnldts43931" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgdG8gaWRlbnRpZnkuCgpgYGB7cHl0aG9ufQp2ZXJ5X2xvbmdfbGluZSA9ICJUaGlzIGxvbmcgc3RyaW5nIGV4Y2VlZHMgdGhlIG1heGltdW0gYWxsb3dlZCBjaGFyYWN0ZXJzIHBlciBsaW5lLiIKYGBgCgpUaGVyZSdzIHNvbWUgbW9yZSBpc3N1ZXMgYmVsb3cuLi4KCmBgYHtweXRob259CmRlZiBhZGRfbnVtYmVycyhhLCBiKToKICAgIHJldHVybiBhICsgYgoKYWRkX251bWJlcnMoMywgNSkKCmltcG9ydCBzeXMKYGBg').then(res => res.blob()).then(blob => {
       const downloadURL = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       document.body.appendChild(a);
@@ -328,9 +331,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       a.download = 'general_example.qmd'; a.click();
       window.URL.revokeObjectURL(downloadURL);
       document.body.removeChild(a);
-        });"><button class="btn btn-light downloadthis  " id="dnldts23399"><i class="bi bi-download"></i> Download the example </button></a></p>
+        });"><button class="btn btn-light downloadthis  " id="dnldts43931"><i class="bi bi-download"></i> Download the example </button></a></p>
 <div class="pale-grey">
-<div id="4670a15f" class="cell" data-execution_count="3">
+<div id="4de1974f" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
 <pre><code>1:     ---
 2:     title: "Example"
@@ -366,7 +369,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   white-space: pre-wrap !important;
 }
 </style>
-<div id="70231030" class="cell" data-execution_count="4">
+<div id="c1b8ac91" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre>=============================================================
