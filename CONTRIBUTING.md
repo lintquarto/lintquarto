@@ -145,7 +145,7 @@ If everything passes, commit the updated `uv.lock` (and `.python-version` if cha
 
 ### Quarto
 
-Quarto (used for the docs) is a standalone tool - install it from https://quarto.org/docs/get-started/.
+Quarto (used for the docs) is a standalone tool - install it from <https://quarto.org/docs/get-started/>.
 
 <br>
 
@@ -358,6 +358,6 @@ The `inst/` folder contains materials related to the submission to JOSS.
 
 * `paper.md` - paper
 * `paper.bib` - references
-* `codemeta.json` - paper metadata generate using https://gist.github.com/arfon/478b2ed49e11f984d6fb.
+* `codemeta.json` - paper metadata generate using <https://gist.github.com/arfon/478b2ed49e11f984d6fb>.
 
 There is also a [GitHub action which renders the paper as a PDF](https://github.com/lintquarto/lintquarto/actions/workflows/draft-pdf.yml).
