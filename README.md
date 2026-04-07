@@ -57,7 +57,7 @@ Currently supported:
 
 ## Installation
 
-You can install **lintquarto** with pip ([from PyPI](https://pypi.org/project/lintquarto/)) or conda ([from conda-forge](https://anaconda.org/conda-forge/lintquarto)).
+You can install **lintquarto** with pip (from [PyPI](https://pypi.org/project/lintquarto/) or [GitHub](https://github.com/lintquarto/lintquarto)) or conda (from [conda-forge](https://anaconda.org/conda-forge/lintquarto)).
 
 ### Install with pip
 
@@ -80,6 +80,22 @@ conda install conda-forge::lintquarto
 ```
 
 With conda, only the main lintquarto tool is installed. If you want to use any linters or type checkers, you must install them separately (either with conda or pip, depending on availability).
+
+### Development version
+
+To install the latest development version of `lintquarto` directly from this repository:
+
+```
+pip install git+https://github.com/lintquarto/lintquarto
+```
+
+If you also want all supported linters and type checkers in one step, install from a local clone in editable mode with the `all` extra:
+
+```
+git clone https://github.com/lintquarto/lintquarto.git
+cd lintquarto
+pip install -e ".[all]"
+```
 
 <br>
 
