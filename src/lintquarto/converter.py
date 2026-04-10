@@ -1,9 +1,9 @@
-"""Convert .qmd file to python file"""
+"""Convert .qmd file to python file."""
 
-from pathlib import Path
 import re
-from typing import List, Union, Optional
 import warnings
+from pathlib import Path
+from typing import List, Optional, Union
 
 import yaml
 
@@ -12,7 +12,6 @@ from .linelength import LineLengthDetector
 from .linters import Linters
 
 
-# pylint: disable=too-many-instance-attributes
 class QmdToPyConverter:
     """
     Convert lines from a .qmd file to .py file.
@@ -30,7 +29,9 @@ class QmdToPyConverter:
         Default eval setting from YAML front matter.
     current_chunk_eval : Optional[bool]
         Eval setting for current chunk from chunk options (None if not set).
+
     """
+
     in_chunk_options: bool = False
     in_python: bool = False
     py_lines: list = []
@@ -45,6 +46,7 @@ class QmdToPyConverter:
         ----------
         linter : str
             Name of the linter that will be used.
+
         """
         self.linter = linter
 
@@ -86,6 +88,7 @@ class QmdToPyConverter:
         None
             Stores the eval setting in self.yaml_eval_default attribute.
             Sets to True if no YAML front matter is found or if parsing fails.
+
         """
         # No YAML front matter detected
         if not qmd_lines or not qmd_lines[0].strip() == "---":
@@ -141,6 +144,7 @@ class QmdToPyConverter:
         -------
         py_lines : List[str]
             List of each line for the output Python file.
+
         """
         # Parse YAML front matter to get default eval setting
         self.parse_yaml_front_matter(qmd_lines)
@@ -160,6 +164,7 @@ class QmdToPyConverter:
         ----------
         original_line : str
             Line to process.
+
         """
         # Remove the trailing new line
         line = original_line.rstrip("\n")
@@ -186,9 +191,8 @@ class QmdToPyConverter:
             self._handle_python_chunk(line)
 
         # For all other lines, set to # -
-        else:
-            if self.preserve_line_count:
-                self.py_lines.append("# -")
+        elif self.preserve_line_count:
+            self.py_lines.append("# -")
 
     def _handle_python_chunk(self, line: str) -> None:
         """
@@ -198,6 +202,7 @@ class QmdToPyConverter:
         ----------
         line : str
             The line to process.
+
         """
         # After the first code line, append all lines unchanged
         if not self.in_chunk_options:
@@ -230,6 +235,7 @@ class QmdToPyConverter:
         ----------
         line : str
             The line to process.
+
         """
         # Skip lines in chunks where eval is false
         if not self.should_lint_current_chunk():
@@ -250,6 +256,7 @@ class QmdToPyConverter:
             The original line to process.
         stripped : str
             The line with leading whitespace removed.
+
         """
         # Parse and store eval option if present in this line
         self.parse_chunk_eval_option(stripped)
@@ -272,6 +279,7 @@ class QmdToPyConverter:
         ----------
         line : str
             The comment line to process.
+
         """
         # If chunk should be linted, keep comment (but handle annotations)
         # If eval is false, just append placeholder
@@ -292,6 +300,7 @@ class QmdToPyConverter:
             The original line to process.
         stripped : str
             The line with leading whitespace removed.
+
         """
         # Skip lines in chunks where eval is false
         if not self.should_lint_current_chunk():
@@ -336,6 +345,7 @@ class QmdToPyConverter:
         -------
         str
             The line with appropriate noqa suppressions appended.
+
         """
         # Check for @ too as can have decorators - note, decorators are only
         # applied to functions or classes
@@ -357,6 +367,7 @@ class QmdToPyConverter:
         -------
         bool
             True if chunk should be linted (eval is True), False otherwise.
+
         """
         # Chunk-level setting overrides YAML default
         if self.current_chunk_eval is not None:
@@ -381,13 +392,14 @@ class QmdToPyConverter:
             Stores the eval setting in self.current_chunk_eval attribute.
             Sets to True for "true"/"yes"/"1", False for "false"/"no"/"0",
             Does not modify self.current_chunk_eval if no eval option found.
+
         """
         # Extract the part after "#| "
         options_part = stripped[3:]
 
         # Look for eval: pattern
         eval_match = re.search(
-            r"eval\s*:\s*(['\"]?)(\w+)\1", options_part
+            r"eval\s*:\s*(['\"]?)(\w+)\1", options_part,
         )
 
         if eval_match:
@@ -421,6 +433,7 @@ class QmdToPyConverter:
         -------
         str
             The input line with 'noqa' suppressions appended as a comment.
+
         """
         if len(line) <= self.max_line_length:
             suppress.append("E501")
@@ -440,6 +453,7 @@ class QmdToPyConverter:
         -------
         str
             The input line, but commented if it had quarto include syntax.
+
         """
         if (
             line.lstrip().startswith("{{< include ")
@@ -465,6 +479,7 @@ class QmdToPyConverter:
         -------
         str
             The line with trailing whitespace and any "#<<" at the end removed.
+
         """
         # Strip "#<<" annotations
         line = re.sub(r"\s*#<<\s*$", "", line)
@@ -498,6 +513,7 @@ def get_unique_filename(path: Union[str, Path]) -> Path:
     PosixPath('script.py')  # if 'script.py' does not exist
     >>> get_unique_filename("script.py")
     PosixPath('script_1.py')  # if 'script.py' exists
+
     """
     path = Path(path)
     if not path.exists():
@@ -520,7 +536,7 @@ def convert_qmd_to_py(
     qmd_path: Union[str, Path],
     linter: str,
     output_path: Optional[Union[str, Path]] = None,
-    verbose: bool = False
+    verbose: bool = False,
 ) -> Optional[Path]:
     """
     Convert a Quarto (.qmd) file to Python (.py) file, preserving line
@@ -547,6 +563,7 @@ def convert_qmd_to_py(
     >>> convert_qmd_to_py("input.qmd", "output.py", True)
     # To use from the command line:
     # $ python converter.py input.qmd [output.py] [-v]
+
     """
     # Convert input path to a Path object
     qmd_path = Path(qmd_path)
@@ -569,7 +586,7 @@ def convert_qmd_to_py(
 
     try:
         # Open and read the QMD file, storing all lines in qmd_lines
-        with open(qmd_path, "r", encoding="utf-8") as f:
+        with open(qmd_path, encoding="utf-8") as f:
             qmd_lines = f.readlines()
 
         # Iterate over lines, keeping python code, and setting rest to "# -"
@@ -602,7 +619,6 @@ def convert_qmd_to_py(
               f"or '{output_path}'")
         return None
     # Intentional broad catch for unexpected conversion errors
-    # pylint: disable=broad-except
     except Exception as e:
         print(f"Error during conversion: {e}")
         return None

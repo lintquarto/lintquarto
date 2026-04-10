@@ -12,7 +12,9 @@ class Linters:
     supported : dict
         Dictionary of supported linters. The key (e.g. `radon-cc`) maps to the
         full command (e.g. `["radon", "cc"]`).
+
     """
+
     supported: dict = {
         "flake8": ["flake8"],
         "mypy": ["mypy"],
@@ -29,7 +31,7 @@ class Linters:
         "radon-raw": ["radon", "raw"],  # To compute raw metrics
         "radon-hal": ["radon", "hal"],  # To compute halstead metrics
         "ruff": ["ruff", "check"],  # To specify linter (not formatter)
-        "vulture": ["vulture"]
+        "vulture": ["vulture"],
     }
 
     def check_supported(self, linter_name: str) -> None:
@@ -45,11 +47,12 @@ class Linters:
         ------
         ValueError
             If linter is not supported.
+
         """
         if linter_name not in self.supported:
             raise ValueError(
                 f"Unsupported linter '{linter_name}'. Supported: "
-                f"{', '.join(self.supported.keys())}"
+                f"{', '.join(self.supported.keys())}",
             )
 
     def check_available(self, linter_name: str) -> None:
@@ -65,11 +68,12 @@ class Linters:
         ------
         FileNotFoundError
             If the linter's command is not found in the user's PATH.
+
         """
         # Check if the command (same as linter name) is available on the
         # user's system
         if shutil.which(self.supported[linter_name][0]) is None:
             raise FileNotFoundError(
                 f"{self.supported[linter_name][0]} not found. ",
-                "Please install it."
+                "Please install it.",
             )

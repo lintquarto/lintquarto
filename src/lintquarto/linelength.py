@@ -1,13 +1,12 @@
 """Detect configured line length."""
 
 import configparser
-import os
+from pathlib import Path
 from typing import Optional
 
 import toml
 
 
-# pylint: disable=too-few-public-methods
 class LineLengthDetector:
     """
     Detect the configured line length for a given Python linter.
@@ -20,11 +19,13 @@ class LineLengthDetector:
     ----------
     defaults : dict
         The default maximum line length for each linter.
+
     """
+
     defaults: dict = {
         "flake8": 79,
         "pycodestyle": 79,
-        "ruff": 88
+        "ruff": 88,
     }
 
     def __init__(self, linter: str, start_dir: str = ".") -> None:
@@ -43,13 +44,14 @@ class LineLengthDetector:
         ------
         ValueError
             If the specified linter is not supported.
+
         """
         self.linter = linter
         if self.linter not in self.defaults:
             raise ValueError(
                 f"LineLengthDetector not available for {self.linter}. ",
                 f"Can only check: {self.defaults.keys()}.")
-        self.start_dir = os.path.abspath(start_dir)
+        self.start_dir = Path(start_dir).resolve()
 
     def get_line_length(self) -> int:
         """
@@ -59,6 +61,7 @@ class LineLengthDetector:
         -------
         int
             The maximum line length.
+
         """
         if self.linter in ["flake8", "pycodestyle"]:
             return self._get_flake8_line_length()
@@ -78,14 +81,15 @@ class LineLengthDetector:
         -------
         int
             The maximum line length.
+
         """
         config_files = [".flake8", "setup.cfg", "tox.ini"]
         current = self.start_dir
         while True:
             # Iterate over possible config files in the current directory
             for config_file in config_files:
-                path = os.path.join(current, config_file)
-                if not os.path.isfile(path):
+                path = current / config_file
+                if not path.is_file():
                     continue  # Skip if file does not exist
                 config = configparser.ConfigParser()
                 config.read(path)
@@ -94,7 +98,7 @@ class LineLengthDetector:
                 if length is not None:
                     return length  # Return as soon as a value is found
             # Move up to the parent directory
-            parent = os.path.dirname(current)
+            parent = current.parent
             if parent == current:
                 break  # Stop if we've reached the filesystem root
             current = parent
@@ -103,7 +107,7 @@ class LineLengthDetector:
 
     def _extract_line_length_from_config(
         self,
-        config: configparser.ConfigParser
+        config: configparser.ConfigParser,
     ) -> Optional[int]:
         """
         Extract the maximum line length from a configparser.ConfigParser
@@ -123,6 +127,7 @@ class LineLengthDetector:
         -------
         Optional[int]
             The extracted line length, or None if not found or invalid.
+
         """
         for section in ["flake8", "pycodestyle"]:
             # Check if section and option exist
@@ -150,11 +155,12 @@ class LineLengthDetector:
         -------
         int
             The maximum line length.
+
         """
         current = self.start_dir
         while True:
-            path = os.path.join(current, "pyproject.toml")
-            if os.path.isfile(path):
+            path = current / "pyproject.toml"
+            if path.is_file():
                 try:
                     config = toml.load(path)
                     ruff_config = config.get("tool", {}).get("ruff", {})
@@ -163,7 +169,7 @@ class LineLengthDetector:
                 except (toml.TomlDecodeError, OSError, ValueError):
                     # Ignore parse errors, file errors, or invalid values
                     pass
-            parent = os.path.dirname(current)
+            parent = current.parent
             if parent == current:
                 break
             current = parent

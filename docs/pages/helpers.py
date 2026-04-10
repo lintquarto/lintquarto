@@ -6,7 +6,7 @@ from typing import Optional
 def generate_html(
     pypi_url: str,
     github_url: str,
-    conda_url: Optional[str] = None
+    conda_url: Optional[str] = None,
 ):
     """
     Generate HTML buttons with icons for PyPI, GitHub, and (optionally) Conda.
@@ -20,6 +20,7 @@ def generate_html(
     conda_url : Optional[str]
         The URL to the project's Conda page. If none provided, then will not
         include a conda button.
+
     """
     html = f"""
 <div style="display: flex; gap: 1em; margin-bottom: 1em;">
@@ -72,8 +73,9 @@ def print_quarto(file_path: str):
     ----------
     file_path : str
         Path to the quarto .qmd file to print.
+
     """
-    with open(file_path, "r", encoding="utf-8") as file:
+    with open(file_path, encoding="utf-8") as file:
         for line_number, line_content in enumerate(file, start=1):
             if line_number < 10:
                 print(f"{line_number}:     {line_content}", end="")

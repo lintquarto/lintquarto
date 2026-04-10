@@ -15,7 +15,7 @@ def process_qmd(
     qmd_file: Union[str, Path],
     linter: str,
     keep_temp_files: bool = False,
-    verbose: bool = False
+    verbose: bool = False,
 ) -> int:
     """
     Convert a .qmd file to .py, lint it, and clean up.
@@ -35,6 +35,7 @@ def process_qmd(
     -------
     int
         0 on success, nonzero on error.
+
     """
     # Convert input to Path object
     qmd_path = Path(qmd_file)
@@ -64,7 +65,6 @@ def process_qmd(
                   file=sys.stderr)
             return 1
     # Intentional broad catch for unknown conversion errors
-    # pylint: disable=broad-except
     except Exception as e:
         print(f"Error: Failed to convert {qmd_file} to .py: {e}",
               file=sys.stderr)
@@ -77,7 +77,7 @@ def process_qmd(
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
-        check=False
+        check=False,
     )
 
     # Get the base filename from the full file paths
@@ -99,7 +99,6 @@ def process_qmd(
         try:
             py_file.unlink()
         # Broad catch ensures cleanup warnings don't crash process
-        # pylint: disable=broad-except
         except Exception as e:
             print(f"Warning: Could not remove temporary file {py_file}: {e}",
                   file=sys.stderr)
@@ -108,7 +107,7 @@ def process_qmd(
 
 def gather_qmd_files(
     paths: Union[List[str], List[Path]],
-    exclude: Optional[Union[List[str], List[Path]]] = None
+    exclude: Optional[Union[List[str], List[Path]]] = None,
 ) -> List[str]:
     """
     Gather all .qmd files from a list of files and directories, excluding
@@ -125,6 +124,7 @@ def gather_qmd_files(
     -------
     List[str]
         List of .qmd file paths found, excluding those in `exclude`.
+
     """
     exclude_paths = set(Path(e).resolve() for e in (exclude or []))
     files = []
@@ -162,12 +162,13 @@ def validate_no_commas(list_of_paths: List[str], argname: str) -> None:
     ------
     ValueError
         If any path contains a comma, indicating improper separation.
+
     """
     for path in list_of_paths:
-        if ',' in path:
+        if "," in path:
             raise ValueError(
                 f"Argument '{argname}' contains a comma: '{path}'. "
-                "Separate paths with spaces, not commas. e.g: -p file.qmd dir2"
+                "Separate paths with spaces, not commas. e.g: -p file.qmd dir2",
             )
 
 
@@ -180,29 +181,29 @@ def main():
     """
     # Set up custom argumentparser with help statements
     parser = CustomArgumentParser(
-        description="Lint Python code in Quarto (.qmd) files."
+        description="Lint Python code in Quarto (.qmd) files.",
     )
     parser.add_argument(
-        "-l", "--linters", nargs='+', required=True,
+        "-l", "--linters", nargs="+", required=True,
         choices=list(Linters().supported.keys()), metavar="LINTER",
         help=("Linters to run. Valid options: "
-              f"{list(Linters().supported.keys())}")
+              f"{list(Linters().supported.keys())}"),
     )
     parser.add_argument(
         "-p", "--paths", nargs="+", required=True,
-        help="Quarto files and/or directories to lint."
+        help="Quarto files and/or directories to lint.",
     )
     parser.add_argument(
         "-e", "--exclude", nargs="*", default=[], metavar="[exclude_paths]",
-        help=("Files and/or directories to exclude from linting.")
+        help=("Files and/or directories to exclude from linting."),
     )
     parser.add_argument(
         "-v", "--verbose", action="store_true",
-        help="Verbose output."
+        help="Verbose output.",
     )
     parser.add_argument(
         "-k", "--keep-temp", action="store_true",
-        help="Keep temporary .py files after linting."
+        help="Keep temporary .py files after linting.",
     )
     args = parser.parse_args()
 

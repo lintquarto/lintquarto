@@ -27,10 +27,11 @@ def test_error_prints_custom_message_and_exits(capsys):
     AssertionError
         If the error message or help text are not found in the expected output
         streams, or if the exit code is not 2.
+
     """
     # Create parser and add a required argument
     parser = CustomArgumentParser(prog="prog")
-    parser.add_argument('--foo', required=True)
+    parser.add_argument("--foo", required=True)
 
     # Simulate missing required argument to trigger the error method
     with pytest.raises(SystemExit) as excinfo:
@@ -69,6 +70,7 @@ def test_error_method_directly(capsys):
     AssertionError
         If the error message or help text are not found in the expected output
         streams, or if the exit code is not 2.
+
     """
     # Create parser instance
     parser = CustomArgumentParser(prog="prog")

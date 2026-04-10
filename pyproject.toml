@@ -84,3 +84,14 @@ test = [
 Home = "https://github.com/lintquarto/lintquarto"
 "Bug Reports" = "https://github.com/lintquarto/lintquarto/issues"
 Source = "https://github.com/lintquarto/lintquarto"
+
+[tool.ruff]
+line-length=79
+format.quote-style="double"
+lint.select = ["ALL"]
+lint.pydocstyle.convention = "numpy"
+lint.per-file-ignores."tests/*" = [
+    "INP001",  # File {filename} is part of an implicit namespace package. Add an __init__.py.
+    "S101",  # Use of `assert` detected
+    "ANN",  # Missing type annotations
+]

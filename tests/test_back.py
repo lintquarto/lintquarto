@@ -1,13 +1,11 @@
 """Back tests"""
 
-from pathlib import Path
 import subprocess
 import sys
+from pathlib import Path
 
 import pytest
-
 from utils import skip_if_linter_unavailable
-
 
 TEST_CASES = [
     {
@@ -17,8 +15,8 @@ TEST_CASES = [
             "8:80: E501 line too long (98 > 79 characters)",
             "17:1: E305 expected 2 blank lines after class or function",
             "19:1: F401 'sys' imported but unused",
-            "E402 module level import not at top of file"
-        ]
+            "E402 module level import not at top of file",
+        ],
     },
     {
         "linter": "pycodestyle",
@@ -26,8 +24,8 @@ TEST_CASES = [
         "contains": [
             "14:1: E302 expected 2 blank lines, found 0",
             "17:1: E305 expected 2 blank lines after class or function",
-            "19:1: E402 module level import not at top of file"
-        ]
+            "19:1: E402 module level import not at top of file",
+        ],
     },
     {
         "linter": "pydoclint",
@@ -35,15 +33,15 @@ TEST_CASES = [
         "contains": [
             "8: DOC101: Function `add`: Docstring contains fewer arguments",
             "8: DOC103: Function `add`: Docstring arguments are different",
-            "8: DOC201: Function `add` does not have a return section"
-        ]
+            "8: DOC201: Function `add` does not have a return section",
+        ],
     },
     {
         "linter": "pyflakes",
         "qmd": "general_example.qmd",
         "contains": [
-            "19:1: 'sys' imported but unused"
-        ]
+            "19:1: 'sys' imported but unused",
+        ],
     },
     {
         "linter": "pylint",
@@ -52,31 +50,31 @@ TEST_CASES = [
             """8:0: C0103: Constant name "very_long_line" doesn't conform """,
             "14:0: C0116: Missing function or method docstring (missing-",
             """19:0: C0413: Import "import sys" should be placed at the """,
-            "19:0: W0611: Unused import sys (unused-import)"
-        ]
+            "19:0: W0611: Unused import sys (unused-import)",
+        ],
     },
     {
         "linter": "ruff",
         "qmd": "general_example.qmd",
         "contains": [
             "E402 Module level import not at top of file",
-            "F401 [*] `sys` imported but unused"
-        ]
+            "F401 [*] `sys` imported but unused",
+        ],
     },
     {
         "linter": "radon-cc",
         "qmd": "complexity_example.qmd",
         "contains": [
             "F 17:0 check_number - C",
-            "F 9:0 simple_addition - A"
-        ]
+            "F 9:0 simple_addition - A",
+        ],
     },
     {
         "linter": "radon-mi",
         "qmd": "complexity_example.qmd",
         "contains": [
-            "complexity_example.qmd - A"
-        ]
+            "complexity_example.qmd - A",
+        ],
     },
     {
         "linter": "radon-raw",
@@ -91,8 +89,8 @@ TEST_CASES = [
             "Blank: 3",
             "(C % L): 10%",
             "(C % S): 17%",
-            "(C + M % L): 10%"
-        ]
+            "(C + M % L): 10%",
+        ],
     },
     {
         "linter": "radon-hal",
@@ -109,8 +107,8 @@ TEST_CASES = [
             "difficulty: 0.6666666666666666",
             "effort: 22.458839376460833",
             "time: 1.2477132986922685",
-            "bugs: 0.011229419688230418"
-        ]
+            "bugs: 0.011229419688230418",
+        ],
     },
     {
         "linter": "vulture",
@@ -118,8 +116,8 @@ TEST_CASES = [
         "contains": [
             "8: unused import 'random' (90% confidence)",
             "10: unused function 'unused_function' (60% confidence)",
-            "17: unused variable 'spare_part' (60% confidence)"
-        ]
+            "17: unused variable 'spare_part' (60% confidence)",
+        ],
     },
     {
         "linter": "mypy",
@@ -127,40 +125,39 @@ TEST_CASES = [
         "contains": [
             """11: error: Argument 2 to "add_numbers" has incompatible """,
             """19: error: Argument 1 to "add_numbers" has incompatible """,
-        ]
+        ],
     },
     {
         "linter": "pyrefly",
         "qmd": "typecheck_example.qmd",
         "contains": [
             "Argument `Literal['5']` is not assignable to parameter `b`",
-            "Argument `Literal['apples']` is not assignable to parameter `a`"
-        ]
+            "Argument `Literal['apples']` is not assignable to parameter `a`",
+        ],
     },
     {
         "linter": "pyright",
         "qmd": "typecheck_example.qmd",
         "contains": [
-            '''11:16 - error: Argument of type "Literal['5']" cannot be ''',
-            '''19:13 - error: Argument of type "Literal['apples']" cannot '''
-        ]
+            """11:16 - error: Argument of type "Literal['5']" cannot be """,
+            """19:13 - error: Argument of type "Literal['apples']" cannot """,
+        ],
     },
     {
         "linter": "pytype",
         "qmd": "typecheck_example.qmd",
         "contains": [
-            "Function add_numbers was called with the wrong arguments "
-        ]
-    }
+            "Function add_numbers was called with the wrong arguments ",
+        ],
+    },
 ]
 
 
 @pytest.mark.parametrize(
-    "case", TEST_CASES, ids=[case["linter"] for case in TEST_CASES]
+    "case", TEST_CASES, ids=[case["linter"] for case in TEST_CASES],
 )
 def test_back_contains(case):
     """Back test checking linter has all messages."""
-
     skip_if_linter_unavailable(case["linter"])
 
     test_dir = Path(__file__).parent
@@ -169,7 +166,7 @@ def test_back_contains(case):
     result = subprocess.run(
         [sys.executable, "-m", "lintquarto",
          "-l", case["linter"], "-p", qmd_path],
-        capture_output=True, text=True, check=False
+        capture_output=True, text=True, check=False,
     )
     output = result.stdout + result.stderr
 
@@ -181,11 +178,10 @@ def test_back_contains(case):
 
 
 @pytest.mark.parametrize(
-    "case", TEST_CASES, ids=[case["linter"] for case in TEST_CASES]
+    "case", TEST_CASES, ids=[case["linter"] for case in TEST_CASES],
 )
 def test_back_file_type(case):
     """Back test checking correct file type in output."""
-
     skip_if_linter_unavailable(case["linter"])
 
     test_dir = Path(__file__).parent
@@ -196,7 +192,7 @@ def test_back_file_type(case):
     result = subprocess.run(
         [sys.executable, "-m", "lintquarto",
          "-l", case["linter"], "-p", qmd_path],
-        capture_output=True, text=True, check=False
+        capture_output=True, text=True, check=False,
     )
     output = result.stdout + result.stderr
 
