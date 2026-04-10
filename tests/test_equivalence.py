@@ -13,7 +13,7 @@ def test_radon_hal_preserve_line_effect():
     """Confirm that preserve_line_count does not impact radon-hal output."""
 
     def run_radon_hal(preserve_line_count):
-        """Helper to run radon-hal, overriding preserve_line_count"""
+        """Run radon-hal, overriding preserve_line_count."""
         qmd_lines = [
             "# Title\n",
             "```{python}",

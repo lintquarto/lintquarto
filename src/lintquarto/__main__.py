@@ -1,10 +1,11 @@
 """Command-line interface (CLI) for running the package + main functions."""
 
+from __future__ import annotations
+
 import os
 import subprocess
 import sys
 from pathlib import Path
-from typing import List, Optional, Union
 
 from .args import CustomArgumentParser
 from .converter import convert_qmd_to_py
@@ -12,7 +13,7 @@ from .linters import Linters
 
 
 def process_qmd(
-    qmd_file: Union[str, Path],
+    qmd_file: str | Path,
     linter: str,
     keep_temp_files: bool = False,
     verbose: bool = False,
@@ -22,7 +23,7 @@ def process_qmd(
 
     Parameters
     ----------
-    qmd_file : Union[str, Path]
+    qmd_file : str | Path
         Path to the input .qmd file.
     linter : str
         Name of the linter to use (pylint, flake8, mypy).
@@ -106,23 +107,22 @@ def process_qmd(
 
 
 def gather_qmd_files(
-    paths: Union[List[str], List[Path]],
-    exclude: Optional[Union[List[str], List[Path]]] = None,
-) -> List[str]:
+    paths: list[str | Path],
+    exclude: list[str | Path] | None = None,
+) -> list[str]:
     """
-    Gather all .qmd files from a list of files and directories, excluding
-    specified paths.
+    Gather .qmd files from listed files/dirs, excluding specified paths.
 
     Parameters
     ----------
-    paths : Union[List[str], List[Path]]
+    paths : list[str | Path]
         List of file or directory paths.
-    exclude : Optional[Union[List[str], List[Path]]]
+    exclude : list[str | Path] | None
         List of files or directories to exclude. Defaults to None.
 
     Returns
     -------
-    List[str]
+    list[str]
         List of .qmd file paths found, excluding those in `exclude`.
 
     """
@@ -147,13 +147,13 @@ def gather_qmd_files(
     return files
 
 
-def validate_no_commas(list_of_paths: List[str], argname: str) -> None:
+def validate_no_commas(list_of_paths: list[str], argname: str) -> None:
     """
     Check for commas in list of paths and raise ValueError if found.
 
     Parameters
     ----------
-    list_of_paths : List[str]
+    list_of_paths : list[str]
         List of file or directory paths to check.
     argname : str
         Name of the argument for error messaging.

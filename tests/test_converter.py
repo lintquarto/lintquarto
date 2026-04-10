@@ -1,6 +1,5 @@
 """Unit tests for the converter module."""
 
-from typing import List
 from unittest import mock
 
 import pytest
@@ -58,18 +57,18 @@ def test_non_python_chunk_is_commented(linter):
 # 2. Conversion of active python chunks
 # =============================================================================
 
-def remove_noqa(lines: List[str]) -> List[str]:
+def remove_noqa(lines: list[str]) -> list[str]:
     """
-    Helper to remove # noqa comments from expected output
+    Helper to remove # noqa comments from expected output,
 
     Parameters
     ----------
-    lines : List[str]
+    lines : list[str]
         Lines of text (expected output)
 
     Returns
     -------
-    List[str]
+    list[str]
         Lines with any trailing '  noqa: ...' comments removed.
 
     """
@@ -563,7 +562,7 @@ def test_parse_yaml_front_matter_eval_default(lines, expected_eval):
 
 
 def test_parse_yaml_front_matter_invalid_yaml():
-    """Unit: Invalid YAML should fall back to default eval=True"""
+    """Unit: Invalid YAML should fall back to default eval=True."""
     lines = [
         "---\n",
         "title: [unclosed\n",

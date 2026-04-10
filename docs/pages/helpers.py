@@ -1,12 +1,12 @@
 """Helper functions for the tools pages in the user guide."""
 
-from typing import Optional
+from pathlib import Path
 
 
 def generate_html(
     pypi_url: str,
     github_url: str,
-    conda_url: Optional[str] = None,
+    conda_url: str | None = None,
 ):
     """
     Generate HTML buttons with icons for PyPI, GitHub, and (optionally) Conda.
@@ -17,7 +17,7 @@ def generate_html(
         The URL to the project's PyPI page.
     github_url : str
         The URL to the project's GitHub repository.
-    conda_url : Optional[str]
+    conda_url : str | None
         The URL to the project's Conda page. If none provided, then will not
         include a conda button.
 
@@ -75,7 +75,7 @@ def print_quarto(file_path: str):
         Path to the quarto .qmd file to print.
 
     """
-    with open(file_path, encoding="utf-8") as file:
+    with Path(file_path).open(encoding="utf-8") as file:
         for line_number, line_content in enumerate(file, start=1):
             if line_number < 10:
                 print(f"{line_number}:     {line_content}", end="")

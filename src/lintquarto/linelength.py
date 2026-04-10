@@ -2,7 +2,6 @@
 
 import configparser
 from pathlib import Path
-from typing import Optional
 
 import toml
 
@@ -108,10 +107,9 @@ class LineLengthDetector:
     def _extract_line_length_from_config(
         self,
         config: configparser.ConfigParser,
-    ) -> Optional[int]:
+    ) -> int | None:
         """
-        Extract the maximum line length from a configparser.ConfigParser
-        object.
+        Extract max line length from a configparser.ConfigParser object.
 
         This helper checks both the `[flake8]` and `[pycodestyle]` sections for
         a `max-line-length` option. If found, it attempts to convert the value
@@ -125,7 +123,7 @@ class LineLengthDetector:
 
         Returns
         -------
-        Optional[int]
+        int | None
             The extracted line length, or None if not found or invalid.
 
         """

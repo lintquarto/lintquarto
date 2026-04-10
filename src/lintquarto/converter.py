@@ -1,9 +1,10 @@
 """Convert .qmd file to python file."""
 
+from __future__ import annotations
+
 import re
 import warnings
 from pathlib import Path
-from typing import List, Optional, Union
 
 import yaml
 
@@ -27,7 +28,7 @@ class QmdToPyConverter:
         Stores the lines to be written to the output Python file.
     yaml_eval_default : bool
         Default eval setting from YAML front matter.
-    current_chunk_eval : Optional[bool]
+    current_chunk_eval : bool | None
         Eval setting for current chunk from chunk options (None if not set).
 
     """
@@ -36,7 +37,7 @@ class QmdToPyConverter:
     in_python: bool = False
     py_lines: list = []
     yaml_eval_default: bool = True
-    current_chunk_eval: Optional[bool] = None
+    current_chunk_eval: bool | None = None
 
     def __init__(self, linter: str) -> None:
         """
@@ -74,13 +75,13 @@ class QmdToPyConverter:
         self.py_lines = []
         self.current_chunk_eval = None
 
-    def parse_yaml_front_matter(self, qmd_lines: List[str]) -> None:
+    def parse_yaml_front_matter(self, qmd_lines: list[str]) -> None:
         """
         Parse YAML front matter and extract execute.eval setting.
 
         Parameters
         ----------
-        qmd_lines : List[str]
+        qmd_lines : list[str]
             List containing each line from the Quarto file.
 
         Returns
@@ -131,18 +132,18 @@ class QmdToPyConverter:
             return
         self.yaml_eval_default = True
 
-    def convert(self, qmd_lines: List[str]) -> List[str]:
+    def convert(self, qmd_lines: list[str]) -> list[str]:
         """
         Run converter on the provided lines.
 
         Parameters
         ----------
-        qmd_lines : List[str]
+        qmd_lines : list[str]
             List containing each line from the Quarto file.
 
         Returns
         -------
-        py_lines : List[str]
+        py_lines : list[str]
             List of each line for the output Python file.
 
         """
@@ -414,7 +415,7 @@ class QmdToPyConverter:
         # If no eval match found, do NOT modify self.current_chunk_eval
         # This preserves any previously parsed eval setting from earlier lines
 
-    def _add_noqa(self, line: str, suppress: List[str]) -> str:
+    def _add_noqa(self, line: str, suppress: list[str]) -> str:
         """
         Add noqa suppressions to a line for specified error codes.
 
@@ -426,7 +427,7 @@ class QmdToPyConverter:
         ----------
         line : str
             The line of code.
-        suppress : List[str]
+        suppress : list[str]
             The error code(s) to suppress (e.g. ["E302"]).
 
         Returns
@@ -488,10 +489,9 @@ class QmdToPyConverter:
         return line
 
 
-def get_unique_filename(path: Union[str, Path]) -> Path:
+def get_unique_filename(path: str | Path) -> Path:
     """
-    Generate a unique file path by appending "_n" before the file extension
-    if needed.
+    Generate unique path by adding "_n" before the file extension if needed.
 
     If the given path already exists, this function appends an incrementing
     number before the file extension (e.g., "file_1.py") until an unused
@@ -499,7 +499,7 @@ def get_unique_filename(path: Union[str, Path]) -> Path:
 
     Parameters
     ----------
-    path : Union[str, Path]
+    path : str | Path
         The initial file path to check.
 
     Returns
@@ -533,29 +533,28 @@ def get_unique_filename(path: Union[str, Path]) -> Path:
 
 
 def convert_qmd_to_py(
-    qmd_path: Union[str, Path],
+    qmd_path: str | Path,
     linter: str,
-    output_path: Optional[Union[str, Path]] = None,
+    output_path: str | Path | None = None,
     verbose: bool = False,
-) -> Optional[Path]:
+) -> Path | None:
     """
-    Convert a Quarto (.qmd) file to Python (.py) file, preserving line
-    alignment.
+    Convert Quarto file to Python file, preserving line alignment.
 
     Parameters
     ----------
-    qmd_path : Union[str, Path]
+    qmd_path : str | Path
         Path to the input .qmd file.
     linter : str
         Name of the linter that will be used.
-    output_path : Optional[Union[str, Path]]
+    output_path : str | Path | None
         Path for the output .py file. If None, uses qmd_path with .py suffix.
     verbose : bool, optional
         If True, print detailed progress information.
 
     Returns
     -------
-    output_path : Optional[Path]
+    output_path : Path | None
         Path for the output .py file, or None if there was an error.
 
     Examples

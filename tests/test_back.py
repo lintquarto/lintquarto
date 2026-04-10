@@ -1,4 +1,4 @@
-"""Back tests"""
+"""Back tests."""
 
 import subprocess
 import sys

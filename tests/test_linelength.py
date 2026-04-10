@@ -1,13 +1,16 @@
 """Unit tests for the linelength module."""
 
 import configparser
-from pathlib import Path
 import tempfile
+from pathlib import Path
 
 import pytest
 import toml
 
 from lintquarto.linelength import LineLengthDetector
+
+DEFAULT_RUFF_LINE_LENGTH = 88
+CUSTOM_RUFF_LINE_LENGTH = 101
 
 # =============================================================================
 # 1. Default value detection
@@ -40,7 +43,7 @@ def test_config_detection(linter, config_file):
         config = configparser.ConfigParser()
         config.add_section(linter)
         config.set(linter, "max-line-length", "200")
-        with open(config_path, "w", encoding="utf-8") as f:
+        with config_path.open("w", encoding="utf-8") as f:
             config.write(f)
 
         # Check if the line length was detected
@@ -60,14 +63,14 @@ def test_config_precedence():
         config1 = configparser.ConfigParser()
         config1.add_section("flake8")
         config1.set("flake8", "max-line-length", "111")
-        with open(flake8_path, "w", encoding="utf-8") as f:
+        with flake8_path.open("w", encoding="utf-8") as f:
             config1.write(f)
 
         # Create setup.cfg
         config2 = configparser.ConfigParser()
         config2.add_section("flake8")
         config2.set("flake8", "max-line-length", "222")
-        with open(setup_cfg_path, "w", encoding="utf-8") as f:
+        with setup_cfg_path.open("w", encoding="utf-8") as f:
             config2.write(f)
 
         # Check that the value from .flake8 is used
@@ -83,7 +86,7 @@ def test_config_parent_directory():
         config = configparser.ConfigParser()
         config.add_section("flake8")
         config.set("flake8", "max-line-length", "123")
-        with open(config_path, "w", encoding="utf-8") as f:
+        with config_path.open("w", encoding="utf-8") as f:
             config.write(f)
 
         # Run detector from sub-directory and check that file was found
@@ -102,7 +105,7 @@ def test_config_invalid(invalid_value):
         config = configparser.ConfigParser()
         config.add_section("flake8")
         config.set("flake8", "max-line-length", invalid_value)
-        with open(config_path, "w", encoding="utf-8") as f:
+        with config_path.open("w", encoding="utf-8") as f:
             config.write(f)
 
         # Confirm that the default value was used
@@ -119,13 +122,13 @@ def test_ruff_pyproject_toml_detection():
     # Create ruff config file
     with tempfile.TemporaryDirectory() as tmpdir:
         pyproject_path = Path(tmpdir) / "pyproject.toml"
-        config = {"tool": {"ruff": {"line-length": 99}}}
-        with open(pyproject_path, "w", encoding="utf-8") as f:
+        config = {"tool": {"ruff": {"line-length": CUSTOM_RUFF_LINE_LENGTH}}}
+        with pyproject_path.open("w", encoding="utf-8") as f:
             toml.dump(config, f)
 
         # Check that line length from file was used
         detector = LineLengthDetector("ruff", start_dir=tmpdir)
-        assert detector.get_line_length() == 99
+        assert detector.get_line_length() == CUSTOM_RUFF_LINE_LENGTH
 
 
 def test_ruff_pyproject_toml_parent_directory():
@@ -133,15 +136,15 @@ def test_ruff_pyproject_toml_parent_directory():
     # Create ruff config file
     with tempfile.TemporaryDirectory() as tmpdir:
         pyproject_path = Path(tmpdir) / "pyproject.toml"
-        config = {"tool": {"ruff": {"line-length": 101}}}
-        with open(pyproject_path, "w", encoding="utf-8") as f:
+        config = {"tool": {"ruff": {"line-length": CUSTOM_RUFF_LINE_LENGTH}}}
+        with pyproject_path.open("w", encoding="utf-8") as f:
             toml.dump(config, f)
 
         # Run detector from sub-directory and check that file was found
         subdir = Path(tmpdir) / "subdir"
         Path(subdir).mkdir()
         detector = LineLengthDetector("ruff", start_dir=subdir)
-        assert detector.get_line_length() == 101
+        assert detector.get_line_length() == CUSTOM_RUFF_LINE_LENGTH
 
 
 def test_ruff_pyproject_toml_invalid():
@@ -149,9 +152,9 @@ def test_ruff_pyproject_toml_invalid():
     # Create config file with invalid values
     with tempfile.TemporaryDirectory() as tmpdir:
         pyproject_path = Path(tmpdir) / "pyproject.toml"
-        with open(pyproject_path, "w", encoding="utf-8") as f:
+        with pyproject_path.open("w", encoding="utf-8") as f:
             f.write("[tool.ruff]\nline-length = 'notanumber'\n")
 
         # Confirm that default value was used
         detector = LineLengthDetector("ruff", start_dir=tmpdir)
-        assert detector.get_line_length() == 88
+        assert detector.get_line_length() == DEFAULT_RUFF_LINE_LENGTH
