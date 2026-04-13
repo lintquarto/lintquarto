@@ -15,7 +15,8 @@ def test_check_dependencies():
     # Set yaml as missing - we import yaml and declare dependency pyyaml and
     # that is correct, but check-dependencies does not recognise
     result = subprocess.run(
-        ["check-dependencies", "src/lintquarto", "--missing", "yaml"],
+        [sys.executable, "-m", "check_dependencies", "src/lintquarto",
+        "--missing", "yaml"],
         capture_output=True, text=True, check=False,
     )
     assert result.returncode in (4, 6), (

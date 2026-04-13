@@ -19,6 +19,8 @@ class QmdToPyConverter:
 
     Attributes
     ----------
+    linter : str
+        Name of the linter that will be used.
     in_chunk_options : bool
         True if currently at the start of a code chunk, parsing Quarto chunk
         options or leading blank lines.
@@ -30,14 +32,14 @@ class QmdToPyConverter:
         Default eval setting from YAML front matter.
     current_chunk_eval : bool | None
         Eval setting for current chunk from chunk options (None if not set).
+    preserve_line_count : bool
+        Whether to preserve line count.
+    uses_noqa : bool
+        Whether specified linter uses noqa.
+    max_line_length : int
+        Maximum line length for linter (from LineLengthDetector()).
 
     """
-
-    in_chunk_options: bool = False
-    in_python: bool = False
-    py_lines: list = []
-    yaml_eval_default: bool = True
-    current_chunk_eval: bool | None = None
 
     def __init__(self, linter: str) -> None:
         """
@@ -50,6 +52,12 @@ class QmdToPyConverter:
 
         """
         self.linter = linter
+
+        self.in_chunk_options = False
+        self.in_python = False
+        self.py_lines = []
+        self.yaml_eval_default = True
+        self.current_chunk_eval = None
 
         # Check the linter is supported
         Linters().check_supported(self.linter)
@@ -345,11 +353,8 @@ class QmdToPyConverter:
         """
         # Check for @ too as can have decorators - note, decorators are only
         # applied to functions or classes
-        is_function_or_class = (
-            stripped.startswith("@")
-            or stripped.startswith("def")
-            or stripped.startswith("class")
-        )
+        is_function_or_class = stripped.startswith(("@", "def", "class"))
+
         # Suppress E302 (expected 2 blank lines) in addition to E305
         if is_function_or_class:
             return self._add_noqa(line, ["E302", "E305"])
@@ -531,6 +536,7 @@ def convert_qmd_to_py(
     qmd_path: str | Path,
     linter: str,
     output_path: str | Path | None = None,
+    *,
     verbose: bool = False,
 ) -> Path | None:
     """
@@ -602,7 +608,7 @@ def convert_qmd_to_py(
                     print(f"  Line count: {qmd_len} → {py_len} ")
             else:
                 warnings.warn(f"Line count mismatch: {qmd_len} → {py_len}",
-                              RuntimeWarning)
+                              RuntimeWarning, stacklevel=2)
 
     # Error messages if issues finding/accessing files, or otherwise.
     except FileNotFoundError:

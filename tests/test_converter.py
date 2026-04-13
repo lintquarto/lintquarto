@@ -476,7 +476,7 @@ def test_general_exception(tmp_path, capsys):
 
 def test_unsupported_linter():
     """Unsupported linter name raises an error."""
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Unsupported linter"):
         QmdToPyConverter(linter="notalinter")
 
 
@@ -485,7 +485,7 @@ def test_unsupported_linter():
 # =============================================================================
 
 @pytest.mark.parametrize(
-    "lines, expected_eval",
+    ("lines", "expected_eval"),
     [
         (
             # No YAML at all → default True
@@ -580,7 +580,7 @@ def test_parse_yaml_front_matter_invalid_yaml():
 # =============================================================================
 
 @pytest.mark.parametrize(
-    "line, expected",
+    ("line", "expected"),
     [
         ("#| eval: true", True),
         ("#| eval: false", False),

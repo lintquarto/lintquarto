@@ -35,7 +35,7 @@ def test_supported_success(linter_name):
 def test_supported_edge_cases(linter_name):
     """Test check_supported() raises error for empty or None linter names."""
     linters = Linters()
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Unsupported linter"):
         linters.check_supported(linter_name)
 
 
@@ -43,7 +43,7 @@ def test_supported_edge_cases(linter_name):
 def test_supported_case_sensitivity(linter_name):
     """Test check_supported() is case-sensitive and rejects incorrect case."""
     linters = Linters()
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Unsupported linter"):
         linters.check_supported(linter_name)  # Should be 'pylint'
 
 
@@ -51,7 +51,7 @@ def test_supported_error_message_content():
     """Test error message for unsupported linter includes the linter name."""
     linters = Linters()
     linter_name = "notalinter"
-    with pytest.raises(ValueError) as excinfo:
+    with pytest.raises(ValueError, match="Unsupported linter") as excinfo:
         linters.check_supported(linter_name)
     assert linter_name in str(excinfo.value)
     assert "Supported" in str(excinfo.value)

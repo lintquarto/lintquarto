@@ -15,24 +15,26 @@ class Linters:
 
     """
 
-    supported: dict = {
-        "flake8": ["flake8"],
-        "mypy": ["mypy"],
-        "pycodestyle": ["pycodestyle"],
-        "pydoclint": ["pydoclint"],
-        "pyflakes": ["pyflakes"],
-        # Disable missing module docstring (C0114) as not relevant for qmd
-        "pylint": ["pylint", "--disable=C0114"],
-        "pyright": ["pyright"],
-        "pyrefly": ["pyrefly", "check"],
-        "pytype": ["pytype"],
-        "radon-cc": ["radon", "cc"],  # To compute cyclomatic complexity
-        "radon-mi": ["radon", "mi"],  # To compute maintainability index
-        "radon-raw": ["radon", "raw"],  # To compute raw metrics
-        "radon-hal": ["radon", "hal"],  # To compute halstead metrics
-        "ruff": ["ruff", "check"],  # To specify linter (not formatter)
-        "vulture": ["vulture"],
-    }
+    def __init__(self) -> None:
+        """Initialise Linters object."""
+        self.supported = {
+            "flake8": ["flake8"],
+            "mypy": ["mypy"],
+            "pycodestyle": ["pycodestyle"],
+            "pydoclint": ["pydoclint"],
+            "pyflakes": ["pyflakes"],
+            # Disable missing module docstring (C0114) as not relevant for qmd
+            "pylint": ["pylint", "--disable=C0114"],
+            "pyright": ["pyright"],
+            "pyrefly": ["pyrefly", "check"],
+            "pytype": ["pytype"],
+            "radon-cc": ["radon", "cc"],  # To compute cyclomatic complexity
+            "radon-mi": ["radon", "mi"],  # To compute maintainability index
+            "radon-raw": ["radon", "raw"],  # To compute raw metrics
+            "radon-hal": ["radon", "hal"],  # To compute halstead metrics
+            "ruff": ["ruff", "check"],  # To specify linter (not formatter)
+            "vulture": ["vulture"],
+        }
 
     def check_supported(self, linter_name: str) -> None:
         """
@@ -50,10 +52,11 @@ class Linters:
 
         """
         if linter_name not in self.supported:
-            raise ValueError(
+            msg = (
                 f"Unsupported linter '{linter_name}'. Supported: "
                 f"{', '.join(self.supported.keys())}",
             )
+            raise ValueError(msg)
 
     def check_available(self, linter_name: str) -> None:
         """
@@ -73,7 +76,8 @@ class Linters:
         # Check if the command (same as linter name) is available on the
         # user's system
         if shutil.which(self.supported[linter_name][0]) is None:
-            raise FileNotFoundError(
+            msg = (
                 f"{self.supported[linter_name][0]} not found. ",
                 "Please install it.",
             )
+            raise FileNotFoundError(msg)

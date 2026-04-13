@@ -165,10 +165,11 @@ def validate_no_commas(list_of_paths: list[str], argname: str) -> None:
     """
     for path in list_of_paths:
         if "," in path:
-            raise ValueError(
-                f"Argument '{argname}' contains a comma: '{path}'. "
-                "Separate paths with spaces, not commas. e.g: -p file.qmd dir2",
+            msg = (
+                f"Argument '{argname}' contains a comma: '{path}'. Separate "
+                "paths with spaces, not commas. e.g: -p file.qmd dir2"
             )
+            raise ValueError(msg)
 
 
 def main() -> None:

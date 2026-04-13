@@ -17,7 +17,8 @@ CUSTOM_RUFF_LINE_LENGTH = 101
 # =============================================================================
 
 @pytest.mark.parametrize(
-    "linter,expected", [("flake8", 79), ("pycodestyle", 79), ("ruff", 88)],
+    ("linter", "expected"),
+    [("flake8", 79), ("pycodestyle", 79), ("ruff", 88)],
 )
 def test_default_line_length(linter, expected):
     """Test that default line length is returned when no config files exist."""
@@ -30,7 +31,7 @@ def test_default_line_length(linter, expected):
 # 2. Config file detection for flake8 and pycodestyle
 # =============================================================================
 
-@pytest.mark.parametrize("linter,config_file", [
+@pytest.mark.parametrize(("linter", "config_file"), [
     ("flake8", ".flake8"),
     ("pycodestyle", "setup.cfg"),
     ("flake8", "tox.ini"),

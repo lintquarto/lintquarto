@@ -20,14 +20,12 @@ class LineLengthDetector:
     ----------
     defaults : dict
         The default maximum line length for each linter.
+    linter : str
+        The name of the linter to check.
+    start_dir : Path
+        The directory from which to start searching for configuration files.
 
     """
-
-    defaults: dict = {
-        "flake8": 79,
-        "pycodestyle": 79,
-        "ruff": 88,
-    }
 
     def __init__(self, linter: str, start_dir: str = ".") -> None:
         """
@@ -47,11 +45,18 @@ class LineLengthDetector:
             If the specified linter is not supported.
 
         """
+        self.defaults = {
+            "flake8": 79,
+            "pycodestyle": 79,
+            "ruff": 88,
+        }
         self.linter = linter
         if self.linter not in self.defaults:
-            raise ValueError(
+            msg = (
                 f"LineLengthDetector not available for {self.linter}. ",
-                f"Can only check: {self.defaults.keys()}.")
+                f"Can only check: {self.defaults.keys()}.",
+            )
+            raise ValueError(msg)
         self.start_dir = Path(start_dir).resolve()
 
     def get_line_length(self) -> int:
