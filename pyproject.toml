@@ -94,6 +94,7 @@ lint.ignore = [
   "T201",  # print found
   "T203",  # pprint found
   "S603",  # subprocess call: check for execution of untrusted input
+  "COM812",  # Removed due to incompatability with ruff format
 ]
 lint.pydocstyle.convention = "numpy"
 lint.per-file-ignores."tests/*" = [
