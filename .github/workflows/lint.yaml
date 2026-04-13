@@ -28,10 +28,8 @@ jobs:
       - name: Sync project from uv.lock
         run: uv sync --locked --all-extras --dev
 
-      - name: Lint package
-        run: |
-            uv run bash lint_package.sh
+      - name: Run Ruff check on package
+        run: uv run ruff check .
       
-      - name: Lint documentation
-        run: |
-            uv run bash lint_docs.sh
+      - name: Run Ruff check on code in documentation
+        run: uv run lintquarto -l ruff -p docs

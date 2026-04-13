@@ -179,28 +179,49 @@ uv run pytest tests/test_linters.py::test_supported_error
 
 ### Linting
 
-Make scripts executable (first time only):
+This project uses [Ruff](https://docs.astral.sh/ruff/) for linting and formatting checks.
 
-```{.bash}
-chmod +x lint_package.sh
-chmod +x lint_docs.sh
+Ruff configuration, including exclusions and per-file ignores, is defined in `pyproject.toml`.
+
+### Check the codebase
+
+Run the linter on the full repository:
+
+```bash
+uv run ruff check .
 ```
 
-Lint the package:
+Run the linter on code in the documentation:
 
-```{.bash}
-lint_package.sh
+```bash
+uv run lintquarto -l ruff -p docs
 ```
 
-Lint the documentation:
+Check that formatting matches the project style:
 
-```{.bash}
-lint_docs.sh
+```bash
+uv run ruff format --check .
 ```
 
-There is a pre-commit hook provided which will lint the package and documentation with every commit. To make it executable, run:
+### Apply fixes locally
 
-```{.bash}
+To automatically fix some lint issues locally, run:
+
+```bash
+uv run ruff check --fix .
+```
+
+To apply Ruff formatting locally, run:
+
+```bash
+uv run ruff format .
+```
+
+### Pre-commit
+
+Install pre-commit hooks:
+
+```bash
 uv run pre-commit install
 ```
 
