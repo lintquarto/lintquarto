@@ -135,9 +135,9 @@ class LineLengthDetector:
         """
         for section in ["flake8", "pycodestyle"]:
             # Check if section and option exist
-            if (
-                config.has_section(section)
-                and config.has_option(section, "max-line-length")
+            if config.has_section(section) and config.has_option(
+                section,
+                "max-line-length",
             ):
                 try:
                     # Attempt to parse and return the integer value

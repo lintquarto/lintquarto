@@ -16,6 +16,7 @@ CUSTOM_RUFF_LINE_LENGTH = 101
 # 1. Default value detection
 # =============================================================================
 
+
 @pytest.mark.parametrize(
     ("linter", "expected"),
     [("flake8", 79), ("pycodestyle", 79), ("ruff", 88)],
@@ -31,11 +32,15 @@ def test_default_line_length(linter, expected):
 # 2. Config file detection for flake8 and pycodestyle
 # =============================================================================
 
-@pytest.mark.parametrize(("linter", "config_file"), [
-    ("flake8", ".flake8"),
-    ("pycodestyle", "setup.cfg"),
-    ("flake8", "tox.ini"),
-])
+
+@pytest.mark.parametrize(
+    ("linter", "config_file"),
+    [
+        ("flake8", ".flake8"),
+        ("pycodestyle", "setup.cfg"),
+        ("flake8", "tox.ini"),
+    ],
+)
 def test_config_detection(linter, config_file):
     """Test detection of line length from various config files."""
     # Create config file with max-line-length set
@@ -55,7 +60,6 @@ def test_config_detection(linter, config_file):
 def test_config_precedence():
     """Test that the first config file found in the search order is used."""
     with tempfile.TemporaryDirectory() as tmpdir:
-
         # Create path to two config files in the same directory
         flake8_path = Path(tmpdir) / ".flake8"
         setup_cfg_path = Path(tmpdir) / "setup.cfg"
@@ -117,6 +121,7 @@ def test_config_invalid(invalid_value):
 # =============================================================================
 # 3. Config file detection for ruff
 # =============================================================================
+
 
 def test_ruff_pyproject_toml_detection():
     """Test detection of line length from pyproject.toml for ruff."""

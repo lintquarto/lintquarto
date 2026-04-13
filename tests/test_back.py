@@ -154,7 +154,9 @@ TEST_CASES = [
 
 
 @pytest.mark.parametrize(
-    "case", TEST_CASES, ids=[case["linter"] for case in TEST_CASES],
+    "case",
+    TEST_CASES,
+    ids=[case["linter"] for case in TEST_CASES],
 )
 def test_back_contains(case):
     """Back test checking linter has all messages."""
@@ -164,9 +166,18 @@ def test_back_contains(case):
     qmd_path = test_dir / "examples" / case["qmd"]
 
     result = subprocess.run(
-        [sys.executable, "-m", "lintquarto",
-         "-l", case["linter"], "-p", qmd_path],
-        capture_output=True, text=True, check=False,
+        [
+            sys.executable,
+            "-m",
+            "lintquarto",
+            "-l",
+            case["linter"],
+            "-p",
+            qmd_path,
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
     )
     output = result.stdout + result.stderr
 
@@ -178,7 +189,9 @@ def test_back_contains(case):
 
 
 @pytest.mark.parametrize(
-    "case", TEST_CASES, ids=[case["linter"] for case in TEST_CASES],
+    "case",
+    TEST_CASES,
+    ids=[case["linter"] for case in TEST_CASES],
 )
 def test_back_file_type(case):
     """Back test checking correct file type in output."""
@@ -190,9 +203,18 @@ def test_back_file_type(case):
     py_file = case["qmd"].replace(".qmd", ".py")
 
     result = subprocess.run(
-        [sys.executable, "-m", "lintquarto",
-         "-l", case["linter"], "-p", qmd_path],
-        capture_output=True, text=True, check=False,
+        [
+            sys.executable,
+            "-m",
+            "lintquarto",
+            "-l",
+            case["linter"],
+            "-p",
+            qmd_path,
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
     )
     output = result.stdout + result.stderr
 

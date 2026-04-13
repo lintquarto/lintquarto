@@ -400,7 +400,8 @@ class QmdToPyConverter:
 
         # Look for eval: pattern
         eval_match = re.search(
-            r"eval\s*:\s*(['\"]?)(\w+)\1", options_part,
+            r"eval\s*:\s*(['\"]?)(\w+)\1",
+            options_part,
         )
 
         if eval_match:
@@ -457,9 +458,8 @@ class QmdToPyConverter:
             The input line, but commented if it had quarto include syntax.
 
         """
-        if (
-            line.lstrip().startswith("{{< include ")
-            and line.rstrip().endswith(">}}")
+        if line.lstrip().startswith("{{< include ") and line.rstrip().endswith(
+            ">}}",
         ):
             return f"# {line}"
         return line
@@ -607,16 +607,21 @@ def convert_qmd_to_py(
                 if verbose:
                     print(f"  Line count: {qmd_len} → {py_len} ")
             else:
-                warnings.warn(f"Line count mismatch: {qmd_len} → {py_len}",
-                              RuntimeWarning, stacklevel=2)
+                warnings.warn(
+                    f"Line count mismatch: {qmd_len} → {py_len}",
+                    RuntimeWarning,
+                    stacklevel=2,
+                )
 
     # Error messages if issues finding/accessing files, or otherwise.
     except FileNotFoundError:
         print(f"Error: Input file '{qmd_path}' not found")
         return None
     except PermissionError:
-        print(f"Error: Permission denied accessing '{qmd_path}' "
-              f"or '{output_path}'")
+        print(
+            f"Error: Permission denied accessing '{qmd_path}' "
+            f"or '{output_path}'",
+        )
         return None
     # Intentional broad catch for unexpected conversion errors
     except Exception as e:  # noqa: BLE001
@@ -627,15 +632,23 @@ def convert_qmd_to_py(
 
 # To ensure it executes if run from terminal:
 if __name__ == "__main__":
-
     # Set up argument parser with help statements
     parser = CustomArgumentParser(
-        description="Convert .qmd file to python file.")
+        description="Convert .qmd file to python file.",
+    )
     parser.add_argument("qmd_path", help="Path to the input .qmd file.")
-    parser.add_argument("output_path", nargs="?", default=None,
-                        help="(Optional) path to the output .py file.")
-    parser.add_argument("-v", "--verbose", action="store_true",
-                        help="Print detailed progress information.")
+    parser.add_argument(
+        "output_path",
+        nargs="?",
+        default=None,
+        help="(Optional) path to the output .py file.",
+    )
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        help="Print detailed progress information.",
+    )
     args = parser.parse_args()
 
     # Pass arguments to function and run it

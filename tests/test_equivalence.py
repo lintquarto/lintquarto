@@ -41,7 +41,10 @@ def test_radon_hal_preserve_line_effect():
         linters = Linters()
         command = linters.supported["radon-hal"] + [str(tmp_path)]
         result = subprocess.run(
-            command, capture_output=True, text=True, check=False,
+            command,
+            capture_output=True,
+            text=True,
+            check=False,
         )
         # Confirm that the preserve_lint_count was as expected and that
         # full output was produced (not blank - checking over 100)

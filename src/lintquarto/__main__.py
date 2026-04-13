@@ -60,15 +60,22 @@ def process_qmd(
     # Convert the .qmd file to a .py file
     try:
         py_file = convert_qmd_to_py(
-            qmd_path=str(qmd_path), linter=linter, verbose=verbose)
+            qmd_path=str(qmd_path),
+            linter=linter,
+            verbose=verbose,
+        )
         if py_file is None:
-            print(f"Error: Failed to convert {qmd_file} to .py",
-                  file=sys.stderr)
+            print(
+                f"Error: Failed to convert {qmd_file} to .py",
+                file=sys.stderr,
+            )
             return 1
     # Intentional broad catch for unknown conversion errors
     except Exception as e:  # noqa: BLE001
-        print(f"Error: Failed to convert {qmd_file} to .py: {e}",
-              file=sys.stderr)
+        print(
+            f"Error: Failed to convert {qmd_file} to .py: {e}",
+            file=sys.stderr,
+        )
         return 1
 
     # Run linter on the temporary .py file and capture output
@@ -100,8 +107,10 @@ def process_qmd(
             py_file.unlink()
         # Broad catch ensures cleanup warnings don't crash process
         except Exception as e:  # noqa: BLE001
-            print(f"Warning: Could not remove temporary file {py_file}: {e}",
-                  file=sys.stderr)
+            print(
+                f"Warning: Could not remove temporary file {py_file}: {e}",
+                file=sys.stderr,
+            )
     return 0
 
 
@@ -133,15 +142,19 @@ def gather_qmd_files(
         if p.is_file() and p.suffix == ".qmd":
             abs_file = p.resolve()
             # Exclude if file or its parent dir is in exclude_paths
-            if not any(abs_file == e or abs_file.is_relative_to(e)
-                       for e in exclude_paths):
+            if not any(
+                abs_file == e or abs_file.is_relative_to(e)
+                for e in exclude_paths
+            ):
                 files.append(str(abs_file))
         # For directories...
         elif p.is_dir():
             for f in p.rglob("*.qmd"):
                 abs_file = f.resolve()
-                if not any(abs_file == e or abs_file.is_relative_to(e)
-                           for e in exclude_paths):
+                if not any(
+                    abs_file == e or abs_file.is_relative_to(e)
+                    for e in exclude_paths
+                ):
                     files.append(str(abs_file))
     return files
 
@@ -184,25 +197,42 @@ def main() -> None:
         description="Lint Python code in Quarto (.qmd) files.",
     )
     parser.add_argument(
-        "-l", "--linters", nargs="+", required=True,
-        choices=list(Linters().supported.keys()), metavar="LINTER",
-        help=("Linters to run. Valid options: "
-              f"{list(Linters().supported.keys())}"),
+        "-l",
+        "--linters",
+        nargs="+",
+        required=True,
+        choices=list(Linters().supported.keys()),
+        metavar="LINTER",
+        help=(
+            "Linters to run. Valid options: "
+            f"{list(Linters().supported.keys())}"
+        ),
     )
     parser.add_argument(
-        "-p", "--paths", nargs="+", required=True,
+        "-p",
+        "--paths",
+        nargs="+",
+        required=True,
         help="Quarto files and/or directories to lint.",
     )
     parser.add_argument(
-        "-e", "--exclude", nargs="*", default=[], metavar="[exclude_paths]",
+        "-e",
+        "--exclude",
+        nargs="*",
+        default=[],
+        metavar="[exclude_paths]",
         help=("Files and/or directories to exclude from linting."),
     )
     parser.add_argument(
-        "-v", "--verbose", action="store_true",
+        "-v",
+        "--verbose",
+        action="store_true",
         help="Verbose output.",
     )
     parser.add_argument(
-        "-k", "--keep-temp", action="store_true",
+        "-k",
+        "--keep-temp",
+        action="store_true",
         help="Keep temporary .py files after linting.",
     )
     args = parser.parse_args()
@@ -224,10 +254,12 @@ def main() -> None:
         print(f"Running {linter}...")
         print("=============================================================")
         for qmd_file in qmd_files:
-            ret = process_qmd(qmd_file=qmd_file,
-                              linter=linter,
-                              keep_temp_files=args.keep_temp,
-                              verbose=args.verbose)
+            ret = process_qmd(
+                qmd_file=qmd_file,
+                linter=linter,
+                keep_temp_files=args.keep_temp,
+                verbose=args.verbose,
+            )
             if ret != 0:
                 exit_code = ret
     sys.exit(exit_code)

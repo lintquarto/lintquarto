@@ -12,15 +12,29 @@ from lintquarto.converter import (
 )
 
 # All linters that preserve the line count
-PRESERVE_LINTERS = ["flake8", "mypy", "pycodestyle", "pydoclint", "pyflakes",
-                    "pylint", "pyrefly", "pyright", "pytype", "radon-cc",
-                    "radon-mi", "radon-hal", "ruff", "vulture"]
+PRESERVE_LINTERS = [
+    "flake8",
+    "mypy",
+    "pycodestyle",
+    "pydoclint",
+    "pyflakes",
+    "pylint",
+    "pyrefly",
+    "pyright",
+    "pytype",
+    "radon-cc",
+    "radon-mi",
+    "radon-hal",
+    "ruff",
+    "vulture",
+]
 LINTERS_SUPPORTING_NOQA = ["flake8", "pycodestyle", "ruff"]
 
 
 # =============================================================================
 # 1. Conversion of files with no active python chunks
 # =============================================================================
+
 
 @pytest.mark.parametrize("linter", PRESERVE_LINTERS)
 def test_empty(linter):
@@ -58,6 +72,7 @@ def test_non_python_chunk_is_commented(linter):
 # 2. Conversion of active python chunks
 # =============================================================================
 
+
 def remove_noqa(lines: list[str]) -> list[str]:
     """
     Remove noqa comments from expected output.
@@ -74,8 +89,8 @@ def remove_noqa(lines: list[str]) -> list[str]:
 
     """
     return [
-        line.split("  # noqa")[0] if "  # noqa" in line
-        else line for line in lines
+        line.split("  # noqa")[0] if "  # noqa" in line else line
+        for line in lines
     ]
 
 
@@ -118,7 +133,8 @@ PYTHON_CHUNKS = [
     {
         "id": "chunk with options and code",
         "lines": [
-            "```{python}", " ",
+            "```{python}",
+            " ",
             "#| echo: false",
             "#| output: asis",
             "1+1",
@@ -152,14 +168,16 @@ PYTHON_CHUNKS = [
             " #|   echo: false",
             "# | echo: valid",
             "x = 1",
-            "```"],
+            "```",
+        ],
         "expected": [
             "# %% [python]",
             "#|echo: true",
             " #|   echo: false  # noqa: E265,E501",
             "# | echo: valid",
             "x = 1  # noqa: E305,E501",
-            "# -"],
+            "# -",
+        ],
     },
     {
         "id": "multiple consecutive code chunks",
@@ -169,7 +187,8 @@ PYTHON_CHUNKS = [
             "```",
             "```{python}",
             "b = 2",
-            "```"],
+            "```",
+        ],
         "expected": [
             "# %% [python]",
             "a = 1  # noqa: E305,E501",
@@ -288,7 +307,9 @@ PYTHON_CHUNKS = [
 
 
 @pytest.mark.parametrize(
-    "case", PYTHON_CHUNKS, ids=[c["id"] for c in PYTHON_CHUNKS],
+    "case",
+    PYTHON_CHUNKS,
+    ids=[c["id"] for c in PYTHON_CHUNKS],
 )
 @pytest.mark.parametrize("linter", PRESERVE_LINTERS)
 def test_python_chunk_start(case, linter):
@@ -327,6 +348,7 @@ def test_line_alignment(tmp_path):
 # =============================================================================
 # 3. Conversion when preserve_line_count = False
 # =============================================================================
+
 
 def test_preserve_line_count_false_removes_non_code():
     """When preserve_line_count is False, non-code lines are skipped."""
@@ -372,6 +394,7 @@ def test_preserve_line_count_false_removes_non_code():
 # =============================================================================
 # 4. File handling and output management
 # =============================================================================
+
 
 def test_get_unique_filename(tmp_path):
     """Generates a unique filename if the file exists."""
@@ -437,10 +460,13 @@ def test_verbose_mode_output(tmp_path, capsys, linter):
 # 5. Error handling
 # =============================================================================
 
+
 def test_missing_input_file(tmp_path, capsys):
     """Missing input file prints an error and returns None."""
     result = convert_qmd_to_py(
-        "nonexistent.qmd", "flake8", output_path=tmp_path / "out.py",
+        "nonexistent.qmd",
+        "flake8",
+        output_path=tmp_path / "out.py",
     )
     captured = capsys.readouterr()
     assert result is None
@@ -452,10 +478,14 @@ def test_permission_error(tmp_path, capsys):
     qmd_file = tmp_path / "input.qmd"
     qmd_file.write_text("``````")
     with mock.patch.object(
-        Path, "open", side_effect=PermissionError("Mocked permission denied"),
+        Path,
+        "open",
+        side_effect=PermissionError("Mocked permission denied"),
     ):
         result = convert_qmd_to_py(
-            qmd_file, "flake8", output_path=tmp_path / "out.py",
+            qmd_file,
+            "flake8",
+            output_path=tmp_path / "out.py",
         )
         captured = capsys.readouterr()
         assert result is None
@@ -464,10 +494,15 @@ def test_permission_error(tmp_path, capsys):
 
 def test_general_exception(tmp_path, capsys):
     """Unexpected exception prints error and returns None."""
-    with mock.patch.object(Path, "open",
-                           side_effect=RuntimeError("Simulated crash")):
+    with mock.patch.object(
+        Path,
+        "open",
+        side_effect=RuntimeError("Simulated crash"),
+    ):
         result = convert_qmd_to_py(
-            "input.qmd", "flake8", output_path=tmp_path / "out.py",
+            "input.qmd",
+            "flake8",
+            output_path=tmp_path / "out.py",
         )
         captured = capsys.readouterr()
         assert result is None
@@ -483,6 +518,7 @@ def test_unsupported_linter():
 # =============================================================================
 # 6. parse_yaml_front_matter()
 # =============================================================================
+
 
 @pytest.mark.parametrize(
     ("lines", "expected_eval"),
@@ -579,6 +615,7 @@ def test_parse_yaml_front_matter_invalid_yaml():
 # 7. parse_chunk_eval_option()
 # =============================================================================
 
+
 @pytest.mark.parametrize(
     ("line", "expected"),
     [
@@ -616,6 +653,7 @@ def test_parse_chunk_eval_option(line, expected):
 # =============================================================================
 # 8. Integration: eval controls which chunks are kept
 # =============================================================================
+
 
 def _convert(lines):
     conv = QmdToPyConverter(linter="flake8")

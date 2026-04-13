@@ -6,20 +6,36 @@ import pytest
 
 from lintquarto.linters import Linters
 
-ALL_LINTERS = ["flake8", "mypy", "pycodestyle", "pydoclint", "pyflakes",
-               "pylint", "pyrefly", "pyright", "pytype", "radon-cc",
-               "radon-mi", "radon-raw", "radon-hal", "ruff", "vulture"]
+ALL_LINTERS = [
+    "flake8",
+    "mypy",
+    "pycodestyle",
+    "pydoclint",
+    "pyflakes",
+    "pylint",
+    "pyrefly",
+    "pyright",
+    "pytype",
+    "radon-cc",
+    "radon-mi",
+    "radon-raw",
+    "radon-hal",
+    "ruff",
+    "vulture",
+]
 
 
 # =============================================================================
 # 1. Supported linters
 # =============================================================================
 
+
 def test_supported_error():
     """Test check_supported() raises ValueError for unsupported linters."""
     linters = Linters()
     with pytest.raises(
-        ValueError, match="Unsupported linter 'unsupported_linter'",
+        ValueError,
+        match="Unsupported linter 'unsupported_linter'",
     ):
         linters.check_supported("unsupported_linter")
 
@@ -60,6 +76,7 @@ def test_supported_error_message_content():
 # =============================================================================
 # 2. Linter availability
 # =============================================================================
+
 
 def test_check_available_found():
     """Test that check_available() passes when linter is found in PATH."""
