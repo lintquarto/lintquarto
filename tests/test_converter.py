@@ -1,5 +1,6 @@
 """Unit tests for the converter module."""
 
+from pathlib import Path
 from unittest import mock
 
 import pytest
@@ -59,7 +60,7 @@ def test_non_python_chunk_is_commented(linter):
 
 def remove_noqa(lines: list[str]) -> list[str]:
     """
-    Helper to remove # noqa comments from expected output,
+    Remove noqa comments from expected output.
 
     Parameters
     ----------
@@ -450,8 +451,9 @@ def test_permission_error(tmp_path, capsys):
     """PermissionError prints an error and returns None."""
     qmd_file = tmp_path / "input.qmd"
     qmd_file.write_text("``````")
-    with mock.patch("builtins.open",
-                    side_effect=PermissionError("Mocked permission denied")):
+    with mock.patch.object(
+        Path, "open", side_effect=PermissionError("Mocked permission denied"),
+    ):
         result = convert_qmd_to_py(
             qmd_file, "flake8", output_path=tmp_path / "out.py",
         )
@@ -462,8 +464,8 @@ def test_permission_error(tmp_path, capsys):
 
 def test_general_exception(tmp_path, capsys):
     """Unexpected exception prints error and returns None."""
-    with mock.patch("builtins.open",
-                    side_effect=RuntimeError("Simulated crash")):
+    with mock.patch.object(Path, "open",
+                           side_effect=RuntimeError("Simulated crash")):
         result = convert_qmd_to_py(
             "input.qmd", "flake8", output_path=tmp_path / "out.py",
         )

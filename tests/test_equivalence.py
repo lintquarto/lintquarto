@@ -41,8 +41,7 @@ def test_radon_hal_preserve_line_effect():
         linters = Linters()
         command = linters.supported["radon-hal"] + [str(tmp_path)]
         result = subprocess.run(
-            command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-            text=True, check=False,
+            command, capture_output=True, text=True, check=False,
         )
         # Confirm that the preserve_lint_count was as expected and that
         # full output was produced (not blank - checking over 100)
@@ -55,6 +54,10 @@ def test_radon_hal_preserve_line_effect():
         """Remove strings from radon output, keeping numeric results."""
         return re.sub(r"^.*:", "<FILE>:", output, flags=re.MULTILINE)
 
-    result_false = normalise_radon_output(run_radon_hal(False))
-    result_true = normalise_radon_output(run_radon_hal(True))
+    result_false = normalise_radon_output(
+        run_radon_hal(preserve_line_count=False),
+    )
+    result_true = normalise_radon_output(
+        run_radon_hal(preserve_line_count=True),
+    )
     assert result_false == result_true

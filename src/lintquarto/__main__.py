@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import os
 import subprocess
 import sys
 from pathlib import Path
@@ -15,6 +14,7 @@ from .linters import Linters
 def process_qmd(
     qmd_file: str | Path,
     linter: str,
+    *,  # Subsequent arguments are keyword-only (`var=True`, not just `True`)
     keep_temp_files: bool = False,
     verbose: bool = False,
 ) -> int:
@@ -66,7 +66,7 @@ def process_qmd(
                   file=sys.stderr)
             return 1
     # Intentional broad catch for unknown conversion errors
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Error: Failed to convert {qmd_file} to .py: {e}",
               file=sys.stderr)
         return 1
@@ -75,15 +75,14 @@ def process_qmd(
     command = linters.supported[linter] + [str(py_file)]
     result = subprocess.run(
         command,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         text=True,
         check=False,
     )
 
     # Get the base filename from the full file paths
-    qmd_filename = str(os.path.basename(qmd_path))
-    py_filename = str(os.path.basename(py_file.name))
+    qmd_filename = str(qmd_path.name)
+    py_filename = str(py_file.name)
 
     # Replace all references to the .py file with the .qmd file
     result.stdout = result.stdout.replace(py_filename, qmd_filename)
@@ -100,7 +99,7 @@ def process_qmd(
         try:
             py_file.unlink()
         # Broad catch ensures cleanup warnings don't crash process
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             print(f"Warning: Could not remove temporary file {py_file}: {e}",
                   file=sys.stderr)
     return 0
@@ -126,7 +125,7 @@ def gather_qmd_files(
         List of .qmd file paths found, excluding those in `exclude`.
 
     """
-    exclude_paths = set(Path(e).resolve() for e in (exclude or []))
+    exclude_paths = {Path(e).resolve() for e in (exclude or [])}
     files = []
     for path in paths:
         p = Path(path)
@@ -172,7 +171,7 @@ def validate_no_commas(list_of_paths: list[str], argname: str) -> None:
             )
 
 
-def main():
+def main() -> None:
     """
     Entry point for the lintquarto CLI.
 

@@ -67,9 +67,7 @@ class QmdToPyConverter:
             self.max_line_length = len_detect.get_line_length()
 
     def reset(self) -> None:
-        """
-        Reset the state (except linter and YAML eval default).
-        """
+        """Reset the state (except linter and YAML eval default)."""
         self.in_chunk_options = False
         self.in_python = False
         self.py_lines = []
@@ -92,7 +90,7 @@ class QmdToPyConverter:
 
         """
         # No YAML front matter detected
-        if not qmd_lines or not qmd_lines[0].strip() == "---":
+        if not qmd_lines or qmd_lines[0].strip() != "---":
             self.yaml_eval_default = True
             return
 
@@ -292,8 +290,7 @@ class QmdToPyConverter:
 
     def _handle_first_code_line(self, line: str, stripped: str) -> None:
         """
-        Handle the first real code line after chunk options, blanks, and
-        comments.
+        Handle first real code line after chunk options, blanks, and comments.
 
         Parameters
         ----------
@@ -321,9 +318,7 @@ class QmdToPyConverter:
         self.in_chunk_options = False
 
     def _append_placeholder(self) -> None:
-        """
-        Append a placeholder comment line (`# -`) if preserving line count.
-        """
+        """Append placeholder (`# -`) if preserving line count."""
         if self.preserve_line_count:
             self.py_lines.append("# -")
 
@@ -442,8 +437,9 @@ class QmdToPyConverter:
 
     def _handle_includes(self, line: str) -> str:
         """
-        Comment line if it contains Quarto include syntax
-        ("{{< include ... >}}").
+        Comment line if it contains Quarto include syntax.
+
+        Include syntax is: `{{< include ... >}}`.
 
         Parameters
         ----------
@@ -485,8 +481,7 @@ class QmdToPyConverter:
         # Strip "#<<" annotations
         line = re.sub(r"\s*#<<\s*$", "", line)
         # Strip Quarto code annotations like "# <1>"
-        line = re.sub(r"\s*# <\d+>\s*$", "", line)
-        return line
+        return re.sub(r"\s*# <\d+>\s*$", "", line)
 
 
 def get_unique_filename(path: str | Path) -> Path:
@@ -585,14 +580,14 @@ def convert_qmd_to_py(
 
     try:
         # Open and read the QMD file, storing all lines in qmd_lines
-        with open(qmd_path, encoding="utf-8") as f:
+        with qmd_path.open(encoding="utf-8") as f:
             qmd_lines = f.readlines()
 
         # Iterate over lines, keeping python code, and setting rest to "# -"
         py_lines = converter.convert(qmd_lines=qmd_lines)
 
         # Write the output file
-        with open(output_path, "w", encoding="utf-8") as f:
+        with output_path.open("w", encoding="utf-8") as f:
             f.write("\n".join(py_lines) + "\n")
 
         if verbose:
@@ -618,7 +613,7 @@ def convert_qmd_to_py(
               f"or '{output_path}'")
         return None
     # Intentional broad catch for unexpected conversion errors
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Error during conversion: {e}")
         return None
     return output_path

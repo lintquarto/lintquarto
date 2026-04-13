@@ -1,13 +1,17 @@
 """Helper functions for the tools pages in the user guide."""
 
+from __future__ import annotations
+
 from pathlib import Path
+
+LINE_NO_PAD_BELOW = 10
 
 
 def generate_html(
     pypi_url: str,
     github_url: str,
     conda_url: str | None = None,
-):
+) -> None:
     """
     Generate HTML buttons with icons for PyPI, GitHub, and (optionally) Conda.
 
@@ -65,7 +69,7 @@ def generate_html(
     print(html)
 
 
-def print_quarto(file_path: str):
+def print_quarto(file_path: str) -> None:
     """
     Print quarto file as text with line numbers, without executing any code.
 
@@ -77,7 +81,8 @@ def print_quarto(file_path: str):
     """
     with Path(file_path).open(encoding="utf-8") as file:
         for line_number, line_content in enumerate(file, start=1):
-            if line_number < 10:
+            # Different number of spaces for consistent padding
+            if line_number < LINE_NO_PAD_BELOW:
                 print(f"{line_number}:     {line_content}", end="")
             else:
                 print(f"{line_number}:    {line_content}", end="")

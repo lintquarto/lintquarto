@@ -1,5 +1,7 @@
 """Detect configured line length."""
 
+from __future__ import annotations
+
 import configparser
 from pathlib import Path
 
@@ -70,8 +72,7 @@ class LineLengthDetector:
 
     def _get_flake8_line_length(self) -> int:
         """
-        Search for the maximum line length in Flake8-compatible configuration
-        files.
+        Search for max line length in Flake8-compatible configuration files.
 
         This method checks `.flake8`, `setup.cfg`, and `tox.ini` files for the
         `max-line-length` option under `[flake8]` or `[pycodestyle]` sections.

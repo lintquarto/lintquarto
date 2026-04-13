@@ -90,6 +90,11 @@ exclude = ["tests/examples/*"]
 line-length=79
 format.quote-style="double"
 lint.select = ["ALL"]
+lint.ignore = [
+  "T201",  # print found
+  "T203",  # pprint found
+  "S603",  # subprocess call: check for execution of untrusted input
+]
 lint.pydocstyle.convention = "numpy"
 lint.per-file-ignores."tests/*" = [
     "INP001",  # File {filename} is part of an implicit namespace package. Add an __init__.py.

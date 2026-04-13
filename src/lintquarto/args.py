@@ -5,12 +5,9 @@ import sys
 
 
 class CustomArgumentParser(argparse.ArgumentParser):
-    """
-    Print user-friendly error message and help text when incorrect
-    arguments are provided.
-    """
+    """Print user-friendly error message and help text."""
 
-    def error(self, message: str):
+    def error(self, message: str) -> None:
         """
         Print error message.
 
