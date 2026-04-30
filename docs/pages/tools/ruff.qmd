@@ -58,8 +58,18 @@ lintquarto -l ruff -p general_example.qmd
 ```{python}
 #| echo: false
 result = subprocess.run(
-    ["lintquarto", "-l", "ruff", "-p", "examples/general_example.qmd"],
-    capture_output=True, text=True, check=False
+    [
+        sys.executable,
+        "-m",
+        "lintquarto",
+        "-l",
+        "ruff",
+        "-p",
+        "examples/general_example.qmd"
+    ],
+    capture_output=True,
+    text=True,
+    check=False
 )
 print(result.stdout)
 ```

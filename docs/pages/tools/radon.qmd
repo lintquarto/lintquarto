@@ -61,8 +61,18 @@ lintquarto -l radon-cc -p complexity_example.qmd
 ```{python}
 #| echo: false
 result = subprocess.run(
-    ["lintquarto", "-l", "radon-cc", "-p", "examples/complexity_example.qmd"],
-    capture_output=True, text=True, check=False
+    [
+        sys.executable,
+        "-m",
+        "lintquarto",
+        "-l",
+        "radon-cc",
+        "-p",
+        "examples/complexity_example.qmd"
+    ],
+    capture_output=True,
+    text=True,
+    check=False
 )
 print(result.stdout)
 ```

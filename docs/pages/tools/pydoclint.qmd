@@ -55,8 +55,18 @@ lintquarto -l pydoclint -p docstring_example.qmd
 ```{python}
 #| echo: false
 result = subprocess.run(
-    ["lintquarto", "-l", "pydoclint", "-p", "examples/docstring_example.qmd"],
-    capture_output=True, text=True, check=False
+    [
+        sys.executable,
+        "-m",
+        "lintquarto",
+        "-l",
+        "pydoclint",
+        "-p",
+        "examples/docstring_example.qmd"
+    ],
+    capture_output=True,
+    text=True,
+    check=False
 )
 print(result.stderr)
 ```

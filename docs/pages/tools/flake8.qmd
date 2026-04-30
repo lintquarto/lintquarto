@@ -54,8 +54,16 @@ lintquarto -l flake8 -p general_example.qmd
 ```{python}
 #| echo: false
 result = subprocess.run(
-    ["lintquarto", "-l", "flake8", "-p", "examples/general_example.qmd"],
-    capture_output=True, text=True, check=False
+    [
+        "lintquarto",
+        "-l",
+        "flake8",
+        "-p",
+        "examples/general_example.qmd"
+    ],
+    capture_output=True,
+    text=True,
+    check=False
 )
 print(result.stdout)
 ```
