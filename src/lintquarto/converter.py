@@ -1,9 +1,10 @@
-"""Convert .qmd file to python file"""
+"""Convert .qmd file to python file."""
 
-from pathlib import Path
+from __future__ import annotations
+
 import re
-from typing import List, Union, Optional
 import warnings
+from pathlib import Path
 
 import yaml
 
@@ -12,13 +13,14 @@ from .linelength import LineLengthDetector
 from .linters import Linters
 
 
-# pylint: disable=too-many-instance-attributes
 class QmdToPyConverter:
     """
     Convert lines from a .qmd file to .py file.
 
     Attributes
     ----------
+    linter : str
+        Name of the linter that will be used.
     in_chunk_options : bool
         True if currently at the start of a code chunk, parsing Quarto chunk
         options or leading blank lines.
@@ -28,14 +30,16 @@ class QmdToPyConverter:
         Stores the lines to be written to the output Python file.
     yaml_eval_default : bool
         Default eval setting from YAML front matter.
-    current_chunk_eval : Optional[bool]
+    current_chunk_eval : bool | None
         Eval setting for current chunk from chunk options (None if not set).
+    preserve_line_count : bool
+        Whether to preserve line count.
+    uses_noqa : bool
+        Whether specified linter uses noqa.
+    max_line_length : int
+        Maximum line length for linter (from LineLengthDetector()).
+
     """
-    in_chunk_options: bool = False
-    in_python: bool = False
-    py_lines: list = []
-    yaml_eval_default: bool = True
-    current_chunk_eval: Optional[bool] = None
 
     def __init__(self, linter: str) -> None:
         """
@@ -45,8 +49,15 @@ class QmdToPyConverter:
         ----------
         linter : str
             Name of the linter that will be used.
+
         """
         self.linter = linter
+
+        self.in_chunk_options = False
+        self.in_python = False
+        self.py_lines = []
+        self.yaml_eval_default = True
+        self.current_chunk_eval = None
 
         # Check the linter is supported
         Linters().check_supported(self.linter)
@@ -64,21 +75,19 @@ class QmdToPyConverter:
             self.max_line_length = len_detect.get_line_length()
 
     def reset(self) -> None:
-        """
-        Reset the state (except linter and YAML eval default).
-        """
+        """Reset the state (except linter and YAML eval default)."""
         self.in_chunk_options = False
         self.in_python = False
         self.py_lines = []
         self.current_chunk_eval = None
 
-    def parse_yaml_front_matter(self, qmd_lines: List[str]) -> None:
+    def parse_yaml_front_matter(self, qmd_lines: list[str]) -> None:
         """
         Parse YAML front matter and extract execute.eval setting.
 
         Parameters
         ----------
-        qmd_lines : List[str]
+        qmd_lines : list[str]
             List containing each line from the Quarto file.
 
         Returns
@@ -86,9 +95,10 @@ class QmdToPyConverter:
         None
             Stores the eval setting in self.yaml_eval_default attribute.
             Sets to True if no YAML front matter is found or if parsing fails.
+
         """
         # No YAML front matter detected
-        if not qmd_lines or not qmd_lines[0].strip() == "---":
+        if not qmd_lines or qmd_lines[0].strip() != "---":
             self.yaml_eval_default = True
             return
 
@@ -128,19 +138,20 @@ class QmdToPyConverter:
             return
         self.yaml_eval_default = True
 
-    def convert(self, qmd_lines: List[str]) -> List[str]:
+    def convert(self, qmd_lines: list[str]) -> list[str]:
         """
         Run converter on the provided lines.
 
         Parameters
         ----------
-        qmd_lines : List[str]
+        qmd_lines : list[str]
             List containing each line from the Quarto file.
 
         Returns
         -------
-        py_lines : List[str]
+        py_lines : list[str]
             List of each line for the output Python file.
+
         """
         # Parse YAML front matter to get default eval setting
         self.parse_yaml_front_matter(qmd_lines)
@@ -160,6 +171,7 @@ class QmdToPyConverter:
         ----------
         original_line : str
             Line to process.
+
         """
         # Remove the trailing new line
         line = original_line.rstrip("\n")
@@ -186,9 +198,8 @@ class QmdToPyConverter:
             self._handle_python_chunk(line)
 
         # For all other lines, set to # -
-        else:
-            if self.preserve_line_count:
-                self.py_lines.append("# -")
+        elif self.preserve_line_count:
+            self.py_lines.append("# -")
 
     def _handle_python_chunk(self, line: str) -> None:
         """
@@ -198,6 +209,7 @@ class QmdToPyConverter:
         ----------
         line : str
             The line to process.
+
         """
         # After the first code line, append all lines unchanged
         if not self.in_chunk_options:
@@ -230,6 +242,7 @@ class QmdToPyConverter:
         ----------
         line : str
             The line to process.
+
         """
         # Skip lines in chunks where eval is false
         if not self.should_lint_current_chunk():
@@ -250,6 +263,7 @@ class QmdToPyConverter:
             The original line to process.
         stripped : str
             The line with leading whitespace removed.
+
         """
         # Parse and store eval option if present in this line
         self.parse_chunk_eval_option(stripped)
@@ -272,6 +286,7 @@ class QmdToPyConverter:
         ----------
         line : str
             The comment line to process.
+
         """
         # If chunk should be linted, keep comment (but handle annotations)
         # If eval is false, just append placeholder
@@ -283,8 +298,7 @@ class QmdToPyConverter:
 
     def _handle_first_code_line(self, line: str, stripped: str) -> None:
         """
-        Handle the first real code line after chunk options, blanks, and
-        comments.
+        Handle first real code line after chunk options, blanks, and comments.
 
         Parameters
         ----------
@@ -292,6 +306,7 @@ class QmdToPyConverter:
             The original line to process.
         stripped : str
             The line with leading whitespace removed.
+
         """
         # Skip lines in chunks where eval is false
         if not self.should_lint_current_chunk():
@@ -311,9 +326,7 @@ class QmdToPyConverter:
         self.in_chunk_options = False
 
     def _append_placeholder(self) -> None:
-        """
-        Append a placeholder comment line (`# -`) if preserving line count.
-        """
+        """Append placeholder (`# -`) if preserving line count."""
         if self.preserve_line_count:
             self.py_lines.append("# -")
 
@@ -336,14 +349,12 @@ class QmdToPyConverter:
         -------
         str
             The line with appropriate noqa suppressions appended.
+
         """
         # Check for @ too as can have decorators - note, decorators are only
         # applied to functions or classes
-        is_function_or_class = (
-            stripped.startswith("@")
-            or stripped.startswith("def")
-            or stripped.startswith("class")
-        )
+        is_function_or_class = stripped.startswith(("@", "def", "class"))
+
         # Suppress E302 (expected 2 blank lines) in addition to E305
         if is_function_or_class:
             return self._add_noqa(line, ["E302", "E305"])
@@ -357,6 +368,7 @@ class QmdToPyConverter:
         -------
         bool
             True if chunk should be linted (eval is True), False otherwise.
+
         """
         # Chunk-level setting overrides YAML default
         if self.current_chunk_eval is not None:
@@ -381,13 +393,15 @@ class QmdToPyConverter:
             Stores the eval setting in self.current_chunk_eval attribute.
             Sets to True for "true"/"yes"/"1", False for "false"/"no"/"0",
             Does not modify self.current_chunk_eval if no eval option found.
+
         """
         # Extract the part after "#| "
         options_part = stripped[3:]
 
         # Look for eval: pattern
         eval_match = re.search(
-            r"eval\s*:\s*(['\"]?)(\w+)\1", options_part
+            r"eval\s*:\s*(['\"]?)(\w+)\1",
+            options_part,
         )
 
         if eval_match:
@@ -402,7 +416,7 @@ class QmdToPyConverter:
         # If no eval match found, do NOT modify self.current_chunk_eval
         # This preserves any previously parsed eval setting from earlier lines
 
-    def _add_noqa(self, line: str, suppress: List[str]) -> str:
+    def _add_noqa(self, line: str, suppress: list[str]) -> str:
         """
         Add noqa suppressions to a line for specified error codes.
 
@@ -414,13 +428,14 @@ class QmdToPyConverter:
         ----------
         line : str
             The line of code.
-        suppress : List[str]
+        suppress : list[str]
             The error code(s) to suppress (e.g. ["E302"]).
 
         Returns
         -------
         str
             The input line with 'noqa' suppressions appended as a comment.
+
         """
         if len(line) <= self.max_line_length:
             suppress.append("E501")
@@ -428,8 +443,9 @@ class QmdToPyConverter:
 
     def _handle_includes(self, line: str) -> str:
         """
-        Comment line if it contains Quarto include syntax
-        ("{{< include ... >}}").
+        Comment line if it contains Quarto include syntax.
+
+        Include syntax is: `{{< include ... >}}`.
 
         Parameters
         ----------
@@ -440,10 +456,10 @@ class QmdToPyConverter:
         -------
         str
             The input line, but commented if it had quarto include syntax.
+
         """
-        if (
-            line.lstrip().startswith("{{< include ")
-            and line.rstrip().endswith(">}}")
+        if line.lstrip().startswith("{{< include ") and line.rstrip().endswith(
+            ">}}",
         ):
             return f"# {line}"
         return line
@@ -465,18 +481,17 @@ class QmdToPyConverter:
         -------
         str
             The line with trailing whitespace and any "#<<" at the end removed.
+
         """
         # Strip "#<<" annotations
         line = re.sub(r"\s*#<<\s*$", "", line)
         # Strip Quarto code annotations like "# <1>"
-        line = re.sub(r"\s*# <\d+>\s*$", "", line)
-        return line
+        return re.sub(r"\s*# <\d+>\s*$", "", line)
 
 
-def get_unique_filename(path: Union[str, Path]) -> Path:
+def get_unique_filename(path: str | Path) -> Path:
     """
-    Generate a unique file path by appending "_n" before the file extension
-    if needed.
+    Generate unique path by adding "_n" before the file extension if needed.
 
     If the given path already exists, this function appends an incrementing
     number before the file extension (e.g., "file_1.py") until an unused
@@ -484,7 +499,7 @@ def get_unique_filename(path: Union[str, Path]) -> Path:
 
     Parameters
     ----------
-    path : Union[str, Path]
+    path : str | Path
         The initial file path to check.
 
     Returns
@@ -498,6 +513,7 @@ def get_unique_filename(path: Union[str, Path]) -> Path:
     PosixPath('script.py')  # if 'script.py' does not exist
     >>> get_unique_filename("script.py")
     PosixPath('script_1.py')  # if 'script.py' exists
+
     """
     path = Path(path)
     if not path.exists():
@@ -517,29 +533,29 @@ def get_unique_filename(path: Union[str, Path]) -> Path:
 
 
 def convert_qmd_to_py(
-    qmd_path: Union[str, Path],
+    qmd_path: str | Path,
     linter: str,
-    output_path: Optional[Union[str, Path]] = None,
-    verbose: bool = False
-) -> Optional[Path]:
+    output_path: str | Path | None = None,
+    *,
+    verbose: bool = False,
+) -> Path | None:
     """
-    Convert a Quarto (.qmd) file to Python (.py) file, preserving line
-    alignment.
+    Convert Quarto file to Python file, preserving line alignment.
 
     Parameters
     ----------
-    qmd_path : Union[str, Path]
+    qmd_path : str | Path
         Path to the input .qmd file.
     linter : str
         Name of the linter that will be used.
-    output_path : Optional[Union[str, Path]]
+    output_path : str | Path | None
         Path for the output .py file. If None, uses qmd_path with .py suffix.
     verbose : bool, optional
         If True, print detailed progress information.
 
     Returns
     -------
-    output_path : Optional[Path]
+    output_path : Path | None
         Path for the output .py file, or None if there was an error.
 
     Examples
@@ -547,6 +563,7 @@ def convert_qmd_to_py(
     >>> convert_qmd_to_py("input.qmd", "output.py", True)
     # To use from the command line:
     # $ python converter.py input.qmd [output.py] [-v]
+
     """
     # Convert input path to a Path object
     qmd_path = Path(qmd_path)
@@ -569,14 +586,14 @@ def convert_qmd_to_py(
 
     try:
         # Open and read the QMD file, storing all lines in qmd_lines
-        with open(qmd_path, "r", encoding="utf-8") as f:
+        with qmd_path.open(encoding="utf-8") as f:
             qmd_lines = f.readlines()
 
         # Iterate over lines, keeping python code, and setting rest to "# -"
         py_lines = converter.convert(qmd_lines=qmd_lines)
 
         # Write the output file
-        with open(output_path, "w", encoding="utf-8") as f:
+        with output_path.open("w", encoding="utf-8") as f:
             f.write("\n".join(py_lines) + "\n")
 
         if verbose:
@@ -590,20 +607,24 @@ def convert_qmd_to_py(
                 if verbose:
                     print(f"  Line count: {qmd_len} → {py_len} ")
             else:
-                warnings.warn(f"Line count mismatch: {qmd_len} → {py_len}",
-                              RuntimeWarning)
+                warnings.warn(
+                    f"Line count mismatch: {qmd_len} → {py_len}",
+                    RuntimeWarning,
+                    stacklevel=2,
+                )
 
     # Error messages if issues finding/accessing files, or otherwise.
     except FileNotFoundError:
         print(f"Error: Input file '{qmd_path}' not found")
         return None
     except PermissionError:
-        print(f"Error: Permission denied accessing '{qmd_path}' "
-              f"or '{output_path}'")
+        print(
+            f"Error: Permission denied accessing '{qmd_path}' "
+            f"or '{output_path}'",
+        )
         return None
     # Intentional broad catch for unexpected conversion errors
-    # pylint: disable=broad-except
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Error during conversion: {e}")
         return None
     return output_path
@@ -611,15 +632,23 @@ def convert_qmd_to_py(
 
 # To ensure it executes if run from terminal:
 if __name__ == "__main__":
-
     # Set up argument parser with help statements
     parser = CustomArgumentParser(
-        description="Convert .qmd file to python file.")
+        description="Convert .qmd file to python file.",
+    )
     parser.add_argument("qmd_path", help="Path to the input .qmd file.")
-    parser.add_argument("output_path", nargs="?", default=None,
-                        help="(Optional) path to the output .py file.")
-    parser.add_argument("-v", "--verbose", action="store_true",
-                        help="Print detailed progress information.")
+    parser.add_argument(
+        "output_path",
+        nargs="?",
+        default=None,
+        help="(Optional) path to the output .py file.",
+    )
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        help="Print detailed progress information.",
+    )
     args = parser.parse_args()
 
     # Pass arguments to function and run it

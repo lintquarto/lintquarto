@@ -6,7 +6,6 @@ Detailed linter that detects errors, bugs, variable naming issues, and other cod
 
 ```{python}
 #| echo: false
-# pylint: disable=missing-module-docstring
 # Import required packages
 import subprocess
 import sys
@@ -15,8 +14,7 @@ import sys
 sys.path.insert(0, "..")
 
 # Import the helper functions
-# pylint: disable = import-error, wrong-import-position
-from helpers import generate_html, print_quarto  # type: ignore # noqa: E402
+from helpers import generate_html, print_quarto
 ```
 
 ```{python}
@@ -56,8 +54,18 @@ lintquarto -l pylint -p general_example.qmd
 ```{python}
 #| echo: false
 result = subprocess.run(
-    ["lintquarto", "-l", "pylint", "-p", "examples/general_example.qmd"],
-    capture_output=True, text=True, check=False
+    [
+        sys.executable,
+        "-m",
+        "lintquarto",
+        "-l",
+        "pylint",
+        "-p",
+        "examples/general_example.qmd"
+    ],
+    capture_output=True,
+    text=True,
+    check=False
 )
 print(result.stdout)
 ```

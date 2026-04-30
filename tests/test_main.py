@@ -6,15 +6,18 @@ linter logic and conversion process), whilst functional tests involve running
 the full workflow (e.g. simulating user commands).
 """
 
-from pathlib import Path
 import re
 import subprocess
 import sys
+from pathlib import Path
 
 import pytest
 
 from lintquarto.__main__ import (
-    gather_qmd_files, main, process_qmd, validate_no_commas
+    gather_qmd_files,
+    main,
+    process_qmd,
+    validate_no_commas,
 )
 
 CORE_LINTER = "flake8"
@@ -24,9 +27,9 @@ CORE_LINTER = "flake8"
 # 1. process_qmd()
 # =============================================================================
 
+
 def test_process_qmd_with_real_file(tmp_path):
     """Integration Test: process_qmd runs on a real .qmd file."""
-
     # Create a temporary quarto file
     qmd_file = tmp_path / "test.qmd"
     qmd_file.write_text("# Test Quarto file\n``````")
@@ -37,8 +40,7 @@ def test_process_qmd_with_real_file(tmp_path):
 
 
 def test_process_qmd_invalid_file(tmp_path):
-    """Integration Test: process_qmd returns error for invalid file"""
-
+    """Integration Test: process_qmd returns error for invalid file."""
     # Run on a file that doesn't exist
     result = process_qmd(str(tmp_path / "notfound.qmd"), CORE_LINTER)
     assert result == 1
@@ -52,7 +54,6 @@ def test_process_qmd_invalid_file(tmp_path):
 
 def test_process_qmd_keep_temp(tmp_path):
     """Integration Test: process_qmd keeps the temporary .py file."""
-
     # Create a temporary quarto file
     qmd_file = tmp_path / "test.qmd"
     qmd_file.write_text("# Test Quarto file\n``````")
@@ -69,7 +70,6 @@ def test_process_qmd_keep_temp(tmp_path):
 
 def test_process_qmd_pylint_filepath(capsys):
     """Checks filepath in pylint output is not repeating folder names."""
-
     # Get path to the example QMD file that already produces pylint warnings.
     # This ensures we will have some output to check.
     test_dir = Path(__file__).parent
@@ -107,9 +107,10 @@ def test_filename_warning():
 
     # Run lintquarto on the file
     result = subprocess.run(
-        [sys.executable, "-m", "lintquarto",
-         "-l", "pylint", "-p", qmd_path],
-        capture_output=True, text=True, check=False
+        [sys.executable, "-m", "lintquarto", "-l", "pylint", "-p", qmd_path],
+        capture_output=True,
+        text=True,
+        check=False,
     )
     output = result.stdout + result.stderr
 
@@ -121,9 +122,9 @@ def test_filename_warning():
 # 2. gather_qmd()
 # =============================================================================
 
+
 def test_gather_qmd_files_with_real_files(tmp_path):
     """Integration Test: gather_qmd_files finds .qmd files in a directory."""
-
     # Create two .qmd files and one .txt file in the temp directory
     (tmp_path / "a.qmd").write_text("A")
     (tmp_path / "b.qmd").write_text("B")
@@ -136,7 +137,6 @@ def test_gather_qmd_files_with_real_files(tmp_path):
 
 def test_gather_qmd_files_exclude(tmp_path):
     """Integration Test: gather_qmd_files respects the exclude parameter."""
-
     # Create some temporary files
     (tmp_path / "a.qmd").write_text("A")
     (tmp_path / "b.qmd").write_text("B")
@@ -146,7 +146,8 @@ def test_gather_qmd_files_exclude(tmp_path):
 
     # Exclude b.qmd and subdir
     files = gather_qmd_files(
-        [str(tmp_path)], exclude=[str(tmp_path / "b.qmd"), str(subdir)]
+        [str(tmp_path)],
+        exclude=[str(tmp_path / "b.qmd"), str(subdir)],
     )
     assert set(files) == {str(tmp_path / "a.qmd")}
 
@@ -154,6 +155,7 @@ def test_gather_qmd_files_exclude(tmp_path):
 # =============================================================================
 # 3. validate_no_commas()
 # =============================================================================
+
 
 def test_validate_no_commas():
     """Unit Test: raises ValueError when path contains a comma."""
@@ -165,9 +167,9 @@ def test_validate_no_commas():
 # 4. __main__()
 # =============================================================================
 
+
 def test_main_runs_functional(tmp_path):
     """Functional Test: main() runs as a CLI entry point on real .qmd file."""
-
     # Create a minimal .qmd file for linting
     qmd_file = tmp_path / "test.qmd"
     qmd_file.write_text("# Test\n``````")
@@ -175,11 +177,18 @@ def test_main_runs_functional(tmp_path):
     # Run the CLI tool as a subprocess, mimicking user command-line usage and
     # assert that the process exits with a valid code
     result = subprocess.run(
-        [sys.executable, "-m", "lintquarto",
-         "-l", CORE_LINTER, "-p", str(qmd_file)],
+        [
+            sys.executable,
+            "-m",
+            "lintquarto",
+            "-l",
+            CORE_LINTER,
+            "-p",
+            str(qmd_file),
+        ],
         capture_output=True,
         text=True,
-        check=False
+        check=False,
     )
     assert result.returncode in (0, 1)
 
@@ -188,11 +197,18 @@ def test_main_no_qmd_files_functional(tmp_path):
     """Functional Test: main() exits with error if no .qmd files are found."""
     # Attempt to lint a non-existent .qmd file
     result = subprocess.run(
-        [sys.executable, "-m", "lintquarto",
-         "-l", CORE_LINTER, "-p", str(tmp_path / "nofiles")],
+        [
+            sys.executable,
+            "-m",
+            "lintquarto",
+            "-l",
+            CORE_LINTER,
+            "-p",
+            str(tmp_path / "nofiles"),
+        ],
         capture_output=True,
         text=True,
-        check=False
+        check=False,
     )
 
     # Assert that the exit code is 1 (error), and that error message is present
@@ -201,7 +217,7 @@ def test_main_no_qmd_files_functional(tmp_path):
 
 
 def test_decorator():
-    """Functional Test: blank line warning disabled despite decorator"""
+    """Functional Test: blank line warning disabled despite decorator."""
     # Locate the Quarto example file containing a function decorated with a
     # runtime-checkable decorator
     test_dir = Path(__file__).parent
@@ -211,9 +227,10 @@ def test_decorator():
     # Normally, flake8 would raise E302 ("expected 2 blank lines before
     # function definition"), but lintquarto should suppress this warning
     result = subprocess.run(
-        [sys.executable, "-m", "lintquarto",
-         "-l", "flake8", "-p", qmd_path],
-        capture_output=True, text=True, check=False
+        [sys.executable, "-m", "lintquarto", "-l", "flake8", "-p", qmd_path],
+        capture_output=True,
+        text=True,
+        check=False,
     )
     output = result.stdout + result.stderr
 
@@ -222,16 +239,17 @@ def test_decorator():
 
 
 def test_eval_false():
-    """Functional Test: eval=false in document YAML"""
+    """Functional Test: eval=false in document YAML."""
     # Locate the Quarto example file
     test_dir = Path(__file__).parent
     qmd_path = test_dir / "examples" / "eval_example.qmd"
 
     # Run lintquarto with flake8 on the example file.
     result = subprocess.run(
-        [sys.executable, "-m", "lintquarto",
-         "-l", "flake8", "-p", qmd_path],
-        capture_output=True, text=True, check=False
+        [sys.executable, "-m", "lintquarto", "-l", "flake8", "-p", qmd_path],
+        capture_output=True,
+        text=True,
+        check=False,
     )
     output = result.stdout + result.stderr
 
@@ -254,8 +272,15 @@ def test_paths_with_commas(monkeypatch):
 
 def test_exclude_with_commas(monkeypatch):
     """Functional Test: raises ValueError when --exclude contains commas."""
-    test_args = ["prog", "-l", "pylint", "-p", "file1.qmd",
-                 "-e", "dir2,file2.qmd"]
+    test_args = [
+        "prog",
+        "-l",
+        "pylint",
+        "-p",
+        "file1.qmd",
+        "-e",
+        "dir2,file2.qmd",
+    ]
     monkeypatch.setattr(sys, "argv", test_args)
     with pytest.raises(ValueError, match="contains a comma"):
         main()

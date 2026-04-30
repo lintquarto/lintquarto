@@ -8,7 +8,6 @@ Docstring linter that checks whether the parameters, return values and exception
 
 ```{python}
 #| echo: false
-# pylint: disable=missing-module-docstring
 # Import required packages
 import subprocess
 import sys
@@ -17,8 +16,7 @@ import sys
 sys.path.insert(0, "..")
 
 # Import the helper functions
-# pylint: disable = import-error, wrong-import-position
-from helpers import generate_html, print_quarto  # type: ignore # noqa: E402
+from helpers import generate_html, print_quarto
 ```
 
 ```{python}
@@ -57,8 +55,18 @@ lintquarto -l pydoclint -p docstring_example.qmd
 ```{python}
 #| echo: false
 result = subprocess.run(
-    ["lintquarto", "-l", "pydoclint", "-p", "examples/docstring_example.qmd"],
-    capture_output=True, text=True, check=False
+    [
+        sys.executable,
+        "-m",
+        "lintquarto",
+        "-l",
+        "pydoclint",
+        "-p",
+        "examples/docstring_example.qmd"
+    ],
+    capture_output=True,
+    text=True,
+    check=False
 )
 print(result.stderr)
 ```

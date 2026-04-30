@@ -13,7 +13,6 @@ See the [radon documentation](https://radon.readthedocs.io/en/latest/intro.html)
 
 ```{python}
 #| echo: false
-# pylint: disable=missing-module-docstring
 # Import required packages
 import subprocess
 import sys
@@ -22,8 +21,7 @@ import sys
 sys.path.insert(0, "..")
 
 # Import the helper functions
-# pylint: disable = import-error, wrong-import-position
-from helpers import generate_html, print_quarto  # type: ignore # noqa: E402
+from helpers import generate_html, print_quarto
 ```
 
 ```{python}
@@ -63,8 +61,18 @@ lintquarto -l radon-cc -p complexity_example.qmd
 ```{python}
 #| echo: false
 result = subprocess.run(
-    ["lintquarto", "-l", "radon-cc", "-p", "examples/complexity_example.qmd"],
-    capture_output=True, text=True, check=False
+    [
+        sys.executable,
+        "-m",
+        "lintquarto",
+        "-l",
+        "radon-cc",
+        "-p",
+        "examples/complexity_example.qmd"
+    ],
+    capture_output=True,
+    text=True,
+    check=False
 )
 print(result.stdout)
 ```

@@ -1,24 +1,40 @@
 """Unit tests for the converter module."""
 
-from typing import List
+from pathlib import Path
 from unittest import mock
 
 import pytest
 
 from lintquarto.converter import (
-    convert_qmd_to_py, get_unique_filename, QmdToPyConverter
+    QmdToPyConverter,
+    convert_qmd_to_py,
+    get_unique_filename,
 )
 
 # All linters that preserve the line count
-PRESERVE_LINTERS = ["flake8", "mypy", "pycodestyle", "pydoclint", "pyflakes",
-                    "pylint", "pyrefly", "pyright", "pytype", "radon-cc",
-                    "radon-mi", "radon-hal", "ruff", "vulture"]
+PRESERVE_LINTERS = [
+    "flake8",
+    "mypy",
+    "pycodestyle",
+    "pydoclint",
+    "pyflakes",
+    "pylint",
+    "pyrefly",
+    "pyright",
+    "pytype",
+    "radon-cc",
+    "radon-mi",
+    "radon-hal",
+    "ruff",
+    "vulture",
+]
 LINTERS_SUPPORTING_NOQA = ["flake8", "pycodestyle", "ruff"]
 
 
 # =============================================================================
 # 1. Conversion of files with no active python chunks
 # =============================================================================
+
 
 @pytest.mark.parametrize("linter", PRESERVE_LINTERS)
 def test_empty(linter):
@@ -56,23 +72,25 @@ def test_non_python_chunk_is_commented(linter):
 # 2. Conversion of active python chunks
 # =============================================================================
 
-def remove_noqa(lines: List[str]) -> List[str]:
+
+def remove_noqa(lines: list[str]) -> list[str]:
     """
-    Helper to remove # noqa comments from expected output
+    Remove noqa comments from expected output.
 
     Parameters
     ----------
-    lines : List[str]
+    lines : list[str]
         Lines of text (expected output)
 
     Returns
     -------
-    List[str]
+    list[str]
         Lines with any trailing '  noqa: ...' comments removed.
+
     """
     return [
-        line.split("  # noqa")[0] if "  # noqa" in line
-        else line for line in lines
+        line.split("  # noqa")[0] if "  # noqa" in line else line
+        for line in lines
     ]
 
 
@@ -82,64 +100,65 @@ PYTHON_CHUNKS = [
         "lines": [
             "```{python}",
             "1+1",
-            "```"
+            "```",
         ],
         "expected": [
             "# %% [python]",
             "1+1  # noqa: E305,E501",
-            "# -"
-        ]
+            "# -",
+        ],
     },
     {
         "id": "function definition",
         "lines": [
             "```{python}",
-            "def foo():"
+            "def foo():",
         ],
         "expected": [
             "# %% [python]",
-            "def foo():  # noqa: E302,E305,E501"
-        ]
+            "def foo():  # noqa: E302,E305,E501",
+        ],
     },
     {
         "id": "class definition",
         "lines": [
             "```{python}",
-            "class foo:"
+            "class foo:",
         ],
         "expected": [
             "# %% [python]",
-            "class foo:  # noqa: E302,E305,E501"
-        ]
+            "class foo:  # noqa: E302,E305,E501",
+        ],
     },
     {
         "id": "chunk with options and code",
         "lines": [
-            "```{python}", " ",
+            "```{python}",
+            " ",
             "#| echo: false",
             "#| output: asis",
-            "1+1"
+            "1+1",
         ],
         "expected": [
             "# %% [python]",
             " ",
             "#| echo: false  # noqa: E265,E501",
             "#| output: asis  # noqa: E265,E501",
-            "1+1  # noqa: E305,E501"
-        ]
+            "1+1  # noqa: E305,E501",
+        ],
     },
     {
         "id": "indented chunk options",
         "lines": [
             "```{python}",
             "    #| echo: false",
-            "    x = 1"
+            "    x = 1",
         ],
         "expected": [
             "# %% [python]",
             "    #| echo: false  # noqa: E265,E501",
-            "    x = 1  # noqa: E305,E501"
-        ]
+            "    x = 1  # noqa: E305,E501",
+        ],
     },
     {
         "id": "malformed chunk options",
@@ -149,14 +168,16 @@ PYTHON_CHUNKS = [
             " #|   echo: false",
             "# | echo: valid",
             "x = 1",
-            "```"],
+            "```",
+        ],
         "expected": [
             "# %% [python]",
             "#|echo: true",
             " #|   echo: false  # noqa: E265,E501",
             "# | echo: valid",
             "x = 1  # noqa: E305,E501",
-            "# -"]
+            "# -",
+        ],
     },
     {
         "id": "multiple consecutive code chunks",
@@ -166,50 +187,51 @@ PYTHON_CHUNKS = [
             "```",
             "```{python}",
             "b = 2",
-            "```"],
+            "```",
+        ],
         "expected": [
             "# %% [python]",
             "a = 1  # noqa: E305,E501",
             "# -",
             "# %% [python]",
             "b = 2  # noqa: E305,E501",
-            "# -"
-        ]
+            "# -",
+        ],
     },
     {
         "id": "long line (should omit E501 for long string)",
         "lines": [
             "```{python}",
-            "x = '" + "a" * 100 + "'"
+            "x = '" + "a" * 100 + "'",
         ],
         "expected": [
             "# %% [python]",
-            "x = '" + "a" * 100 + "'  # noqa: E305"
-        ]
+            "x = '" + "a" * 100 + "'  # noqa: E305",
+        ],
     },
     {
         "id": "first line is a comment",
         "lines": [
             "```{python}",
             "# This is a comment at top of chunk",
-            "x = 42"
+            "x = 42",
         ],
         "expected": [
             "# %% [python]",
             "# This is a comment at top of chunk",
-            "x = 42  # noqa: E305,E501"
-        ]
+            "x = 42  # noqa: E305,E501",
+        ],
     },
     {
         "id": "single chunk with include syntax",
         "lines": [
             "```{python}",
-            "{{< include filename.py >}}"
+            "{{< include filename.py >}}",
         ],
         "expected": [
             "# %% [python]",
-            "# {{< include filename.py >}}  # noqa: E305,E501"
-        ]
+            "# {{< include filename.py >}}  # noqa: E305,E501",
+        ],
     },
     {
         "id": "comment and code with '#<<' that should be removed",
@@ -217,25 +239,25 @@ PYTHON_CHUNKS = [
             "```{python}",
             "# Comment #<<",
             "variable1 = 2#<<",
-            "variable2 = 2   #<<"
+            "variable2 = 2   #<<",
         ],
         "expected": [
             "# %% [python]",
             "# Comment",
             "variable1 = 2  # noqa: E305,E501",
-            "variable2 = 2"
-        ]
+            "variable2 = 2",
+        ],
     },
     {
         "id": "chunk options and '#<<' that should not be removed",
         "lines": [
             "```{python}",
-            "#| echo: false #<<"
+            "#| echo: false #<<",
         ],
         "expected": [
             "# %% [python]",
-            "#| echo: false #<<  # noqa: E265,E501"
-        ]
+            "#| echo: false #<<  # noqa: E265,E501",
+        ],
     },
     {
         "id": "code annotations '# <n>' removed like '#<<'",
@@ -243,49 +265,51 @@ PYTHON_CHUNKS = [
             "```{python}",
             "# Comment # <1>",
             "value = 1# <2>",
-            "value = 2   # <10>"
+            "value = 2   # <10>",
         ],
         "expected": [
             "# %% [python]",
             "# Comment",
             "value = 1  # noqa: E305,E501",
-            "value = 2"
-        ]
+            "value = 2",
+        ],
     },
     {
         "id": "chunk options and '# <n>' that should not be removed",
         "lines": [
             "```{python}",
-            "#| echo: false # <1>"
+            "#| echo: false # <1>",
         ],
         "expected": [
             "# %% [python]",
-            "#| echo: false # <1>  # noqa: E265,E501"
-        ]
+            "#| echo: false # <1>  # noqa: E265,E501",
+        ],
     },
     {
         "id": "chunk options within {python}",
         "lines": [
-            "```{python, echo=FALSE}"
+            "```{python, echo=FALSE}",
         ],
         "expected": [
-            "# %% [python]"
-        ]
+            "# %% [python]",
+        ],
     },
     {
         "id": "spaces before {python}",
         "lines": [
-            "```   {python}"
+            "```   {python}",
         ],
         "expected": [
-            "# %% [python]"
-        ]
-    }
+            "# %% [python]",
+        ],
+    },
 ]
 
 
 @pytest.mark.parametrize(
-    "case", PYTHON_CHUNKS, ids=[c["id"] for c in PYTHON_CHUNKS]
+    "case",
+    PYTHON_CHUNKS,
+    ids=[c["id"] for c in PYTHON_CHUNKS],
 )
 @pytest.mark.parametrize("linter", PRESERVE_LINTERS)
 def test_python_chunk_start(case, linter):
@@ -312,7 +336,7 @@ def test_line_alignment(tmp_path):
         "More markdown",
         "```{python}",
         "x = 1",
-        "```"
+        "```",
     ]
     qmd_file = tmp_path / "input.qmd"
     qmd_file.write_text("\n".join(input_lines))
@@ -324,6 +348,7 @@ def test_line_alignment(tmp_path):
 # =============================================================================
 # 3. Conversion when preserve_line_count = False
 # =============================================================================
+
 
 def test_preserve_line_count_false_removes_non_code():
     """When preserve_line_count is False, non-code lines are skipped."""
@@ -340,14 +365,14 @@ def test_preserve_line_count_false_removes_non_code():
         "```{python}",
         "# comment inside chunk\n",
         "z = x + y\n",
-        "```\n"
+        "```\n",
     ]
 
     # Create converter with radon-raw (which sets preservation to False - but
     # we do manually anyway for good measure!)
     conv = QmdToPyConverter(linter="radon-raw")
     conv.preserve_line_count = False
-    _ = conv.preserve_line_count  # noqa: F841  # reassure static tools
+    _ = conv.preserve_line_count  # reassure static tools
     py_lines = conv.convert(qmd_lines)
 
     # Check there are no filler lines, and only code lines
@@ -355,11 +380,11 @@ def test_preserve_line_count_false_removes_non_code():
         "x = 1",
         "y = 2",
         "# comment inside chunk",
-        "z = x + y"
+        "z = x + y",
     ]
     not_allowed_lines = [
         "# -",
-        "# %% [python]"
+        "# %% [python]",
     ]
     assert py_lines == expected_lines
     assert not any(line.strip() == not_allowed_lines for line in py_lines)
@@ -369,6 +394,7 @@ def test_preserve_line_count_false_removes_non_code():
 # =============================================================================
 # 4. File handling and output management
 # =============================================================================
+
 
 def test_get_unique_filename(tmp_path):
     """Generates a unique filename if the file exists."""
@@ -434,10 +460,13 @@ def test_verbose_mode_output(tmp_path, capsys, linter):
 # 5. Error handling
 # =============================================================================
 
+
 def test_missing_input_file(tmp_path, capsys):
     """Missing input file prints an error and returns None."""
     result = convert_qmd_to_py(
-        "nonexistent.qmd", "flake8", output_path=tmp_path / "out.py"
+        "nonexistent.qmd",
+        "flake8",
+        output_path=tmp_path / "out.py",
     )
     captured = capsys.readouterr()
     assert result is None
@@ -448,10 +477,15 @@ def test_permission_error(tmp_path, capsys):
     """PermissionError prints an error and returns None."""
     qmd_file = tmp_path / "input.qmd"
     qmd_file.write_text("``````")
-    with mock.patch("builtins.open",
-                    side_effect=PermissionError("Mocked permission denied")):
+    with mock.patch.object(
+        Path,
+        "open",
+        side_effect=PermissionError("Mocked permission denied"),
+    ):
         result = convert_qmd_to_py(
-            qmd_file, "flake8", output_path=tmp_path / "out.py"
+            qmd_file,
+            "flake8",
+            output_path=tmp_path / "out.py",
         )
         captured = capsys.readouterr()
         assert result is None
@@ -460,10 +494,15 @@ def test_permission_error(tmp_path, capsys):
 
 def test_general_exception(tmp_path, capsys):
     """Unexpected exception prints error and returns None."""
-    with mock.patch("builtins.open",
-                    side_effect=RuntimeError("Simulated crash")):
+    with mock.patch.object(
+        Path,
+        "open",
+        side_effect=RuntimeError("Simulated crash"),
+    ):
         result = convert_qmd_to_py(
-            "input.qmd", "flake8", output_path=tmp_path / "out.py"
+            "input.qmd",
+            "flake8",
+            output_path=tmp_path / "out.py",
         )
         captured = capsys.readouterr()
         assert result is None
@@ -472,7 +511,7 @@ def test_general_exception(tmp_path, capsys):
 
 def test_unsupported_linter():
     """Unsupported linter name raises an error."""
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Unsupported linter"):
         QmdToPyConverter(linter="notalinter")
 
 
@@ -480,8 +519,9 @@ def test_unsupported_linter():
 # 6. parse_yaml_front_matter()
 # =============================================================================
 
+
 @pytest.mark.parametrize(
-    "lines, expected_eval",
+    ("lines", "expected_eval"),
     [
         (
             # No YAML at all → default True
@@ -526,7 +566,7 @@ def test_unsupported_linter():
             [
                 "---\n",
                 "execute:\n",
-                "  eval: \"False\"\n",
+                '  eval: "False"\n',
                 "---\n",
             ],
             False,
@@ -560,7 +600,7 @@ def test_parse_yaml_front_matter_eval_default(lines, expected_eval):
 
 
 def test_parse_yaml_front_matter_invalid_yaml():
-    """Unit: Invalid YAML should fall back to default eval=True"""
+    """Unit: Invalid YAML should fall back to default eval=True."""
     lines = [
         "---\n",
         "title: [unclosed\n",
@@ -575,15 +615,16 @@ def test_parse_yaml_front_matter_invalid_yaml():
 # 7. parse_chunk_eval_option()
 # =============================================================================
 
+
 @pytest.mark.parametrize(
-    "line, expected",
+    ("line", "expected"),
     [
         ("#| eval: true", True),
         ("#| eval: false", False),
         ("#| eval: TRUE", True),
         ("#| eval: FALSE", False),
         ("#| eval: 'true'", True),
-        ("#| eval: \"false\"", False),
+        ('#| eval: "false"', False),
         ("#|   eval  :   yes", True),
         ("#| eval: 0", False),
         ("#| other: true", None),
@@ -612,6 +653,7 @@ def test_parse_chunk_eval_option(line, expected):
 # =============================================================================
 # 8. Integration: eval controls which chunks are kept
 # =============================================================================
+
 
 def _convert(lines):
     conv = QmdToPyConverter(linter="flake8")

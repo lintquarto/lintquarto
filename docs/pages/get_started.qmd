@@ -58,6 +58,8 @@ cd lintquarto
 pip install -e ".[all]"
 ```
 
+<br>
+
 ## Basic usage
 
 Usage:
@@ -74,6 +76,8 @@ Options:
 * `-k, --keep-temp` - optional, keep temporary `.py` files created during linting (for debugging).
 
 Passing extra arguments directly to linters is not supported. Only `.qmd` files are processed.
+
+lintquarto will only run on executable Python code blocks.
 
 <br>
 
