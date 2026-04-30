@@ -2,13 +2,13 @@
 
 import argparse
 import sys
-from typing import Never
+from typing import NoReturn
 
 
 class CustomArgumentParser(argparse.ArgumentParser):
     """Print user-friendly error message and help text."""
 
-    def error(self, message: str) -> Never:
+    def error(self, message: str) -> NoReturn:
         """
         Print error message.
 
