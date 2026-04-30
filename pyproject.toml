@@ -86,7 +86,10 @@ Home = "https://github.com/lintquarto/lintquarto"
 Source = "https://github.com/lintquarto/lintquarto"
 
 [tool.ruff]
-exclude = ["tests/examples/*"]
+exclude = [
+  "tests/examples/*",
+  "docs/pages/tools/examples/*",
+]
 line-length=79
 format.quote-style="double"
 lint.select = ["ALL"]
