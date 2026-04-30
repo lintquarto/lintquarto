@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.9.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -73,10 +73,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-cd0666703260af4d3e7ab2dc61dfa54b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-b66007d50bdc972f79f3a3f1de5a78d6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -175,15 +175,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="lintquarto.__main__.gather_qmd_files" class="level1">
 <h1>gather_qmd_files</h1>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>__main__.gather_qmd_files(paths, exclude<span class="op">=</span><span class="va">None</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Gather all .qmd files from a list of files and directories, excluding specified paths.</p>
+<p>Gather .qmd files from listed files/dirs, excluding specified paths.</p>
 <section id="parameters" class="level2 doc-section doc-section-parameters">
 <h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 6%">
-<col style="width: 37%">
-<col style="width: 46%">
-<col style="width: 9%">
+<col style="width: 8%">
+<col style="width: 26%">
+<col style="width: 54%">
+<col style="width: 10%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -196,13 +196,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td>paths</td>
-<td>Union[List[str], List[Path]]</td>
+<td>list[str | Path]</td>
 <td>List of file or directory paths.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
 <td>exclude</td>
-<td>Optional[Union[List[str], List[Path]]]</td>
+<td>list[str | Path] | None</td>
 <td>List of files or directories to exclude. Defaults to None.</td>
 <td><code>None</code></td>
 </tr>
@@ -227,7 +227,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td></td>
-<td>List[str]</td>
+<td>list[str]</td>
 <td>List of .qmd file paths found, excluding those in <code>exclude</code>.</td>
 </tr>
 </tbody>
