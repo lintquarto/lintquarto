@@ -17,6 +17,7 @@ def process_qmd(
     *,  # Subsequent arguments are keyword-only (`var=True`, not just `True`)
     keep_temp_files: bool = False,
     verbose: bool = False,
+    lint_non_exec: bool = False,
 ) -> int:
     """
     Convert a .qmd file to .py, lint it, and clean up.
@@ -31,6 +32,8 @@ def process_qmd(
         If True, retain the temporary .py file after linting.
     verbose : bool, optional
         If True, print detailed progress information.
+    lint_non_exec : bool, optional
+        If True, also lint non-executable Python code chunks.
 
     Returns
     -------
@@ -63,6 +66,7 @@ def process_qmd(
             qmd_path=str(qmd_path),
             linter=linter,
             verbose=verbose,
+            lint_non_exec=lint_non_exec,
         )
         if py_file is None:
             print(
@@ -224,6 +228,12 @@ def main() -> None:
         help=("Files and/or directories to exclude from linting."),
     )
     parser.add_argument(
+        "-n",
+        "--lint-non-exec",
+        action="store_true",
+        help="Also lint non-executable Python code chunks",
+    )
+    parser.add_argument(
         "-v",
         "--verbose",
         action="store_true",
@@ -259,6 +269,7 @@ def main() -> None:
                 linter=linter,
                 keep_temp_files=args.keep_temp,
                 verbose=args.verbose,
+                lint_non_exec=args.lint_non_exec
             )
             if ret != 0:
                 exit_code = ret

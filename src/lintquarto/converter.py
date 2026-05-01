@@ -21,6 +21,8 @@ class QmdToPyConverter:
     ----------
     linter : str
         Name of the linter that will be used.
+    lint_non_exec : bool
+        If True, also lint non-executable Python code chunks.
     in_chunk_options : bool
         True if currently at the start of a code chunk, parsing Quarto chunk
         options or leading blank lines.
@@ -41,7 +43,12 @@ class QmdToPyConverter:
 
     """
 
-    def __init__(self, linter: str) -> None:
+    def __init__(
+        self,
+        linter: str,
+        *,   # Subsequent arguments keyword-only (`var=True`, not just `True`)
+        lint_non_exec: bool = False
+    ) -> None:
         """
         Initialise a class object.
 
@@ -49,9 +56,12 @@ class QmdToPyConverter:
         ----------
         linter : str
             Name of the linter that will be used.
+        lint_non_exec : bool, optional
+            If True, also lint non-executable Python code chunks.
 
         """
         self.linter = linter
+        self.lint_non_exec = lint_non_exec
 
         self.in_chunk_options = False
         self.in_python = False
@@ -367,12 +377,16 @@ class QmdToPyConverter:
         Returns
         -------
         bool
-            True if chunk should be linted (eval is True), False otherwise.
+            True if chunk should be linted, False otherwise.
 
         """
+        # Always return true if have set to lint non-executable code too
+        if self.lint_non_exec:
+            return True
         # Chunk-level setting overrides YAML default
         if self.current_chunk_eval is not None:
             return self.current_chunk_eval
+        # Other, return YAML default
         return self.yaml_eval_default
 
     def parse_chunk_eval_option(self, stripped: str) -> None:
@@ -538,6 +552,7 @@ def convert_qmd_to_py(
     output_path: str | Path | None = None,
     *,
     verbose: bool = False,
+    lint_non_exec: bool = False,
 ) -> Path | None:
     """
     Convert Quarto file to Python file, preserving line alignment.
@@ -552,6 +567,8 @@ def convert_qmd_to_py(
         Path for the output .py file. If None, uses qmd_path with .py suffix.
     verbose : bool, optional
         If True, print detailed progress information.
+    lint_non_exec : bool, optional
+        If True, also lint non-executable Python code chunks.
 
     Returns
     -------
@@ -569,7 +586,7 @@ def convert_qmd_to_py(
     qmd_path = Path(qmd_path)
 
     # Set up converter
-    converter = QmdToPyConverter(linter=linter)
+    converter = QmdToPyConverter(linter=linter, lint_non_exec=lint_non_exec)
 
     # Determine output path. If provided, convert to a Path object. If not,
     # the file extension of the input file to `.py`

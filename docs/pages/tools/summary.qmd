@@ -6,8 +6,6 @@ This page provides an overview of the available tools.
 
 Use the sidebar to explore ready-to-run examples and detailed usage for each tool.
 
-lintquarto will only run on executable Python code blocks.
-
 <br>
 
 ## General linters

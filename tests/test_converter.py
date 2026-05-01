@@ -655,8 +655,12 @@ def test_parse_chunk_eval_option(line, expected):
 # =============================================================================
 
 
-def _convert(lines):
-    conv = QmdToPyConverter(linter="flake8")
+def _convert(
+    lines,
+    *,  # Subsequent arguments are keyword-only (`var=True`, not just `True`)
+    lint_non_exec=False
+):
+    conv = QmdToPyConverter(linter="flake8", lint_non_exec=lint_non_exec)
     return conv.convert(lines)
 
 
@@ -678,7 +682,7 @@ def test_no_yaml_all_chunks_linted_by_default():
     assert len(py) == len(qmd)
 
 
-def test_yaml_eval_false_all_chunks_skipped_by_default():
+def test_yaml_eval_false_lint_non_exec_false():
     """Integration: YAML eval: false → all chunks skipped unless overridden."""
     qmd = [
         "---\n",
@@ -693,6 +697,23 @@ def test_yaml_eval_false_all_chunks_skipped_by_default():
     py = _convert(qmd)
     assert "x = 1" not in py
     # still preserving line count
+    assert len(py) == len(qmd)
+
+
+def test_yaml_eval_false_lint_non_exec_true():
+    """Integration: YAML eval: false but lint-non-exec=True."""
+    qmd = [
+        "---\n",
+        "execute:\n",
+        "  eval: false\n",
+        "---\n",
+        "\n",
+        "```{python}\n",
+        "x = 1\n",
+        "```\n",
+    ]
+    py = _convert(qmd, lint_non_exec=True)
+    assert any("x = 1" in line for line in py)
     assert len(py) == len(qmd)
 
 
@@ -740,6 +761,37 @@ def test_chunk_eval_false_without_yaml():
     ]
     py = _convert(qmd)
     assert "x = 1" not in py
+    assert len(py) == len(qmd)
+
+
+def test_chunk_eval_false_kept_when_include_non_exec():
+    """Integration: #| eval: false chunk kept when include_non_exec=True."""
+    qmd = [
+        "```{python}\n",
+        "#| eval: false\n",
+        "x = 1\n",
+        "```\n",
+    ]
+    py = _convert(qmd, lint_non_exec=True)
+    assert any("x = 1" in line for line in py)
+    assert len(py) == len(qmd)
+
+
+def test_yaml_eval_false_chunk_eval_false_both_kept_when_include_non_exec():
+    """Integration: YAML eval:false + chunk eval:false still kept with flag."""
+    qmd = [
+        "---\n",
+        "execute:\n",
+        "  eval: false\n",
+        "---\n",
+        "\n",
+        "```{python}\n",
+        "#| eval: false\n",
+        "x = 1\n",
+        "```\n",
+    ]
+    py = _convert(qmd, lint_non_exec=True)
+    assert any("x = 1" in line for line in py)
     assert len(py) == len(qmd)
 
 
