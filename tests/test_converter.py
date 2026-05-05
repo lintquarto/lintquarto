@@ -62,9 +62,10 @@ def test_markdown(linter):
 @pytest.mark.parametrize("linter", PRESERVE_LINTERS)
 def test_non_python_chunk_is_commented(linter):
     """Non-Python and inactive chunks are commented out."""
+    # Still keep [python] but not cell contents (consistent with eval=False)
     converter = QmdToPyConverter(linter=linter)
     lines = ["```{r}", "1+1", "```", "```{.python}", "1+1", "```"]
-    expected = ["# -", "# -", "# -", "# -", "# -", "# -"]
+    expected = ["# -", "# -", "# -", "# %% [python]", "# -", "# -"]
     assert converter.convert(lines) == expected
 
 
@@ -793,6 +794,17 @@ def test_yaml_eval_false_chunk_eval_false_both_kept_when_include_non_exec():
     py = _convert(qmd, lint_non_exec=True)
     assert any("x = 1" in line for line in py)
     assert len(py) == len(qmd)
+
+
+def test_inactive_lint_non_exec():
+    """Integration: {.python} linted if lint_non_exec=True."""
+    qmd = [
+        "```{.python}\n",
+        "x = 1\n",
+        "```\n",
+    ]
+    py = _convert(qmd, lint_non_exec=True)
+    assert any("x = 1" in line for line in py)
 
 
 def test_multiple_chunk_options():

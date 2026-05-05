@@ -188,10 +188,16 @@ class QmdToPyConverter:
 
         # Check if it is the start of a python code chunk (allowing spaces
         # before {python} and allowing chunk options e.g. {python, echo=...})
-        if re.match(r"^```\s*{python[^}]*}$", line):
+        if re.match(r"^```\s*{\.?python[^}]*}$", line):
             self.in_python = True
             self.in_chunk_options = True
-            self.current_chunk_eval = None  # Reset for new chunk
+            # {.python} (dot-prefix) = inactive chunk; treat as eval=False by
+            # default. lint_non_exec=True overrides this via
+            # should_lint_current_chunk().
+            if re.match(r"^```\s*{\.python[^}]*}$", line):
+                self.current_chunk_eval = False
+            else:
+                self.current_chunk_eval = None  # Reset for new chunk
             if self.preserve_line_count:
                 self.py_lines.append("# %% [python]")
 
