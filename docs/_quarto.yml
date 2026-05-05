@@ -58,6 +58,8 @@ website:
           contents:
             - pages/tools/vulture.qmd
             - pages/tools/radon.qmd
+        - text: "**Related tools**"
+          href: pages/tools/related.qmd
 
 metadata-files:
   - pages/api/_sidebar.yml

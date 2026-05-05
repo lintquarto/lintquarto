@@ -1,0 +1,13 @@
+# Related tools
+
+## Panache
+
+[Panache](http://panache.bz/) is a language server, formatter and linter for Markdown, Quarto and R Markdown, built in Rust.
+
+It focuses on document‑level formatting (e.g. wrapping paragraphs, spacing, handling Pandoc extensions) and structural linting (e.g. heading hierarchy, chunk labels, references).
+
+It can be set-up to format and lint code - supporting multiple languages, including Python. This can be configured via a `.panache.toml` file. As of 1 May 2026, the documented [Python formatter](http://panache.bz/reference/formatter-presets.html) presets are `black`, `pycln` and `ruff`, and the documented [Python linter](http://panache.bz/reference/linter-presets.html) preset is `ruff`.
+
+## nbqa
+
+[nbQA](https://nbqa.readthedocs.io/en/latest/index.html) plays a similar role to lintquarto but for Jupyter notebooks (`.ipynb`). It lets you run standard Python code‑quality tools (such as `ruff`, `flake8`, `black`, `isort`, `mypy`, and others) on notebooks.
