@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>qmdtopyconverter – lintquarto</title>
+<title>related – lintquarto</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -23,41 +23,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -67,6 +32,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../pages/tools/radon.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -110,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../../styles/callouts.css">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="nav-sidebar docked nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -132,7 +98,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Getting started</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../pages/tools/summary.html"> 
+    <a class="nav-link active" href="../../pages/tools/summary.html" aria-current="page"> 
 <span class="menu-text">User guide</span></a>
   </li>  
   <li class="nav-item">
@@ -160,10 +126,144 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
       </div> <!-- /container-fluid -->
     </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/tools/related.html"><strong>Related tools</strong></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/tools/summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><strong>Summary</strong></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Linters</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/tools/flake8.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">flake8</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/tools/pycodestyle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">pycodestyle</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/tools/pydoclint.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">pydoclint</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/tools/pyflakes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">pyflakes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/tools/pylint.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">pylint</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/tools/ruff.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ruff</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Static type checkers</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/tools/mypy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">mypy</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/tools/pyrefly.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">pyrefly</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/tools/pyright.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">pyright</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/tools/pytype.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">pytype</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Code analysis tools</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/tools/vulture.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">vulture</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/tools/radon.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">radon</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/tools/related.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><strong>Related tools</strong></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     
 <!-- main -->
@@ -172,341 +272,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="lintquarto.converter.QmdToPyConverter" class="level1">
-<h1>QmdToPyConverter</h1>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>converter.QmdToPyConverter(linter, <span class="op">*</span>, lint_non_exec<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Convert lines from a .qmd file to .py file.</p>
-<section id="attributes" class="level2 doc-section doc-section-attributes">
-<h2 class="doc-section doc-section-attributes anchored" data-anchor-id="attributes">Attributes</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 15%">
-<col style="width: 10%">
-<col style="width: 74%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>linter</td>
-<td>str</td>
-<td>Name of the linter that will be used.</td>
-</tr>
-<tr class="even">
-<td>lint_non_exec</td>
-<td>bool</td>
-<td>If True, also lint non-executable Python code chunks.</td>
-</tr>
-<tr class="odd">
-<td>in_chunk_options</td>
-<td>bool</td>
-<td>True if currently at the start of a code chunk, parsing Quarto chunk options or leading blank lines.</td>
-</tr>
-<tr class="even">
-<td>in_python</td>
-<td>bool</td>
-<td>True if currently processing lines inside a Python code chunk.</td>
-</tr>
-<tr class="odd">
-<td>py_lines</td>
-<td>list</td>
-<td>Stores the lines to be written to the output Python file.</td>
-</tr>
-<tr class="even">
-<td>yaml_eval_default</td>
-<td>bool</td>
-<td>Default eval setting from YAML front matter.</td>
-</tr>
-<tr class="odd">
-<td>current_chunk_eval</td>
-<td>bool | None</td>
-<td>Eval setting for current chunk from chunk options (None if not set).</td>
-</tr>
-<tr class="even">
-<td>preserve_line_count</td>
-<td>bool</td>
-<td>Whether to preserve line count.</td>
-</tr>
-<tr class="odd">
-<td>uses_noqa</td>
-<td>bool</td>
-<td>Whether specified linter uses noqa.</td>
-</tr>
-<tr class="even">
-<td>max_line_length</td>
-<td>int</td>
-<td>Maximum line length for linter (from LineLengthDetector()).</td>
-</tr>
-</tbody>
-</table>
+<section id="related-tools" class="level1">
+<h1>Related tools</h1>
+<section id="panache" class="level2">
+<h2 class="anchored" data-anchor-id="panache">Panache</h2>
+<p><a href="http://panache.bz/">Panache</a> is a language server, formatter and linter for Markdown, Quarto and R Markdown, built in Rust.</p>
+<p>It focuses on document‑level formatting (e.g.&nbsp;wrapping paragraphs, spacing, handling Pandoc extensions) and structural linting (e.g.&nbsp;heading hierarchy, chunk labels, references).</p>
+<p>It can be set-up to format and lint code - supporting multiple languages, including Python. This can be configured via a <code>.panache.toml</code> file. As of 1 May 2026, the documented <a href="http://panache.bz/reference/formatter-presets.html">Python formatter</a> presets are <code>black</code>, <code>pycln</code> and <code>ruff</code>, and the documented <a href="http://panache.bz/reference/linter-presets.html">Python linter</a> preset is <code>ruff</code>.</p>
 </section>
-<section id="methods" class="level2">
-<h2 class="anchored" data-anchor-id="methods">Methods</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><a href="#lintquarto.converter.QmdToPyConverter.convert">convert</a></td>
-<td>Run converter on the provided lines.</td>
-</tr>
-<tr class="even">
-<td><a href="#lintquarto.converter.QmdToPyConverter.parse_chunk_eval_option">parse_chunk_eval_option</a></td>
-<td>Parse chunk options to extract eval setting.</td>
-</tr>
-<tr class="odd">
-<td><a href="#lintquarto.converter.QmdToPyConverter.parse_yaml_front_matter">parse_yaml_front_matter</a></td>
-<td>Parse YAML front matter and extract execute.eval setting.</td>
-</tr>
-<tr class="even">
-<td><a href="#lintquarto.converter.QmdToPyConverter.process_line">process_line</a></td>
-<td>Process individual lines with state tracking.</td>
-</tr>
-<tr class="odd">
-<td><a href="#lintquarto.converter.QmdToPyConverter.reset">reset</a></td>
-<td>Reset the state (except linter and YAML eval default).</td>
-</tr>
-<tr class="even">
-<td><a href="#lintquarto.converter.QmdToPyConverter.should_lint_current_chunk">should_lint_current_chunk</a></td>
-<td>Determine if the current chunk should be linted.</td>
-</tr>
-</tbody>
-</table>
-<section id="lintquarto.converter.QmdToPyConverter.convert" class="level3">
-<h3 class="anchored" data-anchor-id="lintquarto.converter.QmdToPyConverter.convert">convert</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>converter.QmdToPyConverter.convert(qmd_lines)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Run converter on the provided lines.</p>
-<section id="parameters" class="level4 doc-section doc-section-parameters">
-<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 12%">
-<col style="width: 15%">
-<col style="width: 57%">
-<col style="width: 14%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>qmd_lines</td>
-<td>list[str]</td>
-<td>List containing each line from the Quarto file.</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="returns" class="level4 doc-section doc-section-returns">
-<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns">Returns</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 14%">
-<col style="width: 18%">
-<col style="width: 67%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>py_lines</td>
-<td>list[str]</td>
-<td>List of each line for the output Python file.</td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="lintquarto.converter.QmdToPyConverter.parse_chunk_eval_option" class="level3">
-<h3 class="anchored" data-anchor-id="lintquarto.converter.QmdToPyConverter.parse_chunk_eval_option">parse_chunk_eval_option</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>converter.QmdToPyConverter.parse_chunk_eval_option(stripped)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Parse chunk options to extract eval setting.</p>
-<p>Searches for lines like “#| eval: false” or “#| eval: true” within chunk options.</p>
-<section id="parameters-1" class="level4 doc-section doc-section-parameters">
-<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-1">Parameters</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 11%">
-<col style="width: 9%">
-<col style="width: 65%">
-<col style="width: 13%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>stripped</td>
-<td>str</td>
-<td>The line to parse (with blank space at start removed).</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="returns-1" class="level4 doc-section doc-section-returns">
-<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns-1">Returns</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 3%">
-<col style="width: 3%">
-<col style="width: 92%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td></td>
-<td>None</td>
-<td>Stores the eval setting in self.current_chunk_eval attribute. Sets to True for “true”/“yes”/“1”, False for “false”/“no”/“0”, Does not modify self.current_chunk_eval if no eval option found.</td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="lintquarto.converter.QmdToPyConverter.parse_yaml_front_matter" class="level3">
-<h3 class="anchored" data-anchor-id="lintquarto.converter.QmdToPyConverter.parse_yaml_front_matter">parse_yaml_front_matter</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>converter.QmdToPyConverter.parse_yaml_front_matter(qmd_lines)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Parse YAML front matter and extract execute.eval setting.</p>
-<section id="parameters-2" class="level4 doc-section doc-section-parameters">
-<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-2">Parameters</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 12%">
-<col style="width: 15%">
-<col style="width: 57%">
-<col style="width: 14%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>qmd_lines</td>
-<td>list[str]</td>
-<td>List containing each line from the Quarto file.</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="returns-2" class="level4 doc-section doc-section-returns">
-<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns-2">Returns</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 5%">
-<col style="width: 5%">
-<col style="width: 88%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td></td>
-<td>None</td>
-<td>Stores the eval setting in self.yaml_eval_default attribute. Sets to True if no YAML front matter is found or if parsing fails.</td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="lintquarto.converter.QmdToPyConverter.process_line" class="level3">
-<h3 class="anchored" data-anchor-id="lintquarto.converter.QmdToPyConverter.process_line">process_line</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>converter.QmdToPyConverter.process_line(original_line)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Process individual lines with state tracking.</p>
-<section id="parameters-3" class="level4 doc-section doc-section-parameters">
-<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-3">Parameters</h4>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>original_line</td>
-<td>str</td>
-<td>Line to process.</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="lintquarto.converter.QmdToPyConverter.reset" class="level3">
-<h3 class="anchored" data-anchor-id="lintquarto.converter.QmdToPyConverter.reset">reset</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>converter.QmdToPyConverter.reset()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Reset the state (except linter and YAML eval default).</p>
-</section>
-<section id="lintquarto.converter.QmdToPyConverter.should_lint_current_chunk" class="level3">
-<h3 class="anchored" data-anchor-id="lintquarto.converter.QmdToPyConverter.should_lint_current_chunk">should_lint_current_chunk</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>converter.QmdToPyConverter.should_lint_current_chunk()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Determine if the current chunk should be linted.</p>
-<section id="returns-3" class="level4 doc-section doc-section-returns">
-<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns-3">Returns</h4>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td></td>
-<td>bool</td>
-<td>True if chunk should be linted, False otherwise.</td>
-</tr>
-</tbody>
-</table>
+<section id="nbqa" class="level2">
+<h2 class="anchored" data-anchor-id="nbqa">nbqa</h2>
+<p><a href="https://nbqa.readthedocs.io/en/latest/index.html">nbQA</a> plays a similar role to lintquarto but for Jupyter notebooks (<code>.ipynb</code>). It lets you run standard Python code‑quality tools (such as <code>ruff</code>, <code>flake8</code>, <code>black</code>, <code>isort</code>, <code>mypy</code>, and others) on notebooks.</p>
 
 
-</section>
-</section>
 </section>
 </section>
 
@@ -911,6 +689,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
   });
   </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../pages/tools/radon.html" class="pagination-link" aria-label="radon">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">radon</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
 </div> <!-- /content -->
 
 
