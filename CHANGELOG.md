@@ -5,6 +5,31 @@ All notable changes to this project are documented.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Dates formatted as YYYY-MM-DD as per [ISO standard](https://www.iso.org/iso-8601-date-and-time-format.html).
 
+## v0.10.0 - 2026-05-06
+
+This release primarily addresses feedback from @isabelizimm 's [PyOpenSci review](https://github.com/pyOpenSci/software-submission/issues/257).
+
+### Added
+
+* Add `all-contributors` to `README.md`.
+* Add instructions for installing development version of package to documentation.
+* Add page to documentation with related tools (panache and nbqa).
+* Add support for linting non-executable Python cells.
+
+### Changed
+
+* In documentation, clarified that ruff is only used as a linter (and not a formatter).
+* Moved test environment for CI/CD into pyproject.toml (instead of separate `requirements` file). GitHub action now runs with uv.
+* Expanded ruff ruleset to `ALL` (with a few exceptions), and then simplified linting so now only using ruff (and not also flake8, pylint, radon-cc, vulture, pydoclint and mypy) - then linted codebase.
+
+### Fixed
+
+* Fixed hyperlinks in `CONTRIBUTING.md`.
+
+### Removed
+
+* Removed support for Python 3.7 and 3.8. This was because I was facing tooling issues with 3.7 and 3.8, and then learnt about NEP 29 which advises on which Python versions to support.
+
 ## v0.9.0 - 2026-03-02
 
 Add support for quarto code annotations, switched to `codecov` for coverage badge, and refactored converter.

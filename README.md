@@ -5,7 +5,9 @@
 **Project info:** 
 ![Code licence](https://img.shields.io/badge/Licence-MIT-A6CE39?&labelColor=gray)
 [![DOI](https://img.shields.io/badge/DOI-10.5281/zenodo.15731161-A6CE39?&logoColor=white)](https://doi.org/10.5281/zenodo.15731161)
-[![ORCID](https://img.shields.io/badge/ORCID_Amy_Heather-0000--0002--6596--3479-A6CE39?&logo=orcid&logoColor=white)](https://orcid.org/0000-0002-6596-3479)
+[![ORCID](https://img.shields.io/badge/ORCID_Amy_Heather-0000--0002--6596--3479-A6CE39?&logo=orcid&logoColor=white)](https://orcid.org/0000-0002-6596-3479) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 **Installation:**
 [![PyPI](https://img.shields.io/pypi/v/lintquarto?&labelColor=gray)](https://pypi.org/project/lintquarto/)
@@ -177,13 +179,13 @@ Curious about contributing? Check out the [contributing guidelines](CONTRIBUTING
 
 Please cite the repository on GitHub, PyPI, conda and/or Zenodo:
 
-> Heather, A. (2026). lintquarto (v0.9.0).  https://github.com/lintquarto/lintquarto.
+> Heather, A. (2026). lintquarto (v0.10.0).  https://github.com/lintquarto/lintquarto.
 >
-> Heather, A. (2026). lintquarto (v0.9.0). https://pypi.org/project/lintquarto/.
+> Heather, A. (2026). lintquarto (v0.10.0). https://pypi.org/project/lintquarto/.
 >
-> Heather, A. (2026). lintquarto (v0.9.0). https://anaconda.org/conda-forge/lintquarto.
+> Heather, A. (2026). lintquarto (v0.10.0). https://anaconda.org/conda-forge/lintquarto.
 >
-> Heather, A. (2026). lintquarto (v0.9.0). https://doi.org/10.5281/zenodo.15731161.
+> Heather, A. (2026). lintquarto (v0.10.0). https://doi.org/10.5281/zenodo.15731161.
 
 Citation instructions are also provided in `CITATION.cff`.
 
@@ -196,3 +198,28 @@ This project was written and maintained by hand, with occasional use of Perplexi
 AI assistance was used for small, targeted tasks (e.g. help when troubleshooting, identifying issues, refining docstrings, improving code structure), rather than to generate complete functions or substantial content.
 
 All code and design decisions were reviewed and finalised by a human. For transparency, the use of AI is acknowledged, but the project should not be considered AI‑generated.
+
+<br>
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="25%"><a href="https://www.linkedin.com/in/amyheather"><img src="https://avatars.githubusercontent.com/u/92166537?v=4?s=100" width="100px;" alt="Amy Heather"/><br /><sub><b>Amy Heather</b></sub></a><br /><a href="#design-amyheather" title="Design">🎨</a> <a href="https://github.com/lintquarto/lintquarto/commits?author=amyheather" title="Documentation">📖</a> <a href="#ideas-amyheather" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-amyheather" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-amyheather" title="Maintenance">🚧</a> <a href="https://github.com/lintquarto/lintquarto/commits?author=amyheather" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="25%"><a href="https://github.com/isabelizimm"><img src="https://avatars.githubusercontent.com/u/54685329?v=4?s=100" width="100px;" alt="Isabel Zimmerman"/><br /><sub><b>Isabel Zimmerman</b></sub></a><br /><a href="https://github.com/lintquarto/lintquarto/commits?author=isabelizimm" title="Documentation">📖</a> <a href="#ideas-isabelizimm" title="Ideas, Planning, & Feedback">🤔</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
