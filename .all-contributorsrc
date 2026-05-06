@@ -1,0 +1,38 @@
+{
+  "projectName": "lintquarto",
+  "projectOwner": "lintquarto",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "contributors": [
+    {
+      "login": "amyheather",
+      "name": "Amy Heather",
+      "avatar_url": "https://avatars.githubusercontent.com/u/92166537?v=4",
+      "profile": "https://www.linkedin.com/in/amyheather",
+      "contributions": [
+        "design",
+        "doc",
+        "ideas",
+        "infra",
+        "maintenance",
+        "test"
+      ]
+    },
+    {
+      "login": "isabelizimm",
+      "name": "Isabel Zimmerman",
+      "avatar_url": "https://avatars.githubusercontent.com/u/54685329?v=4",
+      "profile": "https://github.com/isabelizimm",
+      "contributions": [
+        "ideas",
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 4,
+  "linkToUsage": false
+}
