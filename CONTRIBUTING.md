@@ -330,9 +330,13 @@ home: https://lintquarto.github.io/lintquarto/
 
 Fix B: Correct python version requirements syntax as per the [conda-forge documentation](https://conda-forge.org/docs/maintainer/knowledge_base/#noarch-python), using `python_min` for `host` (fixed version), `run` (minimum version) and `requires` (fixed version).
 
-**Note:** Don't need to set the `python_min` anywhere unless it differs from conda default (currently 3.7).
+As our `python_min` differs from the conda default (currently 3.7), we change it by adding `{% set python_min = "3.9" %}` to the start of the script.
 
 ```{.bash}
+{% set python_min = "3.9" %}
+
+...
+
   host:
     - python {{ python_min }}
 
