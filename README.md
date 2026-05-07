@@ -108,7 +108,7 @@ pip install -e ".[all]"
 Usage:
 
 ```
-lintquarto -l LINTER [LINTER ...] -p PATH [PATH ...] [-e EXCLUDE [EXCLUDE ...]] [-k]
+lintquarto -l LINTER [LINTER ...] -p PATH [PATH ...] [-e EXCLUDE [EXCLUDE ...]] [-k] [-n]
 ```
 
 Options:
@@ -117,6 +117,7 @@ Options:
 * `-p, --paths PATH [PATH ...]` - quarto files and/or directories to include.
 * `-e, --exclude EXCLUDE [EXCLUDE ...]` - optional, files and/or directories to exclude.
 * `-k, --keep-temp` - optional, keep temporary `.py` files created during linting (for debugging).
+* `-n, --lint-non-exec` - optional, opt-in to also run tools on non-executable cells.
 
 Passing extra arguments directly to linters is not supported. Only `.qmd` files are processed.
 
