@@ -77,8 +77,6 @@ Options:
 
 Passing extra arguments directly to linters is not supported. Only `.qmd` files are processed.
 
-lintquarto will only run on executable Python code blocks.
-
 <br>
 
 ## Examples

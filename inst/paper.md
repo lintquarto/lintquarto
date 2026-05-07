@@ -22,7 +22,7 @@ bibliography: paper.bib
 
 # Statement of need
 
-Researchers can embed executable Python code in Quarto documents using two formats: Jupyter notebooks (`.ipynb`) or Quarto Markdown. Quarto Markdown is the standard Quarto format. It integrates better with version control because code and text are stored as plain text, and outputs are generated separately during rendering, not stored in the source file. In contrast, `.ipynb` stores outputs and metadata in JSON, making diffs harder to read.
+Researchers can embed Python code in Quarto documents using two formats: Jupyter notebooks (`.ipynb`) or Quarto Markdown. Quarto Markdown is the standard Quarto format. It integrates better with version control because code and text are stored as plain text, and outputs are generated separately during rendering, not stored in the source file. In contrast, `.ipynb` stores outputs and metadata in JSON, making diffs harder to read.
 
 Python researchers using Quarto Markdown face a critical gap: code quality tools cannot natively run on Quarto Markdown files. Code quality tools include:
 
