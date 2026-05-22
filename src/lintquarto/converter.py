@@ -330,6 +330,13 @@ class QmdToPyConverter:
             self.in_chunk_options = False
             return
 
+        # Replace IPython cell magic lines (e.g. %%prun, %%timeit) with a
+        # placeholder, but continue processing the rest of the cell body.
+        if stripped.startswith("%%"):
+            self._append_placeholder()
+            self.in_chunk_options = False
+            return
+
         # Handle quarto include syntax and code annotations
         line = self._handle_includes(line)
         line = self._handle_annotations(line)
