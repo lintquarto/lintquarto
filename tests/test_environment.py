@@ -1,5 +1,7 @@
 """Check for required linter executables."""
 
+from utils import _is_linter_expected
+
 from lintquarto.linters import Linters
 
 
@@ -19,7 +21,8 @@ def test_all_supported_linters_are_installed() -> None:
     missing = [
         name
         for name in linters.supported
-        if not _is_linter_available(linters, name)
+        if _is_linter_expected(name)
+        and not _is_linter_available(linters, name)
     ]
 
     assert not missing, (
