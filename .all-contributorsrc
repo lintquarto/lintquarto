@@ -31,8 +31,18 @@
         "ideas",
         "doc"
       ]
+    },
+    {
+      "login": "jaycrick",
+      "name": "Jacob Cumming",
+      "avatar_url": "https://avatars.githubusercontent.com/u/114450568?v=4",
+      "profile": "https://github.com/jaycrick",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 4,
-  "linkToUsage": false
+  "linkToUsage": false,
+  "commitConvention": "angular"
 }

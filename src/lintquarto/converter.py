@@ -46,8 +46,8 @@ class QmdToPyConverter:
     def __init__(
         self,
         linter: str,
-        *,   # Subsequent arguments keyword-only (`var=True`, not just `True`)
-        lint_non_exec: bool = False
+        *,  # Subsequent arguments keyword-only (`var=True`, not just `True`)
+        lint_non_exec: bool = False,
     ) -> None:
         """
         Initialise a class object.
@@ -326,6 +326,13 @@ class QmdToPyConverter:
         """
         # Skip lines in chunks where eval is false
         if not self.should_lint_current_chunk():
+            self._append_placeholder()
+            self.in_chunk_options = False
+            return
+
+        # Replace IPython cell magic lines (e.g. %%prun, %%timeit) with a
+        # placeholder, but continue processing the rest of the cell body.
+        if stripped.startswith("%%"):
             self._append_placeholder()
             self.in_chunk_options = False
             return

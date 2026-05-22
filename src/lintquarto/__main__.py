@@ -269,7 +269,7 @@ def main() -> None:
                 linter=linter,
                 keep_temp_files=args.keep_temp,
                 verbose=args.verbose,
-                lint_non_exec=args.lint_non_exec
+                lint_non_exec=args.lint_non_exec,
             )
             if ret != 0:
                 exit_code = ret

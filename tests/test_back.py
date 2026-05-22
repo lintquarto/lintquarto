@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 
 import pytest
-from utils import skip_if_linter_unavailable
+from utils import skip_if_linter_unexpected
 
 TEST_CASES = [
     {
@@ -160,7 +160,7 @@ TEST_CASES = [
 )
 def test_back_contains(case):
     """Back test checking linter has all messages."""
-    skip_if_linter_unavailable(case["linter"])
+    skip_if_linter_unexpected(case["linter"])
 
     test_dir = Path(__file__).parent
     qmd_path = test_dir / "examples" / case["qmd"]
@@ -195,7 +195,7 @@ def test_back_contains(case):
 )
 def test_back_file_type(case):
     """Back test checking correct file type in output."""
-    skip_if_linter_unavailable(case["linter"])
+    skip_if_linter_unexpected(case["linter"])
 
     test_dir = Path(__file__).parent
     qmd_path = test_dir / "examples" / case["qmd"]
