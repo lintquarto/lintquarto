@@ -659,7 +659,7 @@ def test_parse_chunk_eval_option(line, expected):
 def _convert(
     lines,
     *,  # Subsequent arguments are keyword-only (`var=True`, not just `True`)
-    lint_non_exec=False
+    lint_non_exec=False,
 ):
     conv = QmdToPyConverter(linter="flake8", lint_non_exec=lint_non_exec)
     return conv.convert(lines)

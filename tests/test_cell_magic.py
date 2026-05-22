@@ -48,7 +48,7 @@ def test_cell_magic_line_not_in_output(magic_line: str, linter: str) -> None:
         "```",
     ]
     result = QmdToPyConverter(linter=linter).convert(lines)
-    magic_keyword = magic_line.split()[0]  # e.g. "%%prun"
+    magic_keyword = magic_line.split(maxsplit=1)[0]  # e.g. "%%prun"
     assert not any(magic_keyword in line for line in result), (
         f"Magic '{magic_keyword}' should not appear in converted output "
         f"(linter={linter}).\nOutput: {result}"

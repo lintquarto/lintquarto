@@ -46,8 +46,8 @@ class QmdToPyConverter:
     def __init__(
         self,
         linter: str,
-        *,   # Subsequent arguments keyword-only (`var=True`, not just `True`)
-        lint_non_exec: bool = False
+        *,  # Subsequent arguments keyword-only (`var=True`, not just `True`)
+        lint_non_exec: bool = False,
     ) -> None:
         """
         Initialise a class object.
