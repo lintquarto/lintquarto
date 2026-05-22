@@ -5,6 +5,26 @@ All notable changes to this project are documented.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Dates formatted as YYYY-MM-DD as per [ISO standard](https://www.iso.org/iso-8601-date-and-time-format.html).
 
+## v0.11.0 - 2026-05-22
+
+This release primarily fixes incorrect linting of IPython cell magics and restores pyrefly regression tests across older versions and pyrefly 1.0.0+, alongside smaller updates to docs, non-executable linting guidance, and environment checks.
+
+### Added
+
+* Add non-executable linting instructions to `README.md` and "Getting started".
+* Add tests for python cell magic.
+* Add test to check all required linters for testing are present in environment.
+
+### Changed
+
+* Updated conda `_meta.yml` instructions in `CONTRIBUTING.md`, now that Python 3.9+ is supported (instead of 3.7+).
+* Removed mention of only linting non-executable code from the JOSS paper.
+
+### Fixed
+
+* Fixed bug (linters running on cell magic) identified by @jaycrick.
+* Add `pyrefly.toml` with `preset = "strict"` to make the pyrefly regression test back-compatible between earlier pyrefly versions and pyrefly 1.0.0+.
+
 ## v0.10.0 - 2026-05-06
 
 This release primarily addresses feedback from @isabelizimm 's [PyOpenSci review](https://github.com/pyOpenSci/software-submission/issues/257).
