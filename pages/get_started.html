@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-b66007d50bdc972f79f3a3f1de5a78d6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-3efb35df0fbfb8ac87a7a19ae05287c1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -222,16 +222,16 @@ pip install -e ".[all]"</code></pre>
 <section id="basic-usage" class="level2">
 <h2 class="anchored" data-anchor-id="basic-usage">Basic usage</h2>
 <p>Usage:</p>
-<pre><code>lintquarto -l LINTER [LINTER ...] -p PATH [PATH ...] [-e EXCLUDE [EXCLUDE ...]] [-k]</code></pre>
+<pre><code>lintquarto -l LINTER [LINTER ...] -p PATH [PATH ...] [-e EXCLUDE [EXCLUDE ...]] [-k] [-n]</code></pre>
 <p>Options:</p>
 <ul>
 <li><code>-l, --linters LINTER [LINTER ...]</code> - linters to run.</li>
 <li><code>-p, --paths PATH [PATH ...]</code> - quarto files and/or directories to include.</li>
 <li><code>-e, --exclude EXCLUDE [EXCLUDE ...]</code> - optional, files and/or directories to exclude.</li>
 <li><code>-k, --keep-temp</code> - optional, keep temporary <code>.py</code> files created during linting (for debugging).</li>
+<li><code>-n, --lint-non-exec</code> - optional, opt-in to also run tools on non-executable cells.</li>
 </ul>
 <p>Passing extra arguments directly to linters is not supported. Only <code>.qmd</code> files are processed.</p>
-<p>lintquarto will only run on executable Python code blocks.</p>
 <p><br></p>
 </section>
 <section id="examples" class="level2">
