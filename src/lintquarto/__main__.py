@@ -154,10 +154,14 @@ def gather_qmd_files(
         # For directories...
         elif p.is_dir():
             for f in p.rglob("*.qmd"):
+                print(f)
                 abs_file = f.resolve()
-                if not any(
-                    abs_file == e or abs_file.is_relative_to(e)
-                    for e in exclude_paths
+                if (
+                    not any(
+                        abs_file == e or abs_file.is_relative_to(e)
+                        for e in exclude_paths
+                    )
+                    and abs_file.is_file()
                 ):
                     files.append(str(abs_file))
     return files
