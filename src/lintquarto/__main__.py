@@ -154,7 +154,6 @@ def gather_qmd_files(
         # For directories...
         elif p.is_dir():
             for f in p.rglob("*.qmd"):
-                print(f)
                 abs_file = f.resolve()
                 if (
                     not any(
