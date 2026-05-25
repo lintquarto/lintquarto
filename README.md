@@ -6,7 +6,7 @@
 ![Code licence](https://img.shields.io/badge/Licence-MIT-A6CE39?&labelColor=gray)
 [![DOI](https://img.shields.io/badge/DOI-10.5281/zenodo.15731161-A6CE39?&logoColor=white)](https://doi.org/10.5281/zenodo.15731161)
 [![ORCID](https://img.shields.io/badge/ORCID_Amy_Heather-0000--0002--6596--3479-A6CE39?&logo=orcid&logoColor=white)](https://orcid.org/0000-0002-6596-3479) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 **Installation:**
@@ -183,6 +183,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="25%"><a href="https://www.linkedin.com/in/amyheather"><img src="https://avatars.githubusercontent.com/u/92166537?v=4?s=100" width="100px;" alt="Amy Heather"/><br /><sub><b>Amy Heather</b></sub></a><br /><a href="#design-amyheather" title="Design">🎨</a> <a href="https://github.com/lintquarto/lintquarto/commits?author=amyheather" title="Documentation">📖</a> <a href="#ideas-amyheather" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-amyheather" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-amyheather" title="Maintenance">🚧</a> <a href="https://github.com/lintquarto/lintquarto/commits?author=amyheather" title="Tests">⚠️</a></td>
       <td align="center" valign="top" width="25%"><a href="https://github.com/isabelizimm"><img src="https://avatars.githubusercontent.com/u/54685329?v=4?s=100" width="100px;" alt="Isabel Zimmerman"/><br /><sub><b>Isabel Zimmerman</b></sub></a><br /><a href="#ideas-isabelizimm" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/lintquarto/lintquarto/commits?author=isabelizimm" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="25%"><a href="https://github.com/jaycrick"><img src="https://avatars.githubusercontent.com/u/114450568?v=4?s=100" width="100px;" alt="Jacob Cumming"/><br /><sub><b>Jacob Cumming</b></sub></a><br /><a href="https://github.com/lintquarto/lintquarto/issues?q=author%3Ajaycrick" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="25%"><a href="https://jon-e.net/"><img src="https://avatars.githubusercontent.com/u/12961499?v=4?s=100" width="100px;" alt="Jonny Saunders"/><br /><sub><b>Jonny Saunders</b></sub></a><br /><a href="https://github.com/lintquarto/lintquarto/issues?q=author%3Asneakers-the-rat" title="Bug reports">🐛</a> <a href="https://github.com/lintquarto/lintquarto/commits?author=sneakers-the-rat" title="Code">💻</a> <a href="#ideas-sneakers-the-rat" title="Ideas, Planning, & Feedback">🤔</a></td>
     </tr>
   </tbody>
 </table>
