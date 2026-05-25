@@ -135,6 +135,20 @@ def test_gather_qmd_files_with_real_files(tmp_path):
     assert set(files) == {str(tmp_path / "a.qmd"), str(tmp_path / "b.qmd")}
 
 
+def test_gather_skips_directories(tmp_path):
+    """Directories with a .qmd suffix are skipped."""
+    quarto_dir = tmp_path / "a.qmd"
+    quarto_dir.mkdir(parents=True)
+
+    nested_path = quarto_dir / "a.qmd"
+    unnested_path = tmp_path / "b.qmd"
+    nested_path.write_text("A")
+    unnested_path.write_text("B")
+
+    files = gather_qmd_files([str(tmp_path)], exclude=[])
+    assert set(files) == {str(unnested_path), str(nested_path)}
+
+
 def test_gather_qmd_files_exclude(tmp_path):
     """Integration Test: gather_qmd_files respects the exclude parameter."""
     # Create some temporary files
