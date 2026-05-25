@@ -966,17 +966,25 @@ def test_yaml_eval_false_plain_chunk():
 # 9. valuebox
 # =============================================================================
 
-def test_valuebox_ignored():
+@pytest.mark.parametrize(
+    "content_valuebox",
+    [
+        "#| content: valuebox",
+        "  #| content: valuebox",
+        "#| content: valuebox  ",
+    ]
+)
+def test_valuebox_ignored(content_valuebox):
     """Quarto valuebox cells should be commented out."""
     qmd = [
         "```{python}\n",
-        "#| content: valuebox\n",
+        f"{content_valuebox}\n",
         "#| title: 'Comments per day'\n",
         "dict(\n",
         "  icon = 'chat'\n",
         "  color = 'primary'\n",
         "  value = comments\n",
-        ")\n"
+        ")\n",
         "```",
     ]
     expected = [
