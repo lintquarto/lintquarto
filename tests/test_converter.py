@@ -966,13 +966,14 @@ def test_yaml_eval_false_plain_chunk():
 # 9. valuebox
 # =============================================================================
 
+
 @pytest.mark.parametrize(
     "content_valuebox",
     [
         "#| content: valuebox",
         "  #| content: valuebox",
         "#| content: valuebox  ",
-    ]
+    ],
 )
 def test_valuebox_ignored(content_valuebox):
     """Quarto valuebox cells should be commented out."""
