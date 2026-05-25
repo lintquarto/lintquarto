@@ -68,6 +68,7 @@ class QmdToPyConverter:
         self.py_lines = []
         self.yaml_eval_default = True
         self.current_chunk_eval = None
+        self.current_chunk_is_valuebox = False
 
         # Check the linter is supported
         Linters().check_supported(self.linter)
@@ -90,6 +91,7 @@ class QmdToPyConverter:
         self.in_python = False
         self.py_lines = []
         self.current_chunk_eval = None
+        self.current_chunk_is_valuebox = False
 
     def parse_yaml_front_matter(self, qmd_lines: list[str]) -> None:
         """
@@ -191,6 +193,7 @@ class QmdToPyConverter:
         if re.match(r"^```\s*{\.?python[^}]*}$", line):
             self.in_python = True
             self.in_chunk_options = True
+            self.current_chunk_is_valuebox = False
             # {.python} (dot-prefix) = inactive chunk; treat as eval=False by
             # default. lint_non_exec=True overrides this via
             # should_lint_current_chunk().
@@ -205,6 +208,7 @@ class QmdToPyConverter:
         elif line.strip() == "```":
             self.in_python = False
             self.in_chunk_options = False
+            self.current_chunk_is_valuebox = False
             self.current_chunk_eval = None  # Reset after chunk ends
             if self.preserve_line_count:
                 self.py_lines.append("# -")
@@ -260,8 +264,11 @@ class QmdToPyConverter:
             The line to process.
 
         """
-        # Skip lines in chunks where eval is false
-        if not self.should_lint_current_chunk():
+        # Skip lines in chunks where eval is false or this is a valuebox chunk
+        if (
+            self.current_chunk_is_valuebox
+            or not self.should_lint_current_chunk()
+        ):
             self._append_placeholder()
             return
         # Handle quarto include syntax and code annotations, then append as-is
@@ -281,8 +288,25 @@ class QmdToPyConverter:
             The line with leading whitespace removed.
 
         """
+        # If we've already identified this chunk as a valuebox chunk,
+        # all subsequent chunk options also become placeholders.
+        if self.current_chunk_is_valuebox:
+            if self.preserve_line_count:
+                self._append_placeholder()
+            return
+
         # Parse and store eval option if present in this line
         self.parse_chunk_eval_option(stripped)
+
+        # Extract the part after "#| "
+        option_text = stripped[3:].strip()
+
+        # Detect Quarto valuebox chunks
+        if re.match(r"^content\s*:\s*valuebox\s*$", option_text):
+            self.current_chunk_is_valuebox = True
+            if self.preserve_line_count:
+                self._append_placeholder()
+            return
 
         # Don't append if not preserving line count
         if not self.preserve_line_count:
@@ -333,6 +357,12 @@ class QmdToPyConverter:
         # Replace IPython cell magic lines (e.g. %%prun, %%timeit) with a
         # placeholder, but continue processing the rest of the cell body.
         if stripped.startswith("%%"):
+            self._append_placeholder()
+            self.in_chunk_options = False
+            return
+
+        # If this is a valuebox chunk, treat all body lines as placeholders
+        if self.current_chunk_is_valuebox:
             self._append_placeholder()
             self.in_chunk_options = False
             return
