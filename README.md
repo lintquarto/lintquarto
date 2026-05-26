@@ -2,38 +2,13 @@
 
 # lintquarto
 
-**Project info:** 
-![Code licence](https://img.shields.io/badge/Licence-MIT-A6CE39?&labelColor=gray)
-[![DOI](https://img.shields.io/badge/DOI-10.5281/zenodo.15731161-A6CE39?&logoColor=white)](https://doi.org/10.5281/zenodo.15731161)
-[![ORCID](https://img.shields.io/badge/ORCID_Amy_Heather-0000--0002--6596--3479-A6CE39?&logo=orcid&logoColor=white)](https://orcid.org/0000-0002-6596-3479) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
-
-**Installation:**
-[![PyPI](https://img.shields.io/pypi/v/lintquarto?&labelColor=gray)](https://pypi.org/project/lintquarto/)
-[![Anaconda-Server Badge](https://anaconda.org/conda-forge/lintquarto/badges/version.svg)](https://anaconda.org/conda-forge/lintquarto)
-
-**Metrics:**
-[![PyPI downloads](https://static.pepy.tech/badge/lintquarto)](https://pepy.tech/project/lintquarto)
-[![PyPI downloads](https://static.pepy.tech/badge/lintquarto/month)](https://pepy.tech/project/lintquarto)
-[![PyPI downloads](https://static.pepy.tech/badge/lintquarto/week)](https://pepy.tech/project/lintquarto)
-![Conda Downloads](https://img.shields.io/conda/d/conda-forge/lintquarto)
-![GitHub Repo stars](https://img.shields.io/github/stars/lintquarto/lintquarto)
-![GitHub forks](https://img.shields.io/github/forks/lintquarto/lintquarto)
-![GitHub last commit](https://img.shields.io/github/last-commit/lintquarto/lintquarto)
-![GitHub Release Date](https://img.shields.io/github/release-date/lintquarto/lintquarto)
-
-
-**Build & quality status:**
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![codecov](https://codecov.io/gh/lintquarto/lintquarto/graph/badge.svg?token=F58MDYN3J2)](https://codecov.io/gh/lintquarto/lintquarto)
-[![Tests](https://github.com/lintquarto/lintquarto/actions/workflows/tests.yaml/badge.svg)](https://github.com/lintquarto/lintquarto/actions/workflows/tests.yaml)
-[![Docs](https://github.com/lintquarto/lintquarto/actions/workflows/docs.yaml/badge.svg)](https://github.com/lintquarto/lintquarto/actions/workflows/docs.yaml)
-[![Lint](https://github.com/lintquarto/lintquarto/actions/workflows/lint.yaml/badge.svg)](https://github.com/lintquarto/lintquarto/actions/workflows/lint.yaml)
-
-**Supported platforms:**
-![Python 3.9|3.10|3.11|3.12|3.13](https://img.shields.io/badge/Python-3.9%7C3.10%7C3.11%7C3.12%7C3.13-blue)
-![OS](https://img.shields.io/badge/OS-Windows%20%7C%20Linux%20%7C%20macOS-blue?logo=windows&logo=linux&logo=apple)
+| | |
+| --- | --- |
+| **Project info:** | ![Code licence](https://img.shields.io/badge/Licence-MIT-A6CE39?&labelColor=gray)    [![DOI](https://img.shields.io/badge/DOI-10.5281/zenodo.15731161-A6CE39?&logoColor=white)](https://doi.org/10.5281/zenodo.15731161)    [![ORCID](https://img.shields.io/badge/ORCID_Amy_Heather-0000--0002--6596--3479-A6CE39?&logo=orcid&logoColor=white)](https://orcid.org/0000-0002-6596-3479)    <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section --> [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-) <!-- ALL-CONTRIBUTORS-BADGE:END --> |
+| **Installation:** | [![PyPI](https://img.shields.io/pypi/v/lintquarto?&labelColor=gray)](https://pypi.org/project/lintquarto/)     [![Anaconda-Server Badge](https://anaconda.org/conda-forge/lintquarto/badges/version.svg)](https://anaconda.org/conda-forge/lintquarto) |
+| **Metrics:** | [![PyPI downloads](https://static.pepy.tech/badge/lintquarto)](https://pepy.tech/project/lintquarto)    [![PyPI downloads](https://static.pepy.tech/badge/lintquarto/month)](https://pepy.tech/project/lintquarto)    [![PyPI downloads](https://static.pepy.tech/badge/lintquarto/week)](https://pepy.tech/project/lintquarto)    ![Conda Downloads](https://img.shields.io/conda/d/conda-forge/lintquarto)    ![GitHub Repo stars](https://img.shields.io/github/stars/lintquarto/lintquarto)    ![GitHub forks](https://img.shields.io/github/forks/lintquarto/lintquarto)    ![GitHub last commit](https://img.shields.io/github/last-commit/lintquarto/lintquarto)    ![GitHub Release Date](https://img.shields.io/github/release-date/lintquarto/lintquarto) |
+| **Build & quality status:** | [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)    [![codecov](https://codecov.io/gh/lintquarto/lintquarto/graph/badge.svg?token=F58MDYN3J2)](https://codecov.io/gh/lintquarto/lintquarto)    [![Tests](https://github.com/lintquarto/lintquarto/actions/workflows/tests.yaml/badge.svg)](https://github.com/lintquarto/lintquarto/actions/workflows/tests.yaml)    [![Docs](https://github.com/lintquarto/lintquarto/actions/workflows/docs.yaml/badge.svg)](https://github.com/lintquarto/lintquarto/actions/workflows/docs.yaml)    [![Lint](https://github.com/lintquarto/lintquarto/actions/workflows/lint.yaml/badge.svg)](https://github.com/lintquarto/lintquarto/actions/workflows/lint.yaml) |
+| **Supported platforms:** | ![Python 3.9\|3.10\|3.11\|3.12\|3.13](https://img.shields.io/badge/Python-3.9%7C3.10%7C3.11%7C3.12%7C3.13-blue)    ![OS](https://img.shields.io/badge/OS-Windows%20%7C%20Linux%20%7C%20macOS-blue?logo=windows&logo=linux&logo=apple) |
 
 </div>
 
