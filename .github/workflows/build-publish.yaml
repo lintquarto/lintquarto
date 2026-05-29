@@ -21,14 +21,10 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up Python from .python-version
-        uses: actions/setup-python@v4
-        with:
-          python-version-file: ".python-version"
-
-      - name: Install uv
+      - name: Install uv and Python
         uses: astral-sh/setup-uv@v7
         with:
+          python-version: "3.12"
           enable-cache: true
 
       - name: Build package
