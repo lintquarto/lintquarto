@@ -41,10 +41,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install uv and Python
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v7
         with:
           python-version: ${{ matrix.python-version }}
-      
+
+      - name: Create uv virtualenv
+        run: uv venv
+
       - name: Install dependencies
         run: |
           uv pip install --upgrade pip

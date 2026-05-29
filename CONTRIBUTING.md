@@ -82,64 +82,34 @@ Key tools include:
 
 <br>
 
-### Setting up a dev environment with uv
+### Setting up a development environment
 
-We recommend using **uv** for dependency management. You should follow instructions from uv documentation for installing it onto your operating system.
-
-#### 1. Start with the recorded environment
-
-In the project root:
+Set up a Python environment using your preferred tool (e.g., `conda`, `uv`, etc.) then activate it. For example, to work with conda:
 
 ```{.bash}
-uv sync --all-extras
+conda create -n lintquarto python=3.12
+conda activate lintquarto
 ```
 
-This will use the Python version recorded in `.python-version` and installs the dependency versions recorded in `uv.lock`.
-
-It will install the dev dependency group by default, but you need to add the command `--all-extras` to instruct it to also install the `[project.optional-dependencies].all` packages.
-
-Run the test suite to confirm everything passes:
+From the project rool, install the package in editable mode with all linters and type checkers:
 
 ```{.bash}
-uv run pytest
+pip install -e ".[all]"
 ```
 
-To see the installed packages and versions:
+Then install the development dependencies declared in `pyproject.toml`:
 
 ```{.bash}
-uv run pip list
+pip install --group dev
 ```
 
-#### 2. Keeping tools up to date (recommended)
-
-It's helpful if contributors periodically bump to the latest compatible versions, so we keep a latest stable, reproducible setup checked into version control.
-
-To do that:
+Confirm the required packages are installed:
 
 ```{.bash}
-# Optionally bump the Python version used for development
-uv python pin 3.12   # or 3.13, etc.
-
-# Upgrade dependencies within the limits of pyproject.toml
-uv lock --upgrade
-
-# Recreate the environment with the updated lockfile
-uv sync --all-extras
-
-# Re‑run tests and checks
-uv run pytest
+pip list
 ```
 
-If everything passes, commit the updated `uv.lock` (and `.python-version` if changed) and mention in your pull request that you've refreshed the dev environment to current versions.
-
-> **Note:** On 10 February 2026, found incompatible `quartodoc` and `griffe`, so had to lock `griffe` at 1.14.0 by running:
->
-> ```
-> uv lock --upgrade-package "griffe==1.14.0"
-> uv lock --upgrade-package "griffecli==2.0.0"
-> uv lock --upgrade-package "griffelib==2.0.0"
-> uv sync
-> ```
+> **Note:** On 10 February 2026, found incompatible `quartodoc` and `griffe`, so had to lock `griffe` at 1.14.0.
 
 <br>
 
@@ -160,19 +130,19 @@ We follow the [numpydoc](https://numpydoc.readthedocs.io/en/latest/format.html) 
 Run all tests (with coverage):
 
 ```{.bash}
-uv run pytest --cov
+pytest --cov
 ```
 
 Run an individual test file:
 
 ```{.bash}
-uv run pytest tests/test_back.py
+pytest tests/test_back.py
 ```
 
 Run a specific test:
 
 ```{.bash}
-uv run pytest tests/test_linters.py::test_supported_error
+pytest tests/test_linters.py::test_supported_error
 ```
 
 <br>
@@ -188,19 +158,19 @@ Ruff configuration, including exclusions and per-file ignores, is defined in `py
 Run the linter on the full repository:
 
 ```bash
-uv run ruff check .
+ruff check .
 ```
 
 Run the linter on code in the documentation:
 
 ```bash
-uv run lintquarto -l ruff -p docs
+lintquarto -l ruff -p docs
 ```
 
 Check that formatting matches the project style:
 
 ```bash
-uv run ruff format --check .
+ruff format --check .
 ```
 
 ### Apply fixes locally
@@ -208,13 +178,13 @@ uv run ruff format --check .
 To automatically fix some lint issues locally, run:
 
 ```bash
-uv run ruff check --fix .
+run ruff check --fix .
 ```
 
 To apply Ruff formatting locally, run:
 
 ```bash
-uv run ruff format .
+run ruff format .
 ```
 
 ### Pre-commit
@@ -222,7 +192,7 @@ uv run ruff format .
 Install pre-commit hooks:
 
 ```bash
-uv run pre-commit install
+pre-commit install
 ```
 
 **Not running in the right environment?** You may find the pre-commit fails if it is using the wrong environment - I've found this to be the case in VSCode. I've found the simplest way to fix this is to work on the command line, activate the environment, and then either do the commit directly there (i.e., `git add`, `git commit`) or launch VS Code (`code .`) which ensures it inherits the environment.
@@ -236,7 +206,7 @@ uv run pre-commit install
 Build and preview the documentation locally:
 
 ```{.bash}
-uv run make -C docs
+make -C docs
 ```
 
 When running this, function documentation will be automatically generated from the codebase using `quartodoc`
