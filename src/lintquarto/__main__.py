@@ -254,6 +254,16 @@ def main() -> None:
     validate_no_commas(args.paths, "paths")
     validate_no_commas(args.exclude, "exclude")
 
+    # Fail fast on invalid or missing linters
+    linters = Linters()
+    try:
+        for linter in args.linters:
+            linters.check_supported(linter)
+            linters.check_available(linter)
+    except (ValueError, FileNotFoundError) as e:
+        print(f"Error: {e}", file=sys.stderr)
+        sys.exit(1)
+
     # Gather all .qmd files from the provided arguments
     qmd_files = gather_qmd_files(args.paths, exclude=args.exclude)
     if not qmd_files:
