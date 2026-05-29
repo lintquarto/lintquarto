@@ -34,6 +34,8 @@ jobs:
         run: |
           uv pip install -r pyproject.toml --all-extras
           uv pip install --group dev
+          # quartodoc compatibility fix: griffe 1.14.0
+          uv pip install "griffe==1.14.0"
 
       - name: Build API docs with quartodoc
         working-directory: docs
