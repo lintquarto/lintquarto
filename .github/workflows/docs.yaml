@@ -41,7 +41,7 @@ jobs:
 
       - name: Build API docs with quartodoc
         working-directory: docs
-        run: uv run quartodoc build
+        run: ../.venv/bin/quartodoc build
 
       - name: Quarto render
         working-directory: docs

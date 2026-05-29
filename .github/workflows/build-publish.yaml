@@ -27,9 +27,6 @@ jobs:
           python-version: "3.12"
           enable-cache: true
 
-      - name: Create uv virtualenv
-        run: uv venv
-
       - name: Build package
         run: |
           rm -rf dist/
