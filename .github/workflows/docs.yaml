@@ -27,6 +27,9 @@ jobs:
           python-version: "3.12"
           enable-cache: true
 
+      - name: Create uv virtualenv
+        run: uv venv
+
       - name: Install dependencies from pyproject.toml
         run: |
           uv pip install -r pyproject.toml --all-extras
