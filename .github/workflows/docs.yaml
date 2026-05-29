@@ -21,36 +21,42 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
       
-      - name: Install uv and Python
-        uses: astral-sh/setup-uv@v7
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v2
         with:
           python-version: "3.12"
-          enable-cache: true
+          auto-update-conda: false
+          use-mamba: true
+          channels: conda-forge
+          channel-priority: strict
+          activate-environment: lintquarto-docs
 
-      - name: Create uv virtualenv
-        run: uv venv
-
-      - name: Install dependencies from pyproject.toml
+      - name: Install Python deps from pyproject.toml
+        shell: bash -l {0}
         run: |
-          uv pip install -r pyproject.toml --all-extras
-          uv pip install --group dev
-          # quartodoc compatibility fix: griffe 1.14.0
-          uv pip install "griffe==1.14.0"
-          uv pip install "griffecli==2.0.0"
-          uv pip install "griffelib==2.0.0"
+          pip install -e ".[all]"
+          pip install --group dev
+          # quartodoc compatibility fix
+          pip install \
+            "griffe==1.14.0" \
+            "griffecli==2.0.0" \
+            "griffelib==2.0.0"
 
       - name: Build API docs with quartodoc
+        shell: bash -l {0}
         working-directory: docs
-        run: ../.venv/bin/quartodoc build
+        run: quartodoc build
 
       - name: Quarto render
+        shell: bash -l {0}
         working-directory: docs
-        run: uv run quarto render
+        run: quarto render
 
       - name: Quarto publish to gh-pages
         if: github.ref == 'refs/heads/main'
+        shell: bash -l {0}
         working-directory: docs
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          uv run quarto publish gh-pages --no-prompt --no-browser
+          quarto publish gh-pages --no-prompt --no-browser
