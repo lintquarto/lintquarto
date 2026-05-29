@@ -36,6 +36,8 @@ jobs:
           uv pip install --group dev
           # quartodoc compatibility fix: griffe 1.14.0
           uv pip install "griffe==1.14.0"
+          uv pip install "griffecli==2.0.0"
+          uv pip install "griffelib==2.0.0"
 
       - name: Build API docs with quartodoc
         working-directory: docs
