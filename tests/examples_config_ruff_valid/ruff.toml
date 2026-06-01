@@ -1,0 +1,4 @@
+[lint]
+# Avoid enforcing unused import
+select = ["ALL"]
+ignore = ["F401"]
