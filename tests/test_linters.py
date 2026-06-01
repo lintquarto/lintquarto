@@ -1,16 +1,14 @@
 """Unit tests for the linters module."""
 
-from unittest.mock import patch
-
-import pytest
-
-from lintquarto.linters import Linters
-
 import subprocess
 import sys
 from pathlib import Path
+from unittest.mock import patch
 
+import pytest
 from utils import skip_if_linter_unexpected
+
+from lintquarto.linters import Linters
 
 ALL_LINTERS = [
     "flake8",
@@ -160,9 +158,10 @@ def test_docstring_example_no_unused_noqa_by_default(tmp_path):
     qmd_source = test_dir / "examples" / "general_example.qmd"
 
     # Copy the .qmd file to an isolated temporary directory
-    # Walking up from here will hit the system temp root, finding no pyproject.toml
-    # wheras if we run it directly from the true path, it finds the pyproject.toml
-    # used for the library, resulting in unexpected behaviour in this test
+    # Walking up from here will hit the system temp root, finding
+    # no pyproject.toml wheras if we run it directly from the true path,
+    # it finds the pyproject.toml used for the library, resulting in
+    # unexpected behaviour in this test
     qmd_path = tmp_path / "general_example.qmd"
     qmd_path.write_text(
         qmd_source.read_text(encoding="utf-8"), encoding="utf-8"

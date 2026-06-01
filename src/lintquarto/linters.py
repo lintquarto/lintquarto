@@ -1,8 +1,12 @@
 """Retrieving linters."""
 
+from __future__ import annotations
+
 import shutil
-from pathlib import Path
-from typing import Any, Optional, Union
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 class Linters:
@@ -85,8 +89,8 @@ class Linters:
             raise FileNotFoundError(msg)
 
     def ruff_has_config(
-        self, original_source: Path, return_path: bool = False
-    ) -> Optional[dict[str, Any]]:
+        self, original_source: Path, *, return_path: bool = False
+    ) -> bool | Path:
         """Walk up the directory tree to find a valid local Ruff config file.
 
         Follows the same path finding logic as defined in Ruff's documentation:
@@ -119,7 +123,7 @@ class Linters:
             arguments.
         """
 
-        def _found(path: Path) -> Union[bool, Path]:
+        def _found(path: Path) -> bool | Path:
             return path if return_path else True
 
         current = original_source.resolve()
