@@ -103,6 +103,7 @@ def test_check_available_not_found():
 # 3. Linter-specific checks
 # =============================================================================
 
+
 def test_inp001_not_raised(tmp_path):
     """Test INP001 is not raised."""
     skip_if_linter_unexpected("ruff")
@@ -172,9 +173,7 @@ def test_ruf100_not_raised(tmp_path):
 
     # Write ruff.toml explicitly including RUF100
     ruff_toml = tmp_path / "ruff.toml"
-    ruff_toml.write_text(
-        '[lint]\nselect = ["RUF100"]\n', encoding="utf-8"
-    )
+    ruff_toml.write_text('[lint]\nselect = ["RUF100"]\n', encoding="utf-8")
 
     result = subprocess.run(
         [

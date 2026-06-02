@@ -13,9 +13,9 @@ from pathlib import Path
 
 import pytest
 
-from lintquarto.__main__ import (
+from lintquarto.cli import main
+from lintquarto.processing import (
     gather_qmd_files,
-    main,
     process_qmd,
     validate_no_commas,
 )
