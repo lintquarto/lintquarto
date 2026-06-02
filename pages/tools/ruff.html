@@ -329,7 +329,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="example-quarto-.qmd-file" class="level2">
 <h2 class="anchored" data-anchor-id="example-quarto-.qmd-file">Example Quarto <code>.qmd</code> file:</h2>
-<p><a href="#dnldts61258" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgdG8gaWRlbnRpZnkuCgpgYGB7cHl0aG9ufQp2ZXJ5X2xvbmdfbGluZSA9ICJUaGlzIGxvbmcgc3RyaW5nIGV4Y2VlZHMgdGhlIG1heGltdW0gYWxsb3dlZCBjaGFyYWN0ZXJzIHBlciBsaW5lLiIKYGBgCgpUaGVyZSdzIHNvbWUgbW9yZSBpc3N1ZXMgYmVsb3cuLi4KCmBgYHtweXRob259CmRlZiBhZGRfbnVtYmVycyhhLCBiKToKICAgIHJldHVybiBhICsgYgoKYWRkX251bWJlcnMoMywgNSkKCmltcG9ydCBzeXMKYGBg').then(res => res.blob()).then(blob => {
+<p><a href="#dnldts9352" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgdG8gaWRlbnRpZnkuCgpgYGB7cHl0aG9ufQp2ZXJ5X2xvbmdfbGluZSA9ICJUaGlzIGxvbmcgc3RyaW5nIGV4Y2VlZHMgdGhlIG1heGltdW0gYWxsb3dlZCBjaGFyYWN0ZXJzIHBlciBsaW5lLiIKYGBgCgpUaGVyZSdzIHNvbWUgbW9yZSBpc3N1ZXMgYmVsb3cuLi4KCmBgYHtweXRob259CmRlZiBhZGRfbnVtYmVycyhhLCBiKToKICAgIHJldHVybiBhICsgYgoKYWRkX251bWJlcnMoMywgNSkKCmltcG9ydCBzeXMKYGBg').then(res => res.blob()).then(blob => {
       const downloadURL = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       document.body.appendChild(a);
@@ -337,9 +337,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       a.download = 'general_example.qmd'; a.click();
       window.URL.revokeObjectURL(downloadURL);
       document.body.removeChild(a);
-        });"><button class="btn btn-light downloadthis  " id="dnldts61258"><i class="bi bi-download"></i> Download the example </button></a></p>
+        });"><button class="btn btn-light downloadthis  " id="dnldts9352"><i class="bi bi-download"></i> Download the example </button></a></p>
 <div class="pale-grey">
-<div id="157a7bf1" class="cell" data-execution_count="3">
+<div id="a0486f8f" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
 <pre><code>1:     ---
 2:     title: "Example"
@@ -375,7 +375,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   white-space: pre-wrap !important;
 }
 </style>
-<div id="4a2e16b2" class="cell" data-execution_count="4">
+<div id="4938d040" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre>=============================================================
@@ -409,30 +409,6 @@ Running ruff...
 <span class="ansi-bright-blue-fg ansi-bold">10 |</span> # -
 
    <span class="ansi-bright-blue-fg ansi-bold">|</span>
-
-
-
-<span class="ansi-bright-red-fg ansi-bold">RUF100 </span>[<span class="ansi-bright-cyan-fg ansi-bold">*</span>] <span class="ansi-bold">Unused `noqa` directive (non-enabled: `E305`)</span>
-
-  <span class="ansi-bright-blue-fg ansi-bold">--&gt;</span> examples/general_example.qmd:8:87
-
-   <span class="ansi-bright-blue-fg ansi-bold">|</span>
-
-<span class="ansi-bright-blue-fg ansi-bold"> 6 |</span> # -
-
-<span class="ansi-bright-blue-fg ansi-bold"> 7 |</span> # %% [python]
-
-<span class="ansi-bright-blue-fg ansi-bold"> 8 |</span> very_long_line = "This long string exceeds the maximum allowed characters per line."  # noqa: E305
-
-   <span class="ansi-bright-blue-fg ansi-bold">|</span>                                                                                       <span class="ansi-bright-red-fg ansi-bold">^^^^^^^^^^^^</span>
-
-<span class="ansi-bright-blue-fg ansi-bold"> 9 |</span> # -
-
-<span class="ansi-bright-blue-fg ansi-bold">10 |</span> # -
-
-   <span class="ansi-bright-blue-fg ansi-bold">|</span>
-
-<span class="ansi-bright-cyan-fg ansi-bold">help</span>: <span class="ansi-bold">Remove unused `noqa` directive</span>
 
 
 
@@ -518,28 +494,6 @@ Running ruff...
 
 
 
-<span class="ansi-bright-red-fg ansi-bold">RUF100 </span>[<span class="ansi-bright-cyan-fg ansi-bold">*</span>] <span class="ansi-bold">Unused `noqa` directive (unused: `E501`; non-enabled: `E302`, `E305`)</span>
-
-  <span class="ansi-bright-blue-fg ansi-bold">--&gt;</span> examples/general_example.qmd:14:25
-
-   <span class="ansi-bright-blue-fg ansi-bold">|</span>
-
-<span class="ansi-bright-blue-fg ansi-bold">12 |</span> # -
-
-<span class="ansi-bright-blue-fg ansi-bold">13 |</span> # %% [python]
-
-<span class="ansi-bright-blue-fg ansi-bold">14 |</span> def add_numbers(a, b):  # noqa: E302,E305,E501
-
-   <span class="ansi-bright-blue-fg ansi-bold">|</span>                         <span class="ansi-bright-red-fg ansi-bold">^^^^^^^^^^^^^^^^^^^^^^</span>
-
-<span class="ansi-bright-blue-fg ansi-bold">15 |</span>     return a + b
-
-   <span class="ansi-bright-blue-fg ansi-bold">|</span>
-
-<span class="ansi-bright-cyan-fg ansi-bold">help</span>: <span class="ansi-bold">Remove unused `noqa` directive</span>
-
-
-
 <span class="ansi-bright-red-fg ansi-bold">E402 </span><span class="ansi-bold">Module level import not at top of file</span>
 
   <span class="ansi-bright-blue-fg ansi-bold">--&gt;</span> examples/general_example.qmd:19:1
@@ -582,9 +536,9 @@ Running ruff...
 
 
 
-Found 10 errors.
+Found 8 errors.
 
-[<span class="ansi-cyan-fg">*</span>] 3 fixable with the `--fix` option.
+[<span class="ansi-cyan-fg">*</span>] 1 fixable with the `--fix` option.
 
 
 </pre>
@@ -592,8 +546,16 @@ Found 10 errors.
 </div>
 </div>
 </div>
+</section>
+<section id="notes" class="level2">
+<h2 class="anchored" data-anchor-id="notes">Notes</h2>
+<section id="excluded-checks" class="level3">
+<h3 class="anchored" data-anchor-id="excluded-checks">Excluded checks</h3>
+<p>The check <a href="https://docs.astral.sh/ruff/rules/unused-noqa/">RUF100</a> is disabled by default due to conflicts with the manner in which lintquarto acts, leading to false positives if this check is enabled. More details on this decision can be found in <a href="https://github.com/lintquarto/lintquarto/issues/120">this GitHub issue</a>.</p>
+<p>The check <a href="https://docs.astral.sh/ruff/rules/implicit-namespace-package/">INP001</a> is also disabled by default due to the majority of quarto documents not having an <code>__init__.py</code> file in their directory. More details on this can be found in <a href="https://github.com/lintquarto/lintquarto/issues/141">this GitHub issue</a>.</p>
 
 
+</section>
 </section>
 </section>
 
