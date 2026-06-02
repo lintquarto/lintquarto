@@ -37,7 +37,7 @@ class Linters:
                 "ruff",
                 "check",
                 "--config",
-                "lint.ignore = ['RUF100', 'INP001']"
+                "lint.ignore = ['RUF100', 'INP001']",
             ],
             "vulture": ["vulture"],
         }
