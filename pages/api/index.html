@@ -139,22 +139,34 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="reference" class="level1 doc doc-index">
 <h1 class="doc doc-index">Reference</h1>
-<section id="main-module" class="level2">
-<h2 class="anchored" data-anchor-id="main-module">Main module</h2>
-<p>The main CLI logic for linting Python code in Quarto (<code>.qmd</code>) files, including argument parsing, file conversion, linter invocation, and temporary file management.</p>
+<section id="cli-module" class="level2">
+<h2 class="anchored" data-anchor-id="cli-module">CLI module</h2>
+<p>Command-line interface for linting Python code in Quarto (<code>.qmd</code>) files, including argument parsing and orchestration of the linting workflow.</p>
 <table class="caption-top table">
 <tbody>
 <tr class="odd">
-<td><a href="../../pages/api/main.html#lintquarto.__main__.main">main</a></td>
+<td><a href="../../pages/api/main.html#lintquarto.cli.main">main</a></td>
 <td>Entry point for the lintquarto CLI.</td>
 </tr>
-<tr class="even">
-<td><a href="../../pages/api/gather_qmd_files.html#lintquarto.__main__.gather_qmd_files">gather_qmd_files</a></td>
+</tbody>
+</table>
+</section>
+<section id="processing-module" class="level2">
+<h2 class="anchored" data-anchor-id="processing-module">Processing module</h2>
+<p>Functions to gather Quarto (<code>.qmd</code>) files, convert them to Python (<code>.py</code>) files for linting, invoke linters, and manage temporary files.</p>
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td><a href="../../pages/api/gather_qmd_files.html#lintquarto.processing.gather_qmd_files">gather_qmd_files</a></td>
 <td>Gather .qmd files from listed files/dirs, excluding specified paths.</td>
 </tr>
-<tr class="odd">
-<td><a href="../../pages/api/process_qmd.html#lintquarto.__main__.process_qmd">process_qmd</a></td>
+<tr class="even">
+<td><a href="../../pages/api/process_qmd.html#lintquarto.processing.process_qmd">process_qmd</a></td>
 <td>Convert a .qmd file to .py, lint it, and clean up.</td>
+</tr>
+<tr class="odd">
+<td><a href="../../pages/api/validate_no_commas.html#lintquarto.processing.validate_no_commas">validate_no_commas</a></td>
+<td>Check for commas in list of paths and raise ValueError if found.</td>
 </tr>
 </tbody>
 </table>

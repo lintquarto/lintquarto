@@ -299,193 +299,46 @@
     "text": "🌱 First release.\n\n\n\nLint Quarto markdown (.qmd) files using pylint, flake8, or mypy."
   },
   {
-    "objectID": "pages/api/main.html",
-    "href": "pages/api/main.html",
-    "title": "main",
+    "objectID": "pages/api/process_qmd.html",
+    "href": "pages/api/process_qmd.html",
+    "title": "process_qmd",
     "section": "",
-    "text": "main\n__main__.main()\nEntry point for the lintquarto CLI.\nParses arguments, processes .qmd files, and exits with appropriate status code."
+    "text": "processing.process_qmd(\n    qmd_file,\n    linter,\n    *,\n    keep_temp_files=False,\n    verbose=False,\n    lint_non_exec=False,\n)\nConvert a .qmd file to .py, lint it, and clean up.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nqmd_file\nstr | Path\nPath to the input .qmd file.\nrequired\n\n\nlinter\nstr\nName of the linter to use (pylint, flake8, mypy).\nrequired\n\n\nkeep_temp_files\nbool\nIf True, retain the temporary .py file after linting.\nFalse\n\n\nverbose\nbool\nIf True, print detailed progress information.\nFalse\n\n\nlint_non_exec\nbool\nIf True, also lint non-executable Python code chunks.\nFalse\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nint\n0 on success, nonzero on error."
   },
   {
-    "objectID": "pages/api/get_unique_filename.html",
-    "href": "pages/api/get_unique_filename.html",
-    "title": "get_unique_filename",
+    "objectID": "pages/api/process_qmd.html#parameters",
+    "href": "pages/api/process_qmd.html#parameters",
+    "title": "process_qmd",
     "section": "",
-    "text": "converter.get_unique_filename(path)\nGenerate unique path by adding “_n” before the file extension if needed.\nIf the given path already exists, this function appends an incrementing number before the file extension (e.g., “file_1.py”) until an unused filename is found.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\npath\nstr | Path\nThe initial file path to check.\nrequired\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nPath\nA unique file path that does not currently exist.\n\n\n\n\n\n\n&gt;&gt;&gt; get_unique_filename(\"script.py\")\nPosixPath('script.py')  # if 'script.py' does not exist\n&gt;&gt;&gt; get_unique_filename(\"script.py\")\nPosixPath('script_1.py')  # if 'script.py' exists"
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\nqmd_file\nstr | Path\nPath to the input .qmd file.\nrequired\n\n\nlinter\nstr\nName of the linter to use (pylint, flake8, mypy).\nrequired\n\n\nkeep_temp_files\nbool\nIf True, retain the temporary .py file after linting.\nFalse\n\n\nverbose\nbool\nIf True, print detailed progress information.\nFalse\n\n\nlint_non_exec\nbool\nIf True, also lint non-executable Python code chunks.\nFalse"
   },
   {
-    "objectID": "pages/api/get_unique_filename.html#parameters",
-    "href": "pages/api/get_unique_filename.html#parameters",
-    "title": "get_unique_filename",
+    "objectID": "pages/api/process_qmd.html#returns",
+    "href": "pages/api/process_qmd.html#returns",
+    "title": "process_qmd",
     "section": "",
-    "text": "Name\nType\nDescription\nDefault\n\n\n\n\npath\nstr | Path\nThe initial file path to check.\nrequired"
-  },
-  {
-    "objectID": "pages/api/get_unique_filename.html#returns",
-    "href": "pages/api/get_unique_filename.html#returns",
-    "title": "get_unique_filename",
-    "section": "",
-    "text": "Name\nType\nDescription\n\n\n\n\n\nPath\nA unique file path that does not currently exist."
-  },
-  {
-    "objectID": "pages/api/get_unique_filename.html#examples",
-    "href": "pages/api/get_unique_filename.html#examples",
-    "title": "get_unique_filename",
-    "section": "",
-    "text": "&gt;&gt;&gt; get_unique_filename(\"script.py\")\nPosixPath('script.py')  # if 'script.py' does not exist\n&gt;&gt;&gt; get_unique_filename(\"script.py\")\nPosixPath('script_1.py')  # if 'script.py' exists"
-  },
-  {
-    "objectID": "pages/api/convert_qmd_to_py.html",
-    "href": "pages/api/convert_qmd_to_py.html",
-    "title": "convert_qmd_to_py",
-    "section": "",
-    "text": "converter.convert_qmd_to_py(\n    qmd_path,\n    linter,\n    output_path=None,\n    *,\n    verbose=False,\n    lint_non_exec=False,\n)\nConvert Quarto file to Python file, preserving line alignment.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nqmd_path\nstr | Path\nPath to the input .qmd file.\nrequired\n\n\nlinter\nstr\nName of the linter that will be used.\nrequired\n\n\noutput_path\nstr | Path | None\nPath for the output .py file. If None, uses qmd_path with .py suffix.\nNone\n\n\nverbose\nbool\nIf True, print detailed progress information.\nFalse\n\n\nlint_non_exec\nbool\nIf True, also lint non-executable Python code chunks.\nFalse\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\noutput_path\nPath | None\nPath for the output .py file, or None if there was an error.\n\n\n\n\n\n\n&gt;&gt;&gt; convert_qmd_to_py(\"input.qmd\", \"output.py\", True)\n# To use from the command line:\n# $ python converter.py input.qmd [output.py] [-v]"
-  },
-  {
-    "objectID": "pages/api/convert_qmd_to_py.html#parameters",
-    "href": "pages/api/convert_qmd_to_py.html#parameters",
-    "title": "convert_qmd_to_py",
-    "section": "",
-    "text": "Name\nType\nDescription\nDefault\n\n\n\n\nqmd_path\nstr | Path\nPath to the input .qmd file.\nrequired\n\n\nlinter\nstr\nName of the linter that will be used.\nrequired\n\n\noutput_path\nstr | Path | None\nPath for the output .py file. If None, uses qmd_path with .py suffix.\nNone\n\n\nverbose\nbool\nIf True, print detailed progress information.\nFalse\n\n\nlint_non_exec\nbool\nIf True, also lint non-executable Python code chunks.\nFalse"
-  },
-  {
-    "objectID": "pages/api/convert_qmd_to_py.html#returns",
-    "href": "pages/api/convert_qmd_to_py.html#returns",
-    "title": "convert_qmd_to_py",
-    "section": "",
-    "text": "Name\nType\nDescription\n\n\n\n\noutput_path\nPath | None\nPath for the output .py file, or None if there was an error."
-  },
-  {
-    "objectID": "pages/api/convert_qmd_to_py.html#examples",
-    "href": "pages/api/convert_qmd_to_py.html#examples",
-    "title": "convert_qmd_to_py",
-    "section": "",
-    "text": "&gt;&gt;&gt; convert_qmd_to_py(\"input.qmd\", \"output.py\", True)\n# To use from the command line:\n# $ python converter.py input.qmd [output.py] [-v]"
-  },
-  {
-    "objectID": "pages/api/Linters.html",
-    "href": "pages/api/Linters.html",
-    "title": "Linters",
-    "section": "",
-    "text": "linters.Linters()\nChecks if requested linter (or static type checker) is available.\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\nsupported\ndict\nDictionary of supported linters. The key (e.g. radon-cc) maps to the full command (e.g. [\"radon\", \"cc\"]).\n\n\n\n\n\n\n\n\n\nName\nDescription\n\n\n\n\ncheck_available\nCheck if a linter is available in the user’s system.\n\n\ncheck_supported\nCheck if linter is supported by lintquarto.\n\n\n\n\n\nlinters.Linters.check_available(linter_name)\nCheck if a linter is available in the user’s system.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nlinter_name\nstr\nName of the linter to check.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nFileNotFoundError\nIf the linter’s command is not found in the user’s PATH.\n\n\n\n\n\n\n\nlinters.Linters.check_supported(linter_name)\nCheck if linter is supported by lintquarto.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nlinter_name\nstr\nName of the linter to check.\nrequired\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nValueError\nIf linter is not supported."
-  },
-  {
-    "objectID": "pages/api/Linters.html#attributes",
-    "href": "pages/api/Linters.html#attributes",
-    "title": "Linters",
-    "section": "",
-    "text": "Name\nType\nDescription\n\n\n\n\nsupported\ndict\nDictionary of supported linters. The key (e.g. radon-cc) maps to the full command (e.g. [\"radon\", \"cc\"])."
-  },
-  {
-    "objectID": "pages/api/Linters.html#methods",
-    "href": "pages/api/Linters.html#methods",
-    "title": "Linters",
-    "section": "",
-    "text": "Name\nDescription\n\n\n\n\ncheck_available\nCheck if a linter is available in the user’s system.\n\n\ncheck_supported\nCheck if linter is supported by lintquarto.\n\n\n\n\n\nlinters.Linters.check_available(linter_name)\nCheck if a linter is available in the user’s system.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nlinter_name\nstr\nName of the linter to check.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nFileNotFoundError\nIf the linter’s command is not found in the user’s PATH.\n\n\n\n\n\n\n\nlinters.Linters.check_supported(linter_name)\nCheck if linter is supported by lintquarto.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nlinter_name\nstr\nName of the linter to check.\nrequired\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nValueError\nIf linter is not supported."
-  },
-  {
-    "objectID": "pages/api/CustomArgumentParser.html",
-    "href": "pages/api/CustomArgumentParser.html",
-    "title": "CustomArgumentParser",
-    "section": "",
-    "text": "args.CustomArgumentParser()\nPrint user-friendly error message and help text.\n\n\n\n\n\nName\nDescription\n\n\n\n\nerror\nPrint error message.\n\n\n\n\n\nargs.CustomArgumentParser.error(message)\nPrint error message.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nmessage\nstr\nThe error message to display.\nrequired"
-  },
-  {
-    "objectID": "pages/api/CustomArgumentParser.html#methods",
-    "href": "pages/api/CustomArgumentParser.html#methods",
-    "title": "CustomArgumentParser",
-    "section": "",
-    "text": "Name\nDescription\n\n\n\n\nerror\nPrint error message.\n\n\n\n\n\nargs.CustomArgumentParser.error(message)\nPrint error message.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nmessage\nstr\nThe error message to display.\nrequired"
-  },
-  {
-    "objectID": "index.html#easy-to-use",
-    "href": "index.html#easy-to-use",
-    "title": "Run linters, static type checkers and code analysis tools on python code in quarto .qmd files",
-    "section": "Easy to use",
-    "text": "Easy to use\nInstall and run checks in minutes. See getting started for installation and basic commands."
-  },
-  {
-    "objectID": "index.html#variety-of-tools",
-    "href": "index.html#variety-of-tools",
-    "title": "Run linters, static type checkers and code analysis tools on python code in quarto .qmd files",
-    "section": "Variety of tools",
-    "text": "Variety of tools\nTry out a range of linters and type checkers, each with ready-to-run examples. Discover what’s available in the user guide."
-  },
-  {
-    "objectID": "pages/api/LineLengthDetector.html",
-    "href": "pages/api/LineLengthDetector.html",
-    "title": "LineLengthDetector",
-    "section": "",
-    "text": "linelength.LineLengthDetector(linter, start_dir='.')\nDetect the configured line length for a given Python linter.\nThis class searches for relevant configuration files in the directory tree, extracts the maximum line length setting for the specified linter, and returns the default value if no configuration is found.\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\ndefaults\ndict\nThe default maximum line length for each linter.\n\n\nlinter\nstr\nThe name of the linter to check.\n\n\nstart_dir\nPath\nThe directory from which to start searching for configuration files.\n\n\n\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nget_line_length\nGet the configured maximum line length for the specified linter.\n\n\n\n\n\nlinelength.LineLengthDetector.get_line_length()\nGet the configured maximum line length for the specified linter.\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nint\nThe maximum line length."
-  },
-  {
-    "objectID": "pages/api/LineLengthDetector.html#attributes",
-    "href": "pages/api/LineLengthDetector.html#attributes",
-    "title": "LineLengthDetector",
-    "section": "",
-    "text": "Name\nType\nDescription\n\n\n\n\ndefaults\ndict\nThe default maximum line length for each linter.\n\n\nlinter\nstr\nThe name of the linter to check.\n\n\nstart_dir\nPath\nThe directory from which to start searching for configuration files."
-  },
-  {
-    "objectID": "pages/api/LineLengthDetector.html#methods",
-    "href": "pages/api/LineLengthDetector.html#methods",
-    "title": "LineLengthDetector",
-    "section": "",
-    "text": "Name\nDescription\n\n\n\n\nget_line_length\nGet the configured maximum line length for the specified linter.\n\n\n\n\n\nlinelength.LineLengthDetector.get_line_length()\nGet the configured maximum line length for the specified linter.\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nint\nThe maximum line length."
-  },
-  {
-    "objectID": "pages/api/QmdToPyConverter.html",
-    "href": "pages/api/QmdToPyConverter.html",
-    "title": "QmdToPyConverter",
-    "section": "",
-    "text": "converter.QmdToPyConverter(linter, *, lint_non_exec=False)\nConvert lines from a .qmd file to .py file.\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\nlinter\nstr\nName of the linter that will be used.\n\n\nlint_non_exec\nbool\nIf True, also lint non-executable Python code chunks.\n\n\nin_chunk_options\nbool\nTrue if currently at the start of a code chunk, parsing Quarto chunk options or leading blank lines.\n\n\nin_python\nbool\nTrue if currently processing lines inside a Python code chunk.\n\n\npy_lines\nlist\nStores the lines to be written to the output Python file.\n\n\nyaml_eval_default\nbool\nDefault eval setting from YAML front matter.\n\n\ncurrent_chunk_eval\nbool | None\nEval setting for current chunk from chunk options (None if not set).\n\n\npreserve_line_count\nbool\nWhether to preserve line count.\n\n\nuses_noqa\nbool\nWhether specified linter uses noqa.\n\n\nmax_line_length\nint\nMaximum line length for linter (from LineLengthDetector()).\n\n\n\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nconvert\nRun converter on the provided lines.\n\n\nparse_chunk_eval_option\nParse chunk options to extract eval setting.\n\n\nparse_yaml_front_matter\nParse YAML front matter and extract execute.eval setting.\n\n\nprocess_line\nProcess individual lines with state tracking.\n\n\nreset\nReset the state (except linter and YAML eval default).\n\n\nshould_lint_current_chunk\nDetermine if the current chunk should be linted.\n\n\n\n\n\nconverter.QmdToPyConverter.convert(qmd_lines)\nRun converter on the provided lines.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nqmd_lines\nlist[str]\nList containing each line from the Quarto file.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\npy_lines\nlist[str]\nList of each line for the output Python file.\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.parse_chunk_eval_option(stripped)\nParse chunk options to extract eval setting.\nSearches for lines like “#| eval: false” or “#| eval: true” within chunk options.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nstripped\nstr\nThe line to parse (with blank space at start removed).\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nNone\nStores the eval setting in self.current_chunk_eval attribute. Sets to True for “true”/“yes”/“1”, False for “false”/“no”/“0”, Does not modify self.current_chunk_eval if no eval option found.\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.parse_yaml_front_matter(qmd_lines)\nParse YAML front matter and extract execute.eval setting.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nqmd_lines\nlist[str]\nList containing each line from the Quarto file.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nNone\nStores the eval setting in self.yaml_eval_default attribute. Sets to True if no YAML front matter is found or if parsing fails.\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.process_line(original_line)\nProcess individual lines with state tracking.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\noriginal_line\nstr\nLine to process.\nrequired\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.reset()\nReset the state (except linter and YAML eval default).\n\n\n\nconverter.QmdToPyConverter.should_lint_current_chunk()\nDetermine if the current chunk should be linted.\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nbool\nTrue if chunk should be linted, False otherwise."
-  },
-  {
-    "objectID": "pages/api/QmdToPyConverter.html#attributes",
-    "href": "pages/api/QmdToPyConverter.html#attributes",
-    "title": "QmdToPyConverter",
-    "section": "",
-    "text": "Name\nType\nDescription\n\n\n\n\nlinter\nstr\nName of the linter that will be used.\n\n\nlint_non_exec\nbool\nIf True, also lint non-executable Python code chunks.\n\n\nin_chunk_options\nbool\nTrue if currently at the start of a code chunk, parsing Quarto chunk options or leading blank lines.\n\n\nin_python\nbool\nTrue if currently processing lines inside a Python code chunk.\n\n\npy_lines\nlist\nStores the lines to be written to the output Python file.\n\n\nyaml_eval_default\nbool\nDefault eval setting from YAML front matter.\n\n\ncurrent_chunk_eval\nbool | None\nEval setting for current chunk from chunk options (None if not set).\n\n\npreserve_line_count\nbool\nWhether to preserve line count.\n\n\nuses_noqa\nbool\nWhether specified linter uses noqa.\n\n\nmax_line_length\nint\nMaximum line length for linter (from LineLengthDetector())."
-  },
-  {
-    "objectID": "pages/api/QmdToPyConverter.html#methods",
-    "href": "pages/api/QmdToPyConverter.html#methods",
-    "title": "QmdToPyConverter",
-    "section": "",
-    "text": "Name\nDescription\n\n\n\n\nconvert\nRun converter on the provided lines.\n\n\nparse_chunk_eval_option\nParse chunk options to extract eval setting.\n\n\nparse_yaml_front_matter\nParse YAML front matter and extract execute.eval setting.\n\n\nprocess_line\nProcess individual lines with state tracking.\n\n\nreset\nReset the state (except linter and YAML eval default).\n\n\nshould_lint_current_chunk\nDetermine if the current chunk should be linted.\n\n\n\n\n\nconverter.QmdToPyConverter.convert(qmd_lines)\nRun converter on the provided lines.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nqmd_lines\nlist[str]\nList containing each line from the Quarto file.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\npy_lines\nlist[str]\nList of each line for the output Python file.\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.parse_chunk_eval_option(stripped)\nParse chunk options to extract eval setting.\nSearches for lines like “#| eval: false” or “#| eval: true” within chunk options.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nstripped\nstr\nThe line to parse (with blank space at start removed).\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nNone\nStores the eval setting in self.current_chunk_eval attribute. Sets to True for “true”/“yes”/“1”, False for “false”/“no”/“0”, Does not modify self.current_chunk_eval if no eval option found.\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.parse_yaml_front_matter(qmd_lines)\nParse YAML front matter and extract execute.eval setting.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nqmd_lines\nlist[str]\nList containing each line from the Quarto file.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nNone\nStores the eval setting in self.yaml_eval_default attribute. Sets to True if no YAML front matter is found or if parsing fails.\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.process_line(original_line)\nProcess individual lines with state tracking.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\noriginal_line\nstr\nLine to process.\nrequired\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.reset()\nReset the state (except linter and YAML eval default).\n\n\n\nconverter.QmdToPyConverter.should_lint_current_chunk()\nDetermine if the current chunk should be linted.\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nbool\nTrue if chunk should be linted, False otherwise."
-  },
-  {
-    "objectID": "pages/api/gather_qmd_files.html",
-    "href": "pages/api/gather_qmd_files.html",
-    "title": "gather_qmd_files",
-    "section": "",
-    "text": "__main__.gather_qmd_files(paths, exclude=None)\nGather .qmd files from listed files/dirs, excluding specified paths.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\npaths\nlist[str | Path]\nList of file or directory paths.\nrequired\n\n\nexclude\nlist[str | Path] | None\nList of files or directories to exclude. Defaults to None.\nNone\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nlist[str]\nList of .qmd file paths found, excluding those in exclude."
-  },
-  {
-    "objectID": "pages/api/gather_qmd_files.html#parameters",
-    "href": "pages/api/gather_qmd_files.html#parameters",
-    "title": "gather_qmd_files",
-    "section": "",
-    "text": "Name\nType\nDescription\nDefault\n\n\n\n\npaths\nlist[str | Path]\nList of file or directory paths.\nrequired\n\n\nexclude\nlist[str | Path] | None\nList of files or directories to exclude. Defaults to None.\nNone"
-  },
-  {
-    "objectID": "pages/api/gather_qmd_files.html#returns",
-    "href": "pages/api/gather_qmd_files.html#returns",
-    "title": "gather_qmd_files",
-    "section": "",
-    "text": "Name\nType\nDescription\n\n\n\n\n\nlist[str]\nList of .qmd file paths found, excluding those in exclude."
+    "text": "Name\nType\nDescription\n\n\n\n\n\nint\n0 on success, nonzero on error."
   },
   {
     "objectID": "pages/api/index.html",
     "href": "pages/api/index.html",
     "title": "Reference",
     "section": "",
-    "text": "The main CLI logic for linting Python code in Quarto (.qmd) files, including argument parsing, file conversion, linter invocation, and temporary file management.\n\n\n\nmain\nEntry point for the lintquarto CLI.\n\n\ngather_qmd_files\nGather .qmd files from listed files/dirs, excluding specified paths.\n\n\nprocess_qmd\nConvert a .qmd file to .py, lint it, and clean up.\n\n\n\n\n\n\nFunctions to convert Quarto (.qmd) files to Python (.py) files, preserving line alignment and extracting Python code, with both a command-line interface and callable functions.\n\n\n\nQmdToPyConverter\nConvert lines from a .qmd file to .py file.\n\n\nget_unique_filename\nGenerate unique path by adding “_n” before the file extension if needed.\n\n\nconvert_qmd_to_py\nConvert Quarto file to Python file, preserving line alignment.\n\n\n\n\n\n\nClass to check for supported and available Python linters, static type checkers or code analysis tools on the user’s system.\n\n\n\nLinters\nChecks if requested linter (or static type checker) is available.\n\n\n\n\n\n\nClass to detect configured line length.\n\n\n\nLineLengthDetector\nDetect the configured line length for a given Python linter.\n\n\n\n\n\n\nClass which extends argparse.ArgumentParser to provide user-friendly error messages and help text when incorrect command-line arguments are supplied.\n\n\n\nCustomArgumentParser\nPrint user-friendly error message and help text."
+    "text": "Command-line interface for linting Python code in Quarto (.qmd) files, including argument parsing and orchestration of the linting workflow.\n\n\n\nmain\nEntry point for the lintquarto CLI.\n\n\n\n\n\n\nFunctions to gather Quarto (.qmd) files, convert them to Python (.py) files for linting, invoke linters, and manage temporary files.\n\n\n\ngather_qmd_files\nGather .qmd files from listed files/dirs, excluding specified paths.\n\n\nprocess_qmd\nConvert a .qmd file to .py, lint it, and clean up.\n\n\nvalidate_no_commas\nCheck for commas in list of paths and raise ValueError if found.\n\n\n\n\n\n\nFunctions to convert Quarto (.qmd) files to Python (.py) files, preserving line alignment and extracting Python code, with both a command-line interface and callable functions.\n\n\n\nQmdToPyConverter\nConvert lines from a .qmd file to .py file.\n\n\nget_unique_filename\nGenerate unique path by adding “_n” before the file extension if needed.\n\n\nconvert_qmd_to_py\nConvert Quarto file to Python file, preserving line alignment.\n\n\n\n\n\n\nClass to check for supported and available Python linters, static type checkers or code analysis tools on the user’s system.\n\n\n\nLinters\nChecks if requested linter (or static type checker) is available.\n\n\n\n\n\n\nClass to detect configured line length.\n\n\n\nLineLengthDetector\nDetect the configured line length for a given Python linter.\n\n\n\n\n\n\nClass which extends argparse.ArgumentParser to provide user-friendly error messages and help text when incorrect command-line arguments are supplied.\n\n\n\nCustomArgumentParser\nPrint user-friendly error message and help text."
   },
   {
-    "objectID": "pages/api/index.html#main-module",
-    "href": "pages/api/index.html#main-module",
+    "objectID": "pages/api/index.html#cli-module",
+    "href": "pages/api/index.html#cli-module",
     "title": "Reference",
     "section": "",
-    "text": "The main CLI logic for linting Python code in Quarto (.qmd) files, including argument parsing, file conversion, linter invocation, and temporary file management.\n\n\n\nmain\nEntry point for the lintquarto CLI.\n\n\ngather_qmd_files\nGather .qmd files from listed files/dirs, excluding specified paths.\n\n\nprocess_qmd\nConvert a .qmd file to .py, lint it, and clean up."
+    "text": "Command-line interface for linting Python code in Quarto (.qmd) files, including argument parsing and orchestration of the linting workflow.\n\n\n\nmain\nEntry point for the lintquarto CLI."
+  },
+  {
+    "objectID": "pages/api/index.html#processing-module",
+    "href": "pages/api/index.html#processing-module",
+    "title": "Reference",
+    "section": "",
+    "text": "Functions to gather Quarto (.qmd) files, convert them to Python (.py) files for linting, invoke linters, and manage temporary files.\n\n\n\ngather_qmd_files\nGather .qmd files from listed files/dirs, excluding specified paths.\n\n\nprocess_qmd\nConvert a .qmd file to .py, lint it, and clean up.\n\n\nvalidate_no_commas\nCheck for commas in list of paths and raise ValueError if found."
   },
   {
     "objectID": "pages/api/index.html#converter-module",
@@ -516,25 +369,200 @@
     "text": "Class which extends argparse.ArgumentParser to provide user-friendly error messages and help text when incorrect command-line arguments are supplied.\n\n\n\nCustomArgumentParser\nPrint user-friendly error message and help text."
   },
   {
-    "objectID": "pages/api/process_qmd.html",
-    "href": "pages/api/process_qmd.html",
-    "title": "process_qmd",
+    "objectID": "pages/api/gather_qmd_files.html",
+    "href": "pages/api/gather_qmd_files.html",
+    "title": "gather_qmd_files",
     "section": "",
-    "text": "__main__.process_qmd(\n    qmd_file,\n    linter,\n    *,\n    keep_temp_files=False,\n    verbose=False,\n    lint_non_exec=False,\n)\nConvert a .qmd file to .py, lint it, and clean up.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nqmd_file\nstr | Path\nPath to the input .qmd file.\nrequired\n\n\nlinter\nstr\nName of the linter to use (pylint, flake8, mypy).\nrequired\n\n\nkeep_temp_files\nbool\nIf True, retain the temporary .py file after linting.\nFalse\n\n\nverbose\nbool\nIf True, print detailed progress information.\nFalse\n\n\nlint_non_exec\nbool\nIf True, also lint non-executable Python code chunks.\nFalse\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nint\n0 on success, nonzero on error."
+    "text": "processing.gather_qmd_files(paths, exclude=None)\nGather .qmd files from listed files/dirs, excluding specified paths.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\npaths\nlist[str | Path]\nList of file or directory paths.\nrequired\n\n\nexclude\nlist[str | Path] | None\nList of files or directories to exclude. Defaults to None.\nNone\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nlist[str]\nList of .qmd file paths found, excluding those in exclude."
   },
   {
-    "objectID": "pages/api/process_qmd.html#parameters",
-    "href": "pages/api/process_qmd.html#parameters",
-    "title": "process_qmd",
+    "objectID": "pages/api/gather_qmd_files.html#parameters",
+    "href": "pages/api/gather_qmd_files.html#parameters",
+    "title": "gather_qmd_files",
     "section": "",
-    "text": "Name\nType\nDescription\nDefault\n\n\n\n\nqmd_file\nstr | Path\nPath to the input .qmd file.\nrequired\n\n\nlinter\nstr\nName of the linter to use (pylint, flake8, mypy).\nrequired\n\n\nkeep_temp_files\nbool\nIf True, retain the temporary .py file after linting.\nFalse\n\n\nverbose\nbool\nIf True, print detailed progress information.\nFalse\n\n\nlint_non_exec\nbool\nIf True, also lint non-executable Python code chunks.\nFalse"
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\npaths\nlist[str | Path]\nList of file or directory paths.\nrequired\n\n\nexclude\nlist[str | Path] | None\nList of files or directories to exclude. Defaults to None.\nNone"
   },
   {
-    "objectID": "pages/api/process_qmd.html#returns",
-    "href": "pages/api/process_qmd.html#returns",
-    "title": "process_qmd",
+    "objectID": "pages/api/gather_qmd_files.html#returns",
+    "href": "pages/api/gather_qmd_files.html#returns",
+    "title": "gather_qmd_files",
     "section": "",
-    "text": "Name\nType\nDescription\n\n\n\n\n\nint\n0 on success, nonzero on error."
+    "text": "Name\nType\nDescription\n\n\n\n\n\nlist[str]\nList of .qmd file paths found, excluding those in exclude."
+  },
+  {
+    "objectID": "pages/api/QmdToPyConverter.html",
+    "href": "pages/api/QmdToPyConverter.html",
+    "title": "QmdToPyConverter",
+    "section": "",
+    "text": "converter.QmdToPyConverter(linter, *, lint_non_exec=False)\nConvert lines from a .qmd file to .py file.\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\nlinter\nstr\nName of the linter that will be used.\n\n\nlint_non_exec\nbool\nIf True, also lint non-executable Python code chunks.\n\n\nin_chunk_options\nbool\nTrue if currently at the start of a code chunk, parsing Quarto chunk options or leading blank lines.\n\n\nin_python\nbool\nTrue if currently processing lines inside a Python code chunk.\n\n\npy_lines\nlist\nStores the lines to be written to the output Python file.\n\n\nyaml_eval_default\nbool\nDefault eval setting from YAML front matter.\n\n\ncurrent_chunk_eval\nbool | None\nEval setting for current chunk from chunk options (None if not set).\n\n\npreserve_line_count\nbool\nWhether to preserve line count.\n\n\nuses_noqa\nbool\nWhether specified linter uses noqa.\n\n\nmax_line_length\nint\nMaximum line length for linter (from LineLengthDetector()).\n\n\n\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nconvert\nRun converter on the provided lines.\n\n\nparse_chunk_eval_option\nParse chunk options to extract eval setting.\n\n\nparse_yaml_front_matter\nParse YAML front matter and extract execute.eval setting.\n\n\nprocess_line\nProcess individual lines with state tracking.\n\n\nreset\nReset the state (except linter and YAML eval default).\n\n\nshould_lint_current_chunk\nDetermine if the current chunk should be linted.\n\n\n\n\n\nconverter.QmdToPyConverter.convert(qmd_lines)\nRun converter on the provided lines.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nqmd_lines\nlist[str]\nList containing each line from the Quarto file.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\npy_lines\nlist[str]\nList of each line for the output Python file.\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.parse_chunk_eval_option(stripped)\nParse chunk options to extract eval setting.\nSearches for lines like “#| eval: false” or “#| eval: true” within chunk options.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nstripped\nstr\nThe line to parse (with blank space at start removed).\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nNone\nStores the eval setting in self.current_chunk_eval attribute. Sets to True for “true”/“yes”/“1”, False for “false”/“no”/“0”, Does not modify self.current_chunk_eval if no eval option found.\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.parse_yaml_front_matter(qmd_lines)\nParse YAML front matter and extract execute.eval setting.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nqmd_lines\nlist[str]\nList containing each line from the Quarto file.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nNone\nStores the eval setting in self.yaml_eval_default attribute. Sets to True if no YAML front matter is found or if parsing fails.\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.process_line(original_line)\nProcess individual lines with state tracking.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\noriginal_line\nstr\nLine to process.\nrequired\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.reset()\nReset the state (except linter and YAML eval default).\n\n\n\nconverter.QmdToPyConverter.should_lint_current_chunk()\nDetermine if the current chunk should be linted.\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nbool\nTrue if chunk should be linted, False otherwise."
+  },
+  {
+    "objectID": "pages/api/QmdToPyConverter.html#attributes",
+    "href": "pages/api/QmdToPyConverter.html#attributes",
+    "title": "QmdToPyConverter",
+    "section": "",
+    "text": "Name\nType\nDescription\n\n\n\n\nlinter\nstr\nName of the linter that will be used.\n\n\nlint_non_exec\nbool\nIf True, also lint non-executable Python code chunks.\n\n\nin_chunk_options\nbool\nTrue if currently at the start of a code chunk, parsing Quarto chunk options or leading blank lines.\n\n\nin_python\nbool\nTrue if currently processing lines inside a Python code chunk.\n\n\npy_lines\nlist\nStores the lines to be written to the output Python file.\n\n\nyaml_eval_default\nbool\nDefault eval setting from YAML front matter.\n\n\ncurrent_chunk_eval\nbool | None\nEval setting for current chunk from chunk options (None if not set).\n\n\npreserve_line_count\nbool\nWhether to preserve line count.\n\n\nuses_noqa\nbool\nWhether specified linter uses noqa.\n\n\nmax_line_length\nint\nMaximum line length for linter (from LineLengthDetector())."
+  },
+  {
+    "objectID": "pages/api/QmdToPyConverter.html#methods",
+    "href": "pages/api/QmdToPyConverter.html#methods",
+    "title": "QmdToPyConverter",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nconvert\nRun converter on the provided lines.\n\n\nparse_chunk_eval_option\nParse chunk options to extract eval setting.\n\n\nparse_yaml_front_matter\nParse YAML front matter and extract execute.eval setting.\n\n\nprocess_line\nProcess individual lines with state tracking.\n\n\nreset\nReset the state (except linter and YAML eval default).\n\n\nshould_lint_current_chunk\nDetermine if the current chunk should be linted.\n\n\n\n\n\nconverter.QmdToPyConverter.convert(qmd_lines)\nRun converter on the provided lines.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nqmd_lines\nlist[str]\nList containing each line from the Quarto file.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\npy_lines\nlist[str]\nList of each line for the output Python file.\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.parse_chunk_eval_option(stripped)\nParse chunk options to extract eval setting.\nSearches for lines like “#| eval: false” or “#| eval: true” within chunk options.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nstripped\nstr\nThe line to parse (with blank space at start removed).\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nNone\nStores the eval setting in self.current_chunk_eval attribute. Sets to True for “true”/“yes”/“1”, False for “false”/“no”/“0”, Does not modify self.current_chunk_eval if no eval option found.\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.parse_yaml_front_matter(qmd_lines)\nParse YAML front matter and extract execute.eval setting.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nqmd_lines\nlist[str]\nList containing each line from the Quarto file.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nNone\nStores the eval setting in self.yaml_eval_default attribute. Sets to True if no YAML front matter is found or if parsing fails.\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.process_line(original_line)\nProcess individual lines with state tracking.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\noriginal_line\nstr\nLine to process.\nrequired\n\n\n\n\n\n\n\nconverter.QmdToPyConverter.reset()\nReset the state (except linter and YAML eval default).\n\n\n\nconverter.QmdToPyConverter.should_lint_current_chunk()\nDetermine if the current chunk should be linted.\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nbool\nTrue if chunk should be linted, False otherwise."
+  },
+  {
+    "objectID": "pages/api/LineLengthDetector.html",
+    "href": "pages/api/LineLengthDetector.html",
+    "title": "LineLengthDetector",
+    "section": "",
+    "text": "linelength.LineLengthDetector(linter, start_dir='.')\nDetect the configured line length for a given Python linter.\nThis class searches for relevant configuration files in the directory tree, extracts the maximum line length setting for the specified linter, and returns the default value if no configuration is found.\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\ndefaults\ndict\nThe default maximum line length for each linter.\n\n\nlinter\nstr\nThe name of the linter to check.\n\n\nstart_dir\nPath\nThe directory from which to start searching for configuration files.\n\n\n\n\n\n\n\n\n\nName\nDescription\n\n\n\n\nget_line_length\nGet the configured maximum line length for the specified linter.\n\n\n\n\n\nlinelength.LineLengthDetector.get_line_length()\nGet the configured maximum line length for the specified linter.\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nint\nThe maximum line length."
+  },
+  {
+    "objectID": "pages/api/LineLengthDetector.html#attributes",
+    "href": "pages/api/LineLengthDetector.html#attributes",
+    "title": "LineLengthDetector",
+    "section": "",
+    "text": "Name\nType\nDescription\n\n\n\n\ndefaults\ndict\nThe default maximum line length for each linter.\n\n\nlinter\nstr\nThe name of the linter to check.\n\n\nstart_dir\nPath\nThe directory from which to start searching for configuration files."
+  },
+  {
+    "objectID": "pages/api/LineLengthDetector.html#methods",
+    "href": "pages/api/LineLengthDetector.html#methods",
+    "title": "LineLengthDetector",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nget_line_length\nGet the configured maximum line length for the specified linter.\n\n\n\n\n\nlinelength.LineLengthDetector.get_line_length()\nGet the configured maximum line length for the specified linter.\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nint\nThe maximum line length."
+  },
+  {
+    "objectID": "index.html#easy-to-use",
+    "href": "index.html#easy-to-use",
+    "title": "Run linters, static type checkers and code analysis tools on python code in quarto .qmd files",
+    "section": "Easy to use",
+    "text": "Easy to use\nInstall and run checks in minutes. See getting started for installation and basic commands."
+  },
+  {
+    "objectID": "index.html#variety-of-tools",
+    "href": "index.html#variety-of-tools",
+    "title": "Run linters, static type checkers and code analysis tools on python code in quarto .qmd files",
+    "section": "Variety of tools",
+    "text": "Variety of tools\nTry out a range of linters and type checkers, each with ready-to-run examples. Discover what’s available in the user guide."
+  },
+  {
+    "objectID": "pages/api/CustomArgumentParser.html",
+    "href": "pages/api/CustomArgumentParser.html",
+    "title": "CustomArgumentParser",
+    "section": "",
+    "text": "args.CustomArgumentParser()\nPrint user-friendly error message and help text.\n\n\n\n\n\nName\nDescription\n\n\n\n\nerror\nPrint error message.\n\n\n\n\n\nargs.CustomArgumentParser.error(message)\nPrint error message.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nmessage\nstr\nThe error message to display.\nrequired"
+  },
+  {
+    "objectID": "pages/api/CustomArgumentParser.html#methods",
+    "href": "pages/api/CustomArgumentParser.html#methods",
+    "title": "CustomArgumentParser",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\nerror\nPrint error message.\n\n\n\n\n\nargs.CustomArgumentParser.error(message)\nPrint error message.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nmessage\nstr\nThe error message to display.\nrequired"
+  },
+  {
+    "objectID": "pages/api/Linters.html",
+    "href": "pages/api/Linters.html",
+    "title": "Linters",
+    "section": "",
+    "text": "linters.Linters()\nChecks if requested linter (or static type checker) is available.\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\nsupported\ndict\nDictionary of supported linters. The key (e.g. radon-cc) maps to the full command (e.g. [\"radon\", \"cc\"]).\n\n\n\n\n\n\n\n\n\nName\nDescription\n\n\n\n\ncheck_available\nCheck if a linter is available in the user’s system.\n\n\ncheck_supported\nCheck if linter is supported by lintquarto.\n\n\n\n\n\nlinters.Linters.check_available(linter_name)\nCheck if a linter is available in the user’s system.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nlinter_name\nstr\nName of the linter to check.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nFileNotFoundError\nIf the linter’s command is not found in the user’s PATH.\n\n\n\n\n\n\n\nlinters.Linters.check_supported(linter_name)\nCheck if linter is supported by lintquarto.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nlinter_name\nstr\nName of the linter to check.\nrequired\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nValueError\nIf linter is not supported."
+  },
+  {
+    "objectID": "pages/api/Linters.html#attributes",
+    "href": "pages/api/Linters.html#attributes",
+    "title": "Linters",
+    "section": "",
+    "text": "Name\nType\nDescription\n\n\n\n\nsupported\ndict\nDictionary of supported linters. The key (e.g. radon-cc) maps to the full command (e.g. [\"radon\", \"cc\"])."
+  },
+  {
+    "objectID": "pages/api/Linters.html#methods",
+    "href": "pages/api/Linters.html#methods",
+    "title": "Linters",
+    "section": "",
+    "text": "Name\nDescription\n\n\n\n\ncheck_available\nCheck if a linter is available in the user’s system.\n\n\ncheck_supported\nCheck if linter is supported by lintquarto.\n\n\n\n\n\nlinters.Linters.check_available(linter_name)\nCheck if a linter is available in the user’s system.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nlinter_name\nstr\nName of the linter to check.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nFileNotFoundError\nIf the linter’s command is not found in the user’s PATH.\n\n\n\n\n\n\n\nlinters.Linters.check_supported(linter_name)\nCheck if linter is supported by lintquarto.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nlinter_name\nstr\nName of the linter to check.\nrequired\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nValueError\nIf linter is not supported."
+  },
+  {
+    "objectID": "pages/api/convert_qmd_to_py.html",
+    "href": "pages/api/convert_qmd_to_py.html",
+    "title": "convert_qmd_to_py",
+    "section": "",
+    "text": "converter.convert_qmd_to_py(\n    qmd_path,\n    linter,\n    output_path=None,\n    *,\n    verbose=False,\n    lint_non_exec=False,\n)\nConvert Quarto file to Python file, preserving line alignment.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nqmd_path\nstr | Path\nPath to the input .qmd file.\nrequired\n\n\nlinter\nstr\nName of the linter that will be used.\nrequired\n\n\noutput_path\nstr | Path | None\nPath for the output .py file. If None, uses qmd_path with .py suffix.\nNone\n\n\nverbose\nbool\nIf True, print detailed progress information.\nFalse\n\n\nlint_non_exec\nbool\nIf True, also lint non-executable Python code chunks.\nFalse\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\noutput_path\nPath | None\nPath for the output .py file, or None if there was an error.\n\n\n\n\n\n\n&gt;&gt;&gt; convert_qmd_to_py(\"input.qmd\", \"output.py\", True)\n# To use from the command line:\n# $ python converter.py input.qmd [output.py] [-v]"
+  },
+  {
+    "objectID": "pages/api/convert_qmd_to_py.html#parameters",
+    "href": "pages/api/convert_qmd_to_py.html#parameters",
+    "title": "convert_qmd_to_py",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\nqmd_path\nstr | Path\nPath to the input .qmd file.\nrequired\n\n\nlinter\nstr\nName of the linter that will be used.\nrequired\n\n\noutput_path\nstr | Path | None\nPath for the output .py file. If None, uses qmd_path with .py suffix.\nNone\n\n\nverbose\nbool\nIf True, print detailed progress information.\nFalse\n\n\nlint_non_exec\nbool\nIf True, also lint non-executable Python code chunks.\nFalse"
+  },
+  {
+    "objectID": "pages/api/convert_qmd_to_py.html#returns",
+    "href": "pages/api/convert_qmd_to_py.html#returns",
+    "title": "convert_qmd_to_py",
+    "section": "",
+    "text": "Name\nType\nDescription\n\n\n\n\noutput_path\nPath | None\nPath for the output .py file, or None if there was an error."
+  },
+  {
+    "objectID": "pages/api/convert_qmd_to_py.html#examples",
+    "href": "pages/api/convert_qmd_to_py.html#examples",
+    "title": "convert_qmd_to_py",
+    "section": "",
+    "text": "&gt;&gt;&gt; convert_qmd_to_py(\"input.qmd\", \"output.py\", True)\n# To use from the command line:\n# $ python converter.py input.qmd [output.py] [-v]"
+  },
+  {
+    "objectID": "pages/api/get_unique_filename.html",
+    "href": "pages/api/get_unique_filename.html",
+    "title": "get_unique_filename",
+    "section": "",
+    "text": "converter.get_unique_filename(path)\nGenerate unique path by adding “_n” before the file extension if needed.\nIf the given path already exists, this function appends an incrementing number before the file extension (e.g., “file_1.py”) until an unused filename is found.\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\npath\nstr | Path\nThe initial file path to check.\nrequired\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nPath\nA unique file path that does not currently exist.\n\n\n\n\n\n\n&gt;&gt;&gt; get_unique_filename(\"script.py\")\nPosixPath('script.py')  # if 'script.py' does not exist\n&gt;&gt;&gt; get_unique_filename(\"script.py\")\nPosixPath('script_1.py')  # if 'script.py' exists"
+  },
+  {
+    "objectID": "pages/api/get_unique_filename.html#parameters",
+    "href": "pages/api/get_unique_filename.html#parameters",
+    "title": "get_unique_filename",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\npath\nstr | Path\nThe initial file path to check.\nrequired"
+  },
+  {
+    "objectID": "pages/api/get_unique_filename.html#returns",
+    "href": "pages/api/get_unique_filename.html#returns",
+    "title": "get_unique_filename",
+    "section": "",
+    "text": "Name\nType\nDescription\n\n\n\n\n\nPath\nA unique file path that does not currently exist."
+  },
+  {
+    "objectID": "pages/api/get_unique_filename.html#examples",
+    "href": "pages/api/get_unique_filename.html#examples",
+    "title": "get_unique_filename",
+    "section": "",
+    "text": "&gt;&gt;&gt; get_unique_filename(\"script.py\")\nPosixPath('script.py')  # if 'script.py' does not exist\n&gt;&gt;&gt; get_unique_filename(\"script.py\")\nPosixPath('script_1.py')  # if 'script.py' exists"
+  },
+  {
+    "objectID": "pages/api/main.html",
+    "href": "pages/api/main.html",
+    "title": "main",
+    "section": "",
+    "text": "main\ncli.main()\nEntry point for the lintquarto CLI.\nParses arguments, processes .qmd files, and exits with appropriate status code."
+  },
+  {
+    "objectID": "pages/api/validate_no_commas.html",
+    "href": "pages/api/validate_no_commas.html",
+    "title": "validate_no_commas",
+    "section": "",
+    "text": "processing.validate_no_commas(list_of_paths, argname)\nCheck for commas in list of paths and raise ValueError if found.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nlist_of_paths\nlist[str]\nList of file or directory paths to check.\nrequired\n\n\nargname\nstr\nName of the argument for error messaging.\nrequired\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nValueError\nIf any path contains a comma, indicating improper separation."
+  },
+  {
+    "objectID": "pages/api/validate_no_commas.html#parameters",
+    "href": "pages/api/validate_no_commas.html#parameters",
+    "title": "validate_no_commas",
+    "section": "",
+    "text": "Name\nType\nDescription\nDefault\n\n\n\n\nlist_of_paths\nlist[str]\nList of file or directory paths to check.\nrequired\n\n\nargname\nstr\nName of the argument for error messaging.\nrequired"
+  },
+  {
+    "objectID": "pages/api/validate_no_commas.html#raises",
+    "href": "pages/api/validate_no_commas.html#raises",
+    "title": "validate_no_commas",
+    "section": "",
+    "text": "Name\nType\nDescription\n\n\n\n\n\nValueError\nIf any path contains a comma, indicating improper separation."
   },
   {
     "objectID": "pages/contributing.html",
