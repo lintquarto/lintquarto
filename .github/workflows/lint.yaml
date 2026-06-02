@@ -15,18 +15,19 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
       
-      - name: Set up Python from .python-version
-        uses: actions/setup-python@v4
-        with:
-          python-version-file: ".python-version"
-
-      - name: Install uv
+      - name: Install uv and Python
         uses: astral-sh/setup-uv@v7
         with:
+          python-version: "3.12"
           enable-cache: true
 
-      - name: Sync project from uv.lock
-        run: uv sync --locked --all-extras --dev
+      - name: Create uv virtualenv
+        run: uv venv
+
+      - name: Install dependencies from pyproject.toml
+        run: |
+          uv pip install -r pyproject.toml --all-extras
+          uv pip install --group dev
 
       - name: Run Ruff check on package
         run: uv run ruff check .

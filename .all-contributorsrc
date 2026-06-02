@@ -51,6 +51,26 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "Bergam0t",
+      "name": "Sammi Rosser",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29951987?v=4",
+      "profile": "https://sammirosser.com/",
+      "contributions": [
+        "code",
+        "doc",
+        "test"
+      ]
+    },
+    {
+      "login": "aselaws",
+      "name": "Anna Laws",
+      "avatar_url": "https://avatars.githubusercontent.com/u/22793789?v=4",
+      "profile": "https://github.com/aselaws",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 4,
