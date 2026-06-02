@@ -32,7 +32,13 @@ class Linters:
             "radon-mi": ["radon", "mi"],  # To compute maintainability index
             "radon-raw": ["radon", "raw"],  # To compute raw metrics
             "radon-hal": ["radon", "hal"],  # To compute halstead metrics
-            "ruff": ["ruff", "check"],  # To specify linter (not formatter)
+            # Specify linter and disable irrelevant checks
+            "ruff": [
+                "ruff",
+                "check",
+                "--config",
+                "lint.ignore = ['RUF100', 'INP001']"
+            ],
             "vulture": ["vulture"],
         }
 

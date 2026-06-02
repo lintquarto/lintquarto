@@ -74,3 +74,11 @@ result = subprocess.run(
 print(result.stdout)
 ```
 :::
+
+## Notes
+
+### Excluded checks
+
+The check [RUF100](https://docs.astral.sh/ruff/rules/unused-noqa/) is disabled by default due to conflicts with the manner in which lintquarto acts, leading to false positives if this check is enabled. More details on this decision can be found in [this GitHub issue](https://github.com/lintquarto/lintquarto/issues/120).
+
+The check [INP001](https://docs.astral.sh/ruff/rules/implicit-namespace-package/) is also disabled by default due to the majority of quarto documents not having an `__init__.py` file in their directory. More details on this can be found in [this GitHub issue](https://github.com/lintquarto/lintquarto/issues/141).
