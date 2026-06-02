@@ -103,69 +103,37 @@ def test_check_available_not_found():
 # 3. Linter-specific checks
 # =============================================================================
 
-
-def test_finds_most_local_ruff_config():
-    """Check that expected ruff config is found.
-
-    Checks that for a qmd with a ruff.toml in the same folder, this
-    is given preference over a file living several folders up, and
-    also prefers ruff.toml over pyproject.toml
-    """
-    test_dir = Path(__file__).parent
-    qmd_path = test_dir / "examples_config_ruff_valid" / "general_example.qmd"
-    expected = test_dir / "examples_config_ruff_valid" / "ruff.toml"
-    linters = Linters()
-    ruff_config = linters.ruff_has_config(qmd_path, return_path=True)
-    assert ruff_config == expected, f"Expected {expected}, got: {ruff_config}"
-
-
-def test_ignores_invalid_ruff_pyproject_toml_config():
-    """Check malformed pyproject.toml will be ignored.
-
-    If a pyproject.toml is incorrectly formatted (missing [tool.ruff])
-    then the tree searcher should keep looking.
-    """
-    test_dir = Path(__file__).parent
-    qmd_path = (
-        test_dir / "examples_config_ruff_invalid" / "general_example.qmd"
-    )
-    expected = test_dir.parent / "pyproject.toml"
-    linters = Linters()
-    ruff_config = linters.ruff_has_config(qmd_path, return_path=True)
-    assert ruff_config == expected, f"Expected {expected}, got: {ruff_config}"
-
-
-def test_finds_distant_ruff_config():
-    """
-    Checks that ruff config files in other folders are found.
-
-    Checks that ruff correctly looks upwards through the tree
-    until it finds a valid ruff file.
-    """
-    test_dir = Path(__file__).parent
-    qmd_path = test_dir / "examples" / "general_example.qmd"
-    expected = test_dir.parent / "pyproject.toml"
-    linters = Linters()
-    ruff_config = linters.ruff_has_config(qmd_path, return_path=True)
-    assert ruff_config == expected, f"Expected {expected}, got: {ruff_config}"
-
-
-def test_docstring_example_no_unused_noqa_by_default(tmp_path):
-    """Test default ruff exclusions work."""
+def test_inp001_not_raised(tmp_path):
+    """Test INP001 is not raised."""
     skip_if_linter_unexpected("ruff")
 
     test_dir = Path(__file__).parent
     qmd_source = test_dir / "examples" / "general_example.qmd"
 
-    # Copy the .qmd file to an isolated temporary directory
-    # Walking up from here will hit the system temp root, finding
-    # no pyproject.toml wheras if we run it directly from the true path,
-    # it finds the pyproject.toml used for the library, resulting in
-    # unexpected behaviour in this test
-    qmd_path = tmp_path / "general_example.qmd"
+    # Create a subdirectory without __init__.py so INP001 would fire
+    subdir = tmp_path / "mypackage"
+    subdir.mkdir()
+
+    # .qmd goes in a sub-subdirectory with no __init__.py
+    # so the converted .py will be flagged by INP001
+    nested = subdir / "scripts"
+    nested.mkdir()
+
+    qmd_path = nested / "general_example.qmd"
     qmd_path.write_text(
         qmd_source.read_text(encoding="utf-8"), encoding="utf-8"
     )
+
+    # Add a minimal pyproject.toml so ruff treats this as a project root,
+    # making INP001 fire for files in subdirs without __init__.py
+    pyproject_toml = subdir / "pyproject.toml"
+    pyproject_toml.write_text(
+        "[project]\nname = 'test'\nversion = '0.1.0'\n", encoding="utf-8"
+    )
+
+    # Write ruff.toml explicitly including INP001
+    ruff_toml = subdir / "ruff.toml"
+    ruff_toml.write_text('[lint]\nselect = ["INP001"]\n', encoding="utf-8")
 
     result = subprocess.run(
         [
@@ -184,48 +152,28 @@ def test_docstring_example_no_unused_noqa_by_default(tmp_path):
 
     output = result.stdout + result.stderr
 
-    print(output)
-
-    expected = [
-        "E402 Module level import not at top of file",
-        "F401 [*] `sys` imported but unused",
-    ]
-
-    # Check all anticipated messages appear
-    for expected_message in expected:
-        assert expected_message in output, (
-            f"Expected '{expected_message}' to be in output,"
-            "but it was missing.\n"
-            f"Full output:\n{output}"
-        )
-
-    # Check that a known error that would otherwise appear
-    # if not in default exclusions definitely appears
-    assert "Unused `noqa` directive" not in output, (
-        f"Unexpected unused-noqa warning found:\n{output}"
+    assert "INP001" not in output, (
+        f"INP001 was raised but should be suppressed by default.\n"
+        f"Full output:\n{output}"
     )
 
 
-def test_ruff_config_addition(tmp_path):
-    """Check that user-provided ruff config overrides default exclusions."""
+def test_ruf100_not_raised(tmp_path):
+    """Test RUF100 is not raised."""
     skip_if_linter_unexpected("ruff")
 
     test_dir = Path(__file__).parent
-    qmd_source = (
-        test_dir / "examples_config_ruff_valid" / "general_example.qmd"
-    )
-    config_source = test_dir / "examples_config_ruff_valid" / "ruff.toml"
+    qmd_source = test_dir / "examples" / "general_example.qmd"
 
-    # Copy the .qmd file and config file to an isolated temporary directory
-    # to avoid any unexpected behaviour
     qmd_path = tmp_path / "general_example.qmd"
     qmd_path.write_text(
         qmd_source.read_text(encoding="utf-8"), encoding="utf-8"
     )
 
-    config_path = tmp_path / "ruff.toml"
-    config_path.write_text(
-        config_source.read_text(encoding="utf-8"), encoding="utf-8"
+    # Write ruff.toml explicitly including RUF100
+    ruff_toml = tmp_path / "ruff.toml"
+    ruff_toml.write_text(
+        '[lint]\nselect = ["RUF100"]\n', encoding="utf-8"
     )
 
     result = subprocess.run(
@@ -245,29 +193,7 @@ def test_ruff_config_addition(tmp_path):
 
     output = result.stdout + result.stderr
 
-    unexpected = [
-        "F401 [*] `sys` imported but unused",
-    ]
-
-    expected = [
-        "E402 Module level import not at top of file",
-        # Crucially, 'unused `noqa` directive' should appear
-        # because the provided config file should override the defaults
-        # that are passed in and therefore  the usual ignored errors
-        # should be thrown
-        "Unused `noqa` directive",
-    ]
-
-    for unexpected_message in unexpected:
-        assert unexpected_message not in output, (
-            f"Expected '{unexpected_message}' to not be present in output,"
-            "but it was present.\n"
-            f"Full output:\n{output}"
-        )
-
-    for expected_message in expected:
-        assert expected_message in output, (
-            f"Expected '{expected_message}' to be in output, "
-            "but it was missing.\n"
-            f"Full output:\n{output}"
-        )
+    assert "RUF100" not in output, (
+        f"RUF100 was raised but should be suppressed by default.\n"
+        f"Full output:\n{output}"
+    )

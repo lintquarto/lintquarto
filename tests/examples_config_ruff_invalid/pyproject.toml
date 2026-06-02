@@ -1,3 +1,0 @@
-lint.ignore = [
-  "F401",  # print found
-]

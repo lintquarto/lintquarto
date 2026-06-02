@@ -83,16 +83,7 @@ def process_qmd(
         return 1
 
     # Run linter on the temporary .py file and capture output
-    # First build the core command
     command = linters.supported[linter] + [str(py_file)]
-    # Build additional flags if linting with ruff
-    # Note that this is done here rather than in linters.py due to the need
-    # to check at runtime whether a valid ruff config file exists and use that
-    # instead of the defaults if so
-    if linter == "ruff":
-        additional_ruff_args = linters.build_ruff_args(qmd_path)
-        command.extend(additional_ruff_args)
-
     result = subprocess.run(
         command,
         capture_output=True,

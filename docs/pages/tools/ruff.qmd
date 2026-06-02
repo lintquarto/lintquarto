@@ -82,9 +82,3 @@ print(result.stdout)
 The check [RUF100](https://docs.astral.sh/ruff/rules/unused-noqa/) is disabled by default due to conflicts with the manner in which lintquarto acts, leading to false positives if this check is enabled. More details on this decision can be found in [this GitHub issue](https://github.com/lintquarto/lintquarto/issues/120).
 
 The check [INP001](https://docs.astral.sh/ruff/rules/implicit-namespace-package/) is also disabled by default due to the majority of quarto documents not having an `__init__.py` file in their directory. More details on this can be found in [this GitHub issue](https://github.com/lintquarto/lintquarto/issues/141).
-
-:::{.callout-note}
-If you pass your own `.ruff.toml`, `ruff.toml` or a `pyproject.toml` with a `[tool.ruff]` block, then this will override the above excluded checks.
-
-`lintquarto` will follow the same behaviour as `ruff` when looking for a config file, looking for the closest matching file and prioritising `.ruff.toml` over `ruff.toml` and `ruff.toml` over `pyproject.toml`.
-:::
