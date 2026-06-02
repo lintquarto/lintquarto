@@ -63,6 +63,7 @@ dev = [
   "check-dependencies",
   "genbadge",
   "grayskull",
+  "griffe==1.14.0",
   "jupyter",
   "pre-commit",
   "pytest",
