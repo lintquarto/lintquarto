@@ -246,7 +246,7 @@ class QmdToPyConverter:
 
         # If line is a quarto chunk option...
         if stripped.startswith("#| "):
-            self._handle_chunk_option(line, stripped)
+            self._handle_chunk_option(stripped)
         # If line is a comment...
         elif stripped.startswith("#"):
             self._handle_comment_in_options(line)
@@ -276,25 +276,16 @@ class QmdToPyConverter:
         line = self._handle_annotations(line)
         self.py_lines.append(line)
 
-    def _handle_chunk_option(self, line: str, stripped: str) -> None:
+    def _handle_chunk_option(self, stripped: str) -> None:
         """
         Handle a Quarto chunk option line (starting with `#|`).
 
         Parameters
         ----------
-        line : str
-            The original line to process.
         stripped : str
             The line with leading whitespace removed.
 
         """
-        # If we've already identified this chunk as a valuebox chunk,
-        # all subsequent chunk options also become placeholders.
-        if self.current_chunk_is_valuebox:
-            if self.preserve_line_count:
-                self._append_placeholder()
-            return
-
         # Parse and store eval option if present in this line
         self.parse_chunk_eval_option(stripped)
 
@@ -304,19 +295,9 @@ class QmdToPyConverter:
         # Detect Quarto valuebox chunks
         if re.match(r"^content\s*:\s*valuebox\s*$", option_text):
             self.current_chunk_is_valuebox = True
-            if self.preserve_line_count:
-                self._append_placeholder()
-            return
 
-        # Don't append if not preserving line count
-        if not self.preserve_line_count:
-            return
-
-        # Suppress E265 (as will warn for "#|" comment spacing)
-        if self.uses_noqa:
-            line = self._add_noqa(line, ["E265"])
-
-        self.py_lines.append(line)
+        if self.preserve_line_count:
+            self._append_placeholder()
 
     def _handle_comment_in_options(self, line: str) -> None:
         """
