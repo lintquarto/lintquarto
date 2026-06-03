@@ -4,6 +4,7 @@ import re
 import subprocess
 import sys
 from pathlib import Path
+from unittest.mock import patch
 
 import pytest
 
@@ -168,3 +169,43 @@ def test_validate_no_commas():
     """Unit Test: raises ValueError when path contains a comma."""
     with pytest.raises(ValueError, match="contains a comma"):
         validate_no_commas(["file1.qmd,dir2"], "paths")
+
+
+# =============================================================================
+# 4. temp_py_file()
+# =============================================================================
+
+
+def test_temp_file_cleaned_up_on_success(tmp_path):
+    """Confirm temporary file is cleaned up following successful fun."""
+    qmd_file = tmp_path / "test.qmd"
+    qmd_file.write_text("```{python}\nx = 1\n```\n")
+
+    process_qmd(qmd_file, linter="flake8")
+
+    assert not any(tmp_path.glob("*.py"))
+
+
+def test_temp_file_cleaned_up_on_exception(tmp_path):
+    """For error during processing, temp file should still be removed."""
+    qmd_file = tmp_path / "test.qmd"
+    qmd_file.write_text("```{python}\nx = 1\n```\n")
+
+    with patch(
+        "lintquarto.processing.subprocess.run",
+        side_effect=RuntimeError("boom"),
+    ):
+        ret = process_qmd(qmd_file, linter="flake8")
+
+    assert ret == 1
+    assert not any(tmp_path.glob("*.py"))
+
+
+def test_temp_file_kept_when_flag_set(tmp_path):
+    """Temporary files kept if keep_temp_files=True."""
+    qmd_file = tmp_path / "test.qmd"
+    qmd_file.write_text("```{python}\nx = 1\n```\n")
+
+    process_qmd(qmd_file, linter="flake8", keep_temp_files=True)
+
+    assert len(list(tmp_path.glob("*.py"))) == 1

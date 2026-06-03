@@ -92,13 +92,20 @@ def main() -> None:
         print(f"Running {linter}...")
         print("=============================================================")
         for qmd_file in qmd_files:
-            ret = process_qmd(
-                qmd_file=qmd_file,
-                linter=linter,
-                keep_temp_files=args.keep_temp,
-                verbose=args.verbose,
-                lint_non_exec=args.lint_non_exec,
-            )
+            try:
+                ret = process_qmd(
+                    qmd_file=qmd_file,
+                    linter=linter,
+                    keep_temp_files=args.keep_temp,
+                    verbose=args.verbose,
+                    lint_non_exec=args.lint_non_exec,
+                )
+            except Exception as e:  # noqa: BLE001
+                print(
+                    f"Error: Unexpected error processing {qmd_file}: {e}",
+                    file=sys.stderr,
+                )
+                ret = 1
             if ret != 0:
                 exit_code = ret
     sys.exit(exit_code)

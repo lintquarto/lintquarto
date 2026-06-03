@@ -3,6 +3,7 @@
 import subprocess
 import sys
 from pathlib import Path
+from unittest.mock import patch
 
 import pytest
 
@@ -127,3 +128,30 @@ def test_exclude_with_commas(monkeypatch):
     monkeypatch.setattr(sys, "argv", test_args)
     with pytest.raises(ValueError, match="contains a comma"):
         main()
+
+
+def test_cli_continues_after_unhandled_process_error(tmp_path):
+    """All files should be linted, even if an earlier one quits."""
+    file1 = tmp_path / "file1.qmd"
+    file2 = tmp_path / "file2.qmd"
+    file1.write_text("```{python}\nx = 1\n```\n")
+    file2.write_text("```{python}\ny = 2\n```\n")
+
+    processed = []
+    msg = "simulated unexpected error"
+
+    def fake_process_qmd(qmd_file, *_args, **_kwargs):
+        processed.append(qmd_file)
+        if len(processed) == 1:
+            raise RuntimeError(msg)
+        return 0
+
+    with (
+        patch("lintquarto.cli.process_qmd", side_effect=fake_process_qmd),
+        patch("sys.argv", ["lintquarto", "-l", "flake8", "-p", str(tmp_path)]),
+        pytest.raises(SystemExit) as exc_info,
+    ):
+        main()
+
+    assert len(processed) == 2
+    assert exc_info.value.code == 1
