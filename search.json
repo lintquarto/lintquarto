@@ -205,7 +205,7 @@
     "href": "pages/get_started.html#basic-usage",
     "title": "Getting started",
     "section": "Basic usage",
-    "text": "Basic usage\nUsage:\nlintquarto -l LINTER [LINTER ...] -p PATH [PATH ...] [-e EXCLUDE [EXCLUDE ...]] [-k] [-n]\nOptions:\n\n-l, --linters LINTER [LINTER ...] - linters to run.\n-p, --paths PATH [PATH ...] - quarto files and/or directories to include.\n-e, --exclude EXCLUDE [EXCLUDE ...] - optional, files and/or directories to exclude.\n-k, --keep-temp - optional, keep temporary .py files created during linting (for debugging).\n-n, --lint-non-exec - optional, opt-in to also run tools on non-executable cells.\n\nPassing extra arguments directly to linters is not supported. Only .qmd files are processed."
+    "text": "Basic usage\nUsage:\nlintquarto [-h] -l LINTER [LINTER ...] -p PATHS [PATHS ...] [-e [[exclude_paths] ...]] [-n] [-v] [-k]\nLint Python code in Quarto (.qmd) files.\nOptions:\n\n-h, --help - show this help message and exit\n-l LINTER [LINTER ...], --linters LINTER [LINTER ...] - Linters to run. Valid options: [‘flake8’, ‘mypy’, ‘pycodestyle’, ‘pydoclint’, ‘pyflakes’, ‘pylint’, ‘pyright’, ‘pyrefly’, ‘pytype’, ‘radon-cc’, ‘radon- mi’, ‘radon-raw’, ‘radon-hal’, ‘ruff’, ‘vulture’]\n-p PATHS [PATHS ...], --paths PATHS [PATHS ...] - Quarto files and/or directories to lint.\n-e [[exclude_paths] ...], --exclude [[exclude_paths] ...] - Files and/or directories to exclude from linting.\n-n, --lint-non-exec - Also lint non-executable Python code chunks\n-v, --verbose - Verbose output.\n-k, --keep-temp - Keep temporary .py files after linting.\n\nPassing extra arguments directly to linters is not supported. Only .qmd files are processed."
   },
   {
     "objectID": "pages/get_started.html#examples",

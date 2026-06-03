@@ -222,14 +222,17 @@ pip install -e ".[all]"</code></pre>
 <section id="basic-usage" class="level2">
 <h2 class="anchored" data-anchor-id="basic-usage">Basic usage</h2>
 <p>Usage:</p>
-<pre><code>lintquarto -l LINTER [LINTER ...] -p PATH [PATH ...] [-e EXCLUDE [EXCLUDE ...]] [-k] [-n]</code></pre>
+<pre><code>lintquarto [-h] -l LINTER [LINTER ...] -p PATHS [PATHS ...] [-e [[exclude_paths] ...]] [-n] [-v] [-k]</code></pre>
+<p>Lint Python code in Quarto (.qmd) files.</p>
 <p>Options:</p>
 <ul>
-<li><code>-l, --linters LINTER [LINTER ...]</code> - linters to run.</li>
-<li><code>-p, --paths PATH [PATH ...]</code> - quarto files and/or directories to include.</li>
-<li><code>-e, --exclude EXCLUDE [EXCLUDE ...]</code> - optional, files and/or directories to exclude.</li>
-<li><code>-k, --keep-temp</code> - optional, keep temporary <code>.py</code> files created during linting (for debugging).</li>
-<li><code>-n, --lint-non-exec</code> - optional, opt-in to also run tools on non-executable cells.</li>
+<li><code>-h, --help</code> - show this help message and exit</li>
+<li><code>-l LINTER [LINTER ...], --linters LINTER [LINTER ...]</code> - Linters to run. Valid options: [‘flake8’, ‘mypy’, ‘pycodestyle’, ‘pydoclint’, ‘pyflakes’, ‘pylint’, ‘pyright’, ‘pyrefly’, ‘pytype’, ‘radon-cc’, ‘radon- mi’, ‘radon-raw’, ‘radon-hal’, ‘ruff’, ‘vulture’]</li>
+<li><code>-p PATHS [PATHS ...], --paths PATHS [PATHS ...]</code> - Quarto files and/or directories to lint.</li>
+<li><code>-e [[exclude_paths] ...], --exclude [[exclude_paths] ...]</code> - Files and/or directories to exclude from linting.</li>
+<li><code>-n, --lint-non-exec</code> - Also lint non-executable Python code chunks</li>
+<li><code>-v, --verbose</code> - Verbose output.</li>
+<li><code>-k, --keep-temp</code> - Keep temporary .py files after linting.</li>
 </ul>
 <p>Passing extra arguments directly to linters is not supported. Only <code>.qmd</code> files are processed.</p>
 <p><br></p>
