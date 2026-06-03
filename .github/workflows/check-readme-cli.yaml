@@ -12,13 +12,20 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Install uv and Python
+        uses: astral-sh/setup-uv@v7
         with:
           python-version: "3.12"
+          enable-cache: true
+
+      - name: Create uv virtualenv
+        run: uv venv
+
+      - name: Install package (as need to run lintquarto --help!)
+        run: uv pip install .
 
       - name: Regenerate CLI help
-        run: python docs/cli/generate-cli.py
+        run: uv run python docs/cli/generate-cli.py
 
       - name: Check README section matches cli-help.md
-        run: python docs/cli/check-readme.py
+        run: uv run python docs/cli/check-readme.py
