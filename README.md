@@ -81,21 +81,28 @@ pip install -e ".[all]"
 
 ### Usage
 
+<!-- cli-help:start -->
 Usage:
 
 ```
-lintquarto -l LINTER [LINTER ...] -p PATH [PATH ...] [-e EXCLUDE [EXCLUDE ...]] [-k] [-n]
+lintquarto [-h] -l LINTER [LINTER ...] -p PATHS [PATHS ...] [-e [[exclude_paths] ...]] [-n] [-v] [-k]
 ```
+
+Lint Python code in Quarto (.qmd) files.
 
 Options:
 
-* `-l, --linters LINTER [LINTER ...]` - linters to run.
-* `-p, --paths PATH [PATH ...]` - quarto files and/or directories to include.
-* `-e, --exclude EXCLUDE [EXCLUDE ...]` - optional, files and/or directories to exclude.
-* `-k, --keep-temp` - optional, keep temporary `.py` files created during linting (for debugging).
-* `-n, --lint-non-exec` - optional, opt-in to also run tools on non-executable cells.
+* `-h, --help` - show this help message and exit
+* `-l LINTER [LINTER ...], --linters LINTER [LINTER ...]` - Linters to run. Valid options: ['flake8', 'mypy', 'pycodestyle', 'pydoclint', 'pyflakes', 'pylint', 'pyright', 'pyrefly', 'pytype', 'radon-cc', 'radon- mi', 'radon-raw', 'radon-hal', 'ruff', 'vulture']
+* `-p PATHS [PATHS ...], --paths PATHS [PATHS ...]` - Quarto files and/or directories to lint.
+* `-e [[exclude_paths] ...], --exclude [[exclude_paths] ...]` - Files and/or directories to exclude from linting.
+* `-n, --lint-non-exec` - Also lint non-executable Python code chunks
+* `-v, --verbose` - Verbose output.
+* `-k, --keep-temp` - Keep temporary .py files after linting.
 
-Passing extra arguments directly to linters is not supported. Only `.qmd` files are processed.
+Passing extra arguments directly to linters is not supported.
+Only `.qmd` files are processed.
+<!-- cli-help:end -->
 
 ### Examples
 

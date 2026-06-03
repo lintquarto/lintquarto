@@ -1,5 +1,6 @@
 ---
 title: Getting started
+jupyter: python3
 ---
 
 ## Installation
@@ -62,21 +63,15 @@ pip install -e ".[all]"
 
 ## Basic usage
 
-Usage:
+```{python}
+#| echo: false
+#| output: asis
 
+from pathlib import Path
+
+output = Path("../cli/cli-help.md").read_text(encoding="utf-8")
+print(output)
 ```
-lintquarto -l LINTER [LINTER ...] -p PATH [PATH ...] [-e EXCLUDE [EXCLUDE ...]] [-k] [-n]
-```
-
-Options:
-
-* `-l, --linters LINTER [LINTER ...]` - linters to run.
-* `-p, --paths PATH [PATH ...]` - quarto files and/or directories to include.
-* `-e, --exclude EXCLUDE [EXCLUDE ...]` - optional, files and/or directories to exclude.
-* `-k, --keep-temp` - optional, keep temporary `.py` files created during linting (for debugging).
-* `-n, --lint-non-exec` - optional, opt-in to also run tools on non-executable cells.
-
-Passing extra arguments directly to linters is not supported. Only `.qmd` files are processed.
 
 <br>
 

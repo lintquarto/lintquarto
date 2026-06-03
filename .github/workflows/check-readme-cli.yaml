@@ -1,0 +1,31 @@
+name: Check README CLI is consistent with docs
+run-name: Check README CLI is consistent with docs
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check-readme-cli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install uv and Python
+        uses: astral-sh/setup-uv@v7
+        with:
+          python-version: "3.12"
+          enable-cache: true
+
+      - name: Create uv virtualenv
+        run: uv venv
+
+      - name: Install package (as need to run lintquarto --help!)
+        run: uv pip install .
+
+      - name: Regenerate CLI help
+        run: uv run python docs/cli/generate-cli.py
+
+      - name: Check README section matches cli-help.md
+        run: uv run python docs/cli/check-readme.py
