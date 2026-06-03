@@ -143,8 +143,8 @@ PYTHON_CHUNKS = [
         "expected": [
             "# %% [python]",
             " ",
-            "#| echo: false  # noqa: E265,E501",
-            "#| output: asis  # noqa: E265,E501",
+            "# -",
+            "# -",
             "1+1  # noqa: E305,E501",
         ],
     },
@@ -157,16 +157,15 @@ PYTHON_CHUNKS = [
         ],
         "expected": [
             "# %% [python]",
-            "    #| echo: false  # noqa: E265,E501",
+            "# -",
             "    x = 1  # noqa: E305,E501",
         ],
     },
     {
-        "id": "malformed chunk options",
+        "id": "malformed chunk options are unhandled",
         "lines": [
             "```{python}",
             "#|echo: true",
-            " #|   echo: false",
             "# | echo: valid",
             "x = 1",
             "```",
@@ -174,7 +173,6 @@ PYTHON_CHUNKS = [
         "expected": [
             "# %% [python]",
             "#|echo: true",
-            " #|   echo: false  # noqa: E265,E501",
             "# | echo: valid",
             "x = 1  # noqa: E305,E501",
             "# -",
@@ -250,14 +248,14 @@ PYTHON_CHUNKS = [
         ],
     },
     {
-        "id": "chunk options and '#<<' that should not be removed",
+        "id": "chunk options and '#<<'",
         "lines": [
             "```{python}",
             "#| echo: false #<<",
         ],
         "expected": [
             "# %% [python]",
-            "#| echo: false #<<  # noqa: E265,E501",
+            "# -",
         ],
     },
     {
@@ -276,14 +274,14 @@ PYTHON_CHUNKS = [
         ],
     },
     {
-        "id": "chunk options and '# <n>' that should not be removed",
+        "id": "chunk options and '# <n>'",
         "lines": [
             "```{python}",
             "#| echo: false # <1>",
         ],
         "expected": [
             "# %% [python]",
-            "#| echo: false # <1>  # noqa: E265,E501",
+            "# -",
         ],
     },
     {
