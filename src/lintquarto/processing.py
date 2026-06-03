@@ -4,10 +4,43 @@ from __future__ import annotations
 
 import subprocess
 import sys
+from contextlib import contextmanager
 from pathlib import Path
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 from .converter import convert_qmd_to_py
 from .linters import Linters
+
+
+# Arguments after * are keyword-only (`var=True`, not just `True`)
+@contextmanager
+def temp_py_file(py_file: Path, *, keep: bool) -> Iterator[Path]:
+    """Context manager that ensures file is removed on exit unless keep=True.
+
+    Parameters
+    ----------
+    py_file : Path
+        Path to the .py file.
+    keep : bool
+        Whether to keep the temporary .py file.
+    """
+    try:
+        # Execution of the "with" block runs here, using py_file
+        yield py_file
+    # Everything after yield runs unconditionally when the with block exits
+    # (whether normally, via return, or via an unhandled exception).
+    finally:
+        if not keep and py_file.exists():
+            try:
+                py_file.unlink()
+            except Exception as e:  # noqa: BLE001
+                print(
+                    f"Warning: Could not remove temporary file {py_file}: {e}",
+                    file=sys.stderr,
+                )
 
 
 def process_qmd(
@@ -67,53 +100,54 @@ def process_qmd(
             verbose=verbose,
             lint_non_exec=lint_non_exec,
         )
-        if py_file is None:
-            print(
-                f"Error: Failed to convert {qmd_file} to .py",
-                file=sys.stderr,
-            )
-            return 1
-    # Intentional broad catch for unknown conversion errors
+    # Catch for if the function raises an error
     except Exception as e:  # noqa: BLE001
         print(
             f"Error: Failed to convert {qmd_file} to .py: {e}",
             file=sys.stderr,
         )
         return 1
+    # Catch for if the function returns None
+    if py_file is None:
+        print(
+            f"Error: Failed to convert {qmd_file} to .py",
+            file=sys.stderr,
+        )
+        return 1
 
-    # Run linter on the temporary .py file and capture output
-    command = linters.supported[linter] + [str(py_file)]
-    result = subprocess.run(
-        command,
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-
-    # Get the base filename from the full file paths
-    qmd_filename = str(qmd_path.name)
-    py_filename = str(py_file.name)
-
-    # Replace all references to the .py file with the .qmd file
-    result.stdout = result.stdout.replace(py_filename, qmd_filename)
-    print(result.stdout, end="")
-
-    # If there is an error - which will include some linter outputs that get
-    # classed as errors - then also replace `.py` and then print
-    if result.stderr:
-        result.stderr = result.stderr.replace(py_filename, qmd_filename)
-        print(result.stderr, file=sys.stderr)
-
-    # Remove temporary .py file unless keep_temp_files is set
-    if not keep_temp_files:
+    with temp_py_file(py_file=py_file, keep=keep_temp_files):
         try:
-            py_file.unlink()
-        # Broad catch ensures cleanup warnings don't crash process
+            # Run linter on the temporary .py file and capture output
+            command = linters.supported[linter] + [str(py_file)]
+            result = subprocess.run(
+                command,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+
+            # Get the base filename from the full file paths
+            qmd_filename = str(qmd_path.name)
+            py_filename = str(py_file.name)
+
+            # Replace all references to the .py file with the .qmd file
+            result.stdout = result.stdout.replace(py_filename, qmd_filename)
+            print(result.stdout, end="")
+
+            # If there is an error - which will include some linter outputs
+            # that get classed as errors - then also replace `.py` and print
+            if result.stderr:
+                result.stderr = result.stderr.replace(
+                    py_filename, qmd_filename
+                )
+                print(result.stderr, file=sys.stderr)
         except Exception as e:  # noqa: BLE001
             print(
-                f"Warning: Could not remove temporary file {py_file}: {e}",
+                f"Error: Unexpected failure while linting {qmd_file}: {e}",
                 file=sys.stderr,
             )
+            return 1
+
     return 0
 
 
