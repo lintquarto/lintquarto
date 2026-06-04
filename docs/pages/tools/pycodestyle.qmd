@@ -70,3 +70,29 @@ result = subprocess.run(
 print(result.stdout)
 ```
 :::
+
+## Known limitation for pycodestyle with lintquarto
+
+`lintquarto` works by converting `.qmd` files into temporary `.py` files. During this process, non-code regions (e.g., markdown and cell boundaries) are replaced with placeholder lines (`# -`) so that line numbers remain aligned between the original `.qmd` file and the generated `.py` file. Linters are then run on the generated Python file.
+
+This approach causes issues with `pycodestyle` for the E3xx "blank line/layout" rules (e.g., E302, E305). The inserted placeholder lines can cause `pycodestyle` to report false positive violations of these rules - as can be seen in the example above. While these false positives can be suppressed by `lintquarto` for other packages using `# noqa`,`pycodestyle` only supports `# noqa` for a limited subset of error codes and does not allow suppression of E3xx rules in this way. As a result, these false positives cannot be reliably ignored when using `pycodestyle` directly. This is a known limitation ([#142](https://github.com/lintquarto/lintquarto/issues/142)).
+
+### Work around
+
+If you want to apply `pycodestyle` checks to Quarto files without these false positives, we recommend using a wrapper tool like **flake8** or **ruff**. These tools include `pycodestyle` rules but allow suppression of E3xx rules via `# noqa`, making it possible to ignore the conversion-related violations.
+
+[**Flake8:**](flake8.qmd) You can restrict checks to `pycodestyle` rules via `setup.cfg`:
+
+```
+# setup.cfg
+[flake8]
+select = E,W
+```
+
+[**Ruff:**](ruff.qmd) You can restrict checks to `pycodestyle` rules via `pyproject.toml`:
+
+```
+# pyproject.toml
+[tool.ruff.lint]
+extend-select = ["E", "W"]
+```

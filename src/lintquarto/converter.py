@@ -211,15 +211,15 @@ class QmdToPyConverter:
             self.current_chunk_is_valuebox = False
             self.current_chunk_eval = None  # Reset after chunk ends
             if self.preserve_line_count:
-                self.py_lines.append("# -")
+                self._append_placeholder()
 
         # Check if it is within a python code chunk
         elif self.in_python:
             self._handle_python_chunk(line)
 
-        # For all other lines, set to # -
+        # For all other lines, set to placeholder
         elif self.preserve_line_count:
-            self.py_lines.append("# -")
+            self._append_placeholder()
 
     def _handle_python_chunk(self, line: str) -> None:
         """
@@ -360,7 +360,7 @@ class QmdToPyConverter:
         self.in_chunk_options = False
 
     def _append_placeholder(self) -> None:
-        """Append placeholder (`# -`) if preserving line count."""
+        """Append placeholder if preserving line count."""
         if self.preserve_line_count:
             self.py_lines.append("# -")
 
@@ -630,7 +630,6 @@ def convert_qmd_to_py(
         with qmd_path.open(encoding="utf-8") as f:
             qmd_lines = f.readlines()
 
-        # Iterate over lines, keeping python code, and setting rest to "# -"
         py_lines = converter.convert(qmd_lines=qmd_lines)
 
         # Write the output file
