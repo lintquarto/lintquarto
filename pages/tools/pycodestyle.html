@@ -327,7 +327,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="example-quarto-.qmd-file" class="level2">
 <h2 class="anchored" data-anchor-id="example-quarto-.qmd-file">Example Quarto <code>.qmd</code> file:</h2>
-<p><a href="#dnldts29966" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgdG8gaWRlbnRpZnkuCgpgYGB7cHl0aG9ufQp2ZXJ5X2xvbmdfbGluZSA9ICJUaGlzIGxvbmcgc3RyaW5nIGV4Y2VlZHMgdGhlIG1heGltdW0gYWxsb3dlZCBjaGFyYWN0ZXJzIHBlciBsaW5lLiIKYGBgCgpUaGVyZSdzIHNvbWUgbW9yZSBpc3N1ZXMgYmVsb3cuLi4KCmBgYHtweXRob259CmRlZiBhZGRfbnVtYmVycyhhLCBiKToKICAgIHJldHVybiBhICsgYgoKYWRkX251bWJlcnMoMywgNSkKCmltcG9ydCBzeXMKYGBg').then(res => res.blob()).then(blob => {
+<p><a href="#dnldts10236" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgdG8gaWRlbnRpZnkuCgpgYGB7cHl0aG9ufQp2ZXJ5X2xvbmdfbGluZSA9ICJUaGlzIGxvbmcgc3RyaW5nIGV4Y2VlZHMgdGhlIG1heGltdW0gYWxsb3dlZCBjaGFyYWN0ZXJzIHBlciBsaW5lLiIKYGBgCgpUaGVyZSdzIHNvbWUgbW9yZSBpc3N1ZXMgYmVsb3cuLi4KCmBgYHtweXRob259CmRlZiBhZGRfbnVtYmVycyhhLCBiKToKICAgIHJldHVybiBhICsgYgoKYWRkX251bWJlcnMoMywgNSkKCmltcG9ydCBzeXMKYGBg').then(res => res.blob()).then(blob => {
       const downloadURL = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       document.body.appendChild(a);
@@ -335,9 +335,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       a.download = 'general_example.qmd'; a.click();
       window.URL.revokeObjectURL(downloadURL);
       document.body.removeChild(a);
-        });"><button class="btn btn-light downloadthis  " id="dnldts29966"><i class="bi bi-download"></i> Download the example </button></a></p>
+        });"><button class="btn btn-light downloadthis  " id="dnldts10236"><i class="bi bi-download"></i> Download the example </button></a></p>
 <div class="pale-grey">
-<div id="a32fb15f" class="cell" data-execution_count="3">
+<div id="1af27004" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
 <pre><code>1:     ---
 2:     title: "Example"
@@ -373,7 +373,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   white-space: pre-wrap !important;
 }
 </style>
-<div id="08295a43" class="cell" data-execution_count="4">
+<div id="ef811168" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <pre><code>=============================================================
 Running pycodestyle...
@@ -385,8 +385,25 @@ Running pycodestyle...
 </div>
 </div>
 </div>
+</section>
+<section id="known-limitation-for-pycodestyle-with-lintquarto" class="level2">
+<h2 class="anchored" data-anchor-id="known-limitation-for-pycodestyle-with-lintquarto">Known limitation for pycodestyle with lintquarto</h2>
+<p><code>lintquarto</code> works by converting <code>.qmd</code> files into temporary <code>.py</code> files. During this process, non-code regions (e.g., markdown and cell boundaries) are replaced with placeholder lines (<code># -</code>) so that line numbers remain aligned between the original <code>.qmd</code> file and the generated <code>.py</code> file. Linters are then run on the generated Python file.</p>
+<p>This approach causes issues with <code>pycodestyle</code> for the E3xx “blank line/layout” rules (e.g., E302, E305). The inserted placeholder lines can cause <code>pycodestyle</code> to report false positive violations of these rules - as can be seen in the example above. While these false positives can be suppressed by <code>lintquarto</code> for other packages using <code># noqa</code>,<code>pycodestyle</code> only supports <code># noqa</code> for a limited subset of error codes and does not allow suppression of E3xx rules in this way. As a result, these false positives cannot be reliably ignored when using <code>pycodestyle</code> directly. This is a known limitation (<a href="https://github.com/lintquarto/lintquarto/issues/142">#142</a>).</p>
+<section id="work-around" class="level3">
+<h3 class="anchored" data-anchor-id="work-around">Work around</h3>
+<p>If you want to apply <code>pycodestyle</code> checks to Quarto files without these false positives, we recommend using a wrapper tool like <strong>flake8</strong> or <strong>ruff</strong>. These tools include <code>pycodestyle</code> rules but allow suppression of E3xx rules via <code># noqa</code>, making it possible to ignore the conversion-related violations.</p>
+<p><a href="../../pages/tools/flake8.html"><strong>Flake8:</strong></a> You can restrict checks to <code>pycodestyle</code> rules via <code>setup.cfg</code>:</p>
+<pre><code># setup.cfg
+[flake8]
+select = E,W</code></pre>
+<p><a href="../../pages/tools/ruff.html"><strong>Ruff:</strong></a> You can restrict checks to <code>pycodestyle</code> rules via <code>pyproject.toml</code>:</p>
+<pre><code># pyproject.toml
+[tool.ruff.lint]
+extend-select = ["E", "W"]</code></pre>
 
 
+</section>
 </section>
 </section>
 
