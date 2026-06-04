@@ -44,7 +44,7 @@ Use the sidebar to explore ready-to-run examples and detailed usage for each too
 
 Config files are supported, but they have a limitation similar to [nbqa](https://nbqa.readthedocs.io/en/latest/known-limitations.html): filenames must use the `.py` extension.
 
-When lintquarto runs, it creates a temporary `.py` copy of each file - for example, `mypage.qmd` becomes `mypage.py`. If a file with the same name already exists, it creates a variant like `mypage(1).py`. In the config file, entries should use a pattern that matches possible duplicates using `*.py`.
+When lintquarto runs, it creates a temporary `.py` copy of each file - for example, `mypage.qmd` becomes `mypage.py`. If a file with the same name already exists, it creates a variant like `mypage_1.py` (via the `get_unique_filename()` function). In the config file, entries should use a pattern that matches possible duplicates using `*.py`.
 
 For example, to run `flake8` on `mypage.qmd` but disable the `C0103` (invalid-name) warning, the `.flake8` file must be written as:
 
