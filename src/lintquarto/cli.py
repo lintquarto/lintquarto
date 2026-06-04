@@ -18,11 +18,24 @@ def main() -> None:
     parser = CustomArgumentParser(
         description="Lint Python code in Quarto (.qmd) files.",
     )
+
+    # Subcommands: list available linters in environment
+    subparsers = parser.add_subparsers(
+        title="commands",
+        dest="command",
+        required=False,
+    )
+    subparsers.add_parser(
+        "list",
+        help="List supported linters and whether they are available.",
+    )
+
+    # Default: Running tools
     parser.add_argument(
         "-l",
         "--linters",
         nargs="+",
-        required=True,
+        required=False,
         choices=list(Linters().supported.keys()),
         metavar="LINTER",
         help=(
@@ -34,7 +47,7 @@ def main() -> None:
         "-p",
         "--paths",
         nargs="+",
-        required=True,
+        required=False,
         help="Quarto files and/or directories to lint.",
     )
     parser.add_argument(
@@ -63,7 +76,19 @@ def main() -> None:
         action="store_true",
         help="Keep temporary .py files after linting.",
     )
+
     args = parser.parse_args()
+
+    # If list command, exit and run list_linters()
+    if args.command == "list":
+        return list_linters()
+
+    # Enforce that we have arguments required for lint mode
+    if not args.linters or not args.paths:
+        parser.error(
+            "the following arguments are required for linting: "
+            "-l/--linters, -p/--paths"
+        )
 
     # Enforce space-separated paths with clear error
     validate_no_commas(args.paths, "paths")
@@ -109,3 +134,13 @@ def main() -> None:
             if ret != 0:
                 exit_code = ret
     sys.exit(exit_code)
+
+
+def list_linters() -> None:
+    """Print all supported linters and whether they're available."""
+    linters = Linters()
+    status_list = linters.status_list()
+    print("Availability of supported linters:")
+    for status in status_list:
+        flag = "✓" if status["available"] else "✗"
+        print(f"  {flag} {status['name']:12s} - {status['message']}")

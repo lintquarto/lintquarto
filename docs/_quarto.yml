@@ -71,11 +71,6 @@ quartodoc:
   out_index: index.qmd
   package: lintquarto
   sections:
-    - title: CLI module
-      desc: "Command-line interface for linting Python code in Quarto (`.qmd`) files, including argument parsing and orchestration of the linting workflow."
-      package: lintquarto.cli
-      contents:
-        - main
     - title: Processing module
       desc: "Functions to gather Quarto (`.qmd`) files, convert them to Python (`.py`) files for linting, invoke linters, and manage temporary files."
       package: lintquarto.processing
@@ -105,3 +100,9 @@ quartodoc:
       package: lintquarto.args
       contents:
         - CustomArgumentParser
+    - title: CLI module
+      desc: "Command-line interface for linting Python code in Quarto (`.qmd`) files, including argument parsing and orchestration of the linting workflow."
+      package: lintquarto.cli
+      contents:
+        - main
+        - list_linters
