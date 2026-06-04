@@ -87,3 +87,36 @@ class Linters:
                 "Please install it.",
             )
             raise FileNotFoundError(msg)
+
+    def status_list(self) -> list[dict[str, object]]:
+        """
+        Return list of availability of all supported linters.
+
+        Returns
+        -------
+        list[dict[str, object]]
+            List of dictionaries with linter name and availability.
+        """
+        status_list = []
+
+        for name in self.supported:
+            try:
+                self.check_available(name)
+                available = True
+                message = "available"
+            except FileNotFoundError:
+                available = False
+                message = "not found in PATH"
+            except Exception as exc:  # noqa: BLE001
+                available = False
+                message = f"error checking availability: {exc}"
+
+            status_list.append(
+                {
+                    "name": name,
+                    "available": available,
+                    "message": message,
+                }
+            )
+
+        return status_list
