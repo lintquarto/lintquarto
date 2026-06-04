@@ -218,6 +218,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td><a href="#lintquarto.linters.Linters.check_supported">check_supported</a></td>
 <td>Check if linter is supported by lintquarto.</td>
 </tr>
+<tr class="odd">
+<td><a href="#lintquarto.linters.Linters.status_list">status_list</a></td>
+<td>Return list of availability of all supported linters.</td>
+</tr>
 </tbody>
 </table>
 <section id="lintquarto.linters.Linters.check_available" class="level3">
@@ -310,6 +314,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td></td>
 <td>ValueError</td>
 <td>If linter is not supported.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="lintquarto.linters.Linters.status_list" class="level3">
+<h3 class="anchored" data-anchor-id="lintquarto.linters.Linters.status_list">status_list</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>linters.Linters.status_list()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Return list of availability of all supported linters.</p>
+<section id="returns" class="level4 doc-section doc-section-returns">
+<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns">Returns</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 30%">
+<col style="width: 60%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td>list[dict[str, object]]</td>
+<td>List of dictionaries with linter name and availability.</td>
 </tr>
 </tbody>
 </table>
