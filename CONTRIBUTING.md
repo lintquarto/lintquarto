@@ -215,11 +215,13 @@ When running this, function documentation will be automatically generated from t
 
 ## Supported python versions
 
-`lintquarto` supports only actively maintained Python versions. Python 3.7 is end-of-life and Python 3.8 is in security-fix-only mode, so the package targets Python 3.9 and above.
+`lintquarto` supports only actively maintained Python versions. Python 3.7 is end-of-life and Python 3.8 is in security-fix-only mode.
 
 Historically, the package targeted Python 3.7+ because the codebase depended on features introduced in Python 3.5-3.7 (e.g., `subprocess.run()`, f-strings, and `text=True` in `subprocess.run()`). We have since dropped 3.7 and 3.8 to align with current practice.
 
 This follows [NEP 29 guidance](https://numpy.org/neps/nep-0029-deprecation_policy.html) used across the scientific Python ecosystem and keeps our tooling, packaging, and test matrix manageable.
+
+Python 3.9 support is not possible, as this package uses the tree-sitter-markdown package which requires Python 3.10+ and above.
 
 <br>
 
@@ -300,10 +302,10 @@ home: https://lintquarto.github.io/lintquarto/
 
 Fix B: Correct python version requirements syntax as per the [conda-forge documentation](https://conda-forge.org/docs/maintainer/knowledge_base/#noarch-python), using `python_min` for `host` (fixed version), `run` (minimum version) and `requires` (fixed version).
 
-As our `python_min` differs from the conda default (currently 3.7), we change it by adding `{% set python_min = "3.9" %}` to the start of the script.
+As our `python_min` differs from the conda default (currently 3.7), we change it by adding `{% set python_min = "3.10" %}` to the start of the script.
 
 ```{.bash}
-{% set python_min = "3.9" %}
+{% set python_min = "3.10" %}
 
 ...
 

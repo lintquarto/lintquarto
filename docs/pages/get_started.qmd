@@ -5,7 +5,7 @@ jupyter: python3
 
 ## Installation
 
-Python 3.9 or higher is required. `lintquarto` itself has only two required packages: `toml` and `pyyaml`.
+Python 3.10 or higher is required. `lintquarto` itself has only four required packages: `toml`, `pyyaml`, `tree-sitter` and `tree-sitter-markdown`.
 
 You can install **lintquarto** with pip (from [PyPI](https://pypi.org/project/lintquarto/) or [GitHub](https://github.com/lintquarto/lintquarto)) or conda (from [conda-forge](https://anaconda.org/conda-forge/lintquarto)).
 

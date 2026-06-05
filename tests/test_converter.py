@@ -4,6 +4,8 @@ from pathlib import Path
 from unittest import mock
 
 import pytest
+import tree_sitter_markdown as tsmd
+from tree_sitter import Language, Parser
 
 from lintquarto.converter import (
     QmdToPyConverter,
@@ -515,8 +517,20 @@ def test_unsupported_linter():
 
 
 # =============================================================================
-# 6. parse_yaml_front_matter()
+# 6. _parse_yaml_eval_from_node()
 # =============================================================================
+
+
+def _parse_root(lines: list[str]):
+    """Parse lines with the markdown parser and return root + bytes."""
+    normalized_lines = [
+        line if line.endswith("\n") else f"{line}\n" for line in lines
+    ]
+    src = "".join(normalized_lines)
+    src_bytes = src.encode("utf-8")
+    parser = Parser(Language(tsmd.language()))
+    tree = parser.parse(src_bytes)
+    return src_bytes, tree.root_node
 
 
 @pytest.mark.parametrize(
@@ -591,14 +605,21 @@ def test_unsupported_linter():
         "yaml_unclosed",
     ],
 )
-def test_parse_yaml_front_matter_eval_default(lines, expected_eval):
-    """Unit: parse_yaml_front_matter returns correct eval default."""
+def test_parse_yaml_eval_from_node(lines, expected_eval):
+    """Unit: YAML front matter is interpreted with expected eval default."""
     converter = QmdToPyConverter(linter="flake8")
-    converter.parse_yaml_front_matter(lines)
-    assert converter.yaml_eval_default is expected_eval
+    src_bytes, root = _parse_root(lines)
+    metadata_node = converter._find_metadata_node(root)
+
+    if metadata_node is None:
+        actual = True
+    else:
+        actual = converter._parse_yaml_eval_from_node(src_bytes, metadata_node)
+
+    assert actual is expected_eval
 
 
-def test_parse_yaml_front_matter_invalid_yaml():
+def test_parse_yaml_eval_from_node_invalid_yaml():
     """Unit: Invalid YAML should fall back to default eval=True."""
     lines = [
         "---\n",
@@ -606,12 +627,16 @@ def test_parse_yaml_front_matter_invalid_yaml():
         "---\n",
     ]
     converter = QmdToPyConverter(linter="flake8")
-    converter.parse_yaml_front_matter(lines)
-    assert converter.yaml_eval_default is True
+    src_bytes, root = _parse_root(lines)
+    metadata_node = converter._find_metadata_node(root)
+    assert metadata_node is not None
+    assert (
+        converter._parse_yaml_eval_from_node(src_bytes, metadata_node) is True
+    )
 
 
 # =============================================================================
-# 7. parse_chunk_eval_option()
+# 7. _parse_chunk_eval()
 # =============================================================================
 
 
@@ -642,11 +667,27 @@ def test_parse_yaml_front_matter_invalid_yaml():
         "invalid_value",
     ],
 )
-def test_parse_chunk_eval_option(line, expected):
-    """Unit: parse_chunk_eval_option parses boolean eval values."""
+def test_parse_chunk_eval(line, expected):
+    """Unit: _parse_chunk_eval parses boolean eval values."""
     converter = QmdToPyConverter(linter="flake8")
-    converter.parse_chunk_eval_option(line)
-    assert converter.current_chunk_eval is expected
+    stripped = line.lstrip()
+    option_text = (
+        stripped[3:].strip() if stripped.startswith("#| ") else stripped
+    )
+    assert (
+        converter._parse_chunk_eval(option_text, current_eval=None) is expected
+    )
+
+
+def test_parse_chunk_eval_preserves_current_when_no_eval_key():
+    """Unit: Leaves current value unchanged if no eval key."""
+    converter = QmdToPyConverter(linter="flake8")
+    assert (
+        converter._parse_chunk_eval("other: true", current_eval=True) is True
+    )
+    assert (
+        converter._parse_chunk_eval("echo: false", current_eval=False) is False
+    )
 
 
 # =============================================================================

@@ -15,13 +15,13 @@ keywords = ["lint", "quarto", "qmd", "pylint", "flake8", "mypy"]
 # Only two required dependencies - otherwise users install linters they want
 dependencies = [
   "toml",
+  "tree-sitter",
+  "tree-sitter-markdown",
   "pyyaml"
 ]
 
-# Python 3.7 reached end-of-life in 2023 and 3.8 is in security-fix only mode.
-# lintquarto targets only actively maintained python versions, to align
-# with NEP 29 guidance and modern tooling support.
-requires-python = ">=3.9"
+# See CONTRIBUTING.md for explanation behind this
+requires-python = ">=3.10"
 
 classifiers = [
   "Development Status :: 4 - Beta",
@@ -32,7 +32,6 @@ classifiers = [
   "Topic :: Scientific/Engineering",
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
@@ -106,6 +105,7 @@ lint.per-file-ignores."tests/*" = [
     "S101",  # Use of `assert` detected
     "ANN",  # Missing type annotations
     "PLR2004",  # Magic value used in comparison
+    "SLF001",  # Private member accessed
 ]
 lint.per-file-ignores."docs/*" = [
     "INP001"

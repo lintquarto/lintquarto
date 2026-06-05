@@ -6,11 +6,16 @@ import re
 import warnings
 from pathlib import Path
 
+import tree_sitter_markdown as tsmd
 import yaml
+from tree_sitter import Language, Node, Parser
 
-from .args import CustomArgumentParser
 from .linelength import LineLengthDetector
 from .linters import Linters
+
+# ============================================================================
+# Converter class
+# ============================================================================
 
 
 class QmdToPyConverter:
@@ -23,34 +28,23 @@ class QmdToPyConverter:
         Name of the linter that will be used.
     lint_non_exec : bool
         If True, also lint non-executable Python code chunks.
-    in_chunk_options : bool
-        True if currently at the start of a code chunk, parsing Quarto chunk
-        options or leading blank lines.
-    in_python : bool
-        True if currently processing lines inside a Python code chunk.
     py_lines : list
         Stores the lines to be written to the output Python file.
     yaml_eval_default : bool
         Default eval setting from YAML front matter.
-    current_chunk_eval : bool | None
-        Eval setting for current chunk from chunk options (None if not set).
-    preserve_line_count : bool
-        Whether to preserve line count.
     uses_noqa : bool
         Whether specified linter uses noqa.
-    max_line_length : int
-        Maximum line length for linter (from LineLengthDetector()).
 
     """
 
     def __init__(
         self,
         linter: str,
-        *,  # Subsequent arguments keyword-only (`var=True`, not just `True`)
+        *,
         lint_non_exec: bool = False,
     ) -> None:
         """
-        Initialise a class object.
+        Initialise QmdToPyConverter.
 
         Parameters
         ----------
@@ -58,17 +52,11 @@ class QmdToPyConverter:
             Name of the linter that will be used.
         lint_non_exec : bool, optional
             If True, also lint non-executable Python code chunks.
-
         """
         self.linter = linter
         self.lint_non_exec = lint_non_exec
-
-        self.in_chunk_options = False
-        self.in_python = False
-        self.py_lines = []
+        self.py_lines: list[str] = []
         self.yaml_eval_default = True
-        self.current_chunk_eval = None
-        self.current_chunk_is_valuebox = False
 
         # Check the linter is supported
         Linters().check_supported(self.linter)
@@ -79,290 +67,895 @@ class QmdToPyConverter:
         else:
             self.preserve_line_count = True
 
-        # Determine if linter uses noqa, and so find max line length
+        # Determine if linter uses noqa - if so, find max line length
         self.uses_noqa = self.linter in ["flake8", "ruff", "pycodestyle"]
         if self.uses_noqa:
             len_detect = LineLengthDetector(linter=self.linter)
             self.max_line_length = len_detect.get_line_length()
 
-    def reset(self) -> None:
-        """Reset the state (except linter and YAML eval default)."""
-        self.in_chunk_options = False
-        self.in_python = False
-        self.py_lines = []
-        self.current_chunk_eval = None
-        self.current_chunk_is_valuebox = False
+    # -------------------------------------------------------------------------
+    # Public method: used to convert QMD to Python.
+    # -------------------------------------------------------------------------
 
-    def parse_yaml_front_matter(self, qmd_lines: list[str]) -> None:
+    def convert(self, qmd_lines: list[str]) -> list[str]:
         """
-        Parse YAML front matter and extract execute.eval setting.
+        Convert QMD source lines into a lintable Python view.
+
+        This parses the QMD document with Tree-sitter, locates fenced Python
+        code blocks, analyses chunk options and YAML front matter, and then
+        builds an aligned list of Python lines suitable for a linter.
 
         Parameters
         ----------
-        qmd_lines : list[str]
-            List containing each line from the Quarto file.
+        qmd_lines : list of str
+            Lines from the input QMD file.
 
         Returns
         -------
-        None
-            Stores the eval setting in self.yaml_eval_default attribute.
-            Sets to True if no YAML front matter is found or if parsing fails.
-
+        list of str
+            Python lines representing the lintable view of the QMD file.
+            Depending on configuration, non-Python regions are replaced by
+            placeholder lines so that line numbers stay aligned.
         """
-        # No YAML front matter detected
-        if not qmd_lines or qmd_lines[0].strip() != "---":
-            self.yaml_eval_default = True
-            return
+        # Reset list to store Python lines
+        self.py_lines = []
 
-        yaml_lines = []
+        # Ensure every line ends with `\n` then concatenate all lines into one
+        # long string and convert it into bytes, which is the format
+        # Tree-sitter expects
+        normalized_lines = [
+            line if line.endswith("\n") else f"{line}\n" for line in qmd_lines
+        ]
+        src = "".join(normalized_lines)
+        src_bytes = src.encode("utf-8")
 
-        # Find the end of YAML front matter
-        for i in range(1, len(qmd_lines)):
-            if qmd_lines[i].strip() == "---":
-                break
-            yaml_lines.append(qmd_lines[i])
+        # The parser is the Tree-sitter "machine" that knows the Markdown
+        # grammar. We feed the byte sequence into that, and get back a tree
+        # object that represents the structure of the document (a syntax tree).
+        parser = Parser(Language(tsmd.language()))
+        tree = parser.parse(src_bytes)
+
+        # The root node represents the entire document; all other nodes
+        # (headings, code blocks, etc.) are children somewhere under this root
+        root = tree.root_node
+
+        # Extract YAML front matter metadata, if present
+        metadata_node = self._find_metadata_node(root)
+        if metadata_node is not None:
+            # Use the YAML to configure the default `execute.eval` behaviour
+            self.yaml_eval_default = self._parse_yaml_eval_from_node(
+                src_bytes, metadata_node
+            )
         else:
-            # If no closing --- then treat as no YAML
+            # If there is no YAML front matter, fall back to eval=True
             self.yaml_eval_default = True
-            return
 
-        # Parse the YAML
+        # Find all fenced code blocks where the language is (active or
+        # inactive) Python, and collect metadata about them
+        python_blocks = self._collect_python_blocks(src_bytes, root)
+
+        # Build the output Python view, line by line, guided by the block
+        # metadata extracted above
+        self._build_output(src_bytes, python_blocks)
+        return self.py_lines
+
+    # -------------------------------------------------------------------------
+    # YAML front matter
+    # -------------------------------------------------------------------------
+
+    def _find_metadata_node(self, root: Node) -> Node | None:
+        """
+        Return the YAML front matter node, if present.
+
+        Parameters
+        ----------
+        root : Node
+            Root node of the parsed Markdown tree.
+
+        Returns
+        -------
+        Node or None
+            The first metadata node, or `None` if no metadata is present.
+        """
+        for child in root.children:
+            # In Tree-sitter Markdown, YAML front matter is encoded as a
+            # `minus_metadata` node
+            if child.type == "minus_metadata":
+                return child
+
+        return None
+
+    def _parse_yaml_eval_from_node(
+        self, src_bytes: bytes, metadata_node: Node
+    ) -> bool:
+        """
+        Parse YAML front matter and return execute.eval setting.
+
+        This function takes the YAML metadata block at the top of the document,
+        parses it, and looks for an `execute.eval` value. Various string forms
+        (like "false", "no", "0") are normalised to a Python bool. If anything
+        goes wrong, or no value is provided, it falls back to True.
+
+        Parameters
+        ----------
+        src_bytes : bytes
+            UTF-8 encoded document source.
+        metadata_node : Node
+            YAML metadata node (`minus_metadata`) from the AST.
+
+        Returns
+        -------
+        bool
+            The default eval setting; `True` if parsing fails or no explicit
+            value is provided.
+        """
+        # Slice out just the YAML block from the original source bytes,
+        # using the byte range of the metadata node, then decode to text lines
+        raw = src_bytes[
+            metadata_node.start_byte : metadata_node.end_byte
+        ].decode("utf-8", errors="replace")
+        lines = raw.splitlines()
+
+        # YAML front matter sits between two '---' lines.
+        # Skip the opening '---' on the first line, then collect lines
+        # until the next '---' (the closing fence).
+        yaml_lines = []
+        for line in lines[1:]:
+            if line.strip() == "---":
+                break
+            yaml_lines.append(line)
+
+        # Try to parse the YAML text into a Python dict. If parsing fails
+        # for any reason, fall back to the default behaviour: eval=True.
         try:
-            yaml_content = "\n".join(yaml_lines)
-            yaml_dict = yaml.safe_load(yaml_content) or {}
+            yaml_dict = yaml.safe_load("\n".join(yaml_lines)) or {}
         except (yaml.YAMLError, AttributeError):
-            # On parse error (i.e., invalid YAML), fall back to default True
-            self.yaml_eval_default = True
-            return
+            return True
 
-        # Extract execute.eval setting
+        # Look for an 'execute' section and then an 'eval' key inside it.
+        # If it's a string, normalise common false-like values; otherwise
+        # just coerce it to bool. If anything is missing, default to True.
         execute_settings = yaml_dict.get("execute", {})
         if isinstance(execute_settings, dict):
             eval_setting = execute_settings.get("eval", True)
-            # Convert to boolean (handle string representations)
             if isinstance(eval_setting, str):
                 eval_setting = eval_setting.lower() not in [
                     "false",
                     "no",
                     "0",
                 ]
-            self.yaml_eval_default = bool(eval_setting)
-            return
-        self.yaml_eval_default = True
+            return bool(eval_setting)
 
-    def convert(self, qmd_lines: list[str]) -> list[str]:
+        # If 'execute' is not a dict or not present, default to True
+        return True
+
+    # -------------------------------------------------------------------------
+    # Find Python code chunks
+    # -------------------------------------------------------------------------
+
+    def _collect_python_blocks(
+        self, src_bytes: bytes, root: Node
+    ) -> list[dict]:
         """
-        Run converter on the provided lines.
+        Collect all fenced Python code blocks in the document.
 
         Parameters
         ----------
-        qmd_lines : list[str]
-            List containing each line from the Quarto file.
+        src_bytes : bytes
+            UTF-8 encoded document source.
+        root : Node
+            Root node of the parsed Markdown tree.
 
         Returns
         -------
-        py_lines : list[str]
-            List of each line for the output Python file.
-
+        list of dict
+            A list of metadata dictionaries, one per Python code block.
         """
-        # Parse YAML front matter to get default eval setting
-        self.parse_yaml_front_matter(qmd_lines)
+        # Empty list to store dicts - one dict for each Python code block
+        blocks: list[dict] = []
 
-        self.reset()
+        # Go through the syntax tree, adding nodes to the `blocks` list only
+        # if they are fenced code blocks whose language is Python
+        self._walk_for_python_blocks(src_bytes, root, blocks)
 
-        for original_line in qmd_lines:
-            self.process_line(original_line)
+        # Sort by starting row so the blocks are in document order
+        blocks.sort(key=lambda b: b["start_row"])
 
-        return self.py_lines
+        return blocks
 
-    def process_line(self, original_line: str) -> None:
+    def _walk_for_python_blocks(
+        self, src_bytes: bytes, node: Node, blocks: list
+    ) -> None:
         """
-        Process individual lines with state tracking.
+        Recursively search for fenced Python code blocks.
 
         Parameters
         ----------
-        original_line : str
-            Line to process.
-
+        src_bytes : bytes
+            UTF-8 encoded document source.
+        node : Node
+            Current node in the Tree-sitter AST.
+        blocks : list
+            Mutable list that is populated with block metadata dictionaries.
         """
-        # Remove the trailing new line
-        line = original_line.rstrip("\n")
+        # Identify code blocks and get language
+        if node.type == "fenced_code_block":
+            lang_text = self._get_language_text(src_bytes, node)
+            # Check for "python" (active) or ".python" (inactive)
+            if (
+                lang_text is not None
+                and lang_text.lstrip(".").lower() == "python"
+            ):
+                # Extract metadata from block and append to list
+                blocks.append(self._analyse_block(src_bytes, node, lang_text))
+            return
 
-        # Check if it is the start of a python code chunk (allowing spaces
-        # before {python} and allowing chunk options e.g. {python, echo=...})
-        if re.match(r"^```\s*{\.?python[^}]*}$", line):
-            self.in_python = True
-            self.in_chunk_options = True
-            self.current_chunk_is_valuebox = False
-            # {.python} (dot-prefix) = inactive chunk; treat as eval=False by
-            # default. lint_non_exec=True overrides this via
-            # should_lint_current_chunk().
-            if re.match(r"^```\s*{\.python[^}]*}$", line):
-                self.current_chunk_eval = False
-            else:
-                self.current_chunk_eval = None  # Reset for new chunk
-            if self.preserve_line_count:
-                self.py_lines.append("# %% [python]")
+        # For each node, visit all of its children (then their children, etc.).
+        # When a branch has no more children, the recursion returns and we
+        # naturally move on to the next sibling. This way we eventually visit
+        # every node in the tree.
+        for child in node.children:
+            self._walk_for_python_blocks(src_bytes, child, blocks)
 
-        # Check if it is the end of a code chunk
-        elif line.strip() == "```":
-            self.in_python = False
-            self.in_chunk_options = False
-            self.current_chunk_is_valuebox = False
-            self.current_chunk_eval = None  # Reset after chunk ends
-            if self.preserve_line_count:
-                self._append_placeholder()
-
-        # Check if it is within a python code chunk
-        elif self.in_python:
-            self._handle_python_chunk(line)
-
-        # For all other lines, set to placeholder
-        elif self.preserve_line_count:
-            self._append_placeholder()
-
-    def _handle_python_chunk(self, line: str) -> None:
+    def _get_language_text(
+        self, src_bytes: bytes, fcb_node: Node
+    ) -> str | None:
         """
-        Process a line within a Python code chunk.
+        Extract the language tag from a fenced code block.
 
         Parameters
         ----------
-        line : str
-            The line to process.
+        src_bytes : bytes
+            UTF-8 encoded document source.
+        fcb_node : Node
+            A `fenced_code_block` node.
 
+        Returns
+        -------
+        str or None
+            The language text, or `None` if no language was specified.
         """
-        # After the first code line, append all lines unchanged
-        if not self.in_chunk_options:
-            self._handle_body_line(line)
-            return
+        for child in fcb_node.children:
+            # Find the info_string node
+            if child.type == "info_string":
+                for grandchild in child.children:
+                    # Find node whose type is language
+                    if grandchild.type == "language":
+                        # Get the string from the original file that
+                        # corresponds to the bytes in that node
+                        return src_bytes[
+                            grandchild.start_byte : grandchild.end_byte
+                        ].decode("utf-8", errors="replace")
 
-        # Blank lines within chunk options are kept as-is
-        if line.strip() == "":
-            self.py_lines.append(line)
-            return
+        # Return None if no info_string with a language child was found
+        return None
 
-        # Remove blank space at start of line
-        stripped = line.lstrip()
+    # -------------------------------------------------------------------------
+    # Inspect code chunks - e.g. identify active/inactive, valuebox, magic
+    # -------------------------------------------------------------------------
 
-        # If line is a quarto chunk option...
+    def _analyse_block(
+        self, src_bytes: bytes, fcb_node: Node, lang_text: str
+    ) -> dict:
+        """
+        Extract metadata for a single fenced Python code block.
+
+        This combines structural information from the Tree-sitter node (start
+        row, closing delimiter row) with line-level analysis from
+        `_analyse_block_content`.
+
+        Parameters
+        ----------
+        src_bytes : bytes
+            UTF-8 encoded document source.
+        fcb_node : Node
+            A `fenced_code_block` node identified as Python.
+        lang_text : str
+            Raw language text for the block (e.g., `python` or `.python`).
+        """
+        # Top row of the fenced block (the opening ``` line)
+        start_row = fcb_node.start_point.row
+        # Row that contains the closing fence
+        closing_row = self._find_closing_delimiter_row(fcb_node, start_row)
+        # Node that contains the actual body of the code block
+        content_node = self._find_content_node(fcb_node)
+
+        # Analyse the content region to distinguish options and magic from
+        # standard code lines
+        content_info = self._analyse_block_content(
+            src_bytes,
+            content_node,
+            closing_row,
+        )
+
+        return {
+            "start_row": start_row,
+            "closing_row": closing_row,
+            "is_inactive": lang_text.startswith("."),
+            "chunk_eval": content_info["chunk_eval"],
+            "is_valuebox": content_info["is_valuebox"],
+            "option_rows": content_info["option_rows"],
+            "first_code_row": content_info["first_code_row"],
+            "has_magic": content_info["has_magic"],
+            "magic_row": content_info["magic_row"],
+        }
+
+    def _find_closing_delimiter_row(
+        self, fcb_node: Node, start_row: int
+    ) -> int:
+        """
+        Return the row number of the closing fenced-code delimiter (```).
+
+        Parameters
+        ----------
+        fcb_node : Node
+            A `fenced_code_block` node.
+        start_row : int
+            Row index of the opening fence.
+
+        Returns
+        -------
+        int
+            Row index of the closing fence line.
+        """
+        content_node = None
+
+        # Find the content node if present
+        for child in fcb_node.children:
+            if child.type == "code_fence_content":
+                content_node = child
+                break
+
+        # Use the content node if we have one. It's end_point.row is where the
+        # content stops and the closing fence begins.
+        if content_node is not None:
+            closing_row = content_node.end_point.row
+            if closing_row > start_row:
+                return closing_row
+
+        # Fallback: Look for fence delimiter nodes (``` lines) other than the
+        # opening ones. This helps for blocks that have options or odd shapes
+        # where the content node is missing or not reliable, but the fences
+        # are still present as separate child nodes.
+        delimiter_rows = [
+            child.start_point.row
+            for child in fcb_node.children
+            if child.type == "fenced_code_block_delimiter"
+            and child.start_point.row != start_row
+        ]
+        if delimiter_rows:
+            return max(delimiter_rows)
+
+        # Final fallback: use the overall node extent as a proxy.
+        # end_point.row is typically one row beyond the closing fence, so
+        # end_point.row - 1 is a reasonable estimate of the fence row.
+        # This covers completely empty or malformed blocks where neither
+        # content nor delimiter children are usable.
+        return max(start_row + 1, fcb_node.end_point.row - 1)
+
+    def _find_content_node(self, fcb_node: Node) -> Node | None:
+        """
+        Get the content of the code block.
+
+        Parameters
+        ----------
+        fcb_node : Node
+            A `fenced_code_block` node.
+
+        Returns
+        -------
+        Node or None
+            The content node inside the block, or `None` if there is no
+            content (an empty fenced block).
+        """
+        for child in fcb_node.children:
+            if child.type == "code_fence_content":
+                return child
+        return None
+
+    def _analyse_block_content(
+        self,
+        src_bytes: bytes,
+        content_node: Node | None,
+        closing_row: int,
+    ) -> dict:
+        """
+        Analyse the lines inside a fenced code block.
+
+        This scans the content of a fenced Python block, identifying regions
+        with chunk options and cell magic, and the actual code region.
+
+        Parameters
+        ----------
+        src_bytes : bytes
+            UTF-8 encoded document source.
+        content_node : Node or None
+            The `code_fence_content` node for the block, or `None` if
+            the block has no content.
+        closing_row : int
+            Row index of the closing fence delimiter.
+
+        Returns
+        -------
+        dict
+            A dictionary with keys metadata such as the first code row, per-row
+            option indices, and chunk-level flags.
+        """
+        # Set to store row indices of the options region
+        option_rows: set[int] = set()
+
+        state = {
+            "first_code_row": None,
+            "chunk_eval": None,
+            "is_valuebox": False,
+            "has_magic": False,
+            "magic_row": None,
+        }
+
+        # We start in the 'options' region and remain there until we see the
+        # first non-block, non-option, non-comment line.
+        in_options = True
+
+        if content_node is not None:
+            content_start = content_node.start_point.row
+            # The content region ends one row before the closing fence
+            content_last = closing_row - 1
+            for row_num, line in self._get_rows(
+                src_bytes,
+                content_start,
+                content_last,
+            ):
+                stripped = line.lstrip()
+                if in_options:
+                    in_options = self._handle_option_state_row(
+                        row_num,
+                        stripped,
+                        option_rows,
+                        state,
+                    )
+                    continue
+
+                # Once we exit the options region, every subsequent line for
+                # this block is considered part of the code region
+                self._mark_code_row(row_num, stripped, state)
+
+        return {
+            "option_rows": option_rows,
+            "first_code_row": state["first_code_row"],
+            "chunk_eval": state["chunk_eval"],
+            "is_valuebox": state["is_valuebox"],
+            "has_magic": state["has_magic"],
+            "magic_row": state["magic_row"],
+        }
+
+    def _get_rows(
+        self, src_bytes: bytes, start_row: int, end_row: int
+    ) -> list[tuple[int, str]]:
+        """
+        Return (row_number, line_text) pairs for a given range of rows.
+
+        Parameters
+        ----------
+        src_bytes : bytes
+            UTF-8 encoded document source.
+        start_row : int
+            First row index to include.
+        end_row : int
+            Last row index to include (inclusive).
+
+        Returns
+        -------
+        list of (int, str)
+            A list of tuples containing the row index and corresponding
+            line text for each row in the requested interval.
+        """
+        # Decode into str and split into lines
+        # Row indices match Tree-sitter's `row` co-ordinates
+        all_lines = src_bytes.decode("utf-8", errors="replace").splitlines()
+        return [
+            (row, all_lines[row])
+            for row in range(start_row, min(end_row + 1, len(all_lines)))
+        ]
+
+    def _handle_option_state_row(
+        self,
+        row_num: int,
+        stripped: str,
+        option_rows: set[int],
+        state: dict,
+    ) -> bool:
+        """
+        Process a row while the parser is in the 'chunk options' region.
+
+        This function classifies leading blank lines, Quarto chunk options
+        (`#| ...`), and regular comments as option rows. It also updates
+        per-block state such as `chunk_eval` and `is_valuebox`.
+
+        Parameters
+        ----------
+        row_num : int
+            Zero-based row index in the full document.
+        stripped : str
+            Line content with leading whitespace removed.
+        option_rows : set of int
+            Set being populated with row indices belonging to the options
+            region of this block.
+        state : dict
+            Mutable analysis state for the current block.
+
+        Returns
+        -------
+        bool
+            `True` if the row was handled as an option row and the caller
+            should remain in the options region; `False` if this row marks
+            the transition into the code region.
+        """
+        # Empty lines at the top of the block are still considered part of
+        # the options region
+        if stripped == "":
+            option_rows.add(row_num)
+            return True
+
+        # Lines starting with "#| " are explicit Quarto chunk options
         if stripped.startswith("#| "):
-            self._handle_chunk_option(stripped)
-        # If line is a comment...
-        elif stripped.startswith("#"):
-            self._handle_comment_in_options(line)
-        # First real code line after options/blanks/comments
-        else:
-            self._handle_first_code_line(line, stripped)
+            option_rows.add(row_num)
+            option_text = stripped[3:].strip()
 
-    def _handle_body_line(self, line: str) -> None:
+            # Update the eval behaviour for this chunk, if an eval option
+            # appears on this line
+            state["chunk_eval"] = self._parse_chunk_eval(
+                option_text,
+                current_eval=state["chunk_eval"],
+            )
+
+            # Detect "content: valuebox" so we can treat valuebox chunks as
+            # non-lintable later.
+            if re.match(r"^content\s*:\s*valuebox\s*$", option_text):
+                state["is_valuebox"] = True
+            return True
+
+        # Any other comment-only line at the top is also treated as part of
+        # the options region.
+        if stripped.startswith("#"):
+            option_rows.add(row_num)
+            return True
+
+        # If we reach here, this line is not part of the options region.
+        # Mark it as code and signal that the options region has ended.
+        self._mark_code_row(row_num, stripped, state)
+        return False
+
+    def _parse_chunk_eval(
+        self, option_text: str, *, current_eval: bool | None
+    ) -> bool | None:
         """
-        Handle a line in the body of a Python chunk (after chunk options).
+        Parse an ``eval:`` option from a chunk option line.
 
         Parameters
         ----------
-        line : str
-            The line to process.
+        option_text : str
+            Text of the chunk option line (e.g., `eval: true`).
+        current_eval : bool or None
+            Existing eval value for the chunk. If no `eval` option is
+            found, this value is returned unchanged.
 
+        Returns
+        -------
+        bool or None
+            Updated eval flag for this chunk, or `None` if the option
+            cannot be interpreted.
         """
-        # Skip lines in chunks where eval is false or this is a valuebox chunk
-        if (
-            self.current_chunk_is_valuebox
-            or not self.should_lint_current_chunk()
-        ):
-            self._append_placeholder()
-            return
-        # Handle quarto include syntax and code annotations, then append as-is
-        line = self._handle_includes(line)
-        line = self._handle_annotations(line)
-        self.py_lines.append(line)
+        # Search for an 'eval: value' pattern with optional quotes
+        eval_match = re.search(r"eval\s*:\s*(['\"]?)(\w+)\1", option_text)
+        if not eval_match:
+            return current_eval
 
-    def _handle_chunk_option(self, stripped: str) -> None:
+        value = eval_match.group(2).lower()
+        if value in ["true", "yes", "1"]:
+            return True
+        if value in ["false", "no", "0"]:
+            return False
+        return None
+
+    def _mark_code_row(
+        self,
+        row_num: int,
+        stripped: str,
+        state: dict,
+    ) -> None:
         """
-        Handle a Quarto chunk option line (starting with `#|`).
+        Record first code row and magic metadata.
 
         Parameters
         ----------
+        row_num : int
+            Zero-based row index in the full document.
         stripped : str
-            The line with leading whitespace removed.
-
+            The line content with leading whitespace removed.
+        state : dict
+            Mutable analysis state for the current block.
         """
-        # Parse and store eval option if present in this line
-        self.parse_chunk_eval_option(stripped)
+        # The first line that is not considered part of the options region
+        # is the first code row.
+        if state["first_code_row"] is None:
+            state["first_code_row"] = row_num
 
-        # Extract the part after "#| "
-        option_text = stripped[3:].strip()
-
-        # Detect Quarto valuebox chunks
-        if re.match(r"^content\s*:\s*valuebox\s*$", option_text):
-            self.current_chunk_is_valuebox = True
-
-        if self.preserve_line_count:
-            self._append_placeholder()
-
-    def _handle_comment_in_options(self, line: str) -> None:
-        """
-        Handle a comment line encountered while still in chunk options.
-
-        Parameters
-        ----------
-        line : str
-            The comment line to process.
-
-        """
-        # If chunk should be linted, keep comment (but handle annotations)
-        # If eval is false, just append placeholder
-        if self.should_lint_current_chunk():
-            line = self._handle_annotations(line)
-            self.py_lines.append(line)
-        else:
-            self._append_placeholder()
-
-    def _handle_first_code_line(self, line: str, stripped: str) -> None:
-        """
-        Handle first real code line after chunk options, blanks, and comments.
-
-        Parameters
-        ----------
-        line : str
-            The original line to process.
-        stripped : str
-            The line with leading whitespace removed.
-
-        """
-        # Skip lines in chunks where eval is false
-        if not self.should_lint_current_chunk():
-            self._append_placeholder()
-            self.in_chunk_options = False
-            return
-
-        # Replace IPython cell magic lines (e.g. %%prun, %%timeit) with a
-        # placeholder, but continue processing the rest of the cell body.
+        # Treat any line starting with '%%' as cell magic, and record where
+        # it appears so it can be handled specially later.
         if stripped.startswith("%%"):
-            self._append_placeholder()
-            self.in_chunk_options = False
-            return
+            state["has_magic"] = True
+            state["magic_row"] = row_num
 
-        # If this is a valuebox chunk, treat all body lines as placeholders
-        if self.current_chunk_is_valuebox:
-            self._append_placeholder()
-            self.in_chunk_options = False
-            return
+    # -------------------------------------------------------------------------
+    # Construct Python version of QMD, guided by metadata collected above
+    # -------------------------------------------------------------------------
 
-        # Handle quarto include syntax and code annotations
-        line = self._handle_includes(line)
-        line = self._handle_annotations(line)
+    def _build_output(
+        self, src_bytes: bytes, python_blocks: list[dict]
+    ) -> None:
+        """
+        Populate `self.py_lines` from the source, guided by block metadata.
 
-        # Add noqa suppressions for spacing warnings at chunk boundaries
-        if self.uses_noqa:
-            line = self._add_noqa_for_first_code_line(line, stripped)
+        This walks the document line by line, consults the per-row block
+        mapping, and delegates handling of each row to the appropriate
+        helper (boundary, option, or code). Non-Python lines are replaced
+        with placeholders when line-count preservation is enabled.
 
-        self.py_lines.append(line)
-        self.in_chunk_options = False
+        Parameters
+        ----------
+        src_bytes : bytes
+            UTF-8 encoded document source.
+        python_blocks : list of dict
+            Metadata for all Python blocks.
+        """
+        # Decode document back into list of text lines so we can iterate by
+        # row index (matching Tree-sitter's row numbering).
+        all_lines = src_bytes.decode("utf-8", errors="replace").splitlines()
+        total_rows = len(all_lines)
+
+        # Build a fast lookup from row index -> block metadata, so for any
+        # given line we can quickly tell whether it belongs to a Python chunk
+        # and, if so, which one.
+        row_to_block = self._make_row_to_block(python_blocks)
+
+        # Walk through every row in the document and decide what to save
+        # for that row in the output Python view.
+        row = 0
+        while row < total_rows:
+            line = all_lines[row]
+            block = row_to_block.get(row)
+
+            # If this row is outside any Python block, save a placeholder
+            # (to preserve line numbers) and move on.
+            if block is None:
+                self._append_placeholder()
+                row += 1
+                continue
+
+            # We are inside a Python block: decide whether this chunk should
+            # be linted at all, based on eval flags and YAML defaults.
+            should_lint = self.should_lint_block(block)
+
+            # Handle the opening/closing fence rows for the block.
+            if self._handle_block_boundary_row(row, block):
+                row += 1
+                continue
+
+            # If this row is part of the chunk-options region (e.g. `#|` lines,
+            # leading comments), handle it separately from real code lines.
+            stripped = line.lstrip()
+            if row in block["option_rows"]:
+                self._handle_option_row(
+                    line, stripped, should_lint=should_lint
+                )
+                row += 1
+                continue
+
+            # Any remaining rows inside the block are treated as Python code
+            # lines: possibly rewritten (includes/annotations/noqa) or masked
+            # with placeholders depending on `should_lint` and block flags.
+            self._handle_code_row(
+                row, line, stripped, block, should_lint=should_lint
+            )
+            row += 1
+
+    def _make_row_to_block(
+        self,
+        python_blocks: list[dict],
+    ) -> dict[int, dict]:
+        """
+        Build a row-index to block mapping for fast lookups.
+
+        Parameters
+        ----------
+        python_blocks : list of dict
+            All Python blocks found in the document.
+
+        Returns
+        -------
+        dict of int to dict
+            A mapping from row index to the metadata dictionary for the
+            block that covers that row.
+        """
+        row_to_block: dict[int, dict] = {}
+        # For each Python block, mark every row it covers (from the opening
+        # fence to the closing fence) as belonging to that block
+        for block in python_blocks:
+            for row in range(block["start_row"], block["closing_row"] + 1):
+                row_to_block[row] = block
+        return row_to_block
 
     def _append_placeholder(self) -> None:
         """Append placeholder if preserving line count."""
         if self.preserve_line_count:
             self.py_lines.append("# -")
+
+    def should_lint_block(self, block: dict) -> bool:
+        """
+        Determine whether a given Python block should be linted.
+
+        This combines global settings (`lint_non_exec`), the block's
+        active/inactive status, any chunk-level `eval` options, and the
+        default YAML `execute.eval` value.
+
+        Parameters
+        ----------
+        block : dict
+            Metadata dictionary describing a Python code block.
+
+        Returns
+        -------
+        bool
+            `True` if the block should be included in linting, `False`
+            otherwise.
+        """
+        # If configured to lint all chunks, ignore eval/inactive flags
+        if self.lint_non_exec:
+            return True
+
+        # Inactive chunks only get linted if they explicitly set eval.
+        if block["is_inactive"]:
+            return (
+                block["chunk_eval"]
+                if block["chunk_eval"] is not None
+                else False
+            )
+        if block["chunk_eval"] is not None:
+            return block["chunk_eval"]
+
+        # Fallback: use the document-wide default.
+        return self.yaml_eval_default
+
+    def _handle_block_boundary_row(self, row: int, block: dict) -> bool:
+        """
+        Handle opening/closing fence rows for a Python block.
+
+        If line count preservation is enabled, these rows are replaced with
+        placeholders so that the linter only sees Python code and comments.
+
+        Parameters
+        ----------
+        row : int
+            Current row index.
+        block : dict
+            Metadata for the enclosing Python block.
+
+        Returns
+        -------
+        bool
+            `True` if this row has been fully handled and the caller
+            should skip further processing; `False` otherwise.
+        """
+        # Use a sentinel comment to mark the start of a chunk
+        if row == block["start_row"]:
+            if self.preserve_line_count:
+                self.py_lines.append("# %% [python]")
+            return True
+
+        # Closing fence is represented by a placeholder
+        if row == block["closing_row"]:
+            if self.preserve_line_count:
+                self._append_placeholder()
+            return True
+
+        return False
+
+    def _handle_option_row(
+        self,
+        line: str,
+        stripped: str,
+        *,
+        should_lint: bool,
+    ) -> None:
+        """
+        Handle a row that belongs to the chunk-options region.
+
+        Depending on the content and whether the block is linted, this
+        either preserves the row as-is, replaces it with a placeholder, or
+        strips Quarto-specific annotation syntax.
+
+        Parameters
+        ----------
+        line : str
+            Original line text.
+        stripped : str
+            Line text with leading whitespace removed.
+        should_lint : bool
+            Whether the surrounding block is subject to linting.
+        """
+        # Preserve blank lines to keep vertical spacing stable
+        if stripped == "":
+            self.py_lines.append(line)
+            return
+
+        # Represent chunk option lines with a placeholder
+        if stripped.startswith("#| "):
+            self._append_placeholder()
+            return
+
+        # If should link (e.g., active chunk, or set to lint) then save line -
+        # but otherwise (e.g., inactive chunk) just save placeholder
+        if stripped.startswith("#"):
+            if should_lint:
+                self.py_lines.append(self._handle_annotations(line))
+            else:
+                self._append_placeholder()
+            return
+
+        # Any other case is unexpected in the options region; use a
+        # placeholder to avoid exposing non-code to the linter.
+        self._append_placeholder()
+
+    def _handle_code_row(
+        self,
+        row: int,
+        line: str,
+        stripped: str,
+        block: dict,
+        *,
+        should_lint: bool,
+    ) -> None:
+        """
+        Handle a non-boundary, non-option row inside a Python block.
+
+        Parameters
+        ----------
+        row : int
+            Zero-based row index.
+        line : str
+            Original line text.
+        stripped : str
+            Line text with leading whitespace removed.
+        block : dict
+            Metadata for the enclosing Python block.
+        should_lint : bool
+            Whether this block is being linted.
+        """
+        # If the block should not be linted, or is a valuebox, mask all
+        # code lines with placeholders.
+        if not should_lint or block["is_valuebox"]:
+            self._append_placeholder()
+            return
+
+        # Convert Quarto include directives into comments and strip any
+        # Quarto-specific trailing annotations.
+        line = self._handle_includes(line)
+        line = self._handle_annotations(line)
+
+        magic_row = block.get("magic_row")
+        first_code_row = block["first_code_row"]
+
+        # Hide cell magic from the linter by replacing its line.
+        if magic_row is not None and row == magic_row:
+            self._append_placeholder()
+            return
+
+        # For linting tools that use `noqa`, add suppression rules to the first
+        # code line in the chunk to avoid false positives.
+        if row == first_code_row and row != magic_row and self.uses_noqa:
+            line = self._add_noqa_for_first_code_line(line, stripped)
+
+        self.py_lines.append(line)
 
     def _add_noqa_for_first_code_line(self, line: str, stripped: str) -> str:
         """
@@ -393,66 +986,6 @@ class QmdToPyConverter:
         if is_function_or_class:
             return self._add_noqa(line, ["E302", "E305"])
         return self._add_noqa(line, ["E305"])
-
-    def should_lint_current_chunk(self) -> bool:
-        """
-        Determine if the current chunk should be linted.
-
-        Returns
-        -------
-        bool
-            True if chunk should be linted, False otherwise.
-
-        """
-        # Always return true if have set to lint non-executable code too
-        if self.lint_non_exec:
-            return True
-        # Chunk-level setting overrides YAML default
-        if self.current_chunk_eval is not None:
-            return self.current_chunk_eval
-        # Other, return YAML default
-        return self.yaml_eval_default
-
-    def parse_chunk_eval_option(self, stripped: str) -> None:
-        """
-        Parse chunk options to extract eval setting.
-
-        Searches for lines like "#| eval: false" or "#| eval: true"
-        within chunk options.
-
-        Parameters
-        ----------
-        stripped : str
-            The line to parse (with blank space at start removed).
-
-        Returns
-        -------
-        None
-            Stores the eval setting in self.current_chunk_eval attribute.
-            Sets to True for "true"/"yes"/"1", False for "false"/"no"/"0",
-            Does not modify self.current_chunk_eval if no eval option found.
-
-        """
-        # Extract the part after "#| "
-        options_part = stripped[3:]
-
-        # Look for eval: pattern
-        eval_match = re.search(
-            r"eval\s*:\s*(['\"]?)(\w+)\1",
-            options_part,
-        )
-
-        if eval_match:
-            value = eval_match.group(2).lower()
-            if value in ["true", "yes", "1"]:
-                self.current_chunk_eval = True
-            elif value in ["false", "no", "0"]:
-                self.current_chunk_eval = False
-            else:
-                self.current_chunk_eval = None
-
-        # If no eval match found, do NOT modify self.current_chunk_eval
-        # This preserves any previously parsed eval setting from earlier lines
 
     def _add_noqa(self, line: str, suppress: list[str]) -> str:
         """
@@ -497,7 +1030,7 @@ class QmdToPyConverter:
 
         """
         if line.lstrip().startswith("{{< include ") and line.rstrip().endswith(
-            ">}}",
+            ">}}"
         ):
             return f"# {line}"
         return line
@@ -529,7 +1062,7 @@ class QmdToPyConverter:
 
 def get_unique_filename(path: str | Path) -> Path:
     """
-    Generate unique path by adding "_n" before the file extension if needed.
+    Generate unique path by adding "_n" before the file extension, if needed.
 
     If the given path already exists, this function appends an incrementing
     number before the file extension (e.g., "file_1.py") until an unused
@@ -544,14 +1077,6 @@ def get_unique_filename(path: str | Path) -> Path:
     -------
     Path
         A unique file path that does not currently exist.
-
-    Examples
-    --------
-    >>> get_unique_filename("script.py")
-    PosixPath('script.py')  # if 'script.py' does not exist
-    >>> get_unique_filename("script.py")
-    PosixPath('script_1.py')  # if 'script.py' exists
-
     """
     path = Path(path)
     if not path.exists():
@@ -563,8 +1088,7 @@ def get_unique_filename(path: str | Path) -> Path:
 
     n = 1
     while True:
-        new_name = f"{stem}_{n}{suffix}"
-        new_path = parent / new_name
+        new_path = parent / f"{stem}_{n}{suffix}"
         if not new_path.exists():
             return new_path
         n += 1
@@ -598,15 +1122,7 @@ def convert_qmd_to_py(
     -------
     output_path : Path | None
         Path for the output .py file, or None if there was an error.
-
-    Examples
-    --------
-    >>> convert_qmd_to_py("input.qmd", "output.py", True)
-    # To use from the command line:
-    # $ python converter.py input.qmd [output.py] [-v]
-
     """
-    # Convert input path to a Path object
     qmd_path = Path(qmd_path)
 
     # Set up converter
@@ -659,8 +1175,8 @@ def convert_qmd_to_py(
         return None
     except PermissionError:
         print(
-            f"Error: Permission denied accessing '{qmd_path}' "
-            f"or '{output_path}'",
+            "Error: Permission denied accessing "
+            f"'{qmd_path}' or '{output_path}'"
         )
         return None
     # Intentional broad catch for unexpected conversion errors
@@ -670,26 +1186,5 @@ def convert_qmd_to_py(
     return output_path
 
 
-# To ensure it executes if run from terminal:
 if __name__ == "__main__":
-    # Set up argument parser with help statements
-    parser = CustomArgumentParser(
-        description="Convert .qmd file to python file.",
-    )
-    parser.add_argument("qmd_path", help="Path to the input .qmd file.")
-    parser.add_argument(
-        "output_path",
-        nargs="?",
-        default=None,
-        help="(Optional) path to the output .py file.",
-    )
-    parser.add_argument(
-        "-v",
-        "--verbose",
-        action="store_true",
-        help="Print detailed progress information.",
-    )
-    args = parser.parse_args()
-
-    # Pass arguments to function and run it
-    convert_qmd_to_py(args.qmd_path, args.output_path, args.verbose)
+    pass
