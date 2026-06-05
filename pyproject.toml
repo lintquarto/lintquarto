@@ -108,6 +108,7 @@ lint.per-file-ignores."tests/*" = [
     "S101",  # Use of `assert` detected
     "ANN",  # Missing type annotations
     "PLR2004",  # Magic value used in comparison
+    "SLF001",  # Private member accessed
 ]
 lint.per-file-ignores."docs/*" = [
     "INP001"
