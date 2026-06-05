@@ -15,6 +15,8 @@ keywords = ["lint", "quarto", "qmd", "pylint", "flake8", "mypy"]
 # Only two required dependencies - otherwise users install linters they want
 dependencies = [
   "toml",
+  "tree-sitter",
+  "tree-sitter-markdown",
   "pyyaml"
 ]
 
