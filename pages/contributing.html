@@ -367,9 +367,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="supported-python-versions" class="level2">
 <h2 class="anchored" data-anchor-id="supported-python-versions">Supported python versions</h2>
-<p><code>lintquarto</code> supports only actively maintained Python versions. Python 3.7 is end-of-life and Python 3.8 is in security-fix-only mode, so the package targets Python 3.9 and above.</p>
+<p><code>lintquarto</code> supports only actively maintained Python versions. Python 3.7 is end-of-life and Python 3.8 is in security-fix-only mode.</p>
 <p>Historically, the package targeted Python 3.7+ because the codebase depended on features introduced in Python 3.5-3.7 (e.g., <code>subprocess.run()</code>, f-strings, and <code>text=True</code> in <code>subprocess.run()</code>). We have since dropped 3.7 and 3.8 to align with current practice.</p>
 <p>This follows <a href="https://numpy.org/neps/nep-0029-deprecation_policy.html">NEP 29 guidance</a> used across the scientific Python ecosystem and keeps our tooling, packaging, and test matrix manageable.</p>
+<p>Python 3.9 support is not possible, as this package uses the tree-sitter-markdown package which requires Python 3.10+ and above.</p>
 <p><br></p>
 </section>
 <section id="updating-the-package" class="level2">
@@ -421,8 +422,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Fix A: The addition of a <code>home</code> element within <code>about</code>.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">home:</span> https://lintquarto.github.io/lintquarto/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Fix B: Correct python version requirements syntax as per the <a href="https://conda-forge.org/docs/maintainer/knowledge_base/#noarch-python">conda-forge documentation</a>, using <code>python_min</code> for <code>host</code> (fixed version), <code>run</code> (minimum version) and <code>requires</code> (fixed version).</p>
-<p>As our <code>python_min</code> differs from the conda default (currently 3.7), we change it by adding <code>{% set python_min = "3.9" %}</code> to the start of the script.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">{%</span> set python_min = <span class="st">"3.9"</span> %}</span>
+<p>As our <code>python_min</code> differs from the conda default (currently 3.7), we change it by adding <code>{% set python_min = "3.10" %}</code> to the start of the script.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">{%</span> set python_min = <span class="st">"3.10"</span> %}</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span></span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
