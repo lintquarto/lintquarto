@@ -20,10 +20,8 @@ dependencies = [
   "pyyaml"
 ]
 
-# Python 3.7 reached end-of-life in 2023 and 3.8 is in security-fix only mode.
-# lintquarto targets only actively maintained python versions, to align
-# with NEP 29 guidance and modern tooling support.
-requires-python = ">=3.9"
+# See CONTRIBUTING.md for explanation behind this
+requires-python = ">=3.10"
 
 classifiers = [
   "Development Status :: 4 - Beta",
@@ -34,7 +32,6 @@ classifiers = [
   "Topic :: Scientific/Engineering",
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
