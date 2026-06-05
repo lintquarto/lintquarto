@@ -13,6 +13,10 @@ from tree_sitter import Language, Node, Parser
 from .linelength import LineLengthDetector
 from .linters import Linters
 
+SPACING_RULE_LINTERS = ["flake8", "ruff", "pycodestyle"]
+NO_LINE_COUNT_PRESERVATION = ["radon-raw"]
+
+
 # ============================================================================
 # Converter class
 # ============================================================================
@@ -32,8 +36,10 @@ class QmdToPyConverter:
         Stores the lines to be written to the output Python file.
     yaml_eval_default : bool
         Default eval setting from YAML front matter.
-    uses_noqa : bool
-        Whether specified linter uses noqa.
+    spacing_rules : bool
+        Whether specified linter reports pycodestyle-style vertical spacing
+        checks, such as blank-line errors between top-level functions, classes,
+        and methods (e.g., E301, E302, E303, E305, and E306).
 
     """
 
@@ -62,14 +68,14 @@ class QmdToPyConverter:
         Linters().check_supported(self.linter)
 
         # Determine whether to preserve line count
-        if self.linter == "radon-raw":
-            self.preserve_line_count = False
-        else:
-            self.preserve_line_count = True
+        self.preserve_line_count = (
+            self.linter not in NO_LINE_COUNT_PRESERVATION
+        )
 
-        # Determine if linter uses noqa - if so, find max line length
-        self.uses_noqa = self.linter in ["flake8", "ruff", "pycodestyle"]
-        if self.uses_noqa:
+        # Determine if linter needs noqa for spacing rules.
+        # If so, find max line length.
+        self.spacing_rules = self.linter in SPACING_RULE_LINTERS
+        if self.spacing_rules:
             len_detect = LineLengthDetector(linter=self.linter)
             self.max_line_length = len_detect.get_line_length()
 
@@ -952,7 +958,7 @@ class QmdToPyConverter:
 
         # For linting tools that use `noqa`, add suppression rules to the first
         # code line in the chunk to avoid false positives.
-        if row == first_code_row and row != magic_row and self.uses_noqa:
+        if row == first_code_row and row != magic_row and self.spacing_rules:
             line = self._add_noqa_for_first_code_line(line, stripped)
 
         self.py_lines.append(line)
