@@ -99,7 +99,7 @@ Options:
 * `-n, --lint-non-exec` - Also lint non-executable Python code chunks
 * `-v, --verbose` - Verbose output.
 * `-k, --keep-temp` - Keep temporary .py files after linting.
-* `-c COMMAND, --custom-commands COMMAND` - Custom command to run against the generated .py file. Repeat for multiple commands.Example: --custom-commands "mytool"
+* `-c COMMAND, --custom-commands COMMAND` - Custom command to run against the generated .py file. Repeat for multiple commands. Example: --custom- commands "mytool"
 
 Commands:
 
