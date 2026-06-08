@@ -43,9 +43,10 @@ def temp_py_file(py_file: Path, *, keep: bool) -> Iterator[Path]:
                 )
 
 
-def process_qmd(
+def process_qmd(  # noqa: PLR0913
     qmd_file: str | Path,
-    linter: str,
+    linter: str | None = None,
+    custom_command: list[str] | None = None,
     *,  # Subsequent arguments are keyword-only (`var=True`, not just `True`)
     keep_temp_files: bool = False,
     verbose: bool = False,
@@ -59,7 +60,9 @@ def process_qmd(
     qmd_file : str | Path
         Path to the input .qmd file.
     linter : str
-        Name of the linter to use (pylint, flake8, mypy).
+        Name of the linter to use.
+    custom_command : str
+        Custom command to run against generated .py file.
     keep_temp_files : bool, optional
         If True, retain the temporary .py file after linting.
     verbose : bool, optional
@@ -81,15 +84,11 @@ def process_qmd(
         print(f"Error: {qmd_file} is not a valid .qmd file.", file=sys.stderr)
         return 1
 
-    # Check if linter is supported by lintquarto and available on user's system
-    # Uses return codes 0 & 1 for CLI/shell compatability, as will be run
-    # from the command line
-    linters = Linters()
-    try:
-        linters.check_supported(linter)
-        linters.check_available(linter)
-    except (ValueError, FileNotFoundError) as e:
-        print(f"Error: {e}", file=sys.stderr)
+    if (linter is None) == (custom_command is None):
+        print(
+            "Error: Provide exactly one of 'linter' or 'custom_command'.",
+            file=sys.stderr,
+        )
         return 1
 
     # Convert the .qmd file to a .py file
@@ -107,6 +106,7 @@ def process_qmd(
             file=sys.stderr,
         )
         return 1
+
     # Catch for if the function returns None
     if py_file is None:
         print(
@@ -117,8 +117,12 @@ def process_qmd(
 
     with temp_py_file(py_file=py_file, keep=keep_temp_files):
         try:
-            # Run linter on the temporary .py file and capture output
-            command = linters.supported[linter] + [str(py_file)]
+            if custom_command is not None:
+                command = [*custom_command, str(py_file)]
+            else:
+                command = Linters().supported[linter] + [str(py_file)]
+
+            # Run command on the temporary .py file and capture output
             result = subprocess.run(
                 command,
                 capture_output=True,
