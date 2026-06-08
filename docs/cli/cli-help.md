@@ -1,7 +1,7 @@
 Usage:
 
 ```
-lintquarto [-h] [-l LINTER [LINTER ...]] [-p PATHS [PATHS ...]] [-e [[exclude_paths] ...]] [-n] [-v] [-k] {list} ...
+lintquarto [-h] [-l LINTER [LINTER ...]] [-p PATHS [PATHS ...]] [-e [[exclude_paths] ...]] [-n] [-v] [-k] [-c COMMAND] {list} ...
 ```
 
 Lint Python code in Quarto (.qmd) files.
@@ -15,6 +15,7 @@ Options:
 * `-n, --lint-non-exec` - Also lint non-executable Python code chunks
 * `-v, --verbose` - Verbose output.
 * `-k, --keep-temp` - Keep temporary .py files after linting.
+* `-c COMMAND, --custom-commands COMMAND` - Custom command to run against the generated .py file. Repeat for multiple commands. Example: --custom- commands "mytool"
 
 Commands:
 

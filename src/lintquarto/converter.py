@@ -65,7 +65,8 @@ class QmdToPyConverter:
         self.yaml_eval_default = True
 
         # Check the linter is supported
-        Linters().check_supported(self.linter)
+        if self.linter is not None:
+            Linters().check_supported(self.linter)
 
         # Determine whether to preserve line count
         self.preserve_line_count = (

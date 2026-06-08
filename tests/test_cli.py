@@ -155,3 +155,88 @@ def test_cli_continues_after_unhandled_process_error(tmp_path):
 
     assert len(processed) == 2
     assert exc_info.value.code == 1
+
+
+def test_cli_runs_linter_and_custom_command(tmp_path):
+    """Run with linter and custom command."""
+    qmd_file = tmp_path / "example.qmd"
+    qmd_file.write_text(
+        "```{python}\nx = 1\nprint(x)\n```\n",
+        encoding="utf-8",
+    )
+
+    tool_file = tmp_path / "tool1.py"
+    tool_file.write_text(
+        "import sys\n"
+        "from pathlib import Path\n"
+        "print(f'CUSTOM1 {Path(sys.argv[1]).name}')\n",
+        encoding="utf-8",
+    )
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "lintquarto",
+            "--paths",
+            str(qmd_file),
+            "--linters",
+            "ruff",
+            "--custom-commands",
+            f"{sys.executable} {tool_file}",
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    output = result.stdout + result.stderr
+    assert result.returncode == 0
+    assert "CUSTOM1" in output
+
+
+def test_cli_runs_multiple_custom_commands(tmp_path):
+    """Run with multiple custom commands."""
+    qmd_file = tmp_path / "example.qmd"
+    qmd_file.write_text(
+        "```{python}\nx = 1\nprint(x)\n```\n",
+        encoding="utf-8",
+    )
+
+    tool1 = tmp_path / "tool1.py"
+    tool1.write_text(
+        "import sys\n"
+        "from pathlib import Path\n"
+        "print(f'CUSTOM1 {Path(sys.argv[1]).name}')\n",
+        encoding="utf-8",
+    )
+
+    tool2 = tmp_path / "tool2.py"
+    tool2.write_text(
+        "import sys\n"
+        "from pathlib import Path\n"
+        "print(f'CUSTOM2 {Path(sys.argv[1]).name}')\n",
+        encoding="utf-8",
+    )
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "lintquarto",
+            "--paths",
+            str(qmd_file),
+            "--custom-commands",
+            f"{sys.executable} {tool1}",
+            "--custom-commands",
+            f"{sys.executable} {tool2}",
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    output = result.stdout + result.stderr
+    assert result.returncode == 0
+    assert "CUSTOM1" in output
+    assert "CUSTOM2" in output
