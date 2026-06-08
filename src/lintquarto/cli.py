@@ -4,6 +4,7 @@ import argparse
 import shlex
 import shutil
 import sys
+from pathlib import Path
 
 from .args import CustomArgumentParser
 from .linters import Linters
@@ -202,7 +203,7 @@ def parse_custom_commands(
     custom_commands = []
     try:
         for raw_command in raw_commands:
-            parsed = shlex.split(raw_command)
+            parsed = shlex.split(raw_command, posix=(sys.platform != "win32"))
             if not parsed:
                 print(
                     "Error: Custom command cannot be empty.", file=sys.stderr
@@ -211,7 +212,7 @@ def parse_custom_commands(
 
             executable = parsed[0]
             resolved = shutil.which(executable)
-            if resolved is None:
+            if resolved is None and not Path(executable).exists():
                 print(
                     (
                         "Error: Custom command executable not found: "
