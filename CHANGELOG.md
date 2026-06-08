@@ -5,6 +5,37 @@ All notable changes to this project are documented.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Dates formatted as YYYY-MM-DD as per [ISO standard](https://www.iso.org/iso-8601-date-and-time-format.html).
 
+## v0.12.0 - 2026-06-08
+
+This release primarily addresses feedback from @sneakers-the-rat 's [PyOpenSci review](https://github.com/pyOpenSci/software-submission/issues/257#issuecomment-4523576886) - as well as the tree-sitter suggestion from @isabelizimm.
+
+### Added
+
+* Check linter availability first before all files, so can fail fast if not present (#133).
+* Ignore `RUF100` (#120) and `INP001` (#141) by default, fixed by @Bergam0t.
+* Add script to automatically generate CLI documentation (#130), with GitHub workflow checking README and docs are consistent, to help prevent this going out-of-date.
+* In documentation, add note about limitation of pycodestyle and `# noqa`, and possible workarounds using flake8 and ruff (#142).
+* Add `lintquarto list` command which will list the supported linters and whether they are available or not (#131).
+* Add `custom-command` option so users can pass their own tools (#159).
+* Add support for listing lintquarto settings in `[tool.lintquarto]` within `pyproject.toml` (#132).
+
+### Changed
+
+* Centred badges in README (#146) by @aselaws.
+* Moved functions out of `__main__.py` (#135) and refactored `main()` as it was too complex (#161).
+* Refactored converter from regex to `tree-sitter-markdown` (#106).
+* Spacing and line preservation rules refactored to constants at start of script (#162).
+* Removed `uv.lock` and `pythonversion` - now, actions install from `pyproject.toml` and `CONTRIBUTING` supports any environment manager rather than pushing uv.
+
+### Fixed
+
+* Prevent directories with .qmd suffix being collected (#139) fixed by @sneakers-the-rat.
+* Handle valueboxes (#134).
+* Ensure temporary files are cleaned up, using a contextmanager (#137) and handling exceptions (#140).
+* Replace all chunk options with placeholders, fixing a false positive `E265` pycodestyle error (#138).
+
+### Removed
+
 ## v0.11.0 - 2026-05-22
 
 This release primarily fixes incorrect linting of IPython cell magics and restores pyrefly regression tests across older versions and pyrefly 1.0.0+, alongside smaller updates to docs, non-executable linting guidance, and environment checks.
@@ -27,7 +58,7 @@ This release primarily fixes incorrect linting of IPython cell magics and restor
 
 ## v0.10.0 - 2026-05-06
 
-This release primarily addresses feedback from @isabelizimm 's [PyOpenSci review](https://github.com/pyOpenSci/software-submission/issues/257).
+This release primarily addresses feedback from @isabelizimm 's [PyOpenSci review](https://github.com/pyOpenSci/software-submission/issues/257#issuecomment-4167415084).
 
 ### Added
 
