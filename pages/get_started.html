@@ -222,7 +222,7 @@ pip install -e ".[all]"</code></pre>
 <section id="basic-usage" class="level2">
 <h2 class="anchored" data-anchor-id="basic-usage">Basic usage</h2>
 <p>Usage:</p>
-<pre><code>lintquarto [-h] [-l LINTER [LINTER ...]] [-p PATHS [PATHS ...]] [-e [[exclude_paths] ...]] [-n] [-v] [-k] {list} ...</code></pre>
+<pre><code>lintquarto [-h] [-l LINTER [LINTER ...]] [-p PATHS [PATHS ...]] [-e [[exclude_paths] ...]] [-n] [-v] [-k] [-c COMMAND] {list} ...</code></pre>
 <p>Lint Python code in Quarto (.qmd) files.</p>
 <p>Options:</p>
 <ul>
@@ -233,6 +233,7 @@ pip install -e ".[all]"</code></pre>
 <li><code>-n, --lint-non-exec</code> - Also lint non-executable Python code chunks</li>
 <li><code>-v, --verbose</code> - Verbose output.</li>
 <li><code>-k, --keep-temp</code> - Keep temporary .py files after linting.</li>
+<li><code>-c COMMAND, --custom-commands COMMAND</code> - Custom command to run against the generated .py file. Repeat for multiple commands. Example: –custom- commands “mytool”</li>
 </ul>
 <p>Commands:</p>
 <ul>
