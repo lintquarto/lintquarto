@@ -5,6 +5,7 @@ lintquarto [-h] [-l LINTER [LINTER ...]] [-p PATHS [PATHS ...]] [-e [[exclude_pa
 ```
 
 Lint Python code in Quarto (.qmd) files.
+Configuration can also be provided in pyproject.toml under [tool.lintquarto]. CLI arguments override configuration file.
 
 Options:
 

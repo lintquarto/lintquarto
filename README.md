@@ -89,6 +89,7 @@ lintquarto [-h] [-l LINTER [LINTER ...]] [-p PATHS [PATHS ...]] [-e [[exclude_pa
 ```
 
 Lint Python code in Quarto (.qmd) files.
+Configuration can also be provided in pyproject.toml under [tool.lintquarto]. CLI arguments override configuration file.
 
 Options:
 
@@ -108,6 +109,27 @@ Commands:
 Passing extra arguments directly to linters is not supported.
 Only `.qmd` files are processed.
 <!-- cli-help:end -->
+
+### Configuration file
+
+As an alternative to passing flags on every run, you can declare your settings once in a `[tool.lintquarto]` section in your `pyproject.toml`. The arguments are eqvuialent to those used on the command line. For example:
+
+```{.toml}
+[tool.lintquarto]
+linters = [
+  "ruff",
+  "pycodestyle",
+]
+paths = [
+  "examples/",
+  "dashboard/index.qmd",
+]
+lint-non-exec = false
+```
+
+With this in place, you can run `lintquarto` with no arguments.
+
+**Note:** CLI flags will always take priority over `pyproject.toml`. If you supply `-l` or `-p` on the command line, those values are used and the corresponding config file values are ignored. `exclude` and `custom-commands` are additive - values from both sources are merged together.
 
 ### Examples
 

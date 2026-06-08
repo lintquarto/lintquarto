@@ -67,6 +67,11 @@ def build_parser() -> CustomArgumentParser:
     # Set up custom argumentparser with help statements
     parser = CustomArgumentParser(
         description="Lint Python code in Quarto (.qmd) files.",
+        epilog=(
+            "Configuration can also be provided in pyproject.toml under "
+            "[tool.lintquarto]. CLI arguments override configuration file."
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 
     # Subcommands: list available linters in environment
