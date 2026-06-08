@@ -80,6 +80,15 @@
       "contributions": [
         "ideas"
       ]
+    },
+    {
+      "login": "TomMonks",
+      "name": "Tom Monks",
+      "avatar_url": "https://avatars.githubusercontent.com/u/881493?v=4",
+      "profile": "https://experts.exeter.ac.uk/19244-thomas-monks",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 4,
