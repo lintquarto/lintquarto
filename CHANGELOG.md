@@ -36,6 +36,8 @@ This release primarily addresses feedback from @sneakers-the-rat 's [PyOpenSci r
 
 ### Removed
 
+* Removed support for Python 3.9. This was due to a refactor to using `tree-sitter-markdown`, which requires 3.10+.
+
 ## v0.11.0 - 2026-05-22
 
 This release primarily fixes incorrect linting of IPython cell magics and restores pyrefly regression tests across older versions and pyrefly 1.0.0+, alongside smaller updates to docs, non-executable linting guidance, and environment checks.
