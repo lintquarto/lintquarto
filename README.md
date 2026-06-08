@@ -27,6 +27,9 @@ Currently supported:
 [![Click to view docs](https://img.shields.io/badge/🖱️_Click_to_view_package_documentation-37a779?style=for-the-badge)](https://lintquarto.github.io/lintquarto/)
 
 *This package is featured on [awesome-quarto](https://github.com/mcanouil/awesome-quarto).*
+
+*This package has been [reviewed by PyOpenSci](https://github.com/pyOpenSci/software-submission/issues/257).*
+
 <p align="center">
   <img src="https://github.com/lintquarto/lintquarto/raw/main/docs/images/linting.png" alt="Linting illustration" width="400"/>
 </p>
@@ -171,12 +174,6 @@ lintquarto -l ruff -p . -e analysis/test.qmd
 Visit our website to find out more and see examples from running with each code validation tool.
 
 [![Click to view docs](https://img.shields.io/badge/🖱️_Click_to_view_package_documentation-37a779?style=for-the-badge)](https://lintquarto.github.io/lintquarto/)
-
-<br>
-
-## PyOpenSci
-
-This package has been [submit to PyOpenSci for review](https://github.com/pyOpenSci/software-submission/issues/257). This includes an article for consideration by the Journal of Open Source Software (JOSS) which is in the `inst/` folder of this repository.
 
 <br>
 
