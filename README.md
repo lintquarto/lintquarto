@@ -54,6 +54,18 @@ For a one-step installation that includes lintquarto and all supported linters a
 pip install lintquarto[all]
 ```
 
+### Install with uv
+
+```
+uv add lintquarto
+```
+
+Or to include all supported linters and type checkers:
+
+```
+uv add "lintquarto[all]"
+```
+
 ### Install with conda
 
 ```
@@ -61,6 +73,9 @@ conda install conda-forge::lintquarto
 ```
 
 With conda, only the main lintquarto tool is installed. If you want to use any linters or type checkers, you must install them separately (either with conda or pip, depending on availability).
+
+
+
 
 ### Development version
 
