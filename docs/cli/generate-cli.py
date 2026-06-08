@@ -114,9 +114,21 @@ for line in lines:
         current_flag = match.group(1).strip()
         first_desc = match.group(2).strip() if match.group(2) else ""
         current_desc = [first_desc] if first_desc else []
-    else:
-        # Continuation line — append to current description
+    elif line.startswith(" "):
+        # Continuation line for the current option/command description
         current_desc.append(stripped.strip())
+    else:
+        # Non-indented text after options/commands belongs to epilog/footer,
+        # not to the current option/command.
+        flush_current(
+            current_flag,
+            current_desc,
+            commands if in_commands else options,
+        )
+        current_flag, current_desc = None, []
+        in_options = False
+        in_commands = False
+        description_lines.append(line.strip())
 
 # Flush final entry
 target = commands if in_commands else options
