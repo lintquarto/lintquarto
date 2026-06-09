@@ -7,6 +7,95 @@ from pathlib import Path
 
 import toml
 
+# =============================================================================
+# Main function: find pyproject.toml and load arguments
+# =============================================================================
+
+
+def load_config(start_dir: str | Path = ".") -> LintquartoConfig:
+    """
+    Load `[tool.lintquarto]` settings from the nearest `pyproject.toml`.
+
+    Parameters
+    ----------
+    start_dir : str | Path, optional
+        Directory from which to begin the search. Defaults to the current
+        working directory.
+
+    Returns
+    -------
+    LintquartoConfig
+        Parsed configuration. All fields default to empty lists or `False`
+        when not specified.
+    """
+    pyproject_path = find_pyproject_toml(start_dir)
+    if pyproject_path is None:
+        return LintquartoConfig()
+
+    try:
+        with pyproject_path.open(encoding="utf-8") as f:
+            data = toml.load(f)
+    except Exception:  # noqa: BLE001
+        # Use defaults if the file cannot be read or parsed
+        return LintquartoConfig()
+
+    section = data.get("tool", {}).get("lintquarto", {})
+    if not section:
+        return LintquartoConfig()
+
+    return LintquartoConfig(
+        linters=_str_list(section, "linters"),
+        formatters=_str_list(section, "formatters"),
+        paths=_str_list(section, "paths"),
+        exclude=_str_list(section, "exclude"),
+        lint_non_exec=_bool(section, "lint-non-exec"),
+        verbose=_bool(section, "verbose"),
+        keep_temp=_bool(section, "keep-temp"),
+        custom_commands=_str_list(section, "custom-commands"),
+        config_path=pyproject_path,
+    )
+
+
+# =============================================================================
+# Find nearest pyproject.toml file
+# =============================================================================
+
+
+def find_pyproject_toml(start_dir: str | Path = ".") -> Path | None:
+    """
+    Walk up the directory tree to find a `pyproject.toml` file.
+
+    Parameters
+    ----------
+    start_dir : str | Path, optional
+        Directory from which to begin searching. Defaults to the current
+        working directory.
+
+    Returns
+    -------
+    Path | None
+        Resolved path to the first `pyproject.toml` found, or `None` if
+        none exists in the tree.
+    """
+    current = Path(start_dir).resolve()
+
+    while True:
+        candidate = current / "pyproject.toml"
+        if candidate.is_file():
+            return candidate
+        parent = current.parent
+        if parent == current:
+            return None
+
+        # Reached neither a config file nor the filesystem root yet,
+        # so continue searching in the parent directory
+        current = parent
+
+
+# =============================================================================
+# Blank configuration template
+# =============================================================================
+
 
 @dataclass
 class LintquartoConfig:
@@ -53,79 +142,9 @@ class LintquartoConfig:
     config_path: Path | None = None
 
 
-def find_pyproject_toml(start_dir: str | Path = ".") -> Path | None:
-    """
-    Walk up the directory tree to find a `pyproject.toml` file.
-
-    Parameters
-    ----------
-    start_dir : str | Path, optional
-        Directory from which to begin searching. Defaults to the current
-        working directory.
-
-    Returns
-    -------
-    Path | None
-        Resolved path to the first `pyproject.toml` found, or `None` if
-        none exists in the tree.
-    """
-    current = Path(start_dir).resolve()
-
-    while True:
-        candidate = current / "pyproject.toml"
-        if candidate.is_file():
-            return candidate
-        parent = current.parent
-        if parent == current:
-            return None
-
-        # Reached neither a config file nor the filesystem root yet,
-        # so continue searching in the parent directory
-        current = parent
-
-
-def load_config(start_dir: str | Path = ".") -> LintquartoConfig:
-    """
-    Load `[tool.lintquarto]` settings from the nearest `pyproject.toml`.
-
-    Parameters
-    ----------
-    start_dir : str | Path, optional
-        Directory from which to begin the search. Defaults to the current
-        working directory.
-
-    Returns
-    -------
-    LintquartoConfig
-        Parsed configuration. All fields default to empty lists or `False`
-        when not specified.
-    """
-    pyproject_path = find_pyproject_toml(start_dir)
-    if pyproject_path is None:
-        return LintquartoConfig()
-
-    try:
-        with pyproject_path.open(encoding="utf-8") as f:
-            data = toml.load(f)
-    except Exception:  # noqa: BLE001
-        # Use defaults if the file cannot be read or parsed
-        return LintquartoConfig()
-
-    section = data.get("tool", {}).get("lintquarto", {})
-    if not section:
-        return LintquartoConfig()
-
-    return LintquartoConfig(
-        linters=_str_list(section, "linters"),
-        formatters=_str_list(section, "formatters"),
-        paths=_str_list(section, "paths"),
-        exclude=_str_list(section, "exclude"),
-        lint_non_exec=_bool(section, "lint-non-exec"),
-        verbose=_bool(section, "verbose"),
-        keep_temp=_bool(section, "keep-temp"),
-        custom_commands=_str_list(section, "custom-commands"),
-        config_path=pyproject_path,
-    )
+# =============================================================================
+# Helpers used when extracting information from pyproject.toml
+# =============================================================================
 
 
 def _str_list(section: dict, key: str) -> list[str]:
