@@ -752,7 +752,7 @@ class QmdToPyConverter:
         # Build a fast lookup from row index -> block metadata, so for any
         # given line we can quickly tell whether it belongs to a Python chunk
         # and, if so, which one.
-        row_to_block = self._make_row_to_block(self.python_blocks)
+        row_to_block = self._make_row_to_block()
 
         # Walk through every row in the document and decide what to save
         # for that row in the output Python view.
