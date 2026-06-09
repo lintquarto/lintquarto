@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 import warnings
 from pathlib import Path
+from typing import Literal
 
 import tree_sitter_markdown as tsmd
 import yaml
@@ -15,6 +16,8 @@ from .linters import Linters
 
 SPACING_RULE_LINTERS = ["flake8", "ruff", "pycodestyle"]
 NO_LINE_COUNT_PRESERVATION = ["radon-raw"]
+
+FORMAT_SEPARATOR_PREFIX = "# %%LINTQUARTO-BLOCK-"
 
 
 # ============================================================================
@@ -32,10 +35,18 @@ class QmdToPyConverter:
         Name of the linter that will be used.
     lint_non_exec : bool
         If True, also lint non-executable Python code chunks.
-    py_lines : list
+    mode : {"lint", "format"}, optional
+        Conversion mode. `lint` preserves line alignment for diagnostics.
+        `format` emits a formatter-friendly Python file with block separators
+        so code can later be spliced back into the original QMD document.
+    py_lines : list[str]
         Stores the lines to be written to the output Python file.
+    python_blocks : list[dict]
+        List to store metadata for all Python blocks.
     yaml_eval_default : bool
         Default eval setting from YAML front matter.
+    preserve_line_count : bool
+        If True, will preserve line alignment.
     spacing_rules : bool
         Whether specified linter reports pycodestyle-style vertical spacing
         checks, such as blank-line errors between top-level functions, classes,
@@ -48,6 +59,7 @@ class QmdToPyConverter:
         linter: str,
         *,
         lint_non_exec: bool = False,
+        mode: Literal["lint", "format"] = "lint",
     ) -> None:
         """
         Initialise QmdToPyConverter.
@@ -58,10 +70,15 @@ class QmdToPyConverter:
             Name of the linter that will be used.
         lint_non_exec : bool, optional
             If True, also lint non-executable Python code chunks.
+        mode : Literal["lint", "format"], optional
+            Whether to general file suitable for linter or formatter.
         """
         self.linter = linter
         self.lint_non_exec = lint_non_exec
+        self.mode = mode
+
         self.py_lines: list[str] = []
+        self.python_blocks: list[dict] = []
         self.yaml_eval_default = True
 
         # Check the linter is supported
@@ -70,12 +87,15 @@ class QmdToPyConverter:
 
         # Determine whether to preserve line count
         self.preserve_line_count = (
-            self.linter not in NO_LINE_COUNT_PRESERVATION
+            self.mode == "lint"
+            and self.linter not in NO_LINE_COUNT_PRESERVATION
         )
 
         # Determine if linter needs noqa for spacing rules.
         # If so, find max line length.
-        self.spacing_rules = self.linter in SPACING_RULE_LINTERS
+        self.spacing_rules = (
+            self.mode == "lint" and self.linter in SPACING_RULE_LINTERS
+        )
         if self.spacing_rules:
             len_detect = LineLengthDetector(linter=self.linter)
             self.max_line_length = len_detect.get_line_length()
@@ -91,6 +111,11 @@ class QmdToPyConverter:
         This parses the QMD document with Tree-sitter, locates fenced Python
         code blocks, analyses chunk options and YAML front matter, and then
         builds an aligned list of Python lines suitable for a linter.
+
+        In `lint` mode, it will typically produce a line-aligned Python file
+        suitable for lint diagnostics. In `format` mode, it produces a compact
+        Python file containing only the format-eligible code blocks, separated
+        by stable marker comments.
 
         Parameters
         ----------
@@ -139,11 +164,15 @@ class QmdToPyConverter:
 
         # Find all fenced code blocks where the language is (active or
         # inactive) Python, and collect metadata about them
-        python_blocks = self._collect_python_blocks(src_bytes, root)
+        self.python_blocks = self._collect_python_blocks(src_bytes, root)
 
         # Build the output Python view, line by line, guided by the block
         # metadata extracted above
-        self._build_output(src_bytes, python_blocks)
+        if self.mode == "lint":
+            self._build_output(src_bytes)
+        elif self.mode == "format":
+            self._build_format_output(src_bytes)
+
         return self.py_lines
 
     # -------------------------------------------------------------------------
@@ -267,6 +296,10 @@ class QmdToPyConverter:
 
         # Sort by starting row so the blocks are in document order
         blocks.sort(key=lambda b: b["start_row"])
+
+        # Add count to blocks (used by conversion for formatter)
+        for i, block in enumerate(blocks):
+            block["block_index"] = i
 
         return blocks
 
@@ -694,12 +727,10 @@ class QmdToPyConverter:
             state["magic_row"] = row_num
 
     # -------------------------------------------------------------------------
-    # Construct Python version of QMD, guided by metadata collected above
+    # Construct Python file for linting, guided by metadata collected above
     # -------------------------------------------------------------------------
 
-    def _build_output(
-        self, src_bytes: bytes, python_blocks: list[dict]
-    ) -> None:
+    def _build_output(self, src_bytes: bytes) -> None:
         """
         Populate `self.py_lines` from the source, guided by block metadata.
 
@@ -712,8 +743,6 @@ class QmdToPyConverter:
         ----------
         src_bytes : bytes
             UTF-8 encoded document source.
-        python_blocks : list of dict
-            Metadata for all Python blocks.
         """
         # Decode document back into list of text lines so we can iterate by
         # row index (matching Tree-sitter's row numbering).
@@ -723,7 +752,7 @@ class QmdToPyConverter:
         # Build a fast lookup from row index -> block metadata, so for any
         # given line we can quickly tell whether it belongs to a Python chunk
         # and, if so, which one.
-        row_to_block = self._make_row_to_block(python_blocks)
+        row_to_block = self._make_row_to_block(self.python_blocks)
 
         # Walk through every row in the document and decide what to save
         # for that row in the output Python view.
@@ -740,8 +769,8 @@ class QmdToPyConverter:
                 continue
 
             # We are inside a Python block: decide whether this chunk should
-            # be linted at all, based on eval flags and YAML defaults.
-            should_lint = self.should_lint_block(block)
+            # be processed at all, based on eval flags and YAML defaults.
+            should_process = self.should_process_block(block)
 
             # Handle the opening/closing fence rows for the block.
             if self._handle_block_boundary_row(row, block):
@@ -753,30 +782,22 @@ class QmdToPyConverter:
             stripped = line.lstrip()
             if row in block["option_rows"]:
                 self._handle_option_row(
-                    line, stripped, should_lint=should_lint
+                    line, stripped, should_process=should_process
                 )
                 row += 1
                 continue
 
             # Any remaining rows inside the block are treated as Python code
             # lines: possibly rewritten (includes/annotations/noqa) or masked
-            # with placeholders depending on `should_lint` and block flags.
+            # with placeholders depending on `should_process` and block flags.
             self._handle_code_row(
-                row, line, stripped, block, should_lint=should_lint
+                row, line, stripped, block, should_process=should_process
             )
             row += 1
 
-    def _make_row_to_block(
-        self,
-        python_blocks: list[dict],
-    ) -> dict[int, dict]:
+    def _make_row_to_block(self) -> dict[int, dict]:
         """
         Build a row-index to block mapping for fast lookups.
-
-        Parameters
-        ----------
-        python_blocks : list of dict
-            All Python blocks found in the document.
 
         Returns
         -------
@@ -787,7 +808,7 @@ class QmdToPyConverter:
         row_to_block: dict[int, dict] = {}
         # For each Python block, mark every row it covers (from the opening
         # fence to the closing fence) as belonging to that block
-        for block in python_blocks:
+        for block in self.python_blocks:
             for row in range(block["start_row"], block["closing_row"] + 1):
                 row_to_block[row] = block
         return row_to_block
@@ -797,9 +818,9 @@ class QmdToPyConverter:
         if self.preserve_line_count:
             self.py_lines.append("# -")
 
-    def should_lint_block(self, block: dict) -> bool:
+    def should_process_block(self, block: dict) -> bool:
         """
-        Determine whether a given Python block should be linted.
+        Determine whether a given Python block should be processed.
 
         This combines global settings (`lint_non_exec`), the block's
         active/inactive status, any chunk-level `eval` options, and the
@@ -872,7 +893,7 @@ class QmdToPyConverter:
         line: str,
         stripped: str,
         *,
-        should_lint: bool,
+        should_process: bool,
     ) -> None:
         """
         Handle a row that belongs to the chunk-options region.
@@ -887,7 +908,7 @@ class QmdToPyConverter:
             Original line text.
         stripped : str
             Line text with leading whitespace removed.
-        should_lint : bool
+        should_process : bool
             Whether the surrounding block is subject to linting.
         """
         # Preserve blank lines to keep vertical spacing stable
@@ -903,7 +924,7 @@ class QmdToPyConverter:
         # If should link (e.g., active chunk, or set to lint) then save line -
         # but otherwise (e.g., inactive chunk) just save placeholder
         if stripped.startswith("#"):
-            if should_lint:
+            if should_process:
                 self.py_lines.append(self._handle_annotations(line))
             else:
                 self._append_placeholder()
@@ -920,7 +941,7 @@ class QmdToPyConverter:
         stripped: str,
         block: dict,
         *,
-        should_lint: bool,
+        should_process: bool,
     ) -> None:
         """
         Handle a non-boundary, non-option row inside a Python block.
@@ -935,12 +956,12 @@ class QmdToPyConverter:
             Line text with leading whitespace removed.
         block : dict
             Metadata for the enclosing Python block.
-        should_lint : bool
+        should_process : bool
             Whether this block is being linted.
         """
         # If the block should not be linted, or is a valuebox, mask all
         # code lines with placeholders.
-        if not should_lint or block["is_valuebox"]:
+        if not should_process or block["is_valuebox"]:
             self._append_placeholder()
             return
 
@@ -1065,6 +1086,53 @@ class QmdToPyConverter:
         line = re.sub(r"\s*#<<\s*$", "", line)
         # Strip Quarto code annotations like "# <1>"
         return re.sub(r"\s*# <\d+>\s*$", "", line)
+
+    # -------------------------------------------------------------------------
+    # Construct Python file for formatter, guided by metadata collected above
+    # -------------------------------------------------------------------------
+
+    def _build_format_output(self, src_bytes: bytes) -> None:
+        """
+        Build a formatter-friendly Python file.
+
+        Each format-eligible block is emitted once, preceded by a durable
+        separator comment. No placeholders or line-preservation logic are used.
+
+        Parameters
+        ----------
+        src_bytes : bytes
+            UTF-8 encoded document source.
+        """
+        all_lines = src_bytes.decode("utf-8", errors="replace").splitlines()
+
+        for block in self.python_blocks:
+            if not self.should_process_block(block):
+                continue
+            if block["is_valuebox"]:
+                continue
+            if block["first_code_row"] is None:
+                continue
+
+            block_index = block["block_index"]
+            self.py_lines.append(f"{FORMAT_SEPARATOR_PREFIX}{block_index}")
+
+            for row in range(block["first_code_row"], block["closing_row"]):
+                if row in block["option_rows"]:
+                    continue
+
+                line = all_lines[row]
+
+                if (
+                    block["magic_row"] is not None
+                    and row == block["magic_row"]
+                ):
+                    continue
+
+                line = self._handle_includes(line)
+                line = self._handle_annotations(line)
+                self.py_lines.append(line)
+
+            self.py_lines.append("")
 
 
 def get_unique_filename(path: str | Path) -> Path:
