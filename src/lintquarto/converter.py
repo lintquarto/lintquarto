@@ -12,7 +12,7 @@ import yaml
 from tree_sitter import Language, Node, Parser
 
 from .linelength import LineLengthDetector
-from .registry import Linters
+from .registry import Formatters, Linters
 
 SPACING_RULE_LINTERS = ["flake8", "ruff", "pycodestyle"]
 NO_LINE_COUNT_PRESERVATION = ["radon-raw"]
@@ -31,8 +31,6 @@ class QmdToPyConverter:
 
     Attributes
     ----------
-    linter : str
-        Name of the linter that will be used.
     lint_non_exec : bool
         If True, also lint non-executable Python code chunks.
     mode : {"lint", "format"}, optional
@@ -56,7 +54,7 @@ class QmdToPyConverter:
 
     def __init__(
         self,
-        linter: str,
+        tool: str,
         *,
         lint_non_exec: bool = False,
         mode: Literal["lint", "format"] = "lint",
@@ -66,14 +64,13 @@ class QmdToPyConverter:
 
         Parameters
         ----------
-        linter : str
-            Name of the linter that will be used.
+        tool : str
+            Name of the tool that will be used.
         lint_non_exec : bool, optional
             If True, also lint non-executable Python code chunks.
         mode : Literal["lint", "format"], optional
             Whether to general file suitable for linter or formatter.
         """
-        self.linter = linter
         self.lint_non_exec = lint_non_exec
         self.mode = mode
 
@@ -81,23 +78,25 @@ class QmdToPyConverter:
         self.python_blocks: list[dict] = []
         self.yaml_eval_default = True
 
-        # Check the linter is supported
-        if self.linter is not None:
-            Linters().check_supported(self.linter)
+        # Check the tool is supported
+        if self.mode == "lint":
+            if tool != "custom":
+                Linters().check_supported(tool)
+        else:
+            Formatters().check_supported(tool)
 
         # Determine whether to preserve line count
         self.preserve_line_count = (
-            self.mode == "lint"
-            and self.linter not in NO_LINE_COUNT_PRESERVATION
+            self.mode == "lint" and tool not in NO_LINE_COUNT_PRESERVATION
         )
 
         # Determine if linter needs noqa for spacing rules.
         # If so, find max line length.
         self.spacing_rules = (
-            self.mode == "lint" and self.linter in SPACING_RULE_LINTERS
+            self.mode == "lint" and tool in SPACING_RULE_LINTERS
         )
         if self.spacing_rules:
-            len_detect = LineLengthDetector(linter=self.linter)
+            len_detect = LineLengthDetector(linter=tool)
             self.max_line_length = len_detect.get_line_length()
 
     # -------------------------------------------------------------------------
@@ -1169,9 +1168,10 @@ def get_unique_filename(path: str | Path) -> Path:
         n += 1
 
 
-def convert_qmd_to_py(
+def convert_qmd_to_py(  # noqa: C901, PLR0913, PLR0912
     qmd_path: str | Path,
-    linter: str,
+    linter: str | None = None,
+    formatter: str | None = None,
     output_path: str | Path | None = None,
     *,
     verbose: bool = False,
@@ -1186,6 +1186,8 @@ def convert_qmd_to_py(
         Path to the input .qmd file.
     linter : str
         Name of the linter that will be used.
+    formatter : str
+        Name of the formatter that will be used.
     output_path : str | Path | None
         Path for the output .py file. If None, uses qmd_path with .py suffix.
     verbose : bool, optional
@@ -1200,8 +1202,22 @@ def convert_qmd_to_py(
     """
     qmd_path = Path(qmd_path)
 
+    if linter is not None and formatter is not None:
+        msg = "Provide only one of 'linter' or 'formatter'."
+        raise ValueError(msg)
+
+    if formatter is not None:
+        tool = formatter
+        mode = "format"
+    else:
+        # lint mode for both real linters and custom commands
+        tool = linter if linter is not None else "custom"
+        mode = "lint"
+
     # Set up converter
-    converter = QmdToPyConverter(linter=linter, lint_non_exec=lint_non_exec)
+    converter = QmdToPyConverter(
+        tool=tool, lint_non_exec=lint_non_exec, mode=mode
+    )
 
     # Determine output path. If provided, convert to a Path object. If not,
     # the file extension of the input file to `.py`
@@ -1258,7 +1274,122 @@ def convert_qmd_to_py(
     except Exception as e:  # noqa: BLE001
         print(f"Error during conversion: {e}")
         return None
+
+    if formatter is not None:
+        return output_path, converter
     return output_path
+
+
+def recreate_qmd_from_formatted_py(
+    qmd_path: str | Path,
+    py_path: str | Path,
+    python_blocks: list[dict],
+    *,
+    verbose: bool = False,
+) -> Path:
+    """
+    Recreate a QMD file by splicing formatted Python back into its blocks.
+
+    Parameters
+    ----------
+    qmd_path : str | Path
+        Path to the original `.qmd` file.
+    py_path : str | Path
+        Path to the formatted temporary `.py` file.
+    python_blocks : list[dict]
+        Block metadata collected by `QmdToPyConverter`.
+    verbose : bool, optional
+        If True, print progress information.
+
+    Returns
+    -------
+    Path
+        Path to the rewritten `.qmd` file.
+    """
+    qmd_path = Path(qmd_path)
+    py_path = Path(py_path)
+
+    with qmd_path.open(encoding="utf-8") as f:
+        qmd_lines = f.readlines()
+
+    with py_path.open(encoding="utf-8") as f:
+        py_lines = f.read().splitlines()
+
+    formatted_blocks = _parse_formatted_blocks(py_lines)
+
+    for block in sorted(
+        python_blocks, key=lambda b: b["block_index"], reverse=True
+    ):
+        block_index = block["block_index"]
+
+        if block_index not in formatted_blocks:
+            continue
+        if block["first_code_row"] is None:
+            continue
+
+        start = block["first_code_row"]
+        end = block["closing_row"]
+
+        qmd_lines[start:end] = [
+            line + "\n" for line in formatted_blocks[block_index]
+        ]
+
+    with qmd_path.open("w", encoding="utf-8") as f:
+        f.writelines(qmd_lines)
+
+    if verbose:
+        print(f"✓ Recreated {qmd_path} from formatted Python")
+
+    return qmd_path
+
+
+def _parse_formatted_blocks(py_lines: list[str]) -> dict[int, list[str]]:
+    """
+    Parse formatter output into per-block Python snippets.
+
+    The formatted Python file consists of one or more blocks separated by
+    marker lines of the form `f"{FORMAT_SEPARATOR_PREFIX}{index}"`,
+    where `index` is an integer block index. Each separator starts a new
+    block; all following lines up to the next separator (or end of file)
+    belong to that block. Trailing blank lines within each block are
+    stripped.
+
+    Parameters
+    ----------
+    py_lines : list[str]
+        Lines read from the temporary formatted Python file.
+
+    Returns
+    -------
+    blocks : dict[int, list[str]]
+        Mapping from block index to the list of formatted Python source
+        lines for that block (without trailing blank lines).
+    """
+    blocks: dict[int, list[str]] = {}
+    current_index: int | None = None
+    current_lines: list[str] = []
+
+    for line in py_lines:
+        if line.startswith(FORMAT_SEPARATOR_PREFIX):
+            if current_index is not None:
+                while current_lines and current_lines[-1] == "":
+                    current_lines.pop()
+                blocks[current_index] = current_lines
+
+            suffix = line.removeprefix(FORMAT_SEPARATOR_PREFIX).strip()
+            current_index = int(suffix)
+            current_lines = []
+            continue
+
+        if current_index is not None:
+            current_lines.append(line)
+
+    if current_index is not None:
+        while current_lines and current_lines[-1] == "":
+            current_lines.pop()
+        blocks[current_index] = current_lines
+
+    return blocks
 
 
 if __name__ == "__main__":

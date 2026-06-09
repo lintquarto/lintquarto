@@ -8,7 +8,12 @@ from pathlib import Path
 
 from .args import CustomArgumentParser
 from .config import LintquartoConfig, load_config
-from .processing import gather_qmd_files, process_qmd, validate_no_commas
+from .processing import (
+    format_qmd,
+    gather_qmd_files,
+    process_qmd,
+    validate_no_commas,
+)
 from .registry import Formatters, Linters
 
 
@@ -44,6 +49,11 @@ def main() -> None:
 
     exit_code = 0
 
+    if args.formatters:
+        for formatter in args.formatters:
+            exit_code = max(
+                exit_code, run_formatter(qmd_files, formatter, args)
+            )
     if args.linters:
         for linter in args.linters:
             exit_code = max(exit_code, run_linter(qmd_files, linter, args))
@@ -103,7 +113,7 @@ def build_parser() -> CustomArgumentParser:
         nargs="+",
         required=False,
         choices=formatters,
-        help=f"Formatter to run. Valid options: {formatters}."
+        help=f"Formatter to run. Valid options: {formatters}.",
     )
     parser.add_argument(
         "-p",
@@ -329,7 +339,7 @@ def validate_args(
     parser: CustomArgumentParser,
     args: argparse.Namespace,
     linters: Linters,
-    formatters: Formatters
+    formatters: Formatters,
 ) -> None:
     """
     Validate command-line arguments.
@@ -462,6 +472,53 @@ def list_tools() -> None:
             flag = "✓" if status["available"] else "✗"
             print(f"  {flag} {status['name']:16s} - {status['message']}")
         print()  # Blank line
+
+
+def run_formatter(
+    qmd_files: list[str], formatter: str, args: argparse.Namespace
+) -> int:
+    """
+    Run one built-in formatter across all qmd files.
+
+    Parameters
+    ----------
+    qmd_files : list[str]
+        List of paths to `.qmd` files to process.
+    formatter: str
+        Tool to run against each generated temporary Python file.
+    args : argparse.Namespace
+        Parsed command-line arguments. Expected to provide `keep_temp`,
+        `verbose`, and `lint_non_exec` attributes.
+
+    Returns
+    -------
+    int
+        Exit status for the custom command run. Returns 0 if all files are
+        processed successfully, otherwise returns a non-zero code if any file
+        fails.
+    """
+    print("==========================================================")
+    print(f"Running {formatter}...")
+    print("==========================================================")
+    exit_code = 0
+    for qmd_file in qmd_files:
+        try:
+            ret = format_qmd(
+                qmd_file=qmd_file,
+                formatter=formatter,
+                keep_temp_files=args.keep_temp,
+                verbose=args.verbose,
+                lint_non_exec=args.lint_non_exec,
+            )
+        except Exception as e:  # noqa: BLE001
+            print(
+                f"Error: Unexpected error processing {qmd_file}: {e}",
+                file=sys.stderr,
+            )
+            ret = 1
+        if ret != 0:
+            exit_code = ret
+    return exit_code
 
 
 def run_linter(

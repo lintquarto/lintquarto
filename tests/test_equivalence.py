@@ -28,7 +28,7 @@ def test_radon_hal_preserve_line_effect():
             "```\n",
         ]
         # Convert file manually (so can control preservation True/False)
-        conv = QmdToPyConverter(linter="radon-hal")
+        conv = QmdToPyConverter(tool="radon-hal")
         conv.preserve_line_count = preserve_line_count
         py_file = conv.convert(qmd_lines)
 
