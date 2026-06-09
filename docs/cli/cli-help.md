@@ -11,7 +11,7 @@ Options:
 
 * `-h, --help` - show this help message and exit
 * `-l LINTER [LINTER ...], --linters LINTER [LINTER ...]` - Linters to run. Valid options: ['flake8', 'mypy', 'pycodestyle', 'pydoclint', 'pyflakes', 'pylint', 'pyright', 'pyrefly', 'pytype', 'radon-cc', 'radon- mi', 'radon-raw', 'radon-hal', 'ruff', 'vulture']
-* `-f FORMATTER [FORMATTER ...], --formatters FORMATTER [FORMATTER ...]` - Formatter to run. Valid options: ['ruff-format', 'ruff-check-fix'].
+* `-f FORMATTER [FORMATTER ...], --formatters FORMATTER [FORMATTER ...]` - Formatter to run. Valid options: ['ruff-format', 'ruff-format-check', 'ruff-check-fix'].
 * `-p PATHS [PATHS ...], --paths PATHS [PATHS ...]` - Quarto files and/or directories to lint.
 * `-e [[exclude_paths] ...], --exclude [[exclude_paths] ...]` - Files and/or directories to exclude from linting.
 * `-n, --lint-non-exec` - Also lint non-executable Python code chunks

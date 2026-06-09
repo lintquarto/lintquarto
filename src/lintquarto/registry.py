@@ -144,13 +144,22 @@ class Linters(ToolRegistry):
 
 
 class Formatters(ToolRegistry):
-    """Registry of supported code formatters."""
+    """Registry of supported code formatters.
+
+    Attributes
+    ----------
+    check_only : set[str]
+        Names of formatters that only check formatting without modifying files.
+        For these formatters, ``format_qmd`` skips the write-back step.
+    """
 
     def __init__(self) -> None:
         super().__init__(
             {
                 "ruff-format": ["ruff", "format"],
+                "ruff-format-check": ["ruff", "format", "--check"],
                 "ruff-check-fix": ["ruff", "check", "--fix"],
             }
         )
         self.tool_label = "formatter"
+        self.check_only: set[str] = {"ruff-format-check"}

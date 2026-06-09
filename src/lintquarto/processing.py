@@ -235,12 +235,15 @@ def format_qmd(
                 print(result.stderr, file=sys.stderr, end="")
             if result.returncode != 0:
                 return result.returncode
-            recreate_qmd_from_formatted_py(
-                qmd_path=qmd_path,
-                py_path=py_file,
-                python_blocks=converter.python_blocks,
-                verbose=verbose,
-            )
+
+            formatters = Formatters()
+            if formatter not in formatters.check_only:
+                recreate_qmd_from_formatted_py(
+                    qmd_path=qmd_path,
+                    py_path=py_file,
+                    python_blocks=converter.python_blocks,
+                    verbose=verbose,
+                )
             if verbose:
                 print(f"✓ Successfully formatted {qmd_path}")
             return 0  # noqa: TRY300
