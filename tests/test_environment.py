@@ -2,7 +2,7 @@
 
 from utils import _is_linter_expected
 
-from lintquarto.linters import Linters
+from lintquarto.registry import Linters
 
 
 def _is_linter_available(linters: Linters, name: str) -> bool:

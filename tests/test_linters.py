@@ -8,7 +8,7 @@ from unittest.mock import patch
 import pytest
 from utils import skip_if_linter_unexpected
 
-from lintquarto.linters import Linters
+from lintquarto.registry import Linters
 
 ALL_LINTERS = [
     "flake8",

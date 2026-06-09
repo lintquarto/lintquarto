@@ -6,7 +6,7 @@ import tempfile
 from pathlib import Path
 
 from lintquarto.converter import QmdToPyConverter
-from lintquarto.linters import Linters
+from lintquarto.registry import Linters
 
 
 def test_radon_hal_preserve_line_effect():

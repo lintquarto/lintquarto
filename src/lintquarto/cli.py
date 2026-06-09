@@ -8,8 +8,8 @@ from pathlib import Path
 
 from .args import CustomArgumentParser
 from .config import LintquartoConfig, load_config
-from .linters import Linters
 from .processing import gather_qmd_files, process_qmd, validate_no_commas
+from .registry import Linters
 
 
 def main() -> None:

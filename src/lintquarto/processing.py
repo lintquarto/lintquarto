@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterator
 
 from .converter import convert_qmd_to_py
-from .linters import Linters
+from .registry import Linters
 
 
 # Arguments after * are keyword-only (`var=True`, not just `True`)

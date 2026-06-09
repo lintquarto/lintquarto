@@ -12,7 +12,7 @@ import yaml
 from tree_sitter import Language, Node, Parser
 
 from .linelength import LineLengthDetector
-from .linters import Linters
+from .registry import Linters
 
 SPACING_RULE_LINTERS = ["flake8", "ruff", "pycodestyle"]
 NO_LINE_COUNT_PRESERVATION = ["radon-raw"]
