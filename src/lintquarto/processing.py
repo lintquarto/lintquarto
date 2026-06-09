@@ -11,8 +11,8 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from collections.abc import Iterator
 
-from .converter import convert_qmd_to_py
-from .linters import Linters
+from .converter import convert_qmd_to_py, recreate_qmd_from_formatted_py
+from .registry import Formatters, Linters
 
 
 # Arguments after * are keyword-only (`var=True`, not just `True`)
@@ -58,10 +58,10 @@ def process_qmd(  # noqa: PLR0913
     Parameters
     ----------
     qmd_file : str | Path
-        Path to the input .qmd file.
-    linter : str
-        Name of the linter to use.
-    custom_command : str
+        Path to the `.qmd` file to process.
+    linter : str | None, optional
+        Name of the linter to run.
+    custom_command : str | None, optional
         Custom command to run against generated .py file.
     keep_temp_files : bool, optional
         If True, retain the temporary .py file after linting.
@@ -153,6 +153,104 @@ def process_qmd(  # noqa: PLR0913
             return 1
 
     return 0
+
+
+def format_qmd(
+    qmd_file: str | Path,
+    formatter: str,
+    *,
+    keep_temp_files: bool = False,
+    verbose: bool = False,
+    lint_non_exec: bool = False,
+) -> int:
+    """
+    Format Python code in a Quarto file.
+
+    This converts the input `.qmd` file into a temporary formatter-friendly
+    `.py` file, runs the requested formatter on it, writes the formatted Python
+    code back into the original `.qmd` file.
+
+    Parameters
+    ----------
+    qmd_file : str | Path
+        Path to the `.qmd` file to process.
+    formatter : str
+        Name of the supported formatter to run.
+    keep_temp_files : bool, optional
+        If True, keep the temporary `.py` file after processing.
+    verbose : bool, optional
+        If True, print verbose progress messages.
+    lint_non_exec : bool, optional
+        If True, also format non-executable Python code chunks.
+
+    Returns
+    -------
+    int
+        0 on success, nonzero on error.
+    """
+    # Convert input to Path object
+    qmd_path = Path(qmd_file)
+
+    # Validate that the file exists and has a .qmd extension
+    if not qmd_path.exists() or qmd_path.suffix != ".qmd":
+        print(f"Error: {qmd_file} is not a valid .qmd file.", file=sys.stderr)
+        return 1
+
+    # Convert the .qmd file to a .py file
+    try:
+        py_file, converter = convert_qmd_to_py(
+            qmd_path=str(qmd_path),
+            formatter=formatter,
+            verbose=verbose,
+            lint_non_exec=lint_non_exec,
+        )
+    # Catch for if the function raises an error
+    except Exception as e:  # noqa: BLE001
+        print(
+            f"Error: Failed to convert {qmd_file} to .py: {e}",
+            file=sys.stderr,
+        )
+        return 1
+
+    # Catch for if the function returns None
+    if py_file is None:
+        print(
+            f"Error: Failed to convert {qmd_file} to .py",
+            file=sys.stderr,
+        )
+        return 1
+
+    with temp_py_file(py_file=py_file, keep=keep_temp_files):
+        try:
+            command = list(Formatters().supported[formatter])
+            command.append(str(py_file))
+            if verbose:
+                print(f"Running command: {' '.join(command)}")
+            result = subprocess.run(
+                command, capture_output=True, text=True, check=False
+            )
+            if result.stdout:
+                print(result.stdout, end="")
+            if result.stderr:
+                print(result.stderr, file=sys.stderr, end="")
+            if result.returncode != 0:
+                return result.returncode
+            recreate_qmd_from_formatted_py(
+                qmd_path=qmd_path,
+                py_path=py_file,
+                python_blocks=converter.python_blocks,
+                verbose=verbose,
+            )
+            if verbose:
+                print(f"✓ Successfully formatted {qmd_path}")
+            return 0  # noqa: TRY300
+
+        except Exception as e:  # noqa: BLE001
+            print(
+                f"Error: Unexpected error formatting {qmd_path}: {e}",
+                file=sys.stderr,
+            )
+            return 1
 
 
 def gather_qmd_files(

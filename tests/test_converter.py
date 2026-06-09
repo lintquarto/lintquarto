@@ -41,14 +41,14 @@ LINTERS_SUPPORTING_NOQA = ["flake8", "pycodestyle", "ruff"]
 @pytest.mark.parametrize("linter", PRESERVE_LINTERS)
 def test_empty(linter):
     """Empty input produces empty output."""
-    converter = QmdToPyConverter(linter=linter)
+    converter = QmdToPyConverter(tool=linter)
     assert not converter.convert([])
 
 
 @pytest.mark.parametrize("linter", PRESERVE_LINTERS)
 def test_blank_lines(linter):
     """Blank lines are converted as expected."""
-    converter = QmdToPyConverter(linter=linter)
+    converter = QmdToPyConverter(tool=linter)
     lines = ["", "", ""]
     expected = ["# -", "# -", "# -"]
     assert converter.convert(lines) == expected
@@ -57,7 +57,7 @@ def test_blank_lines(linter):
 @pytest.mark.parametrize("linter", PRESERVE_LINTERS)
 def test_markdown(linter):
     """Markdown lines are commented out."""
-    converter = QmdToPyConverter(linter=linter)
+    converter = QmdToPyConverter(tool=linter)
     assert converter.convert(["Some text", "More text"]) == ["# -", "# -"]
 
 
@@ -65,7 +65,7 @@ def test_markdown(linter):
 def test_non_python_chunk_is_commented(linter):
     """Non-Python and inactive chunks are commented out."""
     # Still keep [python] but not cell contents (consistent with eval=False)
-    converter = QmdToPyConverter(linter=linter)
+    converter = QmdToPyConverter(tool=linter)
     lines = ["```{r}", "1+1", "```", "```{.python}", "1+1", "```"]
     expected = ["# -", "# -", "# -", "# %% [python]", "# -", "# -"]
     assert converter.convert(lines) == expected
@@ -315,7 +315,7 @@ PYTHON_CHUNKS = [
 @pytest.mark.parametrize("linter", PRESERVE_LINTERS)
 def test_python_chunk_start(case, linter):
     """Python chunk conversion produces expected results for all linters."""
-    converter = QmdToPyConverter(linter=linter)
+    converter = QmdToPyConverter(tool=linter)
     result = converter.convert(case["lines"])
     if linter in LINTERS_SUPPORTING_NOQA:
         assert result == case["expected"]
@@ -371,7 +371,7 @@ def test_preserve_line_count_false_removes_non_code():
 
     # Create converter with radon-raw (which sets preservation to False - but
     # we do manually anyway for good measure!)
-    conv = QmdToPyConverter(linter="radon-raw")
+    conv = QmdToPyConverter(tool="radon-raw")
     conv.preserve_line_count = False
     _ = conv.preserve_line_count  # reassure static tools
     py_lines = conv.convert(qmd_lines)
@@ -513,7 +513,7 @@ def test_general_exception(tmp_path, capsys):
 def test_unsupported_linter():
     """Unsupported linter name raises an error."""
     with pytest.raises(ValueError, match="Unsupported linter"):
-        QmdToPyConverter(linter="notalinter")
+        QmdToPyConverter(tool="notalinter")
 
 
 # =============================================================================
@@ -607,7 +607,7 @@ def _parse_root(lines: list[str]):
 )
 def test_parse_yaml_eval_from_node(lines, expected_eval):
     """Unit: YAML front matter is interpreted with expected eval default."""
-    converter = QmdToPyConverter(linter="flake8")
+    converter = QmdToPyConverter(tool="flake8")
     src_bytes, root = _parse_root(lines)
     metadata_node = converter._find_metadata_node(root)
 
@@ -626,7 +626,7 @@ def test_parse_yaml_eval_from_node_invalid_yaml():
         "title: [unclosed\n",
         "---\n",
     ]
-    converter = QmdToPyConverter(linter="flake8")
+    converter = QmdToPyConverter(tool="flake8")
     src_bytes, root = _parse_root(lines)
     metadata_node = converter._find_metadata_node(root)
     assert metadata_node is not None
@@ -669,7 +669,7 @@ def test_parse_yaml_eval_from_node_invalid_yaml():
 )
 def test_parse_chunk_eval(line, expected):
     """Unit: _parse_chunk_eval parses boolean eval values."""
-    converter = QmdToPyConverter(linter="flake8")
+    converter = QmdToPyConverter(tool="flake8")
     stripped = line.lstrip()
     option_text = (
         stripped[3:].strip() if stripped.startswith("#| ") else stripped
@@ -681,7 +681,7 @@ def test_parse_chunk_eval(line, expected):
 
 def test_parse_chunk_eval_preserves_current_when_no_eval_key():
     """Unit: Leaves current value unchanged if no eval key."""
-    converter = QmdToPyConverter(linter="flake8")
+    converter = QmdToPyConverter(tool="flake8")
     assert (
         converter._parse_chunk_eval("other: true", current_eval=True) is True
     )
@@ -700,7 +700,7 @@ def _convert(
     *,  # Subsequent arguments are keyword-only (`var=True`, not just `True`)
     lint_non_exec=False,
 ):
-    conv = QmdToPyConverter(linter="flake8", lint_non_exec=lint_non_exec)
+    conv = QmdToPyConverter(tool="flake8", lint_non_exec=lint_non_exec)
     return conv.convert(lines)
 
 

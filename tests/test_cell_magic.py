@@ -47,7 +47,7 @@ def test_cell_magic_line_not_in_output(magic_line: str, linter: str) -> None:
         "x = 1",
         "```",
     ]
-    result = QmdToPyConverter(linter=linter).convert(lines)
+    result = QmdToPyConverter(tool=linter).convert(lines)
     magic_keyword = magic_line.split(maxsplit=1)[0]  # e.g. "%%prun"
     assert not any(magic_keyword in line for line in result), (
         f"Magic '{magic_keyword}' should not appear in converted output "
@@ -64,7 +64,7 @@ def test_cell_magic_line_becomes_placeholder(magic_line: str) -> None:
         "x = 1",
         "```",
     ]
-    result = QmdToPyConverter(linter="ruff").convert(lines)
+    result = QmdToPyConverter(tool="ruff").convert(lines)
     # Output line at same index as magic_line input should be a placeholder
     # (index 1, since index 0 is the chunk opener → "# %% [python]")
     assert result[1] == "# -", (
@@ -82,7 +82,7 @@ def test_line_count_preserved_with_cell_magic(magic_line: str) -> None:
         "x = 1",
         "```",
     ]
-    result = QmdToPyConverter(linter="ruff").convert(lines)
+    result = QmdToPyConverter(tool="ruff").convert(lines)
     assert len(result) == len(lines), (
         f"Line count mismatch for magic '{magic_line}'.\n"
         f"Input  ({len(lines)}): {lines}\n"
@@ -99,7 +99,7 @@ def test_python_magic_body_passes_through(magic_line: str) -> None:
         "result = sum(range(100))",
         "```",
     ]
-    result = QmdToPyConverter(linter="ruff").convert(lines)
+    result = QmdToPyConverter(tool="ruff").convert(lines)
     assert any("result = sum(range(100))" in line for line in result), (
         "Body code should pass through for python-style magic "
         f"'{magic_line}'.\n Output: {result}"
@@ -144,7 +144,7 @@ def test_prun_minimal_reproducer() -> None:
         "slow_function()",
         "```",
     ]
-    result = QmdToPyConverter(linter="ruff").convert(lines)
+    result = QmdToPyConverter(tool="ruff").convert(lines)
 
     # %%prun must not appear as raw Python in output
     assert not any("%%prun" in line for line in result), (
