@@ -102,16 +102,20 @@ quartodoc:
       contents:
         - main
         - build_parser
-        - merge_config
-        - _merge_prefer_cli
-        - _merge_additive
-        - _merge_bool_or
         - validate_args
         - parse_custom_commands
         - list_tools
         - run_formatter
         - run_linter
         - run_custom
+    - title: Merge module
+      desc: "Functions used to merge configuration settings with CLI arguments."
+      package: lintquarto.merge
+      contents:
+        - merge_config
+        - _merge_prefer_cli
+        - _merge_additive
+        - _merge_bool_or
     - title: Config module
       desc: "Support for declaring lintquarto settings in a `pyproject.toml` configuration file."
       package: lintquarto.config
