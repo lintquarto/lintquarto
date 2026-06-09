@@ -14,7 +14,7 @@ from .processing import (
     validate_no_commas,
 )
 from .registry import Formatters, Linters
-from .runner import run_custom, run_formatter, run_linter
+from .runner import ToolRunner
 
 # ============================================================================
 # Main function: entry point for the lintquarto CLI.
@@ -53,17 +53,22 @@ def main() -> None:
 
     exit_code = 0
 
+    # Run the formatters, linters and/or custom commands
+    tool_runner = ToolRunner(
+        qmd_files=qmd_files,
+        keep_temp=args.keep_temp,
+        verbose=args.verbose,
+        lint_non_exec=args.lint_non_exec,
+    )
     if args.formatters:
         for formatter in args.formatters:
-            exit_code = max(
-                exit_code, run_formatter(qmd_files, formatter, args)
-            )
+            exit_code = max(exit_code, tool_runner.run_formatter(formatter))
     if args.linters:
         for linter in args.linters:
-            exit_code = max(exit_code, run_linter(qmd_files, linter, args))
+            exit_code = max(exit_code, tool_runner.run_linter(linter))
     if args.custom_commands:
         for command in custom_commands:
-            exit_code = max(exit_code, run_custom(qmd_files, command, args))
+            exit_code = max(exit_code, tool_runner.run_custom(command))
 
     sys.exit(exit_code)
 
