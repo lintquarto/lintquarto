@@ -89,6 +89,14 @@ quartodoc:
         - convert_qmd_to_py
         - recreate_qmd_from_formatted_py
         - _parse_formatted_blocks
+    - title: Runner module
+      desc: "Code to run linters, formatters or custom commands on a list of Quarto files."
+      contents:
+        - _print_run_header
+        - _run_across_files
+        - run_formatter
+        - run_linter
+        - run_custom
     - title: Linters module
       desc: "Classes to check for supported and available Python linters, static type checkers, code analysis tools and code formatters on the user's system."
       package: lintquarto.registry
@@ -105,9 +113,6 @@ quartodoc:
         - validate_args
         - parse_custom_commands
         - list_tools
-        - run_formatter
-        - run_linter
-        - run_custom
     - title: Merge module
       desc: "Functions used to merge configuration settings with CLI arguments."
       package: lintquarto.merge

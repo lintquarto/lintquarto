@@ -147,7 +147,7 @@ def test_cli_continues_after_unhandled_process_error(tmp_path):
         return 0
 
     with (
-        patch("lintquarto.main.process_qmd", side_effect=fake_process_qmd),
+        patch("lintquarto.runner.process_qmd", side_effect=fake_process_qmd),
         patch("sys.argv", ["lintquarto", "-l", "flake8", "-p", str(tmp_path)]),
         pytest.raises(SystemExit) as exc_info,
     ):
