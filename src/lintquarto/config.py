@@ -17,6 +17,8 @@ class LintquartoConfig:
     ----------
     linters : list[str]
         Linter names to run. Equivalent to `-l` / `--linters`.
+    formatters : list[str]
+        Formatters to run. Equivalent to `-f` / `--formatters`.
     paths : list[str]
         Files and/or directories to lint. Equivalent to `-p` / `--paths`.
     exclude : list[str]
@@ -41,6 +43,7 @@ class LintquartoConfig:
     """
 
     linters: list[str] = field(default_factory=list)
+    formatters: list[str] = field(default_factory=list)
     paths: list[str] = field(default_factory=list)
     exclude: list[str] = field(default_factory=list)
     lint_non_exec: bool = False
@@ -114,6 +117,7 @@ def load_config(start_dir: str | Path = ".") -> LintquartoConfig:
 
     return LintquartoConfig(
         linters=_str_list(section, "linters"),
+        formatters=_str_list(section, "formatters"),
         paths=_str_list(section, "paths"),
         exclude=_str_list(section, "exclude"),
         lint_non_exec=_bool(section, "lint-non-exec"),
