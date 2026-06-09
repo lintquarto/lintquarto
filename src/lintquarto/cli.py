@@ -113,6 +113,7 @@ def build_parser() -> CustomArgumentParser:
         nargs="+",
         required=False,
         choices=formatters,
+        metavar="FORMATTER",
         help=f"Formatter to run. Valid options: {formatters}.",
     )
     parser.add_argument(
