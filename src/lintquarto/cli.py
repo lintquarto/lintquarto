@@ -9,7 +9,7 @@ from pathlib import Path
 from .args import CustomArgumentParser
 from .config import LintquartoConfig, load_config
 from .processing import gather_qmd_files, process_qmd, validate_no_commas
-from .registry import Linters
+from .registry import Formatters, Linters
 
 
 def main() -> None:
@@ -22,16 +22,17 @@ def main() -> None:
     parser = build_parser()
     args = parser.parse_args()
 
-    # If list command, exit and run list_linters()
+    # If list command, exit and run list_tools()
     if args.command == "list":
-        return list_linters()
+        return list_tools()
 
     # Load pyproject.toml config and back-fill any unset CLI args
     config = load_config()
     args = merge_config(args, config, verbose=args.verbose)
 
     linters = Linters()
-    validate_args(parser, args, linters)
+    formatters = Formatters()
+    validate_args(parser, args, linters, formatters)
 
     custom_commands = parse_custom_commands(args.custom_commands, linters)
 
@@ -62,7 +63,8 @@ def build_parser() -> CustomArgumentParser:
     parser : CustomArgumentParser
         CLI argument parser.
     """
-    linters = Linters()
+    linters = list(Linters().supported.keys())
+    formatters = list(Formatters().supported.keys())
 
     # Set up custom argumentparser with help statements
     parser = CustomArgumentParser(
@@ -74,7 +76,7 @@ def build_parser() -> CustomArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 
-    # Subcommands: list available linters in environment
+    # Subcommands
     subparsers = parser.add_subparsers(
         title="commands",
         dest="command",
@@ -85,17 +87,23 @@ def build_parser() -> CustomArgumentParser:
         help="List supported linters and whether they are available.",
     )
 
-    # Default: Running tools
+    # Default commands
     parser.add_argument(
         "-l",
         "--linters",
         nargs="+",
         required=False,
-        choices=list(linters.supported.keys()),
+        choices=linters,
         metavar="LINTER",
-        help=(
-            f"Linters to run. Valid options: {list(linters.supported.keys())}"
-        ),
+        help=f"Linters to run. Valid options: {linters}",
+    )
+    parser.add_argument(
+        "-f",
+        "--formatters",
+        nargs="+",
+        required=False,
+        choices=formatters,
+        help=f"Formatter to run. Valid options: {formatters}."
     )
     parser.add_argument(
         "-p",
@@ -318,7 +326,10 @@ def _merge_bool_or(
 
 
 def validate_args(
-    parser: CustomArgumentParser, args: argparse.Namespace, linters: Linters
+    parser: CustomArgumentParser,
+    args: argparse.Namespace,
+    linters: Linters,
+    formatters: Formatters
 ) -> None:
     """
     Validate command-line arguments.
@@ -330,32 +341,42 @@ def validate_args(
     args : argparse.Namespace
         Parsed command-line arguments.
     linters : Linters
-        Registry of supported linters, used to validate requested linters.
+        Registry of supported linters.
+    formatters : Formatters
+        Registry of supported formatters.
     """
-    # Enforce that we have arguments required for lint mode
     if not args.paths:
         parser.error(
             "the following arguments are required for linting: -p/--paths "
             "(or set 'paths' under [tool.lintquarto] in pyproject.toml)"
         )
-    if not args.linters and not args.custom_commands:
+    if not args.linters and not args.formatters and not args.custom_commands:
         parser.error(
-            "at least one linter is required: use -l/--linters and/or "
-            "--custom-commands (or set under [tool.lintquarto] in "
-            "pyproject.toml)"
+            "at least one tool is required: use -l/--linters, "
+            "-f/--formatters, and/or --custom-commands (or set under "
+            "[tool.lintquarto] in pyproject.toml)"
         )
 
     # Enforce space-separated paths with clear error
     validate_no_commas(args.paths, "paths")
     validate_no_commas(args.exclude, "exclude")
 
-    # Fail fast on invalid or missing linters
-    linters = Linters()
+    # Fail fast on invalid or missing linters and formatters
     if args.linters:
+        linters = Linters()
         try:
             for linter in args.linters:
                 linters.check_supported(linter)
                 linters.check_available(linter)
+        except (ValueError, FileNotFoundError) as e:
+            print(f"Error: {e}", file=sys.stderr)
+            sys.exit(1)
+    if args.formatters:
+        formatters = Formatters()
+        try:
+            for formatter in args.formatters:
+                formatters.check_supported(formatter)
+                formatters.check_available(formatter)
         except (ValueError, FileNotFoundError) as e:
             print(f"Error: {e}", file=sys.stderr)
             sys.exit(1)
@@ -425,14 +446,22 @@ def parse_custom_commands(
     return custom_commands
 
 
-def list_linters() -> None:
-    """Print all supported linters and whether they're available."""
-    linters = Linters()
-    status_list = linters.status_list()
-    print("Availability of supported linters:")
-    for status in status_list:
-        flag = "✓" if status["available"] else "✗"
-        print(f"  {flag} {status['name']:12s} - {status['message']}")
+def list_tools() -> None:
+    """Print all supported tools and whether they're available."""
+    print()  # Blank line
+    for registry_cls, label in (
+        (Linters, "linters"),
+        (Formatters, "formatters"),
+    ):
+        registry = registry_cls()
+        status_list = registry.status_list()
+        print(
+            f"Availability of supported {label} in your current environment:"
+        )
+        for status in status_list:
+            flag = "✓" if status["available"] else "✗"
+            print(f"  {flag} {status['name']:16s} - {status['message']}")
+        print()  # Blank line
 
 
 def run_linter(
