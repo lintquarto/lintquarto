@@ -43,6 +43,7 @@ lintquarto = "lintquarto.__main__:main"
 
 [project.optional-dependencies]
 all = [
+  "basedpyright",
   "pylint",
   "flake8",
   "pyflakes",

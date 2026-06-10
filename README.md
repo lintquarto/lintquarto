@@ -21,7 +21,7 @@ By default, python code validation tools can't check embedded python code in Qua
 Currently supported:
 
 * Linters: [pylint](https://github.com/pylint-dev/pylint), [flake8](https://github.com/pycqa/flake8), [pydoclint](https://github.com/jsh9/pydoclint), [pyflakes](https://github.com/PyCQA/pyflakes), [ruff](https://github.com/astral-sh/ruff), [vulture](https://github.com/jendrikseipp/vulture), and [pycodestyle](https://github.com/PyCQA/pycodestyle).
-* Static type checkers: [mypy](https://github.com/python/mypy), [pyright](https://github.com/microsoft/pyright), [pyrefly](https://github.com/facebook/pyrefly), and [pytype](https://github.com/google/pytype).
+* Static type checkers: [basedpyright](https://github.com/DetachHead/basedpyright), [mypy](https://github.com/python/mypy), [pyright](https://github.com/microsoft/pyright), [pyrefly](https://github.com/facebook/pyrefly), and [pytype](https://github.com/google/pytype).
 * Code analysis tools: [radon](https://github.com/rubik/radon).
 
 [![Click to view docs](https://img.shields.io/badge/🖱️_Click_to_view_package_documentation-37a779?style=for-the-badge)](https://lintquarto.github.io/lintquarto/)
@@ -112,14 +112,14 @@ Configuration can also be provided in pyproject.toml under [tool.lintquarto]. CL
 Options:
 
 * `-h, --help` - show this help message and exit
-* `-l LINTER [LINTER ...], --linters LINTER [LINTER ...]` - Linters to run. Valid options: ['flake8', 'mypy', 'pycodestyle', 'pydoclint', 'pyflakes', 'pylint', 'pyright', 'pyrefly', 'pytype', 'radon-cc', 'radon- mi', 'radon-raw', 'radon-hal', 'ruff', 'vulture']
-* `-f FORMATTER [FORMATTER ...], --formatters FORMATTER [FORMATTER ...]` - Formatter to run. Valid options: ['ruff-format', 'ruff-check-fix'].
-* `-p PATHS [PATHS ...], --paths PATHS [PATHS ...]` - Quarto files and/or directories to lint.
-* `-e [[exclude_paths] ...], --exclude [[exclude_paths] ...]` - Files and/or directories to exclude from linting.
+* `-l, --linters LINTER [LINTER ...]` - Linters to run. Valid options: ['basedpyright', 'flake8', 'mypy', 'pycodestyle', 'pydoclint', 'pyflakes', 'pylint', 'pyright', 'pyrefly', 'pytype', 'radon-cc', 'radon-mi', 'radon-raw', 'radon-hal', 'ruff', 'vulture']
+* `-f, --formatters FORMATTER [FORMATTER ...]` - Formatter to run. Valid options: ['ruff-format', 'ruff-check-fix'].
+* `-p, --paths PATHS [PATHS ...]` - Quarto files and/or directories to lint.
+* `-e, --exclude [[exclude_paths] ...]` - Files and/or directories to exclude from linting.
 * `-n, --lint-non-exec` - Also lint non-executable Python code chunks
 * `-v, --verbose` - Verbose output.
 * `-k, --keep-temp` - Keep temporary .py files after linting.
-* `-c COMMAND, --custom-commands COMMAND` - Custom command to run against the generated .py file. Repeat for multiple commands. Example: --custom- commands "mytool"
+* `-c, --custom-commands COMMAND` - Custom command to run against the generated .py file. Repeat for multiple commands. Example: --custom- commands "mytool"
 
 Commands:
 

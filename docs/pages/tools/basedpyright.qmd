@@ -1,0 +1,72 @@
+<hr style="height:0pt; visibility:hidden;" />
+
+# basedpyright
+
+Community fork of pyright with extra checks.
+
+```{python}
+#| echo: false
+# Import required packages
+import subprocess
+import sys
+
+# Add parent directory to sys.path
+sys.path.insert(0, "..")
+
+# Import the helper functions
+from helpers import generate_html, print_quarto
+```
+
+```{python}
+#| echo: false
+#| output: asis
+generate_html(
+    pypi_url="https://pypi.org/project/basedpyright/",
+    github_url="https://github.com/DetachHead/basedpyright",
+    conda_url="https://anaconda.org/conda-forge/basedpyright"
+)
+```
+
+## Example Quarto `.qmd` file:
+
+{{< downloadthis examples/typecheck_example.qmd dname="typecheck_example" label="Download the example" type="light" >}}
+
+:::{.pale-grey}
+```{python}
+#| echo: false
+print_quarto("examples/typecheck_example.qmd")
+```
+:::
+
+## Run basedpyright using `lintquarto`
+
+```{.bash}
+lintquarto -l basedpyright -p typecheck_example.qmd
+```
+
+:::{.pale-green}
+<style>
+.cell-output-stdout code {
+  word-break: break-word !important;
+  white-space: pre-wrap !important;
+}
+</style>
+```{python}
+#| echo: false
+result = subprocess.run(
+    [
+        sys.executable,
+        "-m",
+        "lintquarto",
+        "-l",
+        "basedpyright",
+        "-p",
+        "examples/typecheck_example.qmd"
+    ],
+    capture_output=True,
+    text=True,
+    check=False
+)
+print(result.stdout)
+```
+:::

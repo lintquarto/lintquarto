@@ -9,6 +9,14 @@ from utils import skip_if_linter_unexpected
 
 TEST_CASES = [
     {
+        "linter": "basedpyright",
+        "qmd": "typecheck_example.qmd",
+        "contains": [
+            """11:16 - error: Argument of type "Literal['5']" cannot be """,
+            """19:13 - error: Argument of type "Literal['apples']" cannot """,
+        ],
+    },
+    {
         "linter": "flake8",
         "qmd": "general_example.qmd",
         "contains": [
