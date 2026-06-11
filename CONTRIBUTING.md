@@ -1,88 +1,41 @@
 # Contributing
 
-Thank you for your interest in contributing!
-
-This file covers:
-
-* Workflow for bug reports, feature requests and documentation improvements
-* Workflow for code contributions (bug fixes, enhancements)
-* Development and testing
-* Updating the package
-* Code of conduct
+Thank you for your interest in contributing! Contributions are very welcome. 😊
 
 <br>
 
-## Workflow for bug reports, feature requests and documentation improvements
+## Bug reports and feature requests
 
 Before opening an issue, please search [existing issues](https://github.com/lintquarto/lintquarto/issues/) to avoid duplicates. If an issue exists, you can add a comment with additional details and/or upvote (👍) the issue. If there is not an existing issue, please open one and provide as much detail as possible.
 
-* **For feature requests or documentation improvements**, please describe your suggestion clearly.
-* **For bugs**, include:
-    * Steps to reproduce.
-    * Expected and actual behaviour.
-    * Environment details (operating system, python version, dependencies).
-    * Relevant files (e.g. problematic `.qmd` files).
+**For feature requests or documentation improvements**, please describe your suggestion clearly.
 
-### Handling bug reports (for maintainers):
-
-* Confirm reproducibility by following the reported steps.
-* Label the issue appropriately (e.g. `bug`).
-* Request additional information if necessary.
-* Link related issues or pull requests.
-* Once resolved, close the issue with a brief summary of the fix.
+**For bugs**, include:
+  * Steps to reproduce.
+  * Expected and actual behaviour.
+  * Environment details (operating system, python version, dependencies).
+  * Relevant files (e.g. problematic `.qmd` files).
 
 <br>
 
-## Workflow for code contributions (bug fixes, enhancements)
+## Code contributions
 
-1. Fork the repository and clone your fork.
+1. Fork the repository.
 
-2. Create a new branch for your feature or fix:
-
-```{.bash}
-git checkout -b my-feature
-```
+2. Create a new branch for your feature or fix.
 
 3. Make your changes and commit them with clear, descriptive messages using the [conventional commits standard](https://www.conventionalcommits.org/en/v1.0.0/).
 
-4. Push your branch to your fork:
-
-```{.bash}
-git push origin my-feature
-```
-
-5. Open a pull request against the main branch. Describe your changes and reference any related issues.
+4. Open a pull request against our repository. Describe your changes and reference any related issues.
 
 <br>
 
-## Development and testing
-
-### Dependencies
+## Development environment
 
 If you want to contribute to `lintquarto` or run its tests, you'll need some additional tools. These are declared in `pyproject.toml` as:
 
 * The `all` extra under `[project.optional-dependencies]` (all possible linters and code checkers).
 * The `dev` dependency group under `[dependency-groups]` (packaging, docs, tests, etc.).
-
-Key tools include:
-
-| Tool | Purpose |
-| - | - |
-| **check-dependencies** | Test for undeclared dependencies |
-| **genbadge** | Create coverage badge (README) |
-| **grayskull** | Uploading to `conda-forge` |
-| **jupyter** | Run python code in docs |
-| **pre-commit** | To make pre-commit hook that lints files |
-| **pytest** | Run tests |
-| **pytest-cov** | Calculate coverage |
-| **twine** | Upload to PyPI |
-| **types-PyYAML** and **types-toml** | Required by `mypy` |
-| **quartodoc** | Generate API docs |
-| `-e .[all]` | Editable install + all linters |
-
-<br>
-
-### Setting up a development environment
 
 Set up a Python environment using your preferred tool (e.g., `conda`, `uv`, etc.) then activate it. For example, to work with conda:
 
@@ -111,21 +64,13 @@ pip list
 
 > **Note:** On 10 February 2026, found incompatible `quartodoc` and `griffe`, so had to lock `griffe` at 1.14.0.
 
-<br>
-
 ### Quarto
 
 Quarto (used for the docs) is a standalone tool - install it from <https://quarto.org/docs/get-started/>.
 
 <br>
 
-### Docstrings
-
-We follow the [numpydoc](https://numpydoc.readthedocs.io/en/latest/format.html) style for docstrings, and check these using [pydoclint](https://github.com/jsh9/pydoclint).
-
-<br>
-
-### Tests
+## Tests
 
 Run all tests (with coverage):
 
@@ -147,45 +92,18 @@ pytest tests/test_linters.py::test_supported_error
 
 <br>
 
-### Linting
+## Style
 
-This project uses [Ruff](https://docs.astral.sh/ruff/) for linting and formatting checks.
+This project uses [Ruff](https://docs.astral.sh/ruff/) and lintquarto for linting and formatting checks.
 
-Ruff configuration, including exclusions and per-file ignores, is defined in `pyproject.toml`.
-
-### Check the codebase
-
-Run the linter on the full repository:
+Ruff configuration, including exclusions and per-file ignores, is defined in `pyproject.toml`. To run:
 
 ```bash
-ruff check .
+ruff format
+ruff check --fix
 ```
 
-Run the linter on code in the documentation:
-
-```bash
-lintquarto -l ruff -p docs
-```
-
-Check that formatting matches the project style:
-
-```bash
-ruff format --check .
-```
-
-### Apply fixes locally
-
-To automatically fix some lint issues locally, run:
-
-```bash
-run ruff check --fix .
-```
-
-To apply Ruff formatting locally, run:
-
-```bash
-run ruff format .
-```
+We follow the [numpydoc](https://numpydoc.readthedocs.io/en/latest/format.html) style for docstrings.
 
 ### Pre-commit
 
@@ -201,7 +119,7 @@ pre-commit install
 
 <br>
 
-### Documentation
+## Documentation
 
 Build and preview the documentation locally:
 

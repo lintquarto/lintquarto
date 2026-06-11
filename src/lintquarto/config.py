@@ -7,78 +7,9 @@ from pathlib import Path
 
 import toml
 
-
-@dataclass
-class LintquartoConfig:
-    """
-    Configuration parsed from `[tool.lintquarto]` in `pyproject.toml`.
-
-    Attributes
-    ----------
-    linters : list[str]
-        Linter names to run. Equivalent to `-l` / `--linters`.
-    paths : list[str]
-        Files and/or directories to lint. Equivalent to `-p` / `--paths`.
-    exclude : list[str]
-        Files and/or directories to exclude from linting. Equivalent to `-e` /
-        `--exclude`.
-    lint_non_exec : bool
-        If `True`, also lint non-executable Python code chunks. Equivalent to
-        `-n` / `--lint-non-exec`.
-    verbose : bool
-        If `True`, print detailed progress information. Equivalent to `-v` /
-        `--verbose`.
-    keep_temp : bool
-        If `True`, retain temporary `.py` files after linting. Equivalent to
-        `-k` / `--keep-temp`.
-    custom_commands : list[str]
-        Custom commands to run against the generated `.py` file. Equivalent to
-        `-c` / `--custom-commands`.
-    config_path : Path | None
-        Path to the `pyproject.toml` file that was read, or `None` if no
-        file was found.
-
-    """
-
-    linters: list[str] = field(default_factory=list)
-    paths: list[str] = field(default_factory=list)
-    exclude: list[str] = field(default_factory=list)
-    lint_non_exec: bool = False
-    verbose: bool = False
-    keep_temp: bool = False
-    custom_commands: list[str] = field(default_factory=list)
-    config_path: Path | None = None
-
-
-def find_pyproject_toml(start_dir: str | Path = ".") -> Path | None:
-    """
-    Walk up the directory tree to find a `pyproject.toml` file.
-
-    Parameters
-    ----------
-    start_dir : str | Path, optional
-        Directory from which to begin searching. Defaults to the current
-        working directory.
-
-    Returns
-    -------
-    Path | None
-        Resolved path to the first `pyproject.toml` found, or `None` if
-        none exists in the tree.
-    """
-    current = Path(start_dir).resolve()
-
-    while True:
-        candidate = current / "pyproject.toml"
-        if candidate.is_file():
-            return candidate
-        parent = current.parent
-        if parent == current:
-            return None
-
-        # Reached neither a config file nor the filesystem root yet,
-        # so continue searching in the parent directory
-        current = parent
+# =============================================================================
+# Main function: find pyproject.toml and load arguments
+# =============================================================================
 
 
 def load_config(start_dir: str | Path = ".") -> LintquartoConfig:
@@ -114,6 +45,7 @@ def load_config(start_dir: str | Path = ".") -> LintquartoConfig:
 
     return LintquartoConfig(
         linters=_str_list(section, "linters"),
+        formatters=_str_list(section, "formatters"),
         paths=_str_list(section, "paths"),
         exclude=_str_list(section, "exclude"),
         lint_non_exec=_bool(section, "lint-non-exec"),
@@ -122,6 +54,97 @@ def load_config(start_dir: str | Path = ".") -> LintquartoConfig:
         custom_commands=_str_list(section, "custom-commands"),
         config_path=pyproject_path,
     )
+
+
+# =============================================================================
+# Find nearest pyproject.toml file
+# =============================================================================
+
+
+def find_pyproject_toml(start_dir: str | Path = ".") -> Path | None:
+    """
+    Walk up the directory tree to find a `pyproject.toml` file.
+
+    Parameters
+    ----------
+    start_dir : str | Path, optional
+        Directory from which to begin searching. Defaults to the current
+        working directory.
+
+    Returns
+    -------
+    Path | None
+        Resolved path to the first `pyproject.toml` found, or `None` if
+        none exists in the tree.
+    """
+    current = Path(start_dir).resolve()
+
+    while True:
+        candidate = current / "pyproject.toml"
+        if candidate.is_file():
+            return candidate
+        parent = current.parent
+        if parent == current:
+            return None
+
+        # Reached neither a config file nor the filesystem root yet,
+        # so continue searching in the parent directory
+        current = parent
+
+
+# =============================================================================
+# Blank configuration template
+# =============================================================================
+
+
+@dataclass
+class LintquartoConfig:
+    """
+    Configuration parsed from `[tool.lintquarto]` in `pyproject.toml`.
+
+    Attributes
+    ----------
+    linters : list[str]
+        Linter names to run. Equivalent to `-l` / `--linters`.
+    formatters : list[str]
+        Formatters to run. Equivalent to `-f` / `--formatters`.
+    paths : list[str]
+        Files and/or directories to lint. Equivalent to `-p` / `--paths`.
+    exclude : list[str]
+        Files and/or directories to exclude from linting. Equivalent to `-e` /
+        `--exclude`.
+    lint_non_exec : bool
+        If `True`, also lint non-executable Python code chunks. Equivalent to
+        `-n` / `--lint-non-exec`.
+    verbose : bool
+        If `True`, print detailed progress information. Equivalent to `-v` /
+        `--verbose`.
+    keep_temp : bool
+        If `True`, retain temporary `.py` files after linting. Equivalent to
+        `-k` / `--keep-temp`.
+    custom_commands : list[str]
+        Custom commands to run against the generated `.py` file. Equivalent to
+        `-c` / `--custom-commands`.
+    config_path : Path | None
+        Path to the `pyproject.toml` file that was read, or `None` if no
+        file was found.
+
+    """
+
+    linters: list[str] = field(default_factory=list)
+    formatters: list[str] = field(default_factory=list)
+    paths: list[str] = field(default_factory=list)
+    exclude: list[str] = field(default_factory=list)
+    lint_non_exec: bool = False
+    verbose: bool = False
+    keep_temp: bool = False
+    custom_commands: list[str] = field(default_factory=list)
+    config_path: Path | None = None
+
+
+# =============================================================================
+# Helpers used when extracting information from pyproject.toml
+# =============================================================================
 
 
 def _str_list(section: dict, key: str) -> list[str]:
