@@ -104,7 +104,7 @@ quartodoc:
         - Formatters
     - title: CLI module
       desc: "Command-line interface for linting Python code in Quarto (`.qmd`) files, including argument parsing and orchestration of the linting workflow."
-      package: lintquarto.cli
+      package: lintquarto.main
       contents:
         - main
         - build_parser
