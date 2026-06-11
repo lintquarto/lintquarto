@@ -128,7 +128,7 @@ TEST_CASES = [
             """17:1 - warning: Result of call expression is of type""",
             """19:1 - warning: Result of call expression is of type""",
             """19:13 - error: Argument of type "Literal['apples']" """,
-        ]
+        ],
     },
     {
         "linter": "mypy",
