@@ -81,15 +81,31 @@ quartodoc:
         - format_qmd
         - gather_qmd_files
         - validate_no_commas
-    - title: Converter module
-      desc: "Functions to convert Quarto (`.qmd`) files to Python (`.py`) files, preserving line alignment and extracting Python code, with both a command-line interface and callable functions."
-      package: lintquarto.converter
+    - title: Converter modules
+      desc: "Code to convert Quarto (`.qmd`) files to Python (`.py`) files, preserving line alignment and extracting Python code, with both a command-line interface and callable functions."
+      package: lintquarto.convert
       contents:
-        - QmdToPyConverter
-        - get_unique_filename
-        - convert_qmd_to_py
-        - recreate_qmd_from_formatted_py
-        - _parse_formatted_blocks
+        - analyse_python.analyse_block
+        - analyse_python.find_closing_delimiter_row
+        - analyse_python.find_content_node
+        - analyse_python.analyse_block_content
+        - analyse_python.get_rows
+        - analyse_python.handle_option_state_row
+        - analyse_python.parse_chunk_eval
+        - analyse_python.mark_code_row
+        - build_output.OutputBuilder
+        - build_output.FormatOutputBuilder
+        - build_output.LintOutputBuilder
+        - collect_python.collect_python_blocks
+        - collect_python.walk_for_python_blocks
+        - collect_python.get_language_text
+        - converter.QmdToPyConverter
+        - converter.convert_qmd_to_py
+        - filename.get_unique_filename
+        - parse_yaml.find_metadata_node
+        - parse_yaml.parse_yaml_eval_from_node
+        - rebuild_qmd.recreate_qmd_from_formatted_py
+        - rebuild_qmd.parse_formatted_blocks
     - title: Runner module
       desc: "Class to run linters, formatters or custom commands on a list of Quarto files."
       package: lintquarto.runner
