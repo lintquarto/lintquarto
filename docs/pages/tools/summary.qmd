@@ -24,6 +24,7 @@ Use the sidebar to explore ready-to-run examples and detailed usage for each too
 
 | Tool | Description |
 | - | - |
+| [**basedpyright**](basedpyright.qmd) | Community fork of pyright with extra checks. |
 | [**mypy**](mypy.qmd) | Python's popular static type checker. |
 | [**pyrefly**](pyrefly.qmd) | Meta's Rust-based static type checker (successor to Pyre). |
 | [**pyright**](pyright.qmd) | Microsoft's static type checker. |

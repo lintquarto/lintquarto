@@ -8,6 +8,7 @@ from lintquarto.converter import QmdToPyConverter
 
 LINTERS_NOQA = ["flake8", "pycodestyle", "ruff"]
 LINTERS_ALL = [
+    "basedpyright",
     "flake8",
     "mypy",
     "pycodestyle",

@@ -11,6 +11,7 @@ from utils import skip_if_linter_unexpected
 from lintquarto.registry import Linters
 
 ALL_LINTERS = [
+    "basedpyright",
     "flake8",
     "mypy",
     "pycodestyle",

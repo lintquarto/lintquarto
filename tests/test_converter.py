@@ -15,6 +15,7 @@ from lintquarto.converter import (
 
 # All linters that preserve the line count
 PRESERVE_LINTERS = [
+    "basedpyright",
     "flake8",
     "mypy",
     "pycodestyle",
