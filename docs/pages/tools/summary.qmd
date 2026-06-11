@@ -54,3 +54,20 @@ For example, to run `flake8` on `mypage.qmd` but disable the `C0103` (invalid-na
 per-file-ignores =
     mypage*.py: C0103
 ```
+
+<br>
+
+## Applying rules only to `.qmd` files
+
+If you want linting rules to apply only to code extracted from Quarto `.qmd` files (and not to your other `.py` files), organise them by directory.
+
+Place your Quarto files in a dedicated directory and configure your linter to apply specific rules to that directory. For example:
+
+```{.bash}
+[tool.ruff]
+lint.per-file-ignores."docs/*" = [
+    "E402"
+]
+```
+
+`lintquarto` does not support passing tool-specific flags (as used in `nbqa`). This is a deliberate design choice to keep the interface simple and consistent across tools, as not all linters support inline flags. Instead, configuration should be handled via standard linter config files using directory-based rules. See discussion: <https://github.com/lintquarto/lintquarto/issues/136>.
