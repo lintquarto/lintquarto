@@ -107,7 +107,8 @@ lintquarto [-h] [-l LINTER [LINTER ...]] [-f FORMATTER [FORMATTER ...]] [-p PATH
 ```
 
 Lint Python code in Quarto (.qmd) files.
-Configuration can also be provided in pyproject.toml under [tool.lintquarto]. CLI arguments override configuration file.
+Configuration can also be provided in pyproject.toml under [tool.lintquarto].
+CLI arguments override configuration file.
 
 Options:
 
