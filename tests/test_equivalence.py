@@ -5,7 +5,7 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-from lintquarto.converter import QmdToPyConverter
+from lintquarto.convert.converter import QmdToPyConverter
 from lintquarto.registry import Linters
 
 

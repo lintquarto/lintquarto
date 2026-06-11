@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from lintquarto.converter import QmdToPyConverter
+from lintquarto.convert.converter import QmdToPyConverter
 
 LINTERS_NOQA = ["flake8", "pycodestyle", "ruff"]
 LINTERS_ALL = [

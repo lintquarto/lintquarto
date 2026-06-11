@@ -7,10 +7,15 @@ import pytest
 import tree_sitter_markdown as tsmd
 from tree_sitter import Language, Parser
 
-from lintquarto.converter import (
+from lintquarto.convert.analyse_python import parse_chunk_eval
+from lintquarto.convert.converter import (
     QmdToPyConverter,
     convert_qmd_to_py,
     get_unique_filename,
+)
+from lintquarto.convert.parse_yaml import (
+    find_metadata_node,
+    parse_yaml_eval_from_node,
 )
 
 # All linters that preserve the line count
@@ -608,14 +613,13 @@ def _parse_root(lines: list[str]):
 )
 def test_parse_yaml_eval_from_node(lines, expected_eval):
     """Unit: YAML front matter is interpreted with expected eval default."""
-    converter = QmdToPyConverter(tool="flake8")
     src_bytes, root = _parse_root(lines)
-    metadata_node = converter._find_metadata_node(root)
+    metadata_node = find_metadata_node(root)
 
     if metadata_node is None:
         actual = True
     else:
-        actual = converter._parse_yaml_eval_from_node(src_bytes, metadata_node)
+        actual = parse_yaml_eval_from_node(src_bytes, metadata_node)
 
     assert actual is expected_eval
 
@@ -627,13 +631,10 @@ def test_parse_yaml_eval_from_node_invalid_yaml():
         "title: [unclosed\n",
         "---\n",
     ]
-    converter = QmdToPyConverter(tool="flake8")
     src_bytes, root = _parse_root(lines)
-    metadata_node = converter._find_metadata_node(root)
+    metadata_node = find_metadata_node(root)
     assert metadata_node is not None
-    assert (
-        converter._parse_yaml_eval_from_node(src_bytes, metadata_node) is True
-    )
+    assert parse_yaml_eval_from_node(src_bytes, metadata_node) is True
 
 
 # =============================================================================
@@ -670,24 +671,21 @@ def test_parse_yaml_eval_from_node_invalid_yaml():
 )
 def test_parse_chunk_eval(line, expected):
     """Unit: _parse_chunk_eval parses boolean eval values."""
-    converter = QmdToPyConverter(tool="flake8")
     stripped = line.lstrip()
     option_text = (
         stripped[3:].strip() if stripped.startswith("#| ") else stripped
     )
-    assert (
-        converter._parse_chunk_eval(option_text, current_eval=None) is expected
-    )
+    assert parse_chunk_eval(option_text, current_eval=None) is expected
 
 
 def test_parse_chunk_eval_preserves_current_when_no_eval_key():
     """Unit: Leaves current value unchanged if no eval key."""
-    converter = QmdToPyConverter(tool="flake8")
     assert (
-        converter._parse_chunk_eval("other: true", current_eval=True) is True
+        parse_chunk_eval(option_text="other: true", current_eval=True) is True
     )
     assert (
-        converter._parse_chunk_eval("echo: false", current_eval=False) is False
+        parse_chunk_eval(option_text="echo: false", current_eval=False)
+        is False
     )
 
 

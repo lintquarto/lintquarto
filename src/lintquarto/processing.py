@@ -11,7 +11,8 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from collections.abc import Iterator
 
-from .converter import convert_qmd_to_py, recreate_qmd_from_formatted_py
+from .convert.converter import convert_qmd_to_py
+from .convert.rebuild_qmd import recreate_qmd_from_formatted_py
 from .registry import Formatters, Linters
 
 
