@@ -112,6 +112,7 @@ class Linters(ToolRegistry):
     def __init__(self) -> None:
         super().__init__(
             {
+                "basedpyright": ["basedpyright"],
                 "flake8": ["flake8"],
                 "mypy": ["mypy"],
                 "pycodestyle": ["pycodestyle"],

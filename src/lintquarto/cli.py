@@ -6,7 +6,7 @@ import shutil
 import sys
 from pathlib import Path
 
-from .args import CustomArgumentParser
+from .args import CustomArgumentParser, SingleMetavarHelpFormatter
 from .config import LintquartoConfig, load_config
 from .processing import (
     format_qmd,
@@ -83,7 +83,7 @@ def build_parser() -> CustomArgumentParser:
             "Configuration can also be provided in pyproject.toml under "
             "[tool.lintquarto]. CLI arguments override configuration file."
         ),
-        formatter_class=argparse.RawDescriptionHelpFormatter,
+        formatter_class=SingleMetavarHelpFormatter,
     )
 
     # Subcommands

@@ -21,7 +21,7 @@ By default, python code validation tools can't check embedded python code in Qua
 Currently supported:
 
 * Linters: [pylint](https://github.com/pylint-dev/pylint), [flake8](https://github.com/pycqa/flake8), [pydoclint](https://github.com/jsh9/pydoclint), [pyflakes](https://github.com/PyCQA/pyflakes), [ruff](https://github.com/astral-sh/ruff), [vulture](https://github.com/jendrikseipp/vulture), and [pycodestyle](https://github.com/PyCQA/pycodestyle).
-* Static type checkers: [mypy](https://github.com/python/mypy), [pyright](https://github.com/microsoft/pyright), [pyrefly](https://github.com/facebook/pyrefly), and [pytype](https://github.com/google/pytype).
+* Static type checkers: [basedpyright](https://github.com/DetachHead/basedpyright), [mypy](https://github.com/python/mypy), [pyright](https://github.com/microsoft/pyright), [pyrefly](https://github.com/facebook/pyrefly), and [pytype](https://github.com/google/pytype).
 * Code analysis tools: [radon](https://github.com/rubik/radon).
 
 [![Click to view docs](https://img.shields.io/badge/🖱️_Click_to_view_package_documentation-37a779?style=for-the-badge)](https://lintquarto.github.io/lintquarto/)
@@ -107,19 +107,20 @@ lintquarto [-h] [-l LINTER [LINTER ...]] [-f FORMATTER [FORMATTER ...]] [-p PATH
 ```
 
 Lint Python code in Quarto (.qmd) files.
-Configuration can also be provided in pyproject.toml under [tool.lintquarto]. CLI arguments override configuration file.
+Configuration can also be provided in pyproject.toml under [tool.lintquarto].
+CLI arguments override configuration file.
 
 Options:
 
 * `-h, --help` - show this help message and exit
-* `-l LINTER [LINTER ...], --linters LINTER [LINTER ...]` - Linters to run. Valid options: ['flake8', 'mypy', 'pycodestyle', 'pydoclint', 'pyflakes', 'pylint', 'pyright', 'pyrefly', 'pytype', 'radon-cc', 'radon- mi', 'radon-raw', 'radon-hal', 'ruff', 'vulture']
-* `-f FORMATTER [FORMATTER ...], --formatters FORMATTER [FORMATTER ...]` - Formatter to run. Valid options: ['ruff-format', 'ruff-check-fix'].
-* `-p PATHS [PATHS ...], --paths PATHS [PATHS ...]` - Quarto files and/or directories to lint.
-* `-e [[exclude_paths] ...], --exclude [[exclude_paths] ...]` - Files and/or directories to exclude from linting.
+* `-l, --linters LINTER [LINTER ...]` - Linters to run. Valid options: ['basedpyright', 'flake8', 'mypy', 'pycodestyle', 'pydoclint', 'pyflakes', 'pylint', 'pyright', 'pyrefly', 'pytype', 'radon-cc', 'radon-mi', 'radon-raw', 'radon-hal', 'ruff', 'vulture']
+* `-f, --formatters FORMATTER [FORMATTER ...]` - Formatter to run. Valid options: ['ruff-format', 'ruff-check-fix'].
+* `-p, --paths PATHS [PATHS ...]` - Quarto files and/or directories to lint.
+* `-e, --exclude [[exclude_paths] ...]` - Files and/or directories to exclude from linting.
 * `-n, --lint-non-exec` - Also lint non-executable Python code chunks
 * `-v, --verbose` - Verbose output.
 * `-k, --keep-temp` - Keep temporary .py files after linting.
-* `-c COMMAND, --custom-commands COMMAND` - Custom command to run against the generated .py file. Repeat for multiple commands. Example: --custom- commands "mytool"
+* `-c, --custom-commands COMMAND` - Custom command to run against the generated .py file. Repeat for multiple commands. Example: --custom- commands "mytool"
 
 Commands:
 
@@ -203,9 +204,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="25%"><a href="https://www.linkedin.com/in/amyheather"><img src="https://avatars.githubusercontent.com/u/92166537?v=4?s=100" width="100px;" alt="Amy Heather"/><br /><sub><b>Amy Heather</b></sub></a><br /><a href="#design-amyheather" title="Design">🎨</a> <a href="https://github.com/lintquarto/lintquarto/commits?author=amyheather" title="Documentation">📖</a> <a href="#ideas-amyheather" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-amyheather" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-amyheather" title="Maintenance">🚧</a> <a href="https://github.com/lintquarto/lintquarto/commits?author=amyheather" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="25%"><a href="https://www.linkedin.com/in/amyheather"><img src="https://avatars.githubusercontent.com/u/92166537?v=4?s=100" width="100px;" alt="Amy Heather"/><br /><sub><b>Amy Heather</b></sub></a><br /><a href="#design-amyheather" title="Design">🎨</a> <a href="https://github.com/lintquarto/lintquarto/commits?author=amyheather" title="Documentation">📖</a> <a href="#ideas-amyheather" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-amyheather" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-amyheather" title="Maintenance">🚧</a> <a href="https://github.com/lintquarto/lintquarto/commits?author=amyheather" title="Tests">⚠️</a> <a href="https://github.com/lintquarto/lintquarto/issues?q=author%3Aamyheather" title="Bug reports">🐛</a> <a href="https://github.com/lintquarto/lintquarto/commits?author=amyheather" title="Code">💻</a></td>
       <td align="center" valign="top" width="25%"><a href="https://github.com/isabelizimm"><img src="https://avatars.githubusercontent.com/u/54685329?v=4?s=100" width="100px;" alt="Isabel Zimmerman"/><br /><sub><b>Isabel Zimmerman</b></sub></a><br /><a href="#ideas-isabelizimm" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/lintquarto/lintquarto/commits?author=isabelizimm" title="Documentation">📖</a></td>
-      <td align="center" valign="top" width="25%"><a href="https://github.com/jaycrick"><img src="https://avatars.githubusercontent.com/u/114450568?v=4?s=100" width="100px;" alt="Jacob Cumming"/><br /><sub><b>Jacob Cumming</b></sub></a><br /><a href="https://github.com/lintquarto/lintquarto/issues?q=author%3Ajaycrick" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="25%"><a href="https://github.com/jaycrick"><img src="https://avatars.githubusercontent.com/u/114450568?v=4?s=100" width="100px;" alt="Jacob Cumming"/><br /><sub><b>Jacob Cumming</b></sub></a><br /><a href="https://github.com/lintquarto/lintquarto/issues?q=author%3Ajaycrick" title="Bug reports">🐛</a> <a href="https://github.com/lintquarto/lintquarto/commits?author=jaycrick" title="Documentation">📖</a> <a href="#ideas-jaycrick" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/lintquarto/lintquarto/commits?author=jaycrick" title="Tests">⚠️</a> <a href="https://github.com/lintquarto/lintquarto/commits?author=jaycrick" title="Code">💻</a></td>
       <td align="center" valign="top" width="25%"><a href="https://jon-e.net/"><img src="https://avatars.githubusercontent.com/u/12961499?v=4?s=100" width="100px;" alt="Jonny Saunders"/><br /><sub><b>Jonny Saunders</b></sub></a><br /><a href="https://github.com/lintquarto/lintquarto/issues?q=author%3Asneakers-the-rat" title="Bug reports">🐛</a> <a href="https://github.com/lintquarto/lintquarto/commits?author=sneakers-the-rat" title="Code">💻</a> <a href="#ideas-sneakers-the-rat" title="Ideas, Planning, & Feedback">🤔</a></td>
     </tr>
     <tr>

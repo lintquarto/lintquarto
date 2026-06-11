@@ -51,6 +51,7 @@ website:
             - pages/tools/ruff.qmd
         - section: "**Static type checkers**"
           contents:
+            - pages/tools/basedpyright.qmd
             - pages/tools/mypy.qmd
             - pages/tools/pyrefly.qmd
             - pages/tools/pyright.qmd

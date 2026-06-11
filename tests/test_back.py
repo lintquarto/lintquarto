@@ -120,6 +120,17 @@ TEST_CASES = [
         ],
     },
     {
+        "linter": "basedpyright",
+        "qmd": "typecheck_example.qmd",
+        "contains": [
+            """11:1 - warning: Result of call expression is of type "int" """,
+            """11:16 - error: Argument of type "Literal['5']" cannot""",
+            """17:1 - warning: Result of call expression is of type""",
+            """19:1 - warning: Result of call expression is of type""",
+            """19:13 - error: Argument of type "Literal['apples']" """,
+        ]
+    },
+    {
         "linter": "mypy",
         "qmd": "typecheck_example.qmd",
         "contains": [
