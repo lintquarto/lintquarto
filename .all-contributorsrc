@@ -19,7 +19,9 @@
         "ideas",
         "infra",
         "maintenance",
-        "test"
+        "test",
+        "bug",
+        "code"
       ]
     },
     {
@@ -38,7 +40,11 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/114450568?v=4",
       "profile": "https://github.com/jaycrick",
       "contributions": [
-        "bug"
+        "bug",
+        "doc",
+        "ideas",
+        "test",
+        "code"
       ]
     },
     {
