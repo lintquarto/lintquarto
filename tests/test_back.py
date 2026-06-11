@@ -9,14 +9,6 @@ from utils import skip_if_linter_unexpected
 
 TEST_CASES = [
     {
-        "linter": "basedpyright",
-        "qmd": "typecheck_example.qmd",
-        "contains": [
-            """11:16 - error: Argument of type "Literal['5']" cannot be """,
-            """19:13 - error: Argument of type "Literal['apples']" cannot """,
-        ],
-    },
-    {
         "linter": "flake8",
         "qmd": "general_example.qmd",
         "contains": [
@@ -126,6 +118,17 @@ TEST_CASES = [
             "10: unused function 'unused_function' (60% confidence)",
             "17: unused variable 'spare_part' (60% confidence)",
         ],
+    },
+    {
+        "linter": "basedpyright",
+        "qmd": "typecheck_example.qmd",
+        "contains": [
+            """11:1 - warning: Result of call expression is of type "int" """,
+            """11:16 - error: Argument of type "Literal['5']" cannot""",
+            """17:1 - warning: Result of call expression is of type""",
+            """19:1 - warning: Result of call expression is of type""",
+            """19:13 - error: Argument of type "Literal['apples']" """,
+        ]
     },
     {
         "linter": "mypy",
