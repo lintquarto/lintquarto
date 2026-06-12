@@ -410,8 +410,15 @@ def _format_temp_py(
             print(result.stdout, end="")
         if result.stderr:
             print(result.stderr, file=sys.stderr, end="")
-        if result.returncode != 0:
+
+        # Slightly different for ruff check --fix as prints remaining
+        # violations that it wasn't able to fix
+        should_rebuild = result.returncode == 0
+        if formatter == "ruff-check-fix":
+            should_rebuild = result.returncode in {0, 1}
+        if not should_rebuild:
             return result.returncode
+
         if not converter.python_blocks:
             print(
                 "Error: Converter has no python_blocks metadata.",
