@@ -108,7 +108,10 @@ lintquarto [-h] [-l LINTER [LINTER ...]] [-f FORMATTER [FORMATTER ...]] [-p PATH
 
 Lint Python code in Quarto (.qmd) files.
 Configuration can also be provided in pyproject.toml under [tool.lintquarto].
-CLI arguments override configuration file.
+CLI arguments override configuration file. WARNING: Formatter option currently
+in alpha, with known bugs and further testing required. If you run into any
+problems, feel free to open a GitHub issue and contribute to code if you'd
+like to!
 
 Options:
 
@@ -233,13 +236,13 @@ Curious about contributing? Check out the [contributing guidelines](CONTRIBUTING
 
 Please cite the repository on GitHub, PyPI, conda and/or Zenodo:
 
-> Heather, A. (2026). lintquarto (v0.12.0).  https://github.com/lintquarto/lintquarto.
+> Heather, A. (2026). lintquarto (v0.13.0).  https://github.com/lintquarto/lintquarto.
 >
-> Heather, A. (2026). lintquarto (v0.12.0). https://pypi.org/project/lintquarto/.
+> Heather, A. (2026). lintquarto (v0.13.0). https://pypi.org/project/lintquarto/.
 >
-> Heather, A. (2026). lintquarto (v0.12.0). https://anaconda.org/conda-forge/lintquarto.
+> Heather, A. (2026). lintquarto (v0.13.0). https://anaconda.org/conda-forge/lintquarto.
 >
-> Heather, A. (2026). lintquarto (v0.12.0). https://doi.org/10.5281/zenodo.15731161.
+> Heather, A. (2026). lintquarto (v0.13.0). https://doi.org/10.5281/zenodo.15731161.
 
 Citation instructions are also provided in `CITATION.cff`.
 

@@ -140,14 +140,14 @@ def test_cli_continues_after_unhandled_process_error(tmp_path):
     processed = []
     msg = "simulated unexpected error"
 
-    def fake_process_qmd(qmd_file, *_args, **_kwargs):
+    def fake_lint_qmd(qmd_file, *_args, **_kwargs):
         processed.append(qmd_file)
         if len(processed) == 1:
             raise RuntimeError(msg)
         return 0
 
     with (
-        patch("lintquarto.runner.process_qmd", side_effect=fake_process_qmd),
+        patch("lintquarto.runner.lint_qmd", side_effect=fake_lint_qmd),
         patch("sys.argv", ["lintquarto", "-l", "flake8", "-p", str(tmp_path)]),
         pytest.raises(SystemExit) as exc_info,
     ):

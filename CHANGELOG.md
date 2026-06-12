@@ -5,6 +5,22 @@ All notable changes to this project are documented.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Dates formatted as YYYY-MM-DD as per [ISO standard](https://www.iso.org/iso-8601-date-and-time-format.html).
 
+## v0.13.0 - 2026-06-12
+
+This release adds support for `basedpyright` and alpha support for formatters `ruff format` and `ruff check --fix`. It also includes some major refactoring to improve codebase.
+
+### Added
+
+* Add basic support for formatters `ruff format` and `ruff check --fix` - both still in alpha, with known bugs and further testing required. Support for these required several codebase (#93).
+* @jaycrick add support for `basedpyright` static type checker (#175).
+* In docs, add explanation of how to best apply linting rules to only quarto files (#136).
+
+### Changed
+
+* Major refactoring to improve code clarity and organisation, following all the recent changes made (#171).
+* Add new help formatter so `lintquarto --help` returns simpler options.
+* Simplified `CONTRIBUTING.md`.
+
 ## v0.12.0 - 2026-06-08
 
 This release primarily addresses feedback from @sneakers-the-rat 's [PyOpenSci review](https://github.com/pyOpenSci/software-submission/issues/257#issuecomment-4523576886) - as well as the tree-sitter suggestion from @isabelizimm.
