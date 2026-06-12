@@ -74,6 +74,7 @@ quartodoc:
   sections:
     - title: Gathering module
       desc: "Function to gather list of Quarto files."
+      package: lintquarto.gather
       contents:
         - gather_qmd_files
     - title: Runner module
