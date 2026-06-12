@@ -5,6 +5,26 @@ All notable changes to this project are documented.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Dates formatted as YYYY-MM-DD as per [ISO standard](https://www.iso.org/iso-8601-date-and-time-format.html).
 
+## v0.13.1 - 2026-06-12
+
+Essential bug fixes for `ruff format` and `ruff check --fix`.
+
+### Added
+
+* Back tests for formatters.
+
+### Changed
+
+* Updated documentation to mention formatters.
+* Updated JOSS paper.
+
+### Fixed
+
+Fixes that were preventing the return of formatted QMD files:
+
+* Add missing `self.` for `python_blocks`, required in `format_qmd()`.
+* Amend error code catch in `_format_temp_py()` that was preventing return of `ruff check --fix` file.
+
 ## v0.13.0 - 2026-06-12
 
 This release adds support for `basedpyright` and alpha support for formatters `ruff format` and `ruff check --fix`. It also includes some major refactoring to improve codebase.

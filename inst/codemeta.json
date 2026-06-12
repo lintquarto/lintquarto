@@ -19,5 +19,5 @@
   "keywords": "lint linting linter linters format formatters quarto qmd static-typechecking quartodoc static-type-checking",
   "license": "MIT",
   "title": "lintquarto",
-  "version": "0.13.0"
+  "version": "0.13.1"
 }
