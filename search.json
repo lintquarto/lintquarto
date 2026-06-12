@@ -668,14 +668,14 @@
   {
     "objectID": "index.html#easy-to-use",
     "href": "index.html#easy-to-use",
-    "title": "Run linters, static type checkers and code analysis tools on python code in quarto .qmd files",
+    "title": "Run linters, formatters, static type checkers and code analysis tools on python code in quarto .qmd files",
     "section": "Easy to use",
     "text": "Easy to use\nInstall and run checks in minutes. See getting started for installation and basic commands."
   },
   {
     "objectID": "index.html#variety-of-tools",
     "href": "index.html#variety-of-tools",
-    "title": "Run linters, static type checkers and code analysis tools on python code in quarto .qmd files",
+    "title": "Run linters, formatters, static type checkers and code analysis tools on python code in quarto .qmd files",
     "section": "Variety of tools",
     "text": "Variety of tools\nTry out a range of linters and type checkers, each with ready-to-run examples. Discover what’s available in the user guide."
   },
@@ -1416,7 +1416,7 @@
     "href": "pages/tools/summary.html",
     "title": "Summary",
     "section": "",
-    "text": "The lintquarto package enables you to run a range of linters, static type checkers and code analysis tools on python code in Quarto .qmd files.\nThis page provides an overview of the available tools.\nUse the sidebar to explore ready-to-run examples and detailed usage for each tool.\n\n\n\n\n\n\n\n\n\n\nTool\nDescription\n\n\n\n\nflake8\nLightweight tool focused on PEP-8 style, basic errors, and code complexity.\n\n\npycodestyle\nChecks against PEP-8 style guidelines.\n\n\npydoclint\nDocstring linter.\n\n\npyflakes\nChecks for logical errors like undefined names and unused imports.\n\n\npylint\nDetailed linter that detects errors, bugs, variable naming issues, and other code problems.\n\n\nruff\nModern, ultra-fast linter that implements checks from Flake8 and some other popular plugins.\n\n\n\n\n\n\n\n\n\n\n\n\n\nTool\nDescription\n\n\n\n\nbasedpyright\nCommunity fork of pyright with extra checks.\n\n\nmypy\nPython’s popular static type checker.\n\n\npyrefly\nMeta’s Rust-based static type checker (successor to Pyre).\n\n\npyright\nMicrosoft’s static type checker.\n\n\npytype\nGoogle’s static type checker.\n\n\n\n\n\n\n\n\n\n\n\n\n\nTool\nDescription\n\n\n\n\nvulture\nFinds unused/dead code.\n\n\nradon\nCalculates complexity, maintainability, raw statistics, and Halstead metrics.\n\n\n\n\n\n\n\nConfig files are supported, but they have a limitation similar to nbqa: filenames must use the .py extension.\nWhen lintquarto runs, it creates a temporary .py copy of each file - for example, mypage.qmd becomes mypage.py. If a file with the same name already exists, it creates a variant like mypage_1.py (via the get_unique_filename() function). In the config file, entries should use a pattern that matches possible duplicates using *.py.\nFor example, to run flake8 on mypage.qmd but disable the C0103 (invalid-name) warning, the .flake8 file must be written as:\n[flake8]\nper-file-ignores =\n    mypage*.py: C0103\n\n\n\n\nIf you want linting rules to apply only to code extracted from Quarto .qmd files (and not to your other .py files), organise them by directory.\nPlace your Quarto files in a dedicated directory and configure your linter to apply specific rules to that directory. For example:\n[tool.ruff]\nlint.per-file-ignores.\"docs/*\" = [\n    \"E402\"\n]\nlintquarto does not support passing tool-specific flags (as used in nbqa). This is a deliberate design choice to keep the interface simple and consistent across tools, as not all linters support inline flags. Instead, configuration should be handled via standard linter config files using directory-based rules. See discussion: https://github.com/lintquarto/lintquarto/issues/136.",
+    "text": "The lintquarto package enables you to run a range of linters, formatters, static type checkers and code analysis tools on python code in Quarto .qmd files.\nThis page provides an overview of the available tools.\nUse the sidebar to explore ready-to-run examples and detailed usage for each tool.\n\n\n\n\n\n\n\n\n\n\nTool\nDescription\n\n\n\n\nflake8\nLightweight tool focused on PEP-8 style, basic errors, and code complexity.\n\n\npycodestyle\nChecks against PEP-8 style guidelines.\n\n\npydoclint\nDocstring linter.\n\n\npyflakes\nChecks for logical errors like undefined names and unused imports.\n\n\npylint\nDetailed linter that detects errors, bugs, variable naming issues, and other code problems.\n\n\nruff\nModern, ultra-fast linter that implements checks from Flake8 and some other popular plugins.\n\n\n\n\n\n\nAlpha: documentation coming soon.\n\n\n\n\n\n\n\n\n\n\nTool\nDescription\n\n\n\n\nbasedpyright\nCommunity fork of pyright with extra checks.\n\n\nmypy\nPython’s popular static type checker.\n\n\npyrefly\nMeta’s Rust-based static type checker (successor to Pyre).\n\n\npyright\nMicrosoft’s static type checker.\n\n\npytype\nGoogle’s static type checker.\n\n\n\n\n\n\n\n\n\n\n\n\n\nTool\nDescription\n\n\n\n\nvulture\nFinds unused/dead code.\n\n\nradon\nCalculates complexity, maintainability, raw statistics, and Halstead metrics.\n\n\n\n\n\n\n\nConfig files are supported, but they have a limitation similar to nbqa: filenames must use the .py extension.\nWhen lintquarto runs, it creates a temporary .py copy of each file - for example, mypage.qmd becomes mypage.py. If a file with the same name already exists, it creates a variant like mypage_1.py (via the get_unique_filename() function). In the config file, entries should use a pattern that matches possible duplicates using *.py.\nFor example, to run flake8 on mypage.qmd but disable the C0103 (invalid-name) warning, the .flake8 file must be written as:\n[flake8]\nper-file-ignores =\n    mypage*.py: C0103\n\n\n\n\nIf you want linting rules to apply only to code extracted from Quarto .qmd files (and not to your other .py files), organise them by directory.\nPlace your Quarto files in a dedicated directory and configure your linter to apply specific rules to that directory. For example:\n[tool.ruff]\nlint.per-file-ignores.\"docs/*\" = [\n    \"E402\"\n]\nlintquarto does not support passing tool-specific flags (as used in nbqa). This is a deliberate design choice to keep the interface simple and consistent across tools, as not all linters support inline flags. Instead, configuration should be handled via standard linter config files using directory-based rules. See discussion: https://github.com/lintquarto/lintquarto/issues/136.",
     "crumbs": [
       "User guide",
       "**Summary**"
@@ -1428,6 +1428,17 @@
     "title": "Summary",
     "section": "",
     "text": "Tool\nDescription\n\n\n\n\nflake8\nLightweight tool focused on PEP-8 style, basic errors, and code complexity.\n\n\npycodestyle\nChecks against PEP-8 style guidelines.\n\n\npydoclint\nDocstring linter.\n\n\npyflakes\nChecks for logical errors like undefined names and unused imports.\n\n\npylint\nDetailed linter that detects errors, bugs, variable naming issues, and other code problems.\n\n\nruff\nModern, ultra-fast linter that implements checks from Flake8 and some other popular plugins.",
+    "crumbs": [
+      "User guide",
+      "**Summary**"
+    ]
+  },
+  {
+    "objectID": "pages/tools/summary.html#formatters",
+    "href": "pages/tools/summary.html#formatters",
+    "title": "Summary",
+    "section": "",
+    "text": "Alpha: documentation coming soon.",
     "crumbs": [
       "User guide",
       "**Summary**"
