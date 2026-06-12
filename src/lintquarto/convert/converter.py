@@ -146,13 +146,13 @@ class QmdToPyConverter:
 
         # Find all fenced code blocks where the language is (active or
         # inactive) Python, and collect metadata about them
-        python_blocks = collect_python_blocks(src_bytes, root)
+        self.python_blocks = collect_python_blocks(src_bytes, root)
 
         # Build the output Python view, line by line, guided by the block
         # metadata extracted above
         if self.mode == "lint":
             output_builder = LintOutputBuilder(
-                python_blocks=python_blocks,
+                python_blocks=self.python_blocks,
                 lint_non_exec=self.lint_non_exec,
                 yaml_eval_default=yaml_eval_default,
                 preserve_line_count=self.preserve_line_count,
@@ -161,7 +161,7 @@ class QmdToPyConverter:
             )
         elif self.mode == "format":
             output_builder = FormatOutputBuilder(
-                python_blocks=python_blocks,
+                python_blocks=self.python_blocks,
                 lint_non_exec=self.lint_non_exec,
                 yaml_eval_default=yaml_eval_default,
                 preserve_line_count=self.preserve_line_count,

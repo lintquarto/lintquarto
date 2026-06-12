@@ -11,7 +11,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterator
 
-from .convert.converter import convert_qmd_to_py
+from .convert.converter import QmdToPyConverter, convert_qmd_to_py
 from .convert.rebuild_qmd import recreate_qmd_from_formatted_py
 from .registry import Formatters, Linters
 
@@ -358,36 +358,82 @@ def format_qmd(
         return 1
 
     with temp_py_file(py_file=py_file, keep=keep_temp_files):
-        try:
-            command = list(Formatters().supported[formatter])
-            command.append(str(py_file))
-            if verbose:
-                print(f"Running command: {' '.join(command)}")
-            result = subprocess.run(
-                command, capture_output=True, text=True, check=False
-            )
-            if result.stdout:
-                print(result.stdout, end="")
-            if result.stderr:
-                print(result.stderr, file=sys.stderr, end="")
-            if result.returncode != 0:
-                return result.returncode
-            recreate_qmd_from_formatted_py(
-                qmd_path=qmd_path,
-                py_path=py_file,
-                python_blocks=converter.python_blocks,
-                verbose=verbose,
-            )
-            if verbose:
-                print(f"✓ Successfully formatted {qmd_path}")
-            return 0  # noqa: TRY300
+        return _format_temp_py(
+            qmd_path=qmd_path,
+            py_file=py_file,
+            converter=converter,
+            formatter=formatter,
+            verbose=verbose,
+        )
 
-        except Exception as e:  # noqa: BLE001
+
+def _format_temp_py(
+    *,
+    qmd_path: Path,
+    py_file: Path,
+    converter: QmdToPyConverter,
+    formatter: str,
+    verbose: bool,
+) -> int:
+    """
+    Run formatter on temporary py file, then recreate QMD from py.
+
+    Parameters
+    ----------
+    qmd_path : Path
+        Path to the source `.qmd` file being formatted.
+    py_file : Path
+        Path to the temporary Python file created from `qmd_path`.
+    converter :
+        Converter object returned by `convert_qmd_to_py`. Must provide
+        `python_blocks` metadata used to reconstruct the Quarto file.
+    formatter : str
+        Name of the formatter to run.
+    verbose : bool
+        If True, print verbose progress messages.
+
+    Returns
+    -------
+    int
+        Formatter return code. Returns `0` on success, or the
+        formatter's nonzero exit code if formatting fails.
+    """
+    try:
+        command = list(Formatters().supported[formatter])
+        command.append(str(py_file))
+        if verbose:
+            print(f"Running command: {' '.join(command)}")
+        result = subprocess.run(
+            command, capture_output=True, text=True, check=False
+        )
+        if result.stdout:
+            print(result.stdout, end="")
+        if result.stderr:
+            print(result.stderr, file=sys.stderr, end="")
+        if result.returncode != 0:
+            return result.returncode
+        if not converter.python_blocks:
             print(
-                f"Error: Unexpected error formatting {qmd_path}: {e}",
+                "Error: Converter has no python_blocks metadata.",
                 file=sys.stderr,
             )
             return 1
+        recreate_qmd_from_formatted_py(
+            qmd_path=qmd_path,
+            py_path=py_file,
+            python_blocks=converter.python_blocks,
+            verbose=verbose,
+        )
+        if verbose:
+            print(f"✓ Successfully formatted {qmd_path}")
+        return 0  # noqa: TRY300
+
+    except Exception as e:  # noqa: BLE001
+        print(
+            f"Error: Unexpected error formatting {qmd_path}: {e}",
+            file=sys.stderr,
+        )
+        return 1
 
 
 # =============================================================================
