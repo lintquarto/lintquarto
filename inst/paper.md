@@ -81,4 +81,11 @@ AI assistance was used for small, targeted tasks in the code (e.g. help when tro
 
 All code and design decisions were reviewed and finalised by a human.
 
+# Acknowledgements
+
+The author gratefully acknowledges all contributors to `lintquarto`, including those who contributed code, documentation, bug reports, feature requests, testing, and feedback. These contributions have helped to shape and improve the package and its documentation.
+
+This work was supported by the Medical Research Council under grant number
+[MR/Z503915/1].
+
 # References
