@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>process_qmd – lintquarto</title>
+<title>analyse_python.parse_chunk_eval – lintquarto</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5a3d34958c4ef30188d53d08a236f000.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-4bed81ed58223032dc392ef55bc118ce.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -172,26 +172,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="lintquarto.processing.process_qmd" class="level1">
-<h1>process_qmd</h1>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>processing.process_qmd(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    qmd_file,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    linter<span class="op">=</span><span class="va">None</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    custom_command<span class="op">=</span><span class="va">None</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    keep_temp_files<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    lint_non_exec<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Convert a .qmd file to .py, lint it, and clean up.</p>
+<section id="lintquarto.convert.analyse_python.parse_chunk_eval" class="level1">
+<h1>analyse_python.parse_chunk_eval</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>convert.analyse_python.parse_chunk_eval(option_text, <span class="op">*</span>, current_eval)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Parse an <code>eval:</code> option from a chunk option line.</p>
 <section id="parameters" class="level2 doc-section doc-section-parameters">
 <h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 17%">
-<col style="width: 13%">
-<col style="width: 56%">
-<col style="width: 12%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 71%">
+<col style="width: 8%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -203,40 +195,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td>qmd_file</td>
-<td>str | Path</td>
-<td>Path to the input .qmd file.</td>
+<td>option_text</td>
+<td>str</td>
+<td>Text of the chunk option line (e.g., <code>eval: true</code>).</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td>linter</td>
-<td>str</td>
-<td>Name of the linter to use.</td>
-<td><code>None</code></td>
-</tr>
-<tr class="odd">
-<td>custom_command</td>
-<td>str</td>
-<td>Custom command to run against generated .py file.</td>
-<td><code>None</code></td>
-</tr>
-<tr class="even">
-<td>keep_temp_files</td>
-<td>bool</td>
-<td>If True, retain the temporary .py file after linting.</td>
-<td><code>False</code></td>
-</tr>
-<tr class="odd">
-<td>verbose</td>
-<td>bool</td>
-<td>If True, print detailed progress information.</td>
-<td><code>False</code></td>
-</tr>
-<tr class="even">
-<td>lint_non_exec</td>
-<td>bool</td>
-<td>If True, also lint non-executable Python code chunks.</td>
-<td><code>False</code></td>
+<td>current_eval</td>
+<td>bool or None</td>
+<td>Existing eval value for the chunk. If no <code>eval</code> option is found, this value is returned unchanged.</td>
+<td><em>required</em></td>
 </tr>
 </tbody>
 </table>
@@ -244,6 +212,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="returns" class="level2 doc-section doc-section-returns">
 <h2 class="doc-section doc-section-returns anchored" data-anchor-id="returns">Returns</h2>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 13%">
+<col style="width: 78%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Name</th>
@@ -254,8 +227,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td></td>
-<td>int</td>
-<td>0 on success, nonzero on error.</td>
+<td>bool or None</td>
+<td>Updated eval flag for this chunk, or <code>None</code> if the option cannot be interpreted.</td>
 </tr>
 </tbody>
 </table>

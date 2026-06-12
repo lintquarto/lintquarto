@@ -68,7 +68,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../pages/tools/pyrefly.html" rel="next">
-<link href="../../pages/tools/ruff.html" rel="prev">
+<link href="../../pages/tools/basedpyright.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -78,7 +78,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5a3d34958c4ef30188d53d08a236f000.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-4bed81ed58223032dc392ef55bc118ce.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/quarto-contrib/downloadthis-1.9.1/downloadthis.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
@@ -168,7 +168,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/tools/mypy.html"><strong>Static type checkers</strong></a></li><li class="breadcrumb-item"><a href="../../pages/tools/mypy.html">mypy</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/tools/basedpyright.html"><strong>Static type checkers</strong></a></li><li class="breadcrumb-item"><a href="../../pages/tools/mypy.html">mypy</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -244,6 +244,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../pages/tools/basedpyright.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">basedpyright</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../pages/tools/mypy.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">mypy</span></a>
   </div>
@@ -304,7 +310,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/tools/mypy.html"><strong>Static type checkers</strong></a></li><li class="breadcrumb-item"><a href="../../pages/tools/mypy.html">mypy</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/tools/basedpyright.html"><strong>Static type checkers</strong></a></li><li class="breadcrumb-item"><a href="../../pages/tools/mypy.html">mypy</a></li></ol></nav></header>
 
 
 
@@ -328,7 +334,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="example-quarto-.qmd-file" class="level2">
 <h2 class="anchored" data-anchor-id="example-quarto-.qmd-file">Example Quarto <code>.qmd</code> file:</h2>
-<p><a href="#dnldts43289" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgKHN0YXRpYyB0eXBlIGNoZWNrZXIpIHRvIGlkZW50aWZ5LgoKYGBge3B5dGhvbn0KZGVmIGFkZF9udW1iZXJzKGE6IGludCwgYjogaW50KSAtPiBpbnQ6CiAgICByZXR1cm4gYSArIGIKCmFkZF9udW1iZXJzKDMsICI1IikKYGBgCgpUaGVyZSdzIHNvbWUgbW9yZSBpc3N1ZXMgYmVsb3cuLi4KCmBgYHtweXRob259CmFkZF9udW1iZXJzKDEsIDQpCgphZGRfbnVtYmVycygiYXBwbGVzIiwgOCkKYGBg').then(res => res.blob()).then(blob => {
+<p><a href="#dnldts46382" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgKHN0YXRpYyB0eXBlIGNoZWNrZXIpIHRvIGlkZW50aWZ5LgoKYGBge3B5dGhvbn0KZGVmIGFkZF9udW1iZXJzKGE6IGludCwgYjogaW50KSAtPiBpbnQ6CiAgICByZXR1cm4gYSArIGIKCmFkZF9udW1iZXJzKDMsICI1IikKYGBgCgpUaGVyZSdzIHNvbWUgbW9yZSBpc3N1ZXMgYmVsb3cuLi4KCmBgYHtweXRob259CmFkZF9udW1iZXJzKDEsIDQpCgphZGRfbnVtYmVycygiYXBwbGVzIiwgOCkKYGBg').then(res => res.blob()).then(blob => {
       const downloadURL = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       document.body.appendChild(a);
@@ -336,9 +342,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       a.download = 'typecheck_example.qmd'; a.click();
       window.URL.revokeObjectURL(downloadURL);
       document.body.removeChild(a);
-        });"><button class="btn btn-light downloadthis  " id="dnldts43289"><i class="bi bi-download"></i> Download the example </button></a></p>
+        });"><button class="btn btn-light downloadthis  " id="dnldts46382"><i class="bi bi-download"></i> Download the example </button></a></p>
 <div class="pale-grey">
-<div id="80b06f3a" class="cell" data-execution_count="3">
+<div id="276f7d0c" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
 <pre><code>1:     ---
 2:     title: "Example"
@@ -374,7 +380,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   white-space: pre-wrap !important;
 }
 </style>
-<div id="8b4d5d0f" class="cell" data-execution_count="4">
+<div id="544eef33" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre>==========================================================
@@ -803,8 +809,8 @@ examples/typecheck_example.qmd:19: <span class="ansi-red-fg ansi-bold">error:</s
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../pages/tools/ruff.html" class="pagination-link" aria-label="ruff">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">ruff</span>
+      <a href="../../pages/tools/basedpyright.html" class="pagination-link" aria-label="basedpyright">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">basedpyright</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

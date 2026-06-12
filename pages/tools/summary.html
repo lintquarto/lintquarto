@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5a3d34958c4ef30188d53d08a236f000.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-4bed81ed58223032dc392ef55bc118ce.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -242,6 +242,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../pages/tools/basedpyright.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">basedpyright</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../pages/tools/mypy.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">mypy</span></a>
   </div>
@@ -369,18 +375,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
+<td><a href="../../pages/tools/basedpyright.html"><strong>basedpyright</strong></a></td>
+<td>Community fork of pyright with extra checks.</td>
+</tr>
+<tr class="even">
 <td><a href="../../pages/tools/mypy.html"><strong>mypy</strong></a></td>
 <td>Python’s popular static type checker.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="../../pages/tools/pyrefly.html"><strong>pyrefly</strong></a></td>
 <td>Meta’s Rust-based static type checker (successor to Pyre).</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="../../pages/tools/pyright.html"><strong>pyright</strong></a></td>
 <td>Microsoft’s static type checker.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><a href="../../pages/tools/pytype.html"><strong>pytype</strong></a></td>
 <td>Google’s static type checker.</td>
 </tr>
@@ -421,6 +431,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[flake8]</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">per-file-ignores</span> =</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">mypage*.py:</span> C0103</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><br></p>
+</section>
+<section id="applying-rules-only-to-.qmd-files" class="level2">
+<h2 class="anchored" data-anchor-id="applying-rules-only-to-.qmd-files">Applying rules only to <code>.qmd</code> files</h2>
+<p>If you want linting rules to apply only to code extracted from Quarto <code>.qmd</code> files (and not to your other <code>.py</code> files), organise them by directory.</p>
+<p>Place your Quarto files in a dedicated directory and configure your linter to apply specific rules to that directory. For example:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">[tool.ruff]</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">lint.per-file-ignores.</span><span class="st">"docs/*"</span> = [</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"E402"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>lintquarto</code> does not support passing tool-specific flags (as used in <code>nbqa</code>). This is a deliberate design choice to keep the interface simple and consistent across tools, as not all linters support inline flags. Instead, configuration should be handled via standard linter config files using directory-based rules. See discussion: <a href="https://github.com/lintquarto/lintquarto/issues/136" class="uri">https://github.com/lintquarto/lintquarto/issues/136</a>.</p>
 
 
 </section>

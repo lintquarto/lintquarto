@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Getting started – lintquarto</title>
+<title>analyse_python.get_rows – lintquarto</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -61,22 +61,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-4bed81ed58223032dc392ef55bc118ce.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-4bed81ed58223032dc392ef55bc118ce.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -106,8 +106,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<link rel="stylesheet" href="../styles/sidebar.css">
-<link rel="stylesheet" href="../styles/callouts.css">
+<link rel="stylesheet" href="../../styles/sidebar.css">
+<link rel="stylesheet" href="../../styles/callouts.css">
 </head>
 
 <body class="nav-fixed fullcontent quarto-light">
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">lintquarto</span>
     </a>
   </div>
@@ -128,23 +128,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="../pages/get_started.html" aria-current="page"> 
+    <a class="nav-link" href="../../pages/get_started.html"> 
 <span class="menu-text">Getting started</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../pages/tools/summary.html"> 
+    <a class="nav-link" href="../../pages/tools/summary.html"> 
 <span class="menu-text">User guide</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../pages/api/index.html"> 
+    <a class="nav-link" href="../../pages/api/index.html"> 
 <span class="menu-text">Reference</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../pages/contributing.html"> 
+    <a class="nav-link" href="../../pages/contributing.html"> 
 <span class="menu-text">Contributing</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../pages/changelog.html"> 
+    <a class="nav-link" href="../../pages/changelog.html"> 
 <span class="menu-text">Changelog</span></a>
   </li>  
 </ul>
@@ -167,117 +167,80 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Getting started</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
 
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<p>Python 3.10 or higher is required. <code>lintquarto</code> itself has only four required packages: <code>toml</code>, <code>pyyaml</code>, <code>tree-sitter</code> and <code>tree-sitter-markdown</code>.</p>
-<p>You can install <strong>lintquarto</strong> with pip (from <a href="https://pypi.org/project/lintquarto/">PyPI</a> or <a href="https://github.com/lintquarto/lintquarto">GitHub</a>) or conda (from <a href="https://anaconda.org/conda-forge/lintquarto">conda-forge</a>).</p>
-<section id="install-with-pip" class="level3">
-<h3 class="anchored" data-anchor-id="install-with-pip">Install with pip</h3>
-<p>Install <code>lintquarto</code> with:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install lintquarto</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Linters are installed separately. For example, to use <code>pylint</code> and <code>flake8</code>, run:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install pylint flake8</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>If you want to install <code>lintquarto</code> along with all supported linters, use:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install lintquarto<span class="pp">[</span><span class="ss">all</span><span class="pp">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>You can verify your installation with:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="lintquarto.convert.analyse_python.get_rows" class="level1">
+<h1>analyse_python.get_rows</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>convert.analyse_python.get_rows(src_bytes, start_row, end_row)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Return (row_number, line_text) pairs for a given range of rows.</p>
+<section id="parameters" class="level2 doc-section doc-section-parameters">
+<h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 11%">
+<col style="width: 56%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>src_bytes</td>
+<td>bytes</td>
+<td>UTF-8 encoded document source.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="even">
+<td>start_row</td>
+<td>int</td>
+<td>First row index to include.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="odd">
+<td>end_row</td>
+<td>int</td>
+<td>Last row index to include (inclusive).</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="install-with-conda" class="level3">
-<h3 class="anchored" data-anchor-id="install-with-conda">Install with conda</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install conda-forge::lintquarto</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>With conda, only the main lintquarto tool is installed. If you want to use any linters or type checkers, you must install them separately (either with conda or pip, depending on availability).</p>
-</section>
-</section>
-<section id="development-version" class="level2">
-<h2 class="anchored" data-anchor-id="development-version">Development version</h2>
-<p>To install the latest development version of <code>lintquarto</code> directly from this repository:</p>
-<pre><code>pip install git+https://github.com/lintquarto/lintquarto</code></pre>
-<p>If you also want all supported linters and type checkers in one step, install from a local clone in editable mode with the <code>all</code> extra:</p>
-<pre><code>git clone https://github.com/lintquarto/lintquarto.git
-cd lintquarto
-pip install -e ".[all]"</code></pre>
-<p><br></p>
-</section>
-<section id="basic-usage" class="level2">
-<h2 class="anchored" data-anchor-id="basic-usage">Basic usage</h2>
-<p>Usage:</p>
-<pre><code>lintquarto [-h] [-l LINTER [LINTER ...]] [-f FORMATTER [FORMATTER ...]] [-p PATHS [PATHS ...]] [-e [[exclude_paths] ...]] [-n] [-v] [-k] [-c COMMAND] {list} ...</code></pre>
-<p>Lint Python code in Quarto (.qmd) files. Configuration can also be provided in pyproject.toml under [tool.lintquarto]. CLI arguments override configuration file. WARNING: Formatter option currently in alpha, with known bugs and further testing required. If you run into any problems, feel free to open a GitHub issue and contribute to code if you’d like to!</p>
-<p>Options:</p>
-<ul>
-<li><code>-h, --help</code> - show this help message and exit</li>
-<li><code>-l, --linters LINTER [LINTER ...]</code> - Linters to run. Valid options: [‘basedpyright’, ‘flake8’, ‘mypy’, ‘pycodestyle’, ‘pydoclint’, ‘pyflakes’, ‘pylint’, ‘pyright’, ‘pyrefly’, ‘pytype’, ‘radon-cc’, ‘radon-mi’, ‘radon-raw’, ‘radon-hal’, ‘ruff’, ‘vulture’]</li>
-<li><code>-f, --formatters FORMATTER [FORMATTER ...]</code> - Formatter to run. Valid options: [‘ruff-format’, ‘ruff-check-fix’].</li>
-<li><code>-p, --paths PATHS [PATHS ...]</code> - Quarto files and/or directories to lint.</li>
-<li><code>-e, --exclude [[exclude_paths] ...]</code> - Files and/or directories to exclude from linting.</li>
-<li><code>-n, --lint-non-exec</code> - Also lint non-executable Python code chunks</li>
-<li><code>-v, --verbose</code> - Verbose output.</li>
-<li><code>-k, --keep-temp</code> - Keep temporary .py files after linting.</li>
-<li><code>-c, --custom-commands COMMAND</code> - Custom command to run against the generated .py file. Repeat for multiple commands. Example: –custom- commands “mytool”</li>
-</ul>
-<p>Commands:</p>
-<ul>
-<li><code>list</code> - List supported linters and whether they are available.</li>
-</ul>
-<p>Passing extra arguments directly to linters is not supported. Only <code>.qmd</code> files are processed.</p>
-<p><br></p>
-</section>
-<section id="configuration-file" class="level2">
-<h2 class="anchored" data-anchor-id="configuration-file">Configuration file</h2>
-<p>As an alternative to passing flags on every run, you can declare your settings once in a <code>[tool.lintquarto]</code> section in your <code>pyproject.toml</code>. The arguments are eqvuialent to those used on the command line. For example:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[tool.lintquarto]</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="dt">linters</span> <span class="op">=</span> <span class="op">[</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ruff"</span><span class="op">,</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"pycodestyle"</span><span class="op">,</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="op">]</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="dt">paths</span> <span class="op">=</span> <span class="op">[</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"examples/"</span><span class="op">,</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dashboard/index.qmd"</span><span class="op">,</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="op">]</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="dt">lint-non-exec</span> <span class="op">=</span> <span class="cn">false</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>With this in place, you can run <code>lintquarto</code> with no arguments.</p>
-<p><strong>Note:</strong> CLI flags will always take priority over <code>pyproject.toml</code>. If you supply <code>-l</code> or <code>-p</code> on the command line, those values are used and the corresponding config file values are ignored. <code>exclude</code> and <code>custom-commands</code> are additive - values from both sources are merged together.</p>
-<p><br></p>
-</section>
-<section id="examples" class="level2">
-<h2 class="anchored" data-anchor-id="examples">Examples</h2>
-<p>The linter used is interchangeable in these examples.</p>
-<p>Lint all <code>.qmd</code> files in the current directory (using <code>pylint</code>):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> pylint <span class="at">-p</span> .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Lint several specific files (using <code>pylint</code> and <code>flake8</code>):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> pylint flake8 <span class="at">-p</span> file1.qmd file2.qmd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Keep temporary <code>.py</code> files after linting (with <code>pylint</code>)</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> pylint <span class="at">-p</span> . <span class="at">-k</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Lint all files in current directory (using <code>ruff</code>):</p>
-<ul>
-<li>Excluding folders <code>examples/</code> and <code>ignore/</code>, or-</li>
-<li>Excluding a specific file <code>analysis/test.qmd</code>.</li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> ruff <span class="at">-p</span> . <span class="at">-e</span> examples ignore</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> ruff <span class="at">-p</span> . <span class="at">-e</span> analysis/test.qmd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="returns" class="level2 doc-section doc-section-returns">
+<h2 class="doc-section doc-section-returns anchored" data-anchor-id="returns">Returns</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 5%">
+<col style="width: 14%">
+<col style="width: 79%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td>list of (int, str)</td>
+<td>A list of tuples containing the row index and corresponding line text for each row in the requested interval.</td>
+</tr>
+</tbody>
+</table>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

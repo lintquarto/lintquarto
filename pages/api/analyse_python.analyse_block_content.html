@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>convert_qmd_to_py – lintquarto</title>
+<title>analyse_python.analyse_block_content – lintquarto</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5a3d34958c4ef30188d53d08a236f000.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-4bed81ed58223032dc392ef55bc118ce.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -172,25 +172,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="lintquarto.converter.convert_qmd_to_py" class="level1">
-<h1>convert_qmd_to_py</h1>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>converter.convert_qmd_to_py(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    qmd_path,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    linter,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    output_path<span class="op">=</span><span class="va">None</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    lint_non_exec<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Convert Quarto file to Python file, preserving line alignment.</p>
+<section id="lintquarto.convert.analyse_python.analyse_block_content" class="level1">
+<h1>analyse_python.analyse_block_content</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>convert.analyse_python.analyse_block_content(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    src_bytes,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    content_node,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    closing_row,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Analyse the lines inside a fenced code block.</p>
+<p>This scans the content of a fenced Python block, identifying regions with chunk options and cell magic, and the actual code region.</p>
 <section id="parameters" class="level2 doc-section doc-section-parameters">
 <h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 12%">
-<col style="width: 17%">
-<col style="width: 59%">
-<col style="width: 10%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 68%">
+<col style="width: 9%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -202,34 +200,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td>qmd_path</td>
-<td>str | Path</td>
-<td>Path to the input .qmd file.</td>
+<td>src_bytes</td>
+<td>bytes</td>
+<td>UTF-8 encoded document source.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="even">
-<td>linter</td>
-<td>str</td>
-<td>Name of the linter that will be used.</td>
+<td>content_node</td>
+<td>Node or None</td>
+<td>The <code>code_fence_content</code> node for the block, or <code>None</code> if the block has no content.</td>
 <td><em>required</em></td>
 </tr>
 <tr class="odd">
-<td>output_path</td>
-<td>str | Path | None</td>
-<td>Path for the output .py file. If None, uses qmd_path with .py suffix.</td>
-<td><code>None</code></td>
-</tr>
-<tr class="even">
-<td>verbose</td>
-<td>bool</td>
-<td>If True, print detailed progress information.</td>
-<td><code>False</code></td>
-</tr>
-<tr class="odd">
-<td>lint_non_exec</td>
-<td>bool</td>
-<td>If True, also lint non-executable Python code chunks.</td>
-<td><code>False</code></td>
+<td>closing_row</td>
+<td>int</td>
+<td>Row index of the closing fence delimiter.</td>
+<td><em>required</em></td>
 </tr>
 </tbody>
 </table>
@@ -238,9 +224,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="doc-section doc-section-returns anchored" data-anchor-id="returns">Returns</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 14%">
-<col style="width: 15%">
-<col style="width: 69%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 87%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -251,9 +237,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td>output_path</td>
-<td>Path | None</td>
-<td>Path for the output .py file, or None if there was an error.</td>
+<td></td>
+<td>dict</td>
+<td>A dictionary with keys metadata such as the first code row, per-row option indices, and chunk-level flags.</td>
 </tr>
 </tbody>
 </table>

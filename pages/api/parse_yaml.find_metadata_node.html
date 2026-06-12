@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>qmdtopyconverter – lintquarto</title>
+<title>parse_yaml.find_metadata_node – lintquarto</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5a3d34958c4ef30188d53d08a236f000.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-4bed81ed58223032dc392ef55bc118ce.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -172,86 +172,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="lintquarto.converter.QmdToPyConverter" class="level1">
-<h1>QmdToPyConverter</h1>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>converter.QmdToPyConverter(linter, <span class="op">*</span>, lint_non_exec<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Convert lines from a .qmd file to .py file.</p>
-<section id="attributes" class="level2 doc-section doc-section-attributes">
-<h2 class="doc-section doc-section-attributes anchored" data-anchor-id="attributes">Attributes</h2>
+<section id="lintquarto.convert.parse_yaml.find_metadata_node" class="level1">
+<h1>parse_yaml.find_metadata_node</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>convert.parse_yaml.find_metadata_node(root)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Return the YAML front matter node, if present.</p>
+<section id="parameters" class="level2 doc-section doc-section-parameters">
+<h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 8%">
-<col style="width: 3%">
-<col style="width: 87%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>linter</td>
-<td>str</td>
-<td>Name of the linter that will be used.</td>
-</tr>
-<tr class="even">
-<td>lint_non_exec</td>
-<td>bool</td>
-<td>If True, also lint non-executable Python code chunks.</td>
-</tr>
-<tr class="odd">
-<td>py_lines</td>
-<td>list</td>
-<td>Stores the lines to be written to the output Python file.</td>
-</tr>
-<tr class="even">
-<td>yaml_eval_default</td>
-<td>bool</td>
-<td>Default eval setting from YAML front matter.</td>
-</tr>
-<tr class="odd">
-<td>spacing_rules</td>
-<td>bool</td>
-<td>Whether specified linter reports pycodestyle-style vertical spacing checks, such as blank-line errors between top-level functions, classes, and methods (e.g., E301, E302, E303, E305, and E306).</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="methods" class="level2">
-<h2 class="anchored" data-anchor-id="methods">Methods</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><a href="#lintquarto.converter.QmdToPyConverter.convert">convert</a></td>
-<td>Convert QMD source lines into a lintable Python view.</td>
-</tr>
-<tr class="even">
-<td><a href="#lintquarto.converter.QmdToPyConverter.should_lint_block">should_lint_block</a></td>
-<td>Determine whether a given Python block should be linted.</td>
-</tr>
-</tbody>
-</table>
-<section id="lintquarto.converter.QmdToPyConverter.convert" class="level3">
-<h3 class="anchored" data-anchor-id="lintquarto.converter.QmdToPyConverter.convert">convert</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>converter.QmdToPyConverter.convert(qmd_lines)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Convert QMD source lines into a lintable Python view.</p>
-<p>This parses the QMD document with Tree-sitter, locates fenced Python code blocks, analyses chunk options and YAML front matter, and then builds an aligned list of Python lines suitable for a linter.</p>
-<section id="parameters" class="level4 doc-section doc-section-parameters">
-<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 16%">
-<col style="width: 19%">
-<col style="width: 47%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 58%">
 <col style="width: 17%">
 </colgroup>
 <thead>
@@ -264,21 +195,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td>qmd_lines</td>
-<td>list of str</td>
-<td>Lines from the input QMD file.</td>
+<td>root</td>
+<td>Node</td>
+<td>Root node of the parsed Markdown tree.</td>
 <td><em>required</em></td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="returns" class="level4 doc-section doc-section-returns">
-<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns">Returns</h4>
+<section id="returns" class="level2 doc-section doc-section-returns">
+<h2 class="doc-section doc-section-returns anchored" data-anchor-id="returns">Returns</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 4%">
-<col style="width: 6%">
-<col style="width: 89%">
+<col style="width: 9%">
+<col style="width: 16%">
+<col style="width: 74%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -290,72 +221,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td></td>
-<td>list of str</td>
-<td>Python lines representing the lintable view of the QMD file. Depending on configuration, non-Python regions are replaced by placeholder lines so that line numbers stay aligned.</td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="lintquarto.converter.QmdToPyConverter.should_lint_block" class="level3">
-<h3 class="anchored" data-anchor-id="lintquarto.converter.QmdToPyConverter.should_lint_block">should_lint_block</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>converter.QmdToPyConverter.should_lint_block(block)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Determine whether a given Python block should be linted.</p>
-<p>This combines global settings (<code>lint_non_exec</code>), the block’s active/inactive status, any chunk-level <code>eval</code> options, and the default YAML <code>execute.eval</code> value.</p>
-<section id="parameters-1" class="level4 doc-section doc-section-parameters">
-<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-1">Parameters</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 9%">
-<col style="width: 9%">
-<col style="width: 65%">
-<col style="width: 14%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>block</td>
-<td>dict</td>
-<td>Metadata dictionary describing a Python code block.</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="returns-1" class="level4 doc-section doc-section-returns">
-<h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns-1">Returns</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 9%">
-<col style="width: 9%">
-<col style="width: 81%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td></td>
-<td>bool</td>
-<td><code>True</code> if the block should be included in linting, <code>False</code> otherwise.</td>
+<td>Node or None</td>
+<td>The first metadata node, or <code>None</code> if no metadata is present.</td>
 </tr>
 </tbody>
 </table>
 
 
-</section>
-</section>
 </section>
 </section>
 

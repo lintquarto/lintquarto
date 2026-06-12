@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>get_unique_filename – lintquarto</title>
+<title>analyse_python.analyse_block – lintquarto</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5a3d34958c4ef30188d53d08a236f000.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-4bed81ed58223032dc392ef55bc118ce.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -172,14 +172,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="lintquarto.converter.get_unique_filename" class="level1">
-<h1>get_unique_filename</h1>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>converter.get_unique_filename(path)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Generate unique path by adding “_n” before the file extension, if needed.</p>
-<p>If the given path already exists, this function appends an incrementing number before the file extension (e.g., “file_1.py”) until an unused filename is found.</p>
+<section id="lintquarto.convert.analyse_python.analyse_block" class="level1">
+<h1>analyse_python.analyse_block</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>convert.analyse_python.analyse_block(src_bytes, fcb_node, lang_text)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Extract metadata for a single fenced Python code block.</p>
+<p>This combines structural information from the Tree-sitter node (start row, closing delimiter row) with line-level analysis from <code>_analyse_block_content</code>.</p>
 <section id="parameters" class="level2 doc-section doc-section-parameters">
 <h2 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h2>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 8%">
+<col style="width: 67%">
+<col style="width: 12%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Name</th>
@@ -190,29 +196,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td>path</td>
-<td>str | Path</td>
-<td>The initial file path to check.</td>
+<td>src_bytes</td>
+<td>bytes</td>
+<td>UTF-8 encoded document source.</td>
 <td><em>required</em></td>
 </tr>
-</tbody>
-</table>
-</section>
-<section id="returns" class="level2 doc-section doc-section-returns">
-<h2 class="doc-section doc-section-returns anchored" data-anchor-id="returns">Returns</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
+<tr class="even">
+<td>fcb_node</td>
+<td>Node</td>
+<td>A <code>fenced_code_block</code> node identified as Python.</td>
+<td><em>required</em></td>
 </tr>
-</thead>
-<tbody>
 <tr class="odd">
-<td></td>
-<td>Path</td>
-<td>A unique file path that does not currently exist.</td>
+<td>lang_text</td>
+<td>str</td>
+<td>Raw language text for the block (e.g., <code>python</code> or <code>.python</code>).</td>
+<td><em>required</em></td>
 </tr>
 </tbody>
 </table>

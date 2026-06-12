@@ -41,7 +41,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-5a3d34958c4ef30188d53d08a236f000.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-4bed81ed58223032dc392ef55bc118ce.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -139,54 +139,214 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="reference" class="level1 doc doc-index">
 <h1 class="doc doc-index">Reference</h1>
-<section id="processing-module" class="level2">
-<h2 class="anchored" data-anchor-id="processing-module">Processing module</h2>
-<p>Functions to gather Quarto (<code>.qmd</code>) files, convert them to Python (<code>.py</code>) files for linting, invoke linters, and manage temporary files.</p>
+<section id="gathering-module" class="level2">
+<h2 class="anchored" data-anchor-id="gathering-module">Gathering module</h2>
+<p>Function to gather list of Quarto files.</p>
 <table class="caption-top table">
 <tbody>
 <tr class="odd">
-<td><a href="../../pages/api/gather_qmd_files.html#lintquarto.processing.gather_qmd_files">gather_qmd_files</a></td>
+<td><a href="../../pages/api/gather_qmd_files.html#lintquarto.gather.gather_qmd_files">gather_qmd_files</a></td>
 <td>Gather .qmd files from listed files/dirs, excluding specified paths.</td>
-</tr>
-<tr class="even">
-<td><a href="../../pages/api/process_qmd.html#lintquarto.processing.process_qmd">process_qmd</a></td>
-<td>Convert a .qmd file to .py, lint it, and clean up.</td>
-</tr>
-<tr class="odd">
-<td><a href="../../pages/api/validate_no_commas.html#lintquarto.processing.validate_no_commas">validate_no_commas</a></td>
-<td>Check for commas in list of paths and raise ValueError if found.</td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="converter-module" class="level2">
-<h2 class="anchored" data-anchor-id="converter-module">Converter module</h2>
-<p>Functions to convert Quarto (<code>.qmd</code>) files to Python (<code>.py</code>) files, preserving line alignment and extracting Python code, with both a command-line interface and callable functions.</p>
+<section id="runner-module" class="level2">
+<h2 class="anchored" data-anchor-id="runner-module">Runner module</h2>
+<p>Functions which run tools: convert to py file, run tool, return output.</p>
 <table class="caption-top table">
 <tbody>
 <tr class="odd">
-<td><a href="../../pages/api/QmdToPyConverter.html#lintquarto.converter.QmdToPyConverter">QmdToPyConverter</a></td>
-<td>Convert lines from a .qmd file to .py file.</td>
+<td><a href="../../pages/api/ToolRunner.html#lintquarto.runner.ToolRunner">ToolRunner</a></td>
+<td>Run built-in and custom tools across a set of Quarto files.</td>
 </tr>
 <tr class="even">
-<td><a href="../../pages/api/get_unique_filename.html#lintquarto.converter.get_unique_filename">get_unique_filename</a></td>
+<td><a href="../../pages/api/lint_qmd.html#lintquarto.runner.lint_qmd">lint_qmd</a></td>
+<td>Convert a .qmd file to .py, lint it, and clean up.</td>
+</tr>
+<tr class="odd">
+<td><a href="../../pages/api/format_qmd.html#lintquarto.runner.format_qmd">format_qmd</a></td>
+<td>Format Python code in a Quarto file.</td>
+</tr>
+<tr class="even">
+<td><a href="../../pages/api/temp_py_file.html#lintquarto.runner.temp_py_file">temp_py_file</a></td>
+<td>Context manager that ensures file is removed on exit unless keep=True.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="converter-modules" class="level2">
+<h2 class="anchored" data-anchor-id="converter-modules">Converter modules</h2>
+<p>Code to convert Quarto (<code>.qmd</code>) files to Python (<code>.py</code>) files, preserving line alignment and extracting Python code, with both a command-line interface and callable functions.</p>
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td><a href="../../pages/api/analyse_python.analyse_block.html#lintquarto.convert.analyse_python.analyse_block">analyse_python.analyse_block</a></td>
+<td>Extract metadata for a single fenced Python code block.</td>
+</tr>
+<tr class="even">
+<td><a href="../../pages/api/analyse_python.find_closing_delimiter_row.html#lintquarto.convert.analyse_python.find_closing_delimiter_row">analyse_python.find_closing_delimiter_row</a></td>
+<td>Return the row number of the closing fenced-code delimiter (`<code>). | | [analyse_python.find_content_node](analyse_python.find_content_node.qmd#lintquarto.convert.analyse_python.find_content_node) | Get the content of the code block. | | [analyse_python.analyse_block_content](analyse_python.analyse_block_content.qmd#lintquarto.convert.analyse_python.analyse_block_content) | Analyse the lines inside a fenced code block. | | [analyse_python.get_rows](analyse_python.get_rows.qmd#lintquarto.convert.analyse_python.get_rows) | Return (row_number, line_text) pairs for a given range of rows. | | [analyse_python.handle_option_state_row](analyse_python.handle_option_state_row.qmd#lintquarto.convert.analyse_python.handle_option_state_row) | Process a row while the parser is in the 'chunk options' region. | | [analyse_python.parse_chunk_eval](analyse_python.parse_chunk_eval.qmd#lintquarto.convert.analyse_python.parse_chunk_eval) | Parse an</code>eval:`` option from a chunk option line.</td>
+</tr>
+<tr class="odd">
+<td><a href="../../pages/api/analyse_python.mark_code_row.html#lintquarto.convert.analyse_python.mark_code_row">analyse_python.mark_code_row</a></td>
+<td>Record first code row and magic metadata.</td>
+</tr>
+<tr class="even">
+<td><a href="../../pages/api/build_output.OutputBuilder.html#lintquarto.convert.build_output.OutputBuilder">build_output.OutputBuilder</a></td>
+<td>Base class for building Python output from parsed document metadata.</td>
+</tr>
+<tr class="odd">
+<td><a href="../../pages/api/build_output.FormatOutputBuilder.html#lintquarto.convert.build_output.FormatOutputBuilder">build_output.FormatOutputBuilder</a></td>
+<td>Build a formatter-friendly Python view.</td>
+</tr>
+<tr class="even">
+<td><a href="../../pages/api/build_output.LintOutputBuilder.html#lintquarto.convert.build_output.LintOutputBuilder">build_output.LintOutputBuilder</a></td>
+<td>Build a lint-friendly Python view.</td>
+</tr>
+<tr class="odd">
+<td><a href="../../pages/api/collect_python.collect_python_blocks.html#lintquarto.convert.collect_python.collect_python_blocks">collect_python.collect_python_blocks</a></td>
+<td>Collect all fenced Python code blocks in the document.</td>
+</tr>
+<tr class="even">
+<td><a href="../../pages/api/collect_python.walk_for_python_blocks.html#lintquarto.convert.collect_python.walk_for_python_blocks">collect_python.walk_for_python_blocks</a></td>
+<td>Recursively search for fenced Python code blocks.</td>
+</tr>
+<tr class="odd">
+<td><a href="../../pages/api/collect_python.get_language_text.html#lintquarto.convert.collect_python.get_language_text">collect_python.get_language_text</a></td>
+<td>Extract the language tag from a fenced code block.</td>
+</tr>
+<tr class="even">
+<td><a href="../../pages/api/converter.QmdToPyConverter.html#lintquarto.convert.converter.QmdToPyConverter">converter.QmdToPyConverter</a></td>
+<td>Convert lines from a .qmd file to .py file.</td>
+</tr>
+<tr class="odd">
+<td><a href="../../pages/api/converter.convert_qmd_to_py.html#lintquarto.convert.converter.convert_qmd_to_py">converter.convert_qmd_to_py</a></td>
+<td>Convert Quarto file to Python file, preserving line alignment.</td>
+</tr>
+<tr class="even">
+<td><a href="../../pages/api/filename.get_unique_filename.html#lintquarto.convert.filename.get_unique_filename">filename.get_unique_filename</a></td>
 <td>Generate unique path by adding “_n” before the file extension, if needed.</td>
 </tr>
 <tr class="odd">
-<td><a href="../../pages/api/convert_qmd_to_py.html#lintquarto.converter.convert_qmd_to_py">convert_qmd_to_py</a></td>
-<td>Convert Quarto file to Python file, preserving line alignment.</td>
+<td><a href="../../pages/api/parse_yaml.find_metadata_node.html#lintquarto.convert.parse_yaml.find_metadata_node">parse_yaml.find_metadata_node</a></td>
+<td>Return the YAML front matter node, if present.</td>
+</tr>
+<tr class="even">
+<td><a href="../../pages/api/parse_yaml.parse_yaml_eval_from_node.html#lintquarto.convert.parse_yaml.parse_yaml_eval_from_node">parse_yaml.parse_yaml_eval_from_node</a></td>
+<td>Parse YAML front matter and return execute.eval setting.</td>
+</tr>
+<tr class="odd">
+<td><a href="../../pages/api/rebuild_qmd.recreate_qmd_from_formatted_py.html#lintquarto.convert.rebuild_qmd.recreate_qmd_from_formatted_py">rebuild_qmd.recreate_qmd_from_formatted_py</a></td>
+<td>Recreate a QMD file by splicing formatted Python back into its blocks.</td>
+</tr>
+<tr class="even">
+<td><a href="../../pages/api/rebuild_qmd.parse_formatted_blocks.html#lintquarto.convert.rebuild_qmd.parse_formatted_blocks">rebuild_qmd.parse_formatted_blocks</a></td>
+<td>Parse formatter output into per-block Python snippets.</td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="linters-module" class="level2">
 <h2 class="anchored" data-anchor-id="linters-module">Linters module</h2>
-<p>Class to check for supported and available Python linters, static type checkers or code analysis tools on the user’s system.</p>
+<p>Classes to check for supported and available Python linters, static type checkers, code analysis tools and code formatters on the user’s system.</p>
 <table class="caption-top table">
 <tbody>
 <tr class="odd">
-<td><a href="../../pages/api/Linters.html#lintquarto.linters.Linters">Linters</a></td>
-<td>Checks if requested linter (or static type checker) is available.</td>
+<td><a href="../../pages/api/ToolRegistry.html#lintquarto.registry.ToolRegistry">ToolRegistry</a></td>
+<td>Registry of supported external tools.</td>
+</tr>
+<tr class="even">
+<td><a href="../../pages/api/Linters.html#lintquarto.registry.Linters">Linters</a></td>
+<td>Registry of supported linters (and code analysis tools).</td>
+</tr>
+<tr class="odd">
+<td><a href="../../pages/api/Formatters.html#lintquarto.registry.Formatters">Formatters</a></td>
+<td>Registry of supported code formatters.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="cli-module" class="level2">
+<h2 class="anchored" data-anchor-id="cli-module">CLI module</h2>
+<p>Command-line interface for linting Python code in Quarto (<code>.qmd</code>) files, including argument parsing and orchestration of the linting workflow.</p>
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td><a href="../../pages/api/main.html#lintquarto.main.main">main</a></td>
+<td>Entry point for the lintquarto CLI.</td>
+</tr>
+<tr class="even">
+<td><a href="../../pages/api/build_parser.html#lintquarto.main.build_parser">build_parser</a></td>
+<td>Create and configure the CLI argument parser.</td>
+</tr>
+<tr class="odd">
+<td><a href="../../pages/api/validate_args.html#lintquarto.main.validate_args">validate_args</a></td>
+<td>Validate command-line arguments.</td>
+</tr>
+<tr class="even">
+<td><a href="../../pages/api/validate_no_commas.html#lintquarto.main.validate_no_commas">validate_no_commas</a></td>
+<td>Check for commas in list of paths and raise ValueError if found.</td>
+</tr>
+<tr class="odd">
+<td><a href="../../pages/api/parse_custom_commands.html#lintquarto.main.parse_custom_commands">parse_custom_commands</a></td>
+<td>Parse, validate, and warn on custom commands.</td>
+</tr>
+<tr class="even">
+<td><a href="../../pages/api/list_tools.html#lintquarto.main.list_tools">list_tools</a></td>
+<td>Print all supported tools and whether they’re available.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="merge-module" class="level2">
+<h2 class="anchored" data-anchor-id="merge-module">Merge module</h2>
+<p>Functions used to merge configuration settings with CLI arguments.</p>
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td><a href="../../pages/api/merge_config.html#lintquarto.merge.merge_config">merge_config</a></td>
+<td>Merge <code>[tool.lintquarto]</code> config into parsed CLI args.</td>
+</tr>
+<tr class="even">
+<td><a href="_merge_prefer_cli.qmd#lintquarto.merge._merge_prefer_cli">_merge_prefer_cli</a></td>
+<td>Merge a list-like option, preferring the CLI value when present.</td>
+</tr>
+<tr class="odd">
+<td><a href="_merge_additive.qmd#lintquarto.merge._merge_additive">_merge_additive</a></td>
+<td>Merge an additive list-like option from config and CLI.</td>
+</tr>
+<tr class="even">
+<td><a href="_merge_bool_or.qmd#lintquarto.merge._merge_bool_or">_merge_bool_or</a></td>
+<td>Merge a boolean option using OR semantics.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="config-module" class="level2">
+<h2 class="anchored" data-anchor-id="config-module">Config module</h2>
+<p>Support for declaring lintquarto settings in a <code>pyproject.toml</code> configuration file.</p>
+<table class="caption-top table">
+<tbody>
+<tr class="odd">
+<td><a href="../../pages/api/LintquartoConfig.html#lintquarto.config.LintquartoConfig">LintquartoConfig</a></td>
+<td>Configuration parsed from <code>[tool.lintquarto]</code> in <code>pyproject.toml</code>.</td>
+</tr>
+<tr class="even">
+<td><a href="../../pages/api/find_pyproject_toml.html#lintquarto.config.find_pyproject_toml">find_pyproject_toml</a></td>
+<td>Walk up the directory tree to find a <code>pyproject.toml</code> file.</td>
+</tr>
+<tr class="odd">
+<td><a href="../../pages/api/load_config.html#lintquarto.config.load_config">load_config</a></td>
+<td>Load <code>[tool.lintquarto]</code> settings from the nearest <code>pyproject.toml</code>.</td>
+</tr>
+<tr class="even">
+<td><a href="_str_list.qmd#lintquarto.config._str_list">_str_list</a></td>
+<td>Extract a list[str] from <code>section</code>, silently ignoring bad values.</td>
+</tr>
+<tr class="odd">
+<td><a href="_bool.qmd#lintquarto.config._bool">_bool</a></td>
+<td>Extract a boolean from <code>section</code>.</td>
 </tr>
 </tbody>
 </table>
@@ -211,22 +371,6 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td><a href="../../pages/api/CustomArgumentParser.html#lintquarto.args.CustomArgumentParser">CustomArgumentParser</a></td>
 <td>Print user-friendly error message and help text.</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="cli-module" class="level2">
-<h2 class="anchored" data-anchor-id="cli-module">CLI module</h2>
-<p>Command-line interface for linting Python code in Quarto (<code>.qmd</code>) files, including argument parsing and orchestration of the linting workflow.</p>
-<table class="caption-top table">
-<tbody>
-<tr class="odd">
-<td><a href="../../pages/api/main.html#lintquarto.cli.main">main</a></td>
-<td>Entry point for the lintquarto CLI.</td>
-</tr>
-<tr class="even">
-<td><a href="../../pages/api/list_linters.html#lintquarto.cli.list_linters">list_linters</a></td>
-<td>Print all supported linters and whether they’re available.</td>
 </tr>
 </tbody>
 </table>
