@@ -72,15 +72,18 @@ quartodoc:
   out_index: index.qmd
   package: lintquarto
   sections:
-    - title: Processing module
-      desc: "Functions to gather Quarto (`.qmd`) files, convert them to Python (`.py`) files for linting, invoke linters, and manage temporary files."
-      package: lintquarto.processing
+    - title: Gathering module
+      desc: "Function to gather list of Quarto files."
       contents:
-        - temp_py_file
-        - process_qmd
-        - format_qmd
         - gather_qmd_files
-        - validate_no_commas
+    - title: Runner module
+      desc: "Functions which run tools: convert to py file, run tool, return output."
+      package: lintquarto.runner
+      contents:
+        - ToolRunner
+        - lint_qmd
+        - format_qmd
+        - temp_py_file
     - title: Converter modules
       desc: "Code to convert Quarto (`.qmd`) files to Python (`.py`) files, preserving line alignment and extracting Python code, with both a command-line interface and callable functions."
       package: lintquarto.convert
@@ -106,11 +109,6 @@ quartodoc:
         - parse_yaml.parse_yaml_eval_from_node
         - rebuild_qmd.recreate_qmd_from_formatted_py
         - rebuild_qmd.parse_formatted_blocks
-    - title: Runner module
-      desc: "Class to run linters, formatters or custom commands on a list of Quarto files."
-      package: lintquarto.runner
-      contents:
-        - ToolRunner
     - title: Linters module
       desc: "Classes to check for supported and available Python linters, static type checkers, code analysis tools and code formatters on the user's system."
       package: lintquarto.registry
@@ -125,6 +123,7 @@ quartodoc:
         - main
         - build_parser
         - validate_args
+        - validate_no_commas
         - parse_custom_commands
         - list_tools
     - title: Merge module

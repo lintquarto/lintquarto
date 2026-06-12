@@ -8,11 +8,8 @@ from pathlib import Path
 
 from .args import CustomArgumentParser, build_parser
 from .config import load_config
+from .gather import gather_qmd_files
 from .merge import merge_config
-from .processing import (
-    gather_qmd_files,
-    validate_no_commas,
-)
 from .registry import Formatters, Linters
 from .runner import ToolRunner
 
@@ -133,6 +130,32 @@ def validate_args(
         except (ValueError, FileNotFoundError) as e:
             print(f"Error: {e}", file=sys.stderr)
             sys.exit(1)
+
+
+def validate_no_commas(list_of_paths: list[str], argname: str) -> None:
+    """
+    Check for commas in list of paths and raise ValueError if found.
+
+    Parameters
+    ----------
+    list_of_paths : list[str]
+        List of file or directory paths to check.
+    argname : str
+        Name of the argument for error messaging.
+
+    Raises
+    ------
+    ValueError
+        If any path contains a comma, indicating improper separation.
+
+    """
+    for path in list_of_paths:
+        if "," in path:
+            msg = (
+                f"Argument '{argname}' contains a comma: '{path}'. Separate "
+                "paths with spaces, not commas. e.g: -p file.qmd dir2"
+            )
+            raise ValueError(msg)
 
 
 def parse_custom_commands(
