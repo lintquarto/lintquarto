@@ -12,12 +12,12 @@
   ],
   "identifier": "https://doi.org/10.5281/zenodo.15731161",
   "codeRepository": "https://github.com/lintquarto/lintquarto",
-  "datePublished": "2026-01-20",
-  "dateModified": "2026-01-20",
-  "dateCreated": "2026-01-20",
-  "description": "Package for running linters, static type checkers and code analysis tools on python code in quarto (.qmd) files.",
-  "keywords": "lint linting linter linters quarto qmd static-typechecking quartodoc static-type-checking",
+  "datePublished": "2026-06-12",
+  "dateModified": "2026-06-12",
+  "dateCreated": "2026-06-12",
+  "description": "Package for running linters, formatters, static type checkers and code analysis tools on python code in quarto (.qmd) files.",
+  "keywords": "lint linting linter linters format formatters quarto qmd static-typechecking quartodoc static-type-checking",
   "license": "MIT",
   "title": "lintquarto",
-  "version": "0.7.0"
+  "version": "0.13.0"
 }
