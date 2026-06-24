@@ -44,7 +44,7 @@ conda create -n lintquarto python=3.12
 conda activate lintquarto
 ```
 
-From the project rool, install the package in editable mode with all linters and type checkers:
+From the project root, install the package in editable mode with all linters and type checkers:
 
 ```{.bash}
 pip install -e ".[all]"
