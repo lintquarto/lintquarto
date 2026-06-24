@@ -122,7 +122,7 @@ def build_parser() -> CustomArgumentParser:
         "--paths",
         nargs="+",
         required=False,
-        help="Quarto files and/or directories to lint.",
+        help="Quarto files and/or directories to run tools on.",
     )
     parser.add_argument(
         "-e",
@@ -130,7 +130,7 @@ def build_parser() -> CustomArgumentParser:
         nargs="*",
         default=[],
         metavar="[exclude_paths]",
-        help="Files and/or directories to exclude from linting.",
+        help="Files and/or directories to exclude from running tools on.",
     )
     parser.add_argument(
         "-n",

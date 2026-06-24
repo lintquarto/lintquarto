@@ -109,10 +109,11 @@ class LintquartoConfig:
     formatters : list[str]
         Formatters to run. Equivalent to `-f` / `--formatters`.
     paths : list[str]
-        Files and/or directories to lint. Equivalent to `-p` / `--paths`.
+        Files and/or directories to run tools on. Equivalent to
+        `-p` / `--paths`.
     exclude : list[str]
-        Files and/or directories to exclude from linting. Equivalent to `-e` /
-        `--exclude`.
+        Files and/or directories to exclude from running tools on. Equivalent
+        to `-e` / `--exclude`.
     lint_non_exec : bool
         If `True`, also lint non-executable Python code chunks. Equivalent to
         `-n` / `--lint-non-exec`.
