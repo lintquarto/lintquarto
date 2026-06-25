@@ -78,11 +78,7 @@ def build_parser() -> CustomArgumentParser:
         description="Lint Python code in Quarto (.qmd) files.",
         epilog=(
             "Configuration can also be provided in pyproject.toml under "
-            "[tool.lintquarto]. CLI arguments override configuration file. "
-            "WARNING: Formatter option currently in alpha, with known bugs "
-            "and further testing required. If you run into any problems, feel "
-            "free to open a GitHub issue and contribute to code if you'd like "
-            "to!"
+            "[tool.lintquarto]. CLI arguments override configuration file."
         ),
         formatter_class=SingleMetavarHelpFormatter,
     )
