@@ -4,9 +4,7 @@
 
 Modern, ultra-fast linter that implements checks from Flake8 and some other popular plugins.
 
-lintquarto uses ruff as a read-only linter by running `ruff check` on a temporary Python version of your `.qmd` files. It does not support extra commands from ruff like `ruff check --fix` (which automatically applies some fixes) or `ruff format` (a code formatter). This means the Ruff checks you see in lintquarto will not cover every issue that could be fixed by the formatter, because Ruff's linter is [intentionally more restricted](https://github.com/astral-sh/ruff/issues/8232) in scope than its formatter and several stylistic issues are handled silently by the formatter rather than reported as lint errors.
-
-Supporting automatic fixes for `.qmd` files ([lintquarto issue #93](https://github.com/lintquarto/lintquarto/issues/93)) would require safely mapping Ruff's edits on the temporary `.py` file back into the original `.qmd` source, which is non-trivial, so lintquarto currently focuses on reporting issues without modifying your Quarto documents.
+Running `lintquarto -l ruff` will run `ruff check`, a read-only linter. For ruff-based code rewriting commands (`ruff format` and `ruff check --fix`), please see the [ruff formatter page](ruff_format.qmd).
 
 ```{python}
 #| echo: false
