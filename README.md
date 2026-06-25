@@ -23,7 +23,7 @@ Currently supported:
 * Linters: [pylint](https://github.com/pylint-dev/pylint), [flake8](https://github.com/pycqa/flake8), [pydoclint](https://github.com/jsh9/pydoclint), [pyflakes](https://github.com/PyCQA/pyflakes), [ruff](https://github.com/astral-sh/ruff), [vulture](https://github.com/jendrikseipp/vulture), and [pycodestyle](https://github.com/PyCQA/pycodestyle).
 * Static type checkers: [basedpyright](https://github.com/DetachHead/basedpyright), [mypy](https://github.com/python/mypy), [pyright](https://github.com/microsoft/pyright), [pyrefly](https://github.com/facebook/pyrefly), and [pytype](https://github.com/google/pytype).
 * Code analysis tools: [radon](https://github.com/rubik/radon).
-* Formatters (alpha): [ruff](https://github.com/astral-sh/ruff).
+* Formatters: [ruff](https://github.com/astral-sh/ruff).
 
 [![Click to view docs](https://img.shields.io/badge/🖱️_Click_to_view_package_documentation-37a779?style=for-the-badge)](https://lintquarto.github.io/lintquarto/)
 
@@ -109,10 +109,7 @@ lintquarto [-h] [-l LINTER [LINTER ...]] [-f FORMATTER [FORMATTER ...]] [-p PATH
 
 Lint Python code in Quarto (.qmd) files.
 Configuration can also be provided in pyproject.toml under [tool.lintquarto].
-CLI arguments override configuration file. WARNING: Formatter option currently
-in alpha, with known bugs and further testing required. If you run into any
-problems, feel free to open a GitHub issue and contribute to code if you'd
-like to!
+CLI arguments override configuration file.
 
 Options:
 
