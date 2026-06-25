@@ -49,6 +49,9 @@ website:
             - pages/tools/pyflakes.qmd
             - pages/tools/pylint.qmd
             - pages/tools/ruff.qmd
+        - section: "**Formatters**"
+          contents:
+            - pages/tools/ruff_format.qmd
         - section: "**Static type checkers**"
           contents:
             - pages/tools/basedpyright.qmd
