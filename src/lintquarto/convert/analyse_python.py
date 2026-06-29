@@ -58,7 +58,7 @@ def analyse_block(src_bytes: bytes, fcb_node: Node, lang_text: str) -> dict:
 
 def find_closing_delimiter_row(fcb_node: Node, start_row: int) -> int:
     """
-    Return the row number of the closing fenced-code delimiter (```).
+    Return the row number of the closing fenced-code delimiter.
 
     Parameters
     ----------
