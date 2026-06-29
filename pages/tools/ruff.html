@@ -67,7 +67,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../pages/tools/basedpyright.html" rel="next">
+<link href="../../pages/tools/ruff_format.html" rel="next">
 <link href="../../pages/tools/pylint.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -243,8 +243,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
- <span class="menu-text">pages/tools/ruff_format.qmd</span>
-  </li>
+  <div class="sidebar-item-container"> 
+  <a href="../../pages/tools/ruff_format.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ruff</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -333,7 +336,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="ruff" class="level1">
 <h1>ruff</h1>
 <p>Modern, ultra-fast linter that implements checks from Flake8 and some other popular plugins.</p>
-<p>Running <code>lintquarto -l ruff</code> will run <code>ruff check</code>, a read-only linter. For ruff-based code rewriting commands (<code>ruff format</code> and <code>ruff check --fix</code>), please see the <a href="ruff_format.qmd">ruff formatter page</a>.</p>
+<p>Running <code>lintquarto -l ruff</code> will run <code>ruff check</code>, a read-only linter. For ruff-based code rewriting commands (<code>ruff format</code> and <code>ruff check --fix</code>), please see the <a href="../../pages/tools/ruff_format.html">ruff formatter page</a>.</p>
 <div style="display: flex; gap: 1em; margin-bottom: 1em;">
 <p><a href="https://pypi.org/project/ruff/" target="_blank" style="text-decoration: none;"> <span style="display: inline-flex; align-items: center; background:
     #3775A9; color: #fff; border-radius: 20px; padding: 0.4em 1em;
@@ -348,7 +351,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="example-quarto-.qmd-file" class="level2">
 <h2 class="anchored" data-anchor-id="example-quarto-.qmd-file">Example Quarto <code>.qmd</code> file:</h2>
-<p><a href="#dnldts38003" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgdG8gaWRlbnRpZnkuCgpgYGB7cHl0aG9ufQp2ZXJ5X2xvbmdfbGluZSA9ICJUaGlzIGxvbmcgc3RyaW5nIGV4Y2VlZHMgdGhlIG1heGltdW0gYWxsb3dlZCBjaGFyYWN0ZXJzIHBlciBsaW5lLiIKYGBgCgpUaGVyZSdzIHNvbWUgbW9yZSBpc3N1ZXMgYmVsb3cuLi4KCmBgYHtweXRob259CmRlZiBhZGRfbnVtYmVycyhhLCBiKToKICAgIHJldHVybiBhICsgYgoKYWRkX251bWJlcnMoMywgNSkKCmltcG9ydCBzeXMKYGBg').then(res => res.blob()).then(blob => {
+<p><a href="#dnldts27757" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgdG8gaWRlbnRpZnkuCgpgYGB7cHl0aG9ufQp2ZXJ5X2xvbmdfbGluZSA9ICJUaGlzIGxvbmcgc3RyaW5nIGV4Y2VlZHMgdGhlIG1heGltdW0gYWxsb3dlZCBjaGFyYWN0ZXJzIHBlciBsaW5lLiIKYGBgCgpUaGVyZSdzIHNvbWUgbW9yZSBpc3N1ZXMgYmVsb3cuLi4KCmBgYHtweXRob259CmRlZiBhZGRfbnVtYmVycyhhLCBiKToKICAgIHJldHVybiBhICsgYgoKYWRkX251bWJlcnMoMywgNSkKCmltcG9ydCBzeXMKYGBg').then(res => res.blob()).then(blob => {
       const downloadURL = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       document.body.appendChild(a);
@@ -356,9 +359,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       a.download = 'general_example.qmd'; a.click();
       window.URL.revokeObjectURL(downloadURL);
       document.body.removeChild(a);
-        });"><button class="btn btn-light downloadthis  " id="dnldts38003"><i class="bi bi-download"></i> Download the example </button></a></p>
+        });"><button class="btn btn-light downloadthis  " id="dnldts27757"><i class="bi bi-download"></i> Download the example </button></a></p>
 <div class="pale-grey">
-<div id="22fb4d01" class="cell" data-execution_count="3">
+<div id="35c5cd3e" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
 <pre><code>1:     ---
 2:     title: "Example"
@@ -394,7 +397,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   white-space: pre-wrap !important;
 }
 </style>
-<div id="8bce94d1" class="cell" data-execution_count="4">
+<div id="27358d0a" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre>==========================================================
@@ -986,8 +989,8 @@ Found 8 errors.
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../pages/tools/basedpyright.html" class="pagination-link" aria-label="basedpyright">
-        <span class="nav-page-text">basedpyright</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../pages/tools/ruff_format.html" class="pagination-link" aria-label="ruff">
+        <span class="nav-page-text">ruff</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

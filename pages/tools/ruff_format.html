@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>radon – lintquarto</title>
+<title>ruff_format – lintquarto</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -67,8 +67,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../pages/tools/related.html" rel="next">
-<link href="../../pages/tools/vulture.html" rel="prev">
+<link href="../../pages/tools/basedpyright.html" rel="next">
+<link href="../../pages/tools/ruff.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -168,7 +168,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/tools/vulture.html"><strong>Code analysis tools</strong></a></li><li class="breadcrumb-item"><a href="../../pages/tools/radon.html">radon</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/tools/ruff_format.html"><strong>Formatters</strong></a></li><li class="breadcrumb-item"><a href="../../pages/tools/ruff_format.html">ruff</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -244,7 +244,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../pages/tools/ruff_format.html" class="sidebar-item-text sidebar-link">
+  <a href="../../pages/tools/ruff_format.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">ruff</span></a>
   </div>
 </li>
@@ -308,7 +308,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../pages/tools/radon.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../pages/tools/radon.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">radon</span></a>
   </div>
 </li>
@@ -327,47 +327,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/tools/vulture.html"><strong>Code analysis tools</strong></a></li><li class="breadcrumb-item"><a href="../../pages/tools/radon.html">radon</a></li></ol></nav></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../pages/tools/ruff_format.html"><strong>Formatters</strong></a></li><li class="breadcrumb-item"><a href="../../pages/tools/ruff_format.html">ruff</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">ruff</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<hr style="height:0pt; visibility:hidden;">
-<section id="radon" class="level1">
-<h1>radon</h1>
-<p>Computes four different code metrics:</p>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Modern, ultra-fast linter that implements checks from Flake8 and some other popular plugins.</p>
+<p>lintquarto supports two ruff-based code rewriting commands:</p>
 <ul>
-<li><code>radon-cc</code>: cyclomatic complexity (measures the number of independent paths through code).</li>
-<li><code>radon-mi</code>: maintainability index (estimates ease of maintenance).</li>
-<li><code>radon-raw</code>: raw metrics (counts lines, comments, blanks, etc.).</li>
-<li><code>radon-hal</code>: halstead metrics (quantifies code complexity based on operators (symbols) and operands (variables)).</li>
+<li><code>lintquarto -f ruff-check-fix</code> runs <code>ruff check --fix</code>.</li>
+<li><code>lintquarto -f ruff-format</code> runs <code>ruff format</code></li>
 </ul>
-<p>See the <a href="https://radon.readthedocs.io/en/latest/intro.html">radon documentation</a> for more details.</p>
+<p>For read-only linting, see the <a href="../../pages/tools/ruff.html">ruff linting page</a>.</p>
 <div style="display: flex; gap: 1em; margin-bottom: 1em;">
-<p><a href="https://pypi.org/project/radon/" target="_blank" style="text-decoration: none;"> <span style="display: inline-flex; align-items: center; background:
+<p><a href="https://pypi.org/project/ruff/" target="_blank" style="text-decoration: none;"> <span style="display: inline-flex; align-items: center; background:
     #3775A9; color: #fff; border-radius: 20px; padding: 0.4em 1em;
     font-weight: 600; gap: 0.5em;"> <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/pypi.svg" alt="PyPI" width="20" height="20" style="filter: brightness(0)
-      invert(1);"> View on PyPI </span> </a> <a href="https://github.com/rubik/radon" target="_blank" style="text-decoration: none;"> <span style="display: inline-flex; align-items: center; background: #000;
+      invert(1);"> View on PyPI </span> </a> <a href="https://github.com/astral-sh/ruff" target="_blank" style="text-decoration: none;"> <span style="display: inline-flex; align-items: center; background: #000;
     color: #fff; border-radius: 20px; padding: 0.4em 1em; font-weight: 600;
     gap: 0.5em;"> <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg" alt="GitHub" width="20" height="20" style="filter: brightness(0)
-      invert(1);"> View on GitHub </span> </a> <a href="https://anaconda.org/conda-forge/radon" target="_blank" style="text-decoration: none;"> <span style="display: inline-flex; align-items: center;
+      invert(1);"> View on GitHub </span> </a> <a href="https://anaconda.org/conda-forge/ruff" target="_blank" style="text-decoration: none;"> <span style="display: inline-flex; align-items: center;
   background: #3EB049; color: #fff; border-radius: 20px; padding: 0.4em 1em;
   font-weight: 600; gap: 0.5em;"> <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/anaconda.svg" alt="Conda" width="20" height="20" style="filter: brightness(0)
     invert(1);"> View on Conda </span> </a></p>
 </div>
 <section id="example-quarto-.qmd-file" class="level2">
 <h2 class="anchored" data-anchor-id="example-quarto-.qmd-file">Example Quarto <code>.qmd</code> file:</h2>
-<p><a href="#dnldts4888" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgdG8gaWRlbnRpZnkuCgpgYGB7cHl0aG9ufQojIEZ1bmN0aW9uIHdpdGggbG93IGNvbXBsZXhpdHkKZGVmIHNpbXBsZV9hZGRpdGlvbihhLCBiKToKICAgIHJldHVybiBhICsgYgpgYGAKClRoZXJlJ3MgYW5vdGhlciBmdW5jdGlvbiB0byBjaGVjayBiZWxvdzoKCmBgYHtweXRob259CiMgRnVuY3Rpb24gd2l0aCBtb2RlcmF0ZSBjb21wbGV4aXR5CmRlZiBjaGVja19udW1iZXIobnVtLCBmbGFnLCBleHRyYSk6CiAgICBpZiBudW0gPiAxMDA6CiAgICAgICAgaWYgZmxhZzoKICAgICAgICAgICAgaWYgZXh0cmE6CiAgICAgICAgICAgICAgICByZXR1cm4gIkh1Z2UgYW5kIGZsYWdnZWQgYW5kIGV4dHJhIgogICAgICAgICAgICBlbHNlOgogICAgICAgICAgICAgICAgcmV0dXJuICJIdWdlIGFuZCBmbGFnZ2VkIgogICAgICAgIGVsc2U6CiAgICAgICAgICAgIGlmIGV4dHJhOgogICAgICAgICAgICAgICAgcmV0dXJuICJIdWdlIGFuZCBleHRyYSIKICAgICAgICAgICAgZWxzZToKICAgICAgICAgICAgICAgIHJldHVybiAiSHVnZSIKICAgIGVsaWYgbnVtID4gNTA6CiAgICAgICAgaWYgZmxhZzoKICAgICAgICAgICAgcmV0dXJuICJNZWRpdW0gYW5kIGZsYWdnZWQiCiAgICAgICAgZWxzZToKICAgICAgICAgICAgcmV0dXJuICJNZWRpdW0iCiAgICBlbGlmIG51bSA+IDEwOgogICAgICAgIGlmIGV4dHJhOgogICAgICAgICAgICByZXR1cm4gIlNtYWxsIGFuZCBleHRyYSIKICAgICAgICBlbHNlOgogICAgICAgICAgICByZXR1cm4gIlNtYWxsIgogICAgZWxzZToKICAgICAgICBpZiBmbGFnIG9yIGV4dHJhOgogICAgICAgICAgICByZXR1cm4gIlRpbnkgYnV0IHNwZWNpYWwiCiAgICAgICAgZWxzZToKICAgICAgICAgICAgcmV0dXJuICJUaW55IgpgYGA=').then(res => res.blob()).then(blob => {
+<p><a href="#dnldts41866" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgdG8gaWRlbnRpZnkuCgpgYGB7cHl0aG9ufQp2ZXJ5X2xvbmdfbGluZSA9ICJUaGlzIGxvbmcgc3RyaW5nIGV4Y2VlZHMgdGhlIG1heGltdW0gYWxsb3dlZCBjaGFyYWN0ZXJzIHBlciBsaW5lLiIKYGBgCgpUaGVyZSdzIHNvbWUgbW9yZSBpc3N1ZXMgYmVsb3cuLi4KCmBgYHtweXRob259CmRlZiBhZGRfbnVtYmVycyhhLCBiKToKICAgIHJldHVybiBhICsgYgoKYWRkX251bWJlcnMoMywgNSkKCmltcG9ydCBzeXMKYGBg').then(res => res.blob()).then(blob => {
       const downloadURL = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       document.body.appendChild(a);
       a.href = downloadURL;
-      a.download = 'complexity_example.qmd'; a.click();
+      a.download = 'general_example.qmd'; a.click();
       window.URL.revokeObjectURL(downloadURL);
       document.body.removeChild(a);
-        });"><button class="btn btn-light downloadthis  " id="dnldts4888"><i class="bi bi-download"></i> Download the example </button></a></p>
+        });"><button class="btn btn-light downloadthis  " id="dnldts41866"><i class="bi bi-download"></i> Download the example </button></a></p>
 <div class="pale-grey">
-<div id="d91ebc06" class="cell" data-execution_count="3">
+<div id="4eaa93ec" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
 <pre><code>1:     ---
 2:     title: "Example"
@@ -376,149 +388,86 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5:     This file contains some issues for the linter to identify.
 6:     
 7:     ```{python}
-8:     # Function with low complexity
-9:     def simple_addition(a, b):
-10:        return a + b
-11:    ```
+8:     very_long_line = "This long string exceeds the maximum allowed characters per line."
+9:     ```
+10:    
+11:    There's some more issues below...
 12:    
-13:    There's another function to check below:
-14:    
-15:    ```{python}
-16:    # Function with moderate complexity
-17:    def check_number(num, flag, extra):
-18:        if num &gt; 100:
-19:            if flag:
-20:                if extra:
-21:                    return "Huge and flagged and extra"
-22:                else:
-23:                    return "Huge and flagged"
-24:            else:
-25:                if extra:
-26:                    return "Huge and extra"
-27:                else:
-28:                    return "Huge"
-29:        elif num &gt; 50:
-30:            if flag:
-31:                return "Medium and flagged"
-32:            else:
-33:                return "Medium"
-34:        elif num &gt; 10:
-35:            if extra:
-36:                return "Small and extra"
-37:            else:
-38:                return "Small"
-39:        else:
-40:            if flag or extra:
-41:                return "Tiny but special"
-42:            else:
-43:                return "Tiny"
-44:    ```</code></pre>
+13:    ```{python}
+14:    def add_numbers(a, b):
+15:        return a + b
+16:    
+17:    add_numbers(3, 5)
+18:    
+19:    import sys
+20:    ```</code></pre>
 </div>
 </div>
 </div>
 </section>
-<section id="run-radon-using-lintquarto" class="level2">
-<h2 class="anchored" data-anchor-id="run-radon-using-lintquarto">Run radon using <code>lintquarto</code></h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> radon-cc <span class="at">-p</span> complexity_example.qmd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="pale-green">
-<style>
-.cell-output-stdout code {
-  word-break: break-word !important;
-  white-space: pre-wrap !important;
-}
-</style>
-<div id="b0ad5729" class="cell" data-execution_count="4">
-<div class="cell-output cell-output-stdout">
-<pre><code>==========================================================
-Running radon-cc...
+<section id="ruff-format" class="level2">
+<h2 class="anchored" data-anchor-id="ruff-format"><code>ruff-format</code></h2>
+<p>Use this command to format Python code blocks in a Quarto document.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-f</span> ruff-format <span class="at">-p</span> general_example.qmd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="text"><code>==========================================================
+Running ruff-format...
 ==========================================================
-/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/complexity_example.qmd
-    F 17:0 check_number - C
-    F 9:0 simple_addition - A
-</code></pre>
-</div>
-</div>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> radon-mi <span class="at">-p</span> complexity_example.qmd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="pale-green">
-<style>
-.cell-output-stdout code {
-  word-break: break-word !important;
-  white-space: pre-wrap !important;
-}
-</style>
-<div id="cf170404" class="cell" data-execution_count="5">
-<div class="cell-output cell-output-stdout">
-<pre><code>==========================================================
-Running radon-mi...
-==========================================================
-/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/complexity_example.qmd - A
-</code></pre>
-</div>
-</div>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> radon-raw <span class="at">-p</span> complexity_example.qmd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="pale-green">
-<style>
-.cell-output-stdout code {
-  word-break: break-word !important;
-  white-space: pre-wrap !important;
-}
-</style>
-<div id="4d765736" class="cell" data-execution_count="6">
-<div class="cell-output cell-output-stdout">
-<pre><code>==========================================================
-Running radon-raw...
-==========================================================
-/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/complexity_example.qmd
-    LOC: 31
-    LLOC: 29
-    SLOC: 29
-    Comments: 2
-    Single comments: 2
-    Multi: 0
-    Blank: 0
-    - Comment Stats
-        (C % L): 6%
-        (C % S): 7%
-        (C + M % L): 6%
-</code></pre>
-</div>
-</div>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-l</span> radon-hal <span class="at">-p</span> complexity_example.qmd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="pale-green">
-<style>
-.cell-output-stdout code {
-  word-break: break-word !important;
-  white-space: pre-wrap !important;
-}
-</style>
-<div id="533e795b" class="cell" data-execution_count="7">
-<div class="cell-output cell-output-stdout">
-<pre><code>==========================================================
-Running radon-hal...
-==========================================================
-/home/runner/work/lintquarto/lintquarto/docs/pages/tools/examples/complexity_example.qmd:
-    h1: 3
-    h2: 8
-    N1: 5
-    N2: 10
-    vocabulary: 11
-    length: 15
-    calculated_length: 28.75488750216347
-    volume: 51.89147427955947
-    difficulty: 1.875
-    effort: 97.296514274174
-    time: 5.405361904120777
-    bugs: 0.01729715809318649
-</code></pre>
-</div>
-</div>
-</div>
+1 file reformatted</code></pre>
+<p>New file:</p>
+<div class="pale-grey">
+<pre class="text"><code>---
+title: "Example"
+---
+
+This file contains some issues for the linter to identify.
+
+```{python}
+very_long_line = (
+    "This long string exceeds the maximum allowed characters per line."
+)
+```
+
+There's some more issues below...
+
+```{python}
+def add_numbers(a, b):
+    return a + b
 
 
+add_numbers(3, 5)
+
+import sys
+```</code></pre>
+</div>
 </section>
+<section id="ruff-check-fix" class="level2">
+<h2 class="anchored" data-anchor-id="ruff-check-fix"><code>ruff-check-fix</code></h2>
+<p>Use this command to automatically apply Ruff’s available fixes for supported lint violations.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lintquarto</span> <span class="at">-f</span> ruff-check-fix <span class="at">-p</span> general_example.qmd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>New file:</p>
+<div class="pale-grey">
+<pre class="text"><code>---
+title: "Example"
+---
+
+This file contains some issues for the linter to identify.
+
+```{python}
+very_long_line = "This long string exceeds the maximum allowed characters per line."
+```
+
+There's some more issues below...
+
+```{python}
+def add_numbers(a, b):
+    return a + b
+
+add_numbers(3, 5)
+```</code></pre>
+</div>
+<p>It will also print to console with messages about the remaining issues that couldn’t be automatically fixed.</p>
+
+
 </section>
 
 </main> <!-- /main -->
@@ -924,13 +873,13 @@ Running radon-hal...
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../pages/tools/vulture.html" class="pagination-link" aria-label="vulture">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">vulture</span>
+      <a href="../../pages/tools/ruff.html" class="pagination-link" aria-label="ruff">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">ruff</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../pages/tools/related.html" class="pagination-link" aria-label="**Related tools**">
-        <span class="nav-page-text"><strong>Related tools</strong></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../pages/tools/basedpyright.html" class="pagination-link" aria-label="basedpyright">
+        <span class="nav-page-text">basedpyright</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
