@@ -1,0 +1,138 @@
+# ruff
+
+Modern, ultra-fast linter that implements checks from Flake8 and some other popular plugins.
+
+lintquarto supports two ruff-based code rewriting commands:
+
+* `lintquarto -f ruff-check-fix` runs `ruff check --fix`.
+- `lintquarto -f ruff-format` runs `ruff format`
+
+For read-only linting, see the [ruff linting page](ruff.qmd).
+
+```{python}
+#| echo: false
+# Import required packages
+from IPython.display import Markdown, display
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+import tempfile
+
+# Add parent directory to sys.path
+sys.path.insert(0, "..")
+
+# Import the helper functions
+from helpers import generate_html, print_quarto
+```
+
+```{python}
+#| echo: false
+#| output: asis
+generate_html(
+    pypi_url="https://pypi.org/project/ruff/",
+    github_url="https://github.com/astral-sh/ruff",
+    conda_url="https://anaconda.org/conda-forge/ruff"
+)
+```
+
+## Example Quarto `.qmd` file:
+
+{{< downloadthis examples/general_example.qmd dname="general_example" label="Download the example" type="light" >}}
+
+:::{.pale-grey}
+```{python}
+#| echo: false
+print_quarto("examples/general_example.qmd")
+```
+:::
+
+```{python}
+#| echo: false
+def run_on_temp_qmd(source, command):
+    source = Path(source)
+    tmp_dir = Path(tempfile.mkdtemp())
+    tmp_qmd = tmp_dir / source.name
+    shutil.copy(source, tmp_qmd)
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "lintquarto",
+            "-f",
+            command,
+            "-p",
+            str(tmp_qmd),
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+
+    return {
+        "path": tmp_qmd,
+        "stdout": result.stdout,
+        "stderr": result.stderr,
+        "returncode": result.returncode,
+        "content": tmp_qmd.read_text(encoding="utf-8")
+    }
+```
+
+## `ruff-format`
+
+Use this command to format Python code blocks in a Quarto document.
+
+```{.bash}
+lintquarto -f ruff-format -p general_example.qmd
+```
+
+```{python}
+#| echo: false
+result = run_on_temp_qmd("examples/general_example.qmd", "ruff-format")
+```
+
+```{python}
+#| echo: false
+#| output: asis
+log = result["stdout"].rstrip("\n")
+display(Markdown(f"````text\n{log}\n````"))
+```
+
+New file:
+
+:::{.pale-grey}
+```{python}
+#| echo: false
+#| output: asis
+log = result["content"].rstrip("\n")
+display(Markdown(f"````text\n{log}\n````"))
+```
+:::
+
+## `ruff-check-fix`
+
+Use this command to automatically apply Ruff's available fixes for supported lint violations.
+
+```{.bash}
+lintquarto -f ruff-check-fix -p general_example.qmd
+```
+
+```{python}
+#| echo: false
+result = run_on_temp_qmd("examples/general_example.qmd", "ruff-check-fix")
+```
+
+New file:
+
+:::{.pale-grey}
+```{python}
+#| echo: false
+#| output: asis
+log = result["content"].rstrip("\n")
+display(Markdown(f"````text\n{log}\n````"))
+```
+:::
+
+It will also print to console with messages about the remaining issues that couldn't be automatically fixed.
