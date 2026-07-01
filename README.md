@@ -49,7 +49,7 @@ pip install lintquarto
 
 To include your selection of linters, install them as needed.
 
-For a one-step installation that includes lintquarto and all supported linters and type checkers, use:
+For a one-step installation that includes lintquarto and all supported tools, use:
 
 ```
 pip install lintquarto[all]
@@ -61,7 +61,7 @@ pip install lintquarto[all]
 uv add lintquarto
 ```
 
-Or to include all supported linters and type checkers:
+Or to include all supported tools:
 
 ```
 uv add "lintquarto[all]"
@@ -86,7 +86,7 @@ To install the latest development version of `lintquarto` directly from this rep
 pip install git+https://github.com/lintquarto/lintquarto
 ```
 
-If you also want all supported linters and type checkers in one step, install from a local clone in editable mode with the `all` extra:
+If you also want all supported code quality tools in one step, install from a local clone in editable mode with the `all` extra:
 
 ```
 git clone https://github.com/lintquarto/lintquarto.git
@@ -133,7 +133,7 @@ Only `.qmd` files are processed.
 
 ### Configuration file
 
-As an alternative to passing flags on every run, you can declare your settings once in a `[tool.lintquarto]` section in your `pyproject.toml`. The arguments are eqvuialent to those used on the command line. For example:
+As an alternative to passing flags on every run, you can declare your settings once in a `[tool.lintquarto]` section in your `pyproject.toml`. The arguments are equivalent to those used on the command line. For example:
 
 ```{.toml}
 [tool.lintquarto]

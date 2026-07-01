@@ -51,7 +51,7 @@ To install the latest development version of `lintquarto` directly from this rep
 pip install git+https://github.com/lintquarto/lintquarto
 ```
 
-If you also want all supported linters and type checkers in one step, install from a local clone in editable mode with the `all` extra:
+If you also want all supported code quality tools in one step, install from a local clone in editable mode with the `all` extra:
 
 ```
 git clone https://github.com/lintquarto/lintquarto.git
@@ -77,7 +77,7 @@ print(output)
 
 ## Configuration file
 
-As an alternative to passing flags on every run, you can declare your settings once in a `[tool.lintquarto]` section in your `pyproject.toml`. The arguments are eqvuialent to those used on the command line. For example:
+As an alternative to passing flags on every run, you can declare your settings once in a `[tool.lintquarto]` section in your `pyproject.toml`. The arguments are equivalent to those used on the command line. For example:
 
 ```{.toml}
 [tool.lintquarto]
