@@ -213,7 +213,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="development-version">Development version</h2>
 <p>To install the latest development version of <code>lintquarto</code> directly from this repository:</p>
 <pre><code>pip install git+https://github.com/lintquarto/lintquarto</code></pre>
-<p>If you also want all supported linters and type checkers in one step, install from a local clone in editable mode with the <code>all</code> extra:</p>
+<p>If you also want all supported code quality tools in one step, install from a local clone in editable mode with the <code>all</code> extra:</p>
 <pre><code>git clone https://github.com/lintquarto/lintquarto.git
 cd lintquarto
 pip install -e ".[all]"</code></pre>
@@ -245,7 +245,7 @@ pip install -e ".[all]"</code></pre>
 </section>
 <section id="configuration-file" class="level2">
 <h2 class="anchored" data-anchor-id="configuration-file">Configuration file</h2>
-<p>As an alternative to passing flags on every run, you can declare your settings once in a <code>[tool.lintquarto]</code> section in your <code>pyproject.toml</code>. The arguments are eqvuialent to those used on the command line. For example:</p>
+<p>As an alternative to passing flags on every run, you can declare your settings once in a <code>[tool.lintquarto]</code> section in your <code>pyproject.toml</code>. The arguments are equivalent to those used on the command line. For example:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[tool.lintquarto]</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="dt">linters</span> <span class="op">=</span> <span class="op">[</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ruff"</span><span class="op">,</span></span>
