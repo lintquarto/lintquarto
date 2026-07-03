@@ -105,7 +105,14 @@ def test_check_available_not_found():
 # =============================================================================
 
 
-def test_inp001_not_raised(tmp_path):
+@pytest.mark.parametrize(
+    ("flag", "tool"),
+    [
+        ("l", "ruff"),
+        ("f", "ruff-check-fix")
+    ]
+)
+def test_inp001_not_raised(tmp_path, flag, tool):
     """Test INP001 is not raised."""
     skip_if_linter_unexpected("ruff")
 
@@ -142,8 +149,8 @@ def test_inp001_not_raised(tmp_path):
             sys.executable,
             "-m",
             "lintquarto",
-            "-l",
-            "ruff",
+            f"-{flag}",
+            tool,
             "-p",
             qmd_path,
         ],
@@ -199,7 +206,14 @@ def test_ruf100_not_raised(tmp_path):
     )
 
 
-def test_d100_not_raised(tmp_path):
+@pytest.mark.parametrize(
+    ("flag", "tool"),
+    [
+        ("l", "ruff"),
+        ("f", "ruff-check-fix")
+    ]
+)
+def test_d100_not_raised(tmp_path, flag, tool):
     """Test D100 is not raised."""
     skip_if_linter_unexpected("ruff")
 
@@ -228,8 +242,8 @@ def test_d100_not_raised(tmp_path):
             sys.executable,
             "-m",
             "lintquarto",
-            "-l",
-            "ruff",
+            f"-{flag}",
+            tool,
             "-p",
             qmd_path,
         ],
