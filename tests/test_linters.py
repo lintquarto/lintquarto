@@ -167,7 +167,14 @@ def test_inp001_not_raised(tmp_path, flag, tool):
     )
 
 
-def test_ruf100_not_raised(tmp_path):
+@pytest.mark.parametrize(
+    ("flag", "tool"),
+    [
+        ("l", "ruff"),
+        ("f", "ruff-check-fix")
+    ]
+)
+def test_ruf100_not_raised(tmp_path, flag, tool):
     """Test RUF100 is not raised."""
     skip_if_linter_unexpected("ruff")
 
@@ -188,8 +195,8 @@ def test_ruf100_not_raised(tmp_path):
             sys.executable,
             "-m",
             "lintquarto",
-            "-l",
-            "ruff",
+            f"-{flag}",
+            tool,
             "-p",
             qmd_path,
         ],
