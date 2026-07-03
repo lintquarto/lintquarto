@@ -2,6 +2,8 @@
 
 import shutil
 
+RUFF_IGNORE = ["RUF100", "INP001", "D100"]
+
 
 class ToolRegistry:
     """
@@ -136,7 +138,7 @@ class Linters(ToolRegistry):
                     "ruff",
                     "check",
                     "--config",
-                    "lint.ignore = ['RUF100', 'INP001']",
+                    f"lint.ignore = {RUFF_IGNORE}",
                 ],
                 "vulture": ["vulture"],
             }
@@ -151,7 +153,13 @@ class Formatters(ToolRegistry):
         super().__init__(
             {
                 "ruff-format": ["ruff", "format"],
-                "ruff-check-fix": ["ruff", "check", "--fix"],
+                "ruff-check-fix": [
+                    "ruff",
+                    "check",
+                    "--fix",
+                    "--config",
+                    f"lint.ignore = {RUFF_IGNORE}"
+                ],
             }
         )
         self.tool_label = "formatter"

@@ -105,7 +105,14 @@ def test_check_available_not_found():
 # =============================================================================
 
 
-def test_inp001_not_raised(tmp_path):
+@pytest.mark.parametrize(
+    ("flag", "tool"),
+    [
+        ("l", "ruff"),
+        ("f", "ruff-check-fix")
+    ]
+)
+def test_inp001_not_raised(tmp_path, flag, tool):
     """Test INP001 is not raised."""
     skip_if_linter_unexpected("ruff")
 
@@ -142,8 +149,8 @@ def test_inp001_not_raised(tmp_path):
             sys.executable,
             "-m",
             "lintquarto",
-            "-l",
-            "ruff",
+            f"-{flag}",
+            tool,
             "-p",
             qmd_path,
         ],
@@ -160,7 +167,14 @@ def test_inp001_not_raised(tmp_path):
     )
 
 
-def test_ruf100_not_raised(tmp_path):
+@pytest.mark.parametrize(
+    ("flag", "tool"),
+    [
+        ("l", "ruff"),
+        ("f", "ruff-check-fix")
+    ]
+)
+def test_ruf100_not_raised(tmp_path, flag, tool):
     """Test RUF100 is not raised."""
     skip_if_linter_unexpected("ruff")
 
@@ -181,8 +195,8 @@ def test_ruf100_not_raised(tmp_path):
             sys.executable,
             "-m",
             "lintquarto",
-            "-l",
-            "ruff",
+            f"-{flag}",
+            tool,
             "-p",
             qmd_path,
         ],
@@ -195,5 +209,59 @@ def test_ruf100_not_raised(tmp_path):
 
     assert "RUF100" not in output, (
         f"RUF100 was raised but should be suppressed by default.\n"
+        f"Full output:\n{output}"
+    )
+
+
+@pytest.mark.parametrize(
+    ("flag", "tool"),
+    [
+        ("l", "ruff"),
+        ("f", "ruff-check-fix")
+    ]
+)
+def test_d100_not_raised(tmp_path, flag, tool):
+    """Test D100 is not raised."""
+    skip_if_linter_unexpected("ruff")
+
+    qmd_path = tmp_path / "missing_module_docstring.qmd"
+    qmd_path.write_text(
+        (
+            "---\n"
+            "title: Test\n"
+            "---\n\n"
+            "```{python}\n"
+            "def hello():\n"
+            "    return 'hi'\n"
+            "```\n"
+        ),
+        encoding="utf-8",
+    )
+
+    ruff_toml = tmp_path / "ruff.toml"
+    ruff_toml.write_text(
+        '[lint]\nselect = ["D100"]\n',
+        encoding="utf-8",
+    )
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "lintquarto",
+            f"-{flag}",
+            tool,
+            "-p",
+            qmd_path,
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    output = result.stdout + result.stderr
+
+    assert "D100" not in output, (
+        f"D100 was raised but should be suppressed by default.\n"
         f"Full output:\n{output}"
     )
