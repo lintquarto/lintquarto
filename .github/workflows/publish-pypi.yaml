@@ -1,5 +1,5 @@
-name: build and maybe publish
-run-name: Build package (and publish on release)
+name: build and maybe publish on pypi
+run-name: Build package (and publish on PyPI on release)
 
 on:
   push:
