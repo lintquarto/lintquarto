@@ -1,0 +1,155 @@
+name: update conda feedstock
+run-name: Update conda-forge feedstock on release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Package version to use for testing, e.g. 0.14.0"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  update-feedstock:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Derive version from release tag
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "release" ]; then
+            tag="${GITHUB_REF_NAME}"
+            version="${tag#v}"
+          else
+            version="${{ inputs.version }}"
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "branch=update_${version//./_}" >> "$GITHUB_OUTPUT"
+
+      - name: Fetch PyPI sdist sha256
+        id: sdist
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib, urllib.request
+
+          version = os.environ["VERSION"]
+          api_url = f"https://pypi.org/pypi/lintquarto/{version}/json"
+
+          with urllib.request.urlopen(api_url) as resp:
+              data = json.load(resp)
+
+          sdist = next(
+              f for f in data["urls"] if f["packagetype"] == "sdist"
+          )
+
+          # Download and hash the sdist
+          pathlib.Path("dist").mkdir(exist_ok=True)
+          dest = pathlib.Path("dist") / sdist["filename"]
+          urllib.request.urlretrieve(sdist["url"], dest)
+          sha256 = hashlib.sha256(dest.read_bytes()).hexdigest()
+
+          with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+              fh.write(f"sha256={sha256}\n")
+          PY
+
+      - name: Check out feedstock fork
+        uses: actions/checkout@v4
+        with:
+          repository: amyheather/lintquarto-feedstock
+          token: ${{ secrets.FEEDSTOCK_PR_TOKEN }}
+          path: feedstock
+
+      - name: Sync fork main with upstream
+        # conda-forge docs say fork main should always match upstream main
+        run: |
+          cd feedstock
+          git remote add upstream https://github.com/conda-forge/lintquarto-feedstock.git
+          git fetch upstream
+          git checkout main
+          git reset --hard upstream/main
+          git push origin main --force-with-lease
+
+      - name: Create update branch
+        run: |
+          cd feedstock
+          git checkout -b "${{ steps.version.outputs.branch }}"
+
+      - name: Patch recipe/meta.yaml
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          SHA256: ${{ steps.sdist.outputs.sha256 }}
+        run: |
+          python3 - <<'PY'
+          import os, re
+          from pathlib import Path
+
+          path = Path("feedstock/recipe/meta.yaml")
+          text = path.read_text()
+          version = os.environ["VERSION"]
+          sha256 = os.environ["SHA256"]
+
+          # Update {% set version = "..." %}
+          text, n1 = re.subn(
+              r'(\{%\s*set\s+version\s*=\s*")[^"]+("\s*%})',
+              rf'\g<1>{version}\2',
+              text, count=1,
+          )
+
+          # Update sha256
+          text, n2 = re.subn(
+              r'(^\s*sha256:\s*)[0-9a-f]{64}(\s*$)',
+              rf'\g<1>{sha256}\2',
+              text, count=1, flags=re.MULTILINE,
+          )
+
+          # Reset build number to 0 on a version bump
+          text, n3 = re.subn(
+              r'(^\s*number:\s*)\d+(\s*$)',
+              r'\g<1>0\2',
+              text, count=1, flags=re.MULTILINE,
+          )
+
+          if n1 != 1:
+              raise SystemExit(f"ERROR: version pattern not matched (n={n1})")
+          if n2 != 1:
+              raise SystemExit(f"ERROR: sha256 pattern not matched (n={n2})")
+          if n3 != 1:
+              raise SystemExit(f"ERROR: build number pattern not matched (n={n3})")
+
+          path.write_text(text)
+          print(f"Patched: version={version}, sha256={sha256[:16]}..., build number reset to 0")
+          PY
+
+      - name: Show patched recipe
+        run: |
+          sed -n '1,80p' feedstock/recipe/meta.yaml
+
+      - name: Commit and push branch
+        run: |
+          cd feedstock
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add recipe/meta.yaml
+          git diff --cached --stat
+          git commit -m "Update lintquarto to ${{ steps.version.outputs.version }}"
+          git push origin "${{ steps.version.outputs.branch }}"
+
+      - name: Open pull request
+        env:
+          GH_TOKEN: ${{ secrets.FEEDSTOCK_PR_TOKEN }}
+          VERSION: ${{ steps.version.outputs.version }}
+          BRANCH: ${{ steps.version.outputs.branch }}
+        run: |
+          gh pr create \
+            --repo conda-forge/lintquarto-feedstock \
+            --head "amyheather:${BRANCH}" \
+            --base main \
+            --title "lintquarto ${VERSION}" \
+            --body "$(printf 'Updates lintquarto to %s.\n\nAutomated from upstream GitHub Release.\n\n**Changes:**\n- Updated `version` to `%s`\n- Updated PyPI sdist `sha256`\n- Reset build `number` to `0`\n\n**Checklist:**\n- [x] Personal account\n- [x] Version bump (automated)\n- [x] Build number reset to `0`\n\n@conda-forge-admin, please rerender' "${VERSION}" "${VERSION}")"
