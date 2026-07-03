@@ -197,3 +197,50 @@ def test_ruf100_not_raised(tmp_path):
         f"RUF100 was raised but should be suppressed by default.\n"
         f"Full output:\n{output}"
     )
+
+
+def test_d100_not_raised(tmp_path):
+    """Test D100 is not raised."""
+    skip_if_linter_unexpected("ruff")
+
+    qmd_path = tmp_path / "missing_module_docstring.qmd"
+    qmd_path.write_text(
+        (
+            "---\n"
+            "title: Test\n"
+            "---\n\n"
+            "```{python}\n"
+            "def hello():\n"
+            "    return 'hi'\n"
+            "```\n"
+        ),
+        encoding="utf-8",
+    )
+
+    ruff_toml = tmp_path / "ruff.toml"
+    ruff_toml.write_text(
+        '[lint]\nselect = ["D100"]\n',
+        encoding="utf-8",
+    )
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "lintquarto",
+            "-l",
+            "ruff",
+            "-p",
+            qmd_path,
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    output = result.stdout + result.stderr
+
+    assert "D100" not in output, (
+        f"D100 was raised but should be suppressed by default.\n"
+        f"Full output:\n{output}"
+    )
