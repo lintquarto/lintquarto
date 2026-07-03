@@ -351,7 +351,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="example-quarto-.qmd-file" class="level2">
 <h2 class="anchored" data-anchor-id="example-quarto-.qmd-file">Example Quarto <code>.qmd</code> file:</h2>
-<p><a href="#dnldts39030" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgdG8gaWRlbnRpZnkuCgpgYGB7cHl0aG9ufQp2ZXJ5X2xvbmdfbGluZSA9ICJUaGlzIGxvbmcgc3RyaW5nIGV4Y2VlZHMgdGhlIG1heGltdW0gYWxsb3dlZCBjaGFyYWN0ZXJzIHBlciBsaW5lLiIKYGBgCgpUaGVyZSdzIHNvbWUgbW9yZSBpc3N1ZXMgYmVsb3cuLi4KCmBgYHtweXRob259CmRlZiBhZGRfbnVtYmVycyhhLCBiKToKICAgIHJldHVybiBhICsgYgoKYWRkX251bWJlcnMoMywgNSkKCmltcG9ydCBzeXMKYGBg').then(res => res.blob()).then(blob => {
+<p><a href="#dnldts8029" onclick="fetch('data:text/plain;base64,LS0tCnRpdGxlOiAiRXhhbXBsZSIKLS0tCgpUaGlzIGZpbGUgY29udGFpbnMgc29tZSBpc3N1ZXMgZm9yIHRoZSBsaW50ZXIgdG8gaWRlbnRpZnkuCgpgYGB7cHl0aG9ufQp2ZXJ5X2xvbmdfbGluZSA9ICJUaGlzIGxvbmcgc3RyaW5nIGV4Y2VlZHMgdGhlIG1heGltdW0gYWxsb3dlZCBjaGFyYWN0ZXJzIHBlciBsaW5lLiIKYGBgCgpUaGVyZSdzIHNvbWUgbW9yZSBpc3N1ZXMgYmVsb3cuLi4KCmBgYHtweXRob259CmRlZiBhZGRfbnVtYmVycyhhLCBiKToKICAgIHJldHVybiBhICsgYgoKYWRkX251bWJlcnMoMywgNSkKCmltcG9ydCBzeXMKYGBg').then(res => res.blob()).then(blob => {
       const downloadURL = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       document.body.appendChild(a);
@@ -359,9 +359,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       a.download = 'general_example.qmd'; a.click();
       window.URL.revokeObjectURL(downloadURL);
       document.body.removeChild(a);
-        });"><button class="btn btn-light downloadthis  " id="dnldts39030"><i class="bi bi-download"></i> Download the example </button></a></p>
+        });"><button class="btn btn-light downloadthis  " id="dnldts8029"><i class="bi bi-download"></i> Download the example </button></a></p>
 <div class="pale-grey">
-<div id="aa13f8ac" class="cell" data-execution_count="3">
+<div id="f6fe70e7" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-stdout">
 <pre><code>1:     ---
 2:     title: "Example"
@@ -397,7 +397,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   white-space: pre-wrap !important;
 }
 </style>
-<div id="2faf5877" class="cell" data-execution_count="4">
+<div id="14bf60a7" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre>==========================================================
@@ -405,12 +405,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 Running ruff...
 
 ==========================================================
-
-<span class="ansi-bright-red-fg ansi-bold">D100 </span><span class="ansi-bold">Missing docstring in public module</span>
-
-<span class="ansi-bright-blue-fg ansi-bold">--&gt;</span> examples/general_example.qmd:1:1
-
-
 
 <span class="ansi-bright-red-fg ansi-bold">E501 </span><span class="ansi-bold">Line too long (84 &gt; 79)</span>
 
@@ -558,7 +552,7 @@ Running ruff...
 
 
 
-Found 8 errors.
+Found 7 errors.
 
 [<span class="ansi-cyan-fg">*</span>] 1 fixable with the `--fix` option.
 
@@ -573,8 +567,9 @@ Found 8 errors.
 <h2 class="anchored" data-anchor-id="notes">Notes</h2>
 <section id="excluded-checks" class="level3">
 <h3 class="anchored" data-anchor-id="excluded-checks">Excluded checks</h3>
-<p>The check <a href="https://docs.astral.sh/ruff/rules/unused-noqa/">RUF100</a> is disabled by default due to conflicts with the manner in which lintquarto acts, leading to false positives if this check is enabled. More details on this decision can be found in <a href="https://github.com/lintquarto/lintquarto/issues/120">this GitHub issue</a>.</p>
-<p>The check <a href="https://docs.astral.sh/ruff/rules/implicit-namespace-package/">INP001</a> is also disabled by default due to the majority of quarto documents not having an <code>__init__.py</code> file in their directory. More details on this can be found in <a href="https://github.com/lintquarto/lintquarto/issues/141">this GitHub issue</a>.</p>
+<p>The check <a href="https://docs.astral.sh/ruff/rules/unused-noqa/"><code>unused-noqa</code> <code>RUF100</code></a> is disabled by default due to conflicts with the manner in which lintquarto acts, leading to false positives if this check is enabled. More details on this decision can be found in <a href="https://github.com/lintquarto/lintquarto/issues/120">this GitHub issue</a>.</p>
+<p>The check <a href="https://docs.astral.sh/ruff/rules/implicit-namespace-package/"><code>implicit-namespace-package</code> <code>INP001</code></a> is also disabled by default due to the majority of quarto documents not having an <code>__init__.py</code> file in their directory. More details on this can be found in <a href="https://github.com/lintquarto/lintquarto/issues/141">this GitHub issue</a>.</p>
+<p>The check <a href="https://docs.astral.sh/ruff/rules/undocumented-public-module/"><code>undocumented-public-module</code> <code>D100</code></a> is also disabled as Quarto files are not modules.</p>
 
 
 </section>
