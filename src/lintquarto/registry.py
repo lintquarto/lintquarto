@@ -136,7 +136,7 @@ class Linters(ToolRegistry):
                     "ruff",
                     "check",
                     "--config",
-                    "lint.ignore = ['RUF100', 'INP001']",
+                    "lint.ignore = ['RUF100', 'INP001', 'D100']",
                 ],
                 "vulture": ["vulture"],
             }
