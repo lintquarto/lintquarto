@@ -36,7 +36,7 @@ PRESERVE_LINTERS = [
     "ruff",
     "vulture",
 ]
-LINTERS_SUPPORTING_NOQA = ["flake8", "pycodestyle", "ruff"]
+LINTERS_APPENDING_NOQA = ["flake8"]
 
 
 # =============================================================================
@@ -73,7 +73,7 @@ def test_non_python_chunk_is_commented(linter):
     # Still keep [python] but not cell contents (consistent with eval=False)
     converter = QmdToPyConverter(tool=linter)
     lines = ["```{r}", "1+1", "```", "```{.python}", "1+1", "```"]
-    expected = ["# -", "# -", "# -", "# %% [python]", "# -", "# -"]
+    expected = ["# -", "# -", "# -", "", "# -", ""]
     assert converter.convert(lines) == expected
 
 
@@ -112,9 +112,9 @@ PYTHON_CHUNKS = [
             "```",
         ],
         "expected": [
-            "# %% [python]",
+            "",
             "1+1  # noqa: E305,E501",
-            "# -",
+            "",
         ],
     },
     {
@@ -124,7 +124,7 @@ PYTHON_CHUNKS = [
             "def foo():",
         ],
         "expected": [
-            "# %% [python]",
+            "",
             "def foo():  # noqa: E302,E305,E501",
         ],
     },
@@ -135,7 +135,7 @@ PYTHON_CHUNKS = [
             "class foo:",
         ],
         "expected": [
-            "# %% [python]",
+            "",
             "class foo:  # noqa: E302,E305,E501",
         ],
     },
@@ -149,7 +149,7 @@ PYTHON_CHUNKS = [
             "1+1",
         ],
         "expected": [
-            "# %% [python]",
+            "",
             " ",
             "# -",
             "# -",
@@ -164,7 +164,7 @@ PYTHON_CHUNKS = [
             "    x = 1",
         ],
         "expected": [
-            "# %% [python]",
+            "",
             "# -",
             "    x = 1  # noqa: E305,E501",
         ],
@@ -179,11 +179,11 @@ PYTHON_CHUNKS = [
             "```",
         ],
         "expected": [
-            "# %% [python]",
+            "",
             "#|echo: true",
             "# | echo: valid",
             "x = 1  # noqa: E305,E501",
-            "# -",
+            "",
         ],
     },
     {
@@ -197,12 +197,12 @@ PYTHON_CHUNKS = [
             "```",
         ],
         "expected": [
-            "# %% [python]",
+            "",
             "a = 1  # noqa: E305,E501",
-            "# -",
-            "# %% [python]",
+            "",
+            "",
             "b = 2  # noqa: E305,E501",
-            "# -",
+            "",
         ],
     },
     {
@@ -212,7 +212,7 @@ PYTHON_CHUNKS = [
             "x = '" + "a" * 100 + "'",
         ],
         "expected": [
-            "# %% [python]",
+            "",
             "x = '" + "a" * 100 + "'  # noqa: E305",
         ],
     },
@@ -224,7 +224,7 @@ PYTHON_CHUNKS = [
             "x = 42",
         ],
         "expected": [
-            "# %% [python]",
+            "",
             "# This is a comment at top of chunk",
             "x = 42  # noqa: E305,E501",
         ],
@@ -236,7 +236,7 @@ PYTHON_CHUNKS = [
             "{{< include filename.py >}}",
         ],
         "expected": [
-            "# %% [python]",
+            "",
             "# {{< include filename.py >}}  # noqa: E305,E501",
         ],
     },
@@ -249,7 +249,7 @@ PYTHON_CHUNKS = [
             "variable2 = 2   #<<",
         ],
         "expected": [
-            "# %% [python]",
+            "",
             "# Comment",
             "variable1 = 2  # noqa: E305,E501",
             "variable2 = 2",
@@ -262,7 +262,7 @@ PYTHON_CHUNKS = [
             "#| echo: false #<<",
         ],
         "expected": [
-            "# %% [python]",
+            "",
             "# -",
         ],
     },
@@ -275,7 +275,7 @@ PYTHON_CHUNKS = [
             "value = 2   # <10>",
         ],
         "expected": [
-            "# %% [python]",
+            "",
             "# Comment",
             "value = 1  # noqa: E305,E501",
             "value = 2",
@@ -288,7 +288,7 @@ PYTHON_CHUNKS = [
             "#| echo: false # <1>",
         ],
         "expected": [
-            "# %% [python]",
+            "",
             "# -",
         ],
     },
@@ -298,7 +298,7 @@ PYTHON_CHUNKS = [
             "```{python, echo=FALSE}",
         ],
         "expected": [
-            "# %% [python]",
+            "",
         ],
     },
     {
@@ -307,7 +307,7 @@ PYTHON_CHUNKS = [
             "```   {python}",
         ],
         "expected": [
-            "# %% [python]",
+            "",
         ],
     },
 ]
@@ -323,7 +323,7 @@ def test_python_chunk_start(case, linter):
     """Python chunk conversion produces expected results for all linters."""
     converter = QmdToPyConverter(tool=linter)
     result = converter.convert(case["lines"])
-    if linter in LINTERS_SUPPORTING_NOQA:
+    if linter in LINTERS_APPENDING_NOQA:
         assert result == case["expected"]
     else:
         assert result == remove_noqa(case["expected"])
@@ -391,7 +391,6 @@ def test_preserve_line_count_false_removes_non_code():
     ]
     not_allowed_lines = [
         "# -",
-        "# %% [python]",
     ]
     assert py_lines == expected_lines
     assert not any(line.strip() == not_allowed_lines for line in py_lines)
@@ -438,10 +437,6 @@ def test_output_file_overwrite(tmp_path, linter):
     assert result_path != out_file
     assert result_path.name.startswith("input_")
     assert result_path.suffix == ".py"
-
-    # The new file should contain the expected Python chunk marker
-    content = result_path.read_text(encoding="utf-8")
-    assert "# %% [python]" in content
 
 
 @pytest.mark.parametrize("linter", PRESERVE_LINTERS)
@@ -1027,7 +1022,7 @@ def test_valuebox_ignored(content_valuebox):
         "```",
     ]
     expected = [
-        "# %% [python]",
+        "",
         "# -",
         "# -",
         "# -",
@@ -1035,7 +1030,7 @@ def test_valuebox_ignored(content_valuebox):
         "# -",
         "# -",
         "# -",
-        "# -",
+        "",
     ]
     py = _convert(qmd)
     assert py == expected

@@ -1,4 +1,4 @@
-name: build and maybe publish on pypi
+name: publish-pypi
 run-name: Build package (and publish on PyPI on release)
 
 on:

@@ -2,8 +2,9 @@ name: update conda feedstock
 run-name: Update conda-forge feedstock on release
 
 on:
-  release:
-    types: [published]
+  workflow_run:
+    workflows: ["publish-pypi"]
+    types: [completed]
   workflow_dispatch:
     inputs:
       version:

@@ -165,99 +165,15 @@ If you are a maintainer and need to publish a new release:
 
 * Archive to Zenodo.
 * Build and publish the package on PyPI (via `build-publish.yaml`).
+* Update the conda build recipe in `amyheather/lintquarto-feedstock` and create a pull request to merge into the conda-forge feedstock.
 
-> If you chose to remove `build-publish.yaml`, you could upload to PyPI manually as follows...
-> First, remove any existing builds:
->
-> ```{.bash}
-> rm -rf dist/
-> ```
->
-> Then build the package locally with `uv`. It will create an isolated build environment, installing `flit_core` (as specified in `pyproject.toml` `[build-system]`).
->
-> ```{.bash}
-> uv build
-> ```
->
-> Finally, push with twine, entering the API token when prompted:
->
-> ```{.bash}
-> twine upload --repository pypi dist/*
-> ```
->
-> For test runs, you can use the same method with test PyPI:
->
-> ```{.bash}
-> twine upload --repository testpypi dist/*
-> ```
+4. Open and merge the pull request.
 
-4. If you haven't already, fork the lintquarto feedstock ([conda-forge/lintquarto-feedstock](https://github.com/conda-forge/lintquarto-feedstock)). This fork must be to your personal GitHub account and not an organisation account. Clone it to your local machine.
+**Token requirements:** This action assumes we have a `FEEDSTOCK_PR_TOKEN` in our secrets. If this expires or is not present, we can recreate it as follows:
 
-If you already have a fork, make sure it is up-to-date:
-
-* With the `conda-forge` feedstock - on your forked `main` branch, click "🔄 Sync fork".
-* Locally on your `main` branch (`git checkout main`), run `git pull`.
-
-5. Create and checkout a branch - e.g. `update_0_5_0`.
-
-```{.bash}
-git checkout -b update_0_5_0
-```
-
-6. Use `grayskull` to update the recipe (`recipe/meta.yaml`). It will pull the metadata about the package from PyPI, and will not use your local installation of the package.
-
-```{.bash}
-grayskull pypi lintquarto
-```
-
-It will create `lintquarto/meta.yaml`. You will need to copy over the contents into `recipe/meta.yaml`. When you do so, make sure to keep the two fixes made to the `meta.yaml` file which are...
-
-Fix A: The addition of a `home` element within `about`.
-
-```{.bash}
-home: https://lintquarto.github.io/lintquarto/
-```
-
-Fix B: Correct python version requirements syntax as per the [conda-forge documentation](https://conda-forge.org/docs/maintainer/knowledge_base/#noarch-python), using `python_min` for `host` (fixed version), `run` (minimum version) and `requires` (fixed version).
-
-As our `python_min` differs from the conda default (currently 3.7), we change it by adding `{% set python_min = "3.10" %}` to the start of the script.
-
-```{.bash}
-{% set python_min = "3.10" %}
-
-...
-
-  host:
-    - python {{ python_min }}
-
-...
-
-  run:
-    - python >={{ python_min }}
-
-...
-
-  requires:
-    - python {{ python_min }}
-
-```
-
-7. Create a commit with the updated feedstock - for example:
-
-```{.bash}
-git add --all
-git commit -m "updated feedstock to version 0.5.0"
-git push
-```
-
-8. Use the GitHub website to open a pull request. Completed the provided checklist -
-
-* Personal account? Yes, if you used your GitHub and not an organisation.
-* Bump? Not relevant as doing a version update, can remove.
-* Reset base? Yes, should show as `number: 0` in `meta.yaml` by default.
-* Re-render? Add the command `@conda-forge-admin, please rerender` to the end of the pull request.
-
-9. Wait for the CI actions to run. If all pass, then you can click "Merge pull request".
+* Amy Heather - go to Settings → Developer settings → Personal access tokens → Tokens (classic). Generate a new class token. For scope, tick: ✅ repo.
+* Copy the token, and update the `FEEDSTOCK_PR_TOKEN` secret in `lintquarto/lintquarto` settings with the new value.
+* Re-run the workflow.
 
 <br>
 

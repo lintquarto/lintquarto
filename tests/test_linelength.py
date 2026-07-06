@@ -5,12 +5,8 @@ import tempfile
 from pathlib import Path
 
 import pytest
-import toml
 
 from lintquarto.linelength import LineLengthDetector
-
-DEFAULT_RUFF_LINE_LENGTH = 88
-CUSTOM_RUFF_LINE_LENGTH = 101
 
 # =============================================================================
 # 1. Default value detection
@@ -19,7 +15,7 @@ CUSTOM_RUFF_LINE_LENGTH = 101
 
 @pytest.mark.parametrize(
     ("linter", "expected"),
-    [("flake8", 79), ("pycodestyle", 79), ("ruff", 88)],
+    [("flake8", 79)],
 )
 def test_default_line_length(linter, expected):
     """Test that default line length is returned when no config files exist."""
@@ -29,7 +25,7 @@ def test_default_line_length(linter, expected):
 
 
 # =============================================================================
-# 2. Config file detection for flake8 and pycodestyle
+# 2. Config file detection for flake8
 # =============================================================================
 
 
@@ -37,7 +33,6 @@ def test_default_line_length(linter, expected):
     ("linter", "config_file"),
     [
         ("flake8", ".flake8"),
-        ("pycodestyle", "setup.cfg"),
         ("flake8", "tox.ini"),
     ],
 )
@@ -116,51 +111,3 @@ def test_config_invalid(invalid_value):
         # Confirm that the default value was used
         detector = LineLengthDetector("flake8", start_dir=tmpdir)
         assert detector.get_line_length() == 79
-
-
-# =============================================================================
-# 3. Config file detection for ruff
-# =============================================================================
-
-
-def test_ruff_pyproject_toml_detection():
-    """Test detection of line length from pyproject.toml for ruff."""
-    # Create ruff config file
-    with tempfile.TemporaryDirectory() as tmpdir:
-        pyproject_path = Path(tmpdir) / "pyproject.toml"
-        config = {"tool": {"ruff": {"line-length": CUSTOM_RUFF_LINE_LENGTH}}}
-        with pyproject_path.open("w", encoding="utf-8") as f:
-            toml.dump(config, f)
-
-        # Check that line length from file was used
-        detector = LineLengthDetector("ruff", start_dir=tmpdir)
-        assert detector.get_line_length() == CUSTOM_RUFF_LINE_LENGTH
-
-
-def test_ruff_pyproject_toml_parent_directory():
-    """Test that pyproject.toml in parent directories is found for ruff."""
-    # Create ruff config file
-    with tempfile.TemporaryDirectory() as tmpdir:
-        pyproject_path = Path(tmpdir) / "pyproject.toml"
-        config = {"tool": {"ruff": {"line-length": CUSTOM_RUFF_LINE_LENGTH}}}
-        with pyproject_path.open("w", encoding="utf-8") as f:
-            toml.dump(config, f)
-
-        # Run detector from sub-directory and check that file was found
-        subdir = Path(tmpdir) / "subdir"
-        Path(subdir).mkdir()
-        detector = LineLengthDetector("ruff", start_dir=subdir)
-        assert detector.get_line_length() == CUSTOM_RUFF_LINE_LENGTH
-
-
-def test_ruff_pyproject_toml_invalid():
-    """Test that invalid pyproject.toml values are ignored, default is used."""
-    # Create config file with invalid values
-    with tempfile.TemporaryDirectory() as tmpdir:
-        pyproject_path = Path(tmpdir) / "pyproject.toml"
-        with pyproject_path.open("w", encoding="utf-8") as f:
-            f.write("[tool.ruff]\nline-length = 'notanumber'\n")
-
-        # Confirm that default value was used
-        detector = LineLengthDetector("ruff", start_dir=tmpdir)
-        assert detector.get_line_length() == DEFAULT_RUFF_LINE_LENGTH

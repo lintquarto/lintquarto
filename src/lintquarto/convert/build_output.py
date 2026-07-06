@@ -22,7 +22,7 @@ class OutputBuilder:
         Document-level default for execute.eval.
     preserve_line_count : bool
         Whether to preserve source line count in the output.
-    spacing_rules : bool
+    append_noqa : bool
         Whether to add noqa spacing suppressions for lint output.
     py_lines : list[str]
         Output buffer to populate.
@@ -35,7 +35,7 @@ class OutputBuilder:
         lint_non_exec: bool,
         yaml_eval_default: bool,
         preserve_line_count: bool,
-        spacing_rules: bool,
+        append_noqa: bool,
     ) -> None:
         """
         Initialise OutputBuilder.
@@ -50,14 +50,14 @@ class OutputBuilder:
             Document-level default for execute.eval.
         preserve_line_count : bool
             Whether to preserve source line count in the output.
-        spacing_rules : bool
+        append_noqa : bool
             Whether to add noqa spacing suppressions for lint output.
         """
         self.python_blocks = python_blocks
         self.lint_non_exec = lint_non_exec
         self.yaml_eval_default = yaml_eval_default
         self.preserve_line_count = preserve_line_count
-        self.spacing_rules = spacing_rules
+        self.append_noqa = append_noqa
 
         self.py_lines = []
 
@@ -314,7 +314,8 @@ class LintOutputBuilder(OutputBuilder):
         Handle opening/closing fence rows for a Python block.
 
         If line count preservation is enabled, these rows are replaced with
-        placeholders so that the linter only sees Python code and comments.
+        blank lines so that linters see clean Python without false positives
+        from spacing rules (e.g. I001, E302) at cell boundaries.
 
         Parameters
         ----------
@@ -329,18 +330,10 @@ class LintOutputBuilder(OutputBuilder):
             `True` if this row has been fully handled and the caller
             should skip further processing; `False` otherwise.
         """
-        # Use a sentinel comment to mark the start of a chunk
-        if row == block["start_row"]:
+        if row == block["start_row"] or row == block["closing_row"]:
             if self.preserve_line_count:
-                self.py_lines.append("# %% [python]")
+                self.py_lines.append("")
             return True
-
-        # Closing fence is represented by a placeholder
-        if row == block["closing_row"]:
-            if self.preserve_line_count:
-                self.append_placeholder()
-            return True
-
         return False
 
     def handle_option_row(
@@ -435,7 +428,7 @@ class LintOutputBuilder(OutputBuilder):
 
         # For linting tools that use `noqa`, add suppression rules to the first
         # code line in the chunk to avoid false positives.
-        if row == first_code_row and row != magic_row and self.spacing_rules:
+        if row == first_code_row and row != magic_row and self.append_noqa:
             line = self.add_noqa_for_first_code_line(line, stripped)
 
         self.py_lines.append(line)
