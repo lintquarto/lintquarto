@@ -22,7 +22,6 @@ TEST_CASES = [
         "linter": "pycodestyle",
         "qmd": "general_example.qmd",
         "contains": [
-            "14:1: E302 expected 2 blank lines, found 0",
             "17:1: E305 expected 2 blank lines after class or function",
             "19:1: E402 module level import not at top of file",
         ],

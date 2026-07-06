@@ -67,7 +67,6 @@ def test_cell_magic_line_becomes_placeholder(magic_line: str) -> None:
     ]
     result = QmdToPyConverter(tool="ruff").convert(lines)
     # Output line at same index as magic_line input should be a placeholder
-    # (index 1, since index 0 is the chunk opener → "# %% [python]")
     assert result[1] == "# -", (
         f"Expected placeholder '# -' at position 1 for magic "
         f"'{magic_line}'.\nFull output: {result}"
