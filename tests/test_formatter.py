@@ -14,6 +14,7 @@ def test_import_sort(tmp_path):
             "import arrow\n"
             "from rich import print\n"
             "```\n"
+            "\n"
             "```{python}\n"
             "past = arrow.utcnow().shift(hours=-1)\n"
             """print(f"One hour ago was {past.humanize()}.")\n"""
