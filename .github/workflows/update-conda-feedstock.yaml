@@ -17,6 +17,17 @@ permissions:
 
 jobs:
   update-feedstock:
+
+    # Manual dispatch always allowed; otherwise require:
+    # - upstream workflow_run succeeded
+    # - that upstream run was triggered by a release event
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.event == 'release'
+      )
+  
     runs-on: ubuntu-latest
 
     steps:
