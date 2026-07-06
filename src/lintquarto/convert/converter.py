@@ -15,7 +15,7 @@ from lintquarto.registry import Formatters, Linters
 
 from .build_output import FormatOutputBuilder, LintOutputBuilder
 from .collect_python import collect_python_blocks
-from .constants import NO_LINE_COUNT_PRESERVATION, SPACING_RULE_LINTERS
+from .constants import NO_LINE_COUNT_PRESERVATION, APPEND_NOQA
 from .filename import get_unique_filename
 from .parse_yaml import find_metadata_node, parse_yaml_eval_from_node
 
@@ -36,10 +36,9 @@ class QmdToPyConverter:
         List to store metadata for all Python blocks.
     preserve_line_count : bool
         If True, will preserve line alignment.
-    spacing_rules : bool
-        Whether specified linter reports pycodestyle-style vertical spacing
-        checks, such as blank-line errors between top-level functions, classes,
-        and methods (e.g., E301, E302, E303, E305, and E306).
+    append_noqa : bool
+        Whether to suppress vertical space (and then also line length) errors
+        using noqa comments.
 
     """
 
@@ -82,10 +81,10 @@ class QmdToPyConverter:
 
         # Determine if linter needs noqa for spacing rules.
         # If so, find max line length.
-        self.spacing_rules = (
-            self.mode == "lint" and tool in SPACING_RULE_LINTERS
+        self.append_noqa = (
+            self.mode == "lint" and tool in APPEND_NOQA
         )
-        if self.spacing_rules:
+        if self.append_noqa:
             len_detect = LineLengthDetector(linter=tool)
             self.max_line_length = len_detect.get_line_length()
 
@@ -156,7 +155,7 @@ class QmdToPyConverter:
                 lint_non_exec=self.lint_non_exec,
                 yaml_eval_default=yaml_eval_default,
                 preserve_line_count=self.preserve_line_count,
-                spacing_rules=self.spacing_rules,
+                append_noqa=self.append_noqa,
                 max_line_length=self.max_line_length,
             )
         elif self.mode == "format":
@@ -165,7 +164,7 @@ class QmdToPyConverter:
                 lint_non_exec=self.lint_non_exec,
                 yaml_eval_default=yaml_eval_default,
                 preserve_line_count=self.preserve_line_count,
-                spacing_rules=self.spacing_rules,
+                append_noqa=self.append_noqa,
             )
 
         return output_builder.build(src_bytes)

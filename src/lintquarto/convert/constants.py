@@ -1,6 +1,6 @@
 """Constants used when converting."""
 
-SPACING_RULE_LINTERS = ["flake8", "ruff", "pycodestyle"]
+APPEND_NOQA = ["flake8"]
 
 NO_LINE_COUNT_PRESERVATION = ["radon-raw"]
 

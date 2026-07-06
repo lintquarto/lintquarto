@@ -36,7 +36,7 @@ PRESERVE_LINTERS = [
     "ruff",
     "vulture",
 ]
-LINTERS_SUPPORTING_NOQA = ["flake8", "pycodestyle", "ruff"]
+LINTERS_APPENDING_NOQA = ["flake8"]
 
 
 # =============================================================================
@@ -323,7 +323,7 @@ def test_python_chunk_start(case, linter):
     """Python chunk conversion produces expected results for all linters."""
     converter = QmdToPyConverter(tool=linter)
     result = converter.convert(case["lines"])
-    if linter in LINTERS_SUPPORTING_NOQA:
+    if linter in LINTERS_APPENDING_NOQA:
         assert result == case["expected"]
     else:
         assert result == remove_noqa(case["expected"])

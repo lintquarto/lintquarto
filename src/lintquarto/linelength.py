@@ -16,6 +16,10 @@ class LineLengthDetector:
     extracts the maximum line length setting for the specified linter, and
     returns the default value if no configuration is found.
 
+    This uses to apply to flake8, pycodestyle and ruff but was amended to
+    just flake8 following #192. However, the class structure has been left
+    similar to before, so it can be easily extended to other tools in future.
+
     Attributes
     ----------
     defaults : dict
@@ -34,7 +38,7 @@ class LineLengthDetector:
         Parameters
         ----------
         linter : str
-            The name of the linter to check ("flake8", "pycodestyle", "ruff").
+            The name of the linter to check ("flake8").
         start_dir : str, optional
             The directory from which to start searching for configuration
             files. Defaults to the current directory.
@@ -47,8 +51,6 @@ class LineLengthDetector:
         """
         self.defaults = {
             "flake8": 79,
-            "pycodestyle": 79,
-            "ruff": 88,
         }
         self.linter = linter
         if self.linter not in self.defaults:
@@ -69,10 +71,8 @@ class LineLengthDetector:
             The maximum line length.
 
         """
-        if self.linter in ["flake8", "pycodestyle"]:
+        if self.linter == "flake8":
             return self._get_flake8_line_length()
-        if self.linter == "ruff":
-            return self._get_ruff_line_length()
         return self.defaults[self.linter]
 
     def _get_flake8_line_length(self) -> int:
@@ -80,7 +80,7 @@ class LineLengthDetector:
         Search for max line length in Flake8-compatible configuration files.
 
         This method checks `.flake8`, `setup.cfg`, and `tox.ini` files for the
-        `max-line-length` option under `[flake8]` or `[pycodestyle]` sections.
+        `max-line-length` option under `[flake8]` sections.
 
         Returns
         -------
@@ -117,10 +117,9 @@ class LineLengthDetector:
         """
         Extract max line length from a configparser.ConfigParser object.
 
-        This helper checks both the `[flake8]` and `[pycodestyle]` sections for
-        a `max-line-length` option. If found, it attempts to convert the value
-        to an integer and return it. If the value is missing or invalid,
-        returns None.
+        This helper checks the `[flake8]` section for a `max-line-length`
+        option. If found, it attempts to convert the value to an integer and
+        return it. If the value is missing or invalid, returns None.
 
         Parameters
         ----------
@@ -133,7 +132,7 @@ class LineLengthDetector:
             The extracted line length, or None if not found or invalid.
 
         """
-        for section in ["flake8", "pycodestyle"]:
+        for section in ["flake8"]:
             # Check if section and option exist
             if config.has_section(section) and config.has_option(
                 section,
@@ -147,34 +146,3 @@ class LineLengthDetector:
                     pass
         # Return None if no valid value is found
         return None
-
-    def _get_ruff_line_length(self) -> int:
-        """
-        Search for the maximum line length in `pyproject.toml` for Ruff.
-
-        This method checks the `[tool.ruff]` section for the `line-length`
-        option.
-
-        Returns
-        -------
-        int
-            The maximum line length.
-
-        """
-        current = self.start_dir
-        while True:
-            path = current / "pyproject.toml"
-            if path.is_file():
-                try:
-                    config = toml.load(path)
-                    ruff_config = config.get("tool", {}).get("ruff", {})
-                    if "line-length" in ruff_config:
-                        return int(ruff_config["line-length"])
-                except (toml.TomlDecodeError, OSError, ValueError):
-                    # Ignore parse errors, file errors, or invalid values
-                    pass
-            parent = current.parent
-            if parent == current:
-                break
-            current = parent
-        return self.defaults[self.linter]
