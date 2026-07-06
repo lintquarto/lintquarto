@@ -314,7 +314,8 @@ class LintOutputBuilder(OutputBuilder):
         Handle opening/closing fence rows for a Python block.
 
         If line count preservation is enabled, these rows are replaced with
-        placeholders so that the linter only sees Python code and comments.
+        blank lines so that linters see clean Python without false positives
+        from spacing rules (e.g. I001, E302) at cell boundaries.
 
         Parameters
         ----------
@@ -329,18 +330,10 @@ class LintOutputBuilder(OutputBuilder):
             `True` if this row has been fully handled and the caller
             should skip further processing; `False` otherwise.
         """
-        # Use a sentinel comment to mark the start of a chunk
-        if row == block["start_row"]:
+        if row == block["start_row"] or row == block["closing_row"]:
             if self.preserve_line_count:
-                self.py_lines.append("# %% [python]")
+                self.py_lines.append("")
             return True
-
-        # Closing fence is represented by a placeholder
-        if row == block["closing_row"]:
-            if self.preserve_line_count:
-                self.append_placeholder()
-            return True
-
         return False
 
     def handle_option_row(
