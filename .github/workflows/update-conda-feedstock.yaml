@@ -39,7 +39,15 @@ jobs:
             version="${tag#v}"
           else
             version="${{ inputs.version }}"
+          else
+            version=""
           fi
+
+          if [ -z "$version" ]; then
+            echo "ERROR: No package version was provided or could be derived from the triggering event." >&2
+            exit 1
+          fi
+
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "branch=update_${version//./_}" >> "$GITHUB_OUTPUT"
 
