@@ -15,7 +15,7 @@ from lintquarto.registry import Formatters, Linters
 
 from .build_output import FormatOutputBuilder, LintOutputBuilder
 from .collect_python import collect_python_blocks
-from .constants import NO_LINE_COUNT_PRESERVATION, APPEND_NOQA
+from .constants import APPEND_NOQA, NO_LINE_COUNT_PRESERVATION
 from .filename import get_unique_filename
 from .parse_yaml import find_metadata_node, parse_yaml_eval_from_node
 
@@ -81,9 +81,7 @@ class QmdToPyConverter:
 
         # Determine if linter needs noqa for spacing rules.
         # If so, find max line length.
-        self.append_noqa = (
-            self.mode == "lint" and tool in APPEND_NOQA
-        )
+        self.append_noqa = self.mode == "lint" and tool in APPEND_NOQA
         if self.append_noqa:
             len_detect = LineLengthDetector(linter=tool)
             self.max_line_length = len_detect.get_line_length()

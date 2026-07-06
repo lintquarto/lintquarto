@@ -158,7 +158,7 @@ class Formatters(ToolRegistry):
                     "check",
                     "--fix",
                     "--config",
-                    f"lint.ignore = {RUFF_IGNORE}"
+                    f"lint.ignore = {RUFF_IGNORE}",
                 ],
             }
         )

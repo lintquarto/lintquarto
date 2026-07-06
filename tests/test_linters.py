@@ -106,11 +106,7 @@ def test_check_available_not_found():
 
 
 @pytest.mark.parametrize(
-    ("flag", "tool"),
-    [
-        ("l", "ruff"),
-        ("f", "ruff-check-fix")
-    ]
+    ("flag", "tool"), [("l", "ruff"), ("f", "ruff-check-fix")]
 )
 def test_inp001_not_raised(tmp_path, flag, tool):
     """Test INP001 is not raised."""
@@ -168,11 +164,7 @@ def test_inp001_not_raised(tmp_path, flag, tool):
 
 
 @pytest.mark.parametrize(
-    ("flag", "tool"),
-    [
-        ("l", "ruff"),
-        ("f", "ruff-check-fix")
-    ]
+    ("flag", "tool"), [("l", "ruff"), ("f", "ruff-check-fix")]
 )
 def test_ruf100_not_raised(tmp_path, flag, tool):
     """Test RUF100 is not raised."""
@@ -214,11 +206,7 @@ def test_ruf100_not_raised(tmp_path, flag, tool):
 
 
 @pytest.mark.parametrize(
-    ("flag", "tool"),
-    [
-        ("l", "ruff"),
-        ("f", "ruff-check-fix")
-    ]
+    ("flag", "tool"), [("l", "ruff"), ("f", "ruff-check-fix")]
 )
 def test_d100_not_raised(tmp_path, flag, tool):
     """Test D100 is not raised."""

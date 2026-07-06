@@ -5,7 +5,6 @@ import tempfile
 from pathlib import Path
 
 import pytest
-import toml
 
 from lintquarto.linelength import LineLengthDetector
 
@@ -112,4 +111,3 @@ def test_config_invalid(invalid_value):
         # Confirm that the default value was used
         detector = LineLengthDetector("flake8", start_dir=tmpdir)
         assert detector.get_line_length() == 79
-

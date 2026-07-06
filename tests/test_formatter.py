@@ -6,7 +6,6 @@ import sys
 
 def test_import_sort(tmp_path):
     """Confirm that ruff-check-fix import sorting behaves correctly."""
-
     qmd_path = tmp_path / "imports.qmd"
     qmd_path.write_text(
         (
