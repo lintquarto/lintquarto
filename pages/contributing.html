@@ -277,72 +277,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Archive to Zenodo.</li>
 <li>Build and publish the package on PyPI (via <code>build-publish.yaml</code>).</li>
+<li>Update the conda build recipe in <code>amyheather/lintquarto-feedstock</code> and create a pull request to merge into the conda-forge feedstock.</li>
 </ul>
-<blockquote class="blockquote">
-<p>If you chose to remove <code>build-publish.yaml</code>, you could upload to PyPI manually as follows… First, remove any existing builds:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> dist/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Then build the package locally with <code>uv</code>. It will create an isolated build environment, installing <code>flit_core</code> (as specified in <code>pyproject.toml</code> <code>[build-system]</code>).</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> build</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Finally, push with twine, entering the API token when prompted:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">twine</span> upload <span class="at">--repository</span> pypi dist/<span class="pp">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>For test runs, you can use the same method with test PyPI:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">twine</span> upload <span class="at">--repository</span> testpypi dist/<span class="pp">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</blockquote>
 <ol start="4" type="1">
-<li>If you haven’t already, fork the lintquarto feedstock (<a href="https://github.com/conda-forge/lintquarto-feedstock">conda-forge/lintquarto-feedstock</a>). This fork must be to your personal GitHub account and not an organisation account. Clone it to your local machine.</li>
+<li>Open and merge the pull request.</li>
 </ol>
-<p>If you already have a fork, make sure it is up-to-date:</p>
+<p><strong>Token requirements:</strong> This action assumes we have a <code>FEEDSTOCK_PR_TOKEN</code> in our secrets. If this expires or is not present, we can recreate it as follows:</p>
 <ul>
-<li>With the <code>conda-forge</code> feedstock - on your forked <code>main</code> branch, click “🔄 Sync fork”.</li>
-<li>Locally on your <code>main</code> branch (<code>git checkout main</code>), run <code>git pull</code>.</li>
+<li>Amy Heather - go to Settings → Developer settings → Personal access tokens → Tokens (classic). Generate a new class token. For scope, tick: ✅ repo.</li>
+<li>Copy the token, and update the <code>FEEDSTOCK_PR_TOKEN</code> secret in <code>lintquarto/lintquarto</code> settings with the new value.</li>
+<li>Re-run the workflow.</li>
 </ul>
-<ol start="5" type="1">
-<li>Create and checkout a branch - e.g.&nbsp;<code>update_0_5_0</code>.</li>
-</ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout <span class="at">-b</span> update_0_5_0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ol start="6" type="1">
-<li>Use <code>grayskull</code> to update the recipe (<code>recipe/meta.yaml</code>). It will pull the metadata about the package from PyPI, and will not use your local installation of the package.</li>
-</ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">grayskull</span> pypi lintquarto</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>It will create <code>lintquarto/meta.yaml</code>. You will need to copy over the contents into <code>recipe/meta.yaml</code>. When you do so, make sure to keep the two fixes made to the <code>meta.yaml</code> file which are…</p>
-<p>Fix A: The addition of a <code>home</code> element within <code>about</code>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">home:</span> https://lintquarto.github.io/lintquarto/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Fix B: Correct python version requirements syntax as per the <a href="https://conda-forge.org/docs/maintainer/knowledge_base/#noarch-python">conda-forge documentation</a>, using <code>python_min</code> for <code>host</code> (fixed version), <code>run</code> (minimum version) and <code>requires</code> (fixed version).</p>
-<p>As our <code>python_min</code> differs from the conda default (currently 3.7), we change it by adding <code>{% set python_min = "3.10" %}</code> to the start of the script.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">{%</span> set python_min = <span class="st">"3.10"</span> %}</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="ex">host:</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="ex">-</span> python {{ python_min }}</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="ex">run:</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="ex">-</span> python <span class="op">&gt;</span>={{ python_min }}</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  <span class="ex">requires:</span></span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    <span class="ex">-</span> python {{ python_min }}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ol start="7" type="1">
-<li>Create a commit with the updated feedstock - for example:</li>
-</ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add <span class="at">--all</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"updated feedstock to version 0.5.0"</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ol start="8" type="1">
-<li>Use the GitHub website to open a pull request. Completed the provided checklist -</li>
-</ol>
-<ul>
-<li>Personal account? Yes, if you used your GitHub and not an organisation.</li>
-<li>Bump? Not relevant as doing a version update, can remove.</li>
-<li>Reset base? Yes, should show as <code>number: 0</code> in <code>meta.yaml</code> by default.</li>
-<li>Re-render? Add the command <code>@conda-forge-admin, please rerender</code> to the end of the pull request.</li>
-</ul>
-<ol start="9" type="1">
-<li>Wait for the CI actions to run. If all pass, then you can click “Merge pull request”.</li>
-</ol>
 <p><br></p>
 </section>
 </section>

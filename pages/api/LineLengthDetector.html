@@ -177,6 +177,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>linelength.LineLengthDetector(linter, start_dir<span class="op">=</span><span class="st">'.'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Detect the configured line length for a given Python linter.</p>
 <p>This class searches for relevant configuration files in the directory tree, extracts the maximum line length setting for the specified linter, and returns the default value if no configuration is found.</p>
+<p>This uses to apply to flake8, pycodestyle and ruff but was amended to just flake8 following #192. However, the class structure has been left similar to before, so it can be easily extended to other tools in future.</p>
 <section id="attributes" class="level2 doc-section doc-section-attributes">
 <h2 class="doc-section doc-section-attributes anchored" data-anchor-id="attributes">Attributes</h2>
 <table class="caption-top table">
