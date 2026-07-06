@@ -5,6 +5,30 @@ All notable changes to this project are documented.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Dates formatted as YYYY-MM-DD as per [ISO standard](https://www.iso.org/iso-8601-date-and-time-format.html).
 
+## v0.14.0 - 2026-07-06
+
+Changed cell boundary placeholders to fix formatting issue, disabled D100, automated conda deployment, update docs and wrote blog.
+
+### Added
+
+* Add ruff formatters to the documentation (and removed "alpha" description).
+* Add blog post for PyOpenSci.
+* Add action to automate conda, creating pull request in feedstock.
+
+### Changed
+
+* For linters, cell boundaries are now blank lines instead of `# %% [python]` and ` ``` `. This resolves the import formatting issue for ruff (#192) and means ruff no longer needs noqa E3xx suppression either.
+* In documentation, change phrasing from "lint" files to "run tools on" files.
+
+### Fixed
+
+* Disable `D100` for ruff check and check fix (#187).
+* Apply disabling of ruff errors to formatter as well as linter.
+
+### Removed
+
+* Removed noqa suppression for ruff (as no longer needed since change to blank lines for cell boundaries) and pycodestyle (as it was ignoring it anyway!).
+
 ## v0.13.1 - 2026-06-12
 
 Essential bug fixes for `ruff format` and `ruff check --fix`.
